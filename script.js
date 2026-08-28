@@ -1,6 +1,8 @@
 /* =========================================================
    DJERBA SOLAR — script.js
-   Vanilla JS. Aucune dépendance externe.
+   Vanilla JS. Aucune bibliothèque externe requise ; seul l'envoi
+   d'email (optionnel, voir LEAD_EMAIL_ACCESS_KEY) appelle une API
+   tierce (Web3Forms) directement depuis le navigateur.
    ========================================================= */
 
 /* ---------------------------------------------------------
@@ -13,6 +15,17 @@ const WHATSAPP_NUMBER = "216XXXXXXXX";
 
 const DEFAULT_WHATSAPP_MESSAGE =
   "Bonjour Djerba Solar, je souhaite obtenir une estimation pour une installation solaire à Djerba.";
+
+// Notification par email à chaque nouveau lead, via Web3Forms (service gratuit,
+// sans backend à héberger). Pour l'activer :
+//   1) Créez un compte gratuit sur https://web3forms.com
+//   2) Récupérez votre "Access Key" et collez-le ci-dessous à la place du placeholder
+//   3) Renseignez l'email qui doit recevoir les notifications
+// Tant que la clé n'est pas renseignée, l'envoi d'email est simplement ignoré :
+// le lead reste quand même enregistré dans le CRM local (admin.html) et le
+// bouton WhatsApp de secours reste disponible pour le visiteur.
+const LEAD_EMAIL_ACCESS_KEY = "YOUR_WEB3FORMS_ACCESS_KEY";
+const LEAD_NOTIFICATION_EMAIL = "contact@djerbasolar.tn";
 
 /* ---------------------------------------------------------
    1. UTILITAIRES
@@ -37,6 +50,49 @@ function openWhatsApp(message) {
   const text = encodeURIComponent(message || DEFAULT_WHATSAPP_MESSAGE);
   const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + text;
   window.open(url, "_blank", "noopener");
+}
+
+/**
+ * Envoie une notification par email pour un nouveau lead via Web3Forms.
+ * N'échoue jamais bruyamment : si la clé n'est pas configurée ou si la
+ * requête échoue (réseau, service indisponible), le lead reste de toute
+ * façon enregistré dans le CRM local et le bouton WhatsApp reste disponible.
+ */
+async function sendLeadEmailNotification(lead) {
+  if (!LEAD_EMAIL_ACCESS_KEY || LEAD_EMAIL_ACCESS_KEY === "YOUR_WEB3FORMS_ACCESS_KEY") {
+    return { sent: false, reason: "not_configured" };
+  }
+
+  try {
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        access_key: LEAD_EMAIL_ACCESS_KEY,
+        email: LEAD_NOTIFICATION_EMAIL,
+        from_name: "Site Djerba Solar",
+        subject: "Nouveau lead Djerba Solar — " + lead.name,
+        "Nom": lead.name,
+        "Téléphone": lead.phone,
+        "WhatsApp": lead.whatsapp,
+        "Zone": lead.zone,
+        "Type de bien": lead.propertyType,
+        "Propriétaire ou locataire": lead.owner,
+        "Facture STEG mensuelle (DT)": lead.monthlyBill,
+        "Objectif": lead.objective,
+        "Batterie souhaitée": lead.battery,
+        "Délai du projet": lead.timeline,
+        "Message": lead.message,
+        "Score interne": lead.score,
+        "Température": lead.temperature,
+      }),
+    });
+    const data = await response.json();
+    return { sent: Boolean(data && data.success), reason: data && data.message };
+  } catch (err) {
+    console.error("Envoi email lead échoué :", err);
+    return { sent: false, reason: "network_error" };
+  }
 }
 
 /* ---------------------------------------------------------
@@ -234,8 +290,13 @@ function initSimulator() {
       if (el.checked) battery = el.value;
     }
 
-    if (!monthlyBill || Number(monthlyBill) <= 0) {
-      form.elements["simMonthlyBill"].focus();
+    const billField = form.elements["simMonthlyBill"];
+    const billFieldWrap = billField.closest(".field");
+    const billValid = Boolean(monthlyBill) && Number(monthlyBill) > 0;
+    if (billFieldWrap) billFieldWrap.classList.toggle("invalid", !billValid);
+
+    if (!billValid) {
+      billField.focus();
       return;
     }
 
@@ -343,6 +404,7 @@ function initLeadForm() {
     lead.temperature = classifyTemperature(lead.score).key;
 
     LeadStore.add(lead);
+    sendLeadEmailNotification(lead); // envoi en arrière-plan, n'empêche pas l'affichage du succès
 
     form.reset();
     form.style.display = "none";
