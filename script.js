@@ -11,7 +11,7 @@
 
 // Numéro WhatsApp de l'entreprise (format international sans "+").
 // À REMPLACER par le vrai numéro avant mise en production.
-const WHATSAPP_NUMBER = "216XXXXXXXX";
+const WHATSAPP_NUMBER = "21655063449";
 
 const DEFAULT_WHATSAPP_MESSAGE =
   "Bonjour Djerba Solar, je souhaite obtenir une estimation pour une installation solaire à Djerba.";
