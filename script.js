@@ -24,8 +24,8 @@ const DEFAULT_WHATSAPP_MESSAGE =
 // Tant que la clé n'est pas renseignée, l'envoi d'email est simplement ignoré :
 // le lead reste quand même enregistré dans le CRM local (admin.html) et le
 // bouton WhatsApp de secours reste disponible pour le visiteur.
-const LEAD_EMAIL_ACCESS_KEY = "YOUR_WEB3FORMS_ACCESS_KEY";
-const LEAD_NOTIFICATION_EMAIL = "contact@djerbasolar.tn";
+const LEAD_EMAIL_ACCESS_KEY = "43e99d6a-648f-49ef-ab6e-732bd6518ed2";
+const LEAD_NOTIFICATION_EMAIL = "yy9795807@gmail.com";
 
 /* ---------------------------------------------------------
    1. UTILITAIRES
