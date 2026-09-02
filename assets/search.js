@@ -14,6 +14,7 @@
   if (!modal) return;
 
   var debounceTimer;
+  var lastFocused = null;
 
   function openModal() {
     modal.classList.add('is-open');
@@ -23,11 +24,13 @@
   function closeModal() {
     modal.classList.remove('is-open');
     document.documentElement.style.overflow = '';
+    if (lastFocused) lastFocused.focus();
   }
 
   openTriggers.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
       e.preventDefault();
+      lastFocused = btn;
       openModal();
     });
   });

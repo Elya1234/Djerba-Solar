@@ -21,6 +21,10 @@
       <div class="gm-empty-state">
         <p class="gm-lead">Aucun résultat pour « {{ search.terms }} ».</p>
         <p style="color:var(--gm-text-muted); margin-top:var(--space-2);">Essayez un terme plus général, comme « bague », « or jaune » ou « émeraude ».</p>
+        <div style="display:flex; flex-wrap:wrap; gap:var(--space-3); justify-content:center; margin-top: var(--space-5);">
+          <a href="{{ routes.all_products_collection_url }}" class="gm-btn gm-btn--outline">Voir toutes les créations</a>
+          <a href="{{ routes.root_url }}collections" class="gm-btn gm-btn--ghost">Découvrir nos collections</a>
+        </div>
       </div>
     {%- else -%}
       {%- paginate search.results by section.settings.results_per_page -%}
@@ -28,7 +32,7 @@
         <div class="gm-product-grid">
           {%- for item in search.results -%}
             {%- if item.object_type == 'product' -%}
-              {% render 'product-card', product: item %}
+              {% render 'product-card', product: item, priority: forloop.index0 < 4 %}
             {%- else -%}
               <article class="gm-card">
                 <a href="{{ item.url }}" class="gm-card__title" style="font-size:1.8rem;">{{ item.title }}</a>

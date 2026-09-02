@@ -21,7 +21,25 @@
 .gm-card__collection { font-size: 1.1rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gm-text-muted); }
 .gm-card__title { display: block; font-family: var(--font-display); font-size: 1.7rem; margin-top: 0.3rem; }
 .gm-card__price { color: var(--gm-text-muted); font-size: 1.35rem; margin-top: 0.4rem; }
-.gm-card__swatches { display: flex; gap: 0.6rem; margin-top: var(--space-2); }
+.gm-card__swatches { display: flex; gap: 0.8rem; margin-top: var(--space-2); }
+.gm-card__swatches .gm-swatch { width: 2rem; height: 2rem; }
+
+.gm-card--soldout .gm-card__media { opacity: 0.55; }
+.gm-card--soldout .gm-card__title, .gm-card--soldout .gm-card__price { color: var(--gm-text-muted); }
+
+.gm-card__quickview {
+  position: absolute; left: var(--space-2); right: var(--space-2); bottom: var(--space-2);
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 1rem; background: rgba(255,255,255,0.92); color: var(--gm-onyx-900);
+  font-size: 1.05rem; letter-spacing: 0.05em; text-transform: uppercase;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity var(--dur-fast) var(--ease-luxe), transform var(--dur-fast) var(--ease-luxe);
+}
+.gm-card:hover .gm-card__quickview, .gm-card:focus-within .gm-card__quickview { opacity: 1; transform: translateY(0); }
+@media (max-width: 767px) {
+  /* No hover on touch devices: the quick-view trigger stays visible. */
+  .gm-card__quickview { opacity: 1; transform: none; position: static; margin-top: var(--space-2); background: none; padding: 0; justify-content: flex-start; color: var(--gm-text-muted); }
+}
 
 /* ---- Collection banner ---- */
 .gm-collection-banner { position: relative; min-height: 42vh; display: flex; align-items: flex-end; color: var(--gm-white); }
@@ -34,13 +52,21 @@
 
 /* ---- Toolbar: filter trigger + result count + sort ---- */
 .gm-toolbar {
-  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-2) var(--space-3);
   padding-block: var(--space-4); border-top: 1px solid var(--gm-border); border-bottom: 1px solid var(--gm-border);
   margin-bottom: var(--space-6);
 }
-.gm-toolbar__filter-btn { display: inline-flex; align-items: center; gap: var(--space-2); font-size: 1.2rem; letter-spacing: 0.04em; text-transform: uppercase; }
-.gm-toolbar__count { color: var(--gm-text-muted); font-size: 1.3rem; }
-.gm-toolbar__sort select { border: 0; background: transparent; font-size: 1.2rem; letter-spacing: 0.04em; text-transform: uppercase; padding-right: var(--space-3); }
+.gm-toolbar__filter-btn { display: inline-flex; align-items: center; gap: var(--space-2); font-size: 1.2rem; letter-spacing: 0.04em; text-transform: uppercase; flex-shrink: 0; }
+.gm-toolbar__count { color: var(--gm-text-muted); font-size: 1.3rem; white-space: nowrap; }
+.gm-toolbar__sort { min-width: 0; max-width: 100%; }
+.gm-toolbar__sort select {
+  border: 0; background: transparent; font-size: 1.2rem; letter-spacing: 0.04em; text-transform: uppercase; padding-right: var(--space-3);
+  max-width: 100%; text-overflow: ellipsis;
+}
+@media (max-width: 479px) {
+  .gm-toolbar__sort { order: 3; flex-basis: 100%; }
+  .gm-toolbar__sort select { font-size: 1.05rem; }
+}
 
 /* ---- Layout: sidebar (desktop) + grid ---- */
 .gm-collection-layout { display: grid; grid-template-columns: 260px 1fr; gap: var(--space-6); align-items: start; }
@@ -85,3 +111,25 @@
 
 /* ---- Empty state ---- */
 .gm-empty-state { text-align: center; padding-block: var(--space-8); }
+
+/* ---- Quick View ---- */
+.gm-quickview__panel { width: min(880px, calc(100vw - 2 * var(--space-4))); }
+.gm-quickview__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+.gm-quickview__media { aspect-ratio: 4/5; border-radius: var(--radius-sm); overflow: hidden; background: var(--gm-stone-50); }
+@media (max-width: 699px) { .gm-quickview__grid { grid-template-columns: 1fr; } }
+
+/* ---- Sub-categories row ---- */
+.gm-subcats { display: flex; gap: var(--space-3); overflow-x: auto; padding-bottom: var(--space-2); margin-bottom: var(--space-6); scrollbar-width: none; }
+.gm-subcats::-webkit-scrollbar { display: none; }
+.gm-subcats__item {
+  flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: var(--space-2);
+  min-width: 88px; text-align: center;
+}
+.gm-subcats__media { width: 76px; height: 76px; border-radius: 50%; overflow: hidden; background: var(--gm-stone-50); }
+.gm-subcats__media img { width: 100%; height: 100%; object-fit: cover; }
+.gm-subcats__label { font-size: 1.15rem; letter-spacing: 0.02em; }
+
+/* ---- Explore other universes (bottom of collection) ---- */
+.gm-explore-more { margin-top: var(--space-8); padding-top: var(--space-7); border-top: 1px solid var(--gm-border); }
+.gm-explore-more__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
+@media (max-width: 767px) { .gm-explore-more__grid { grid-template-columns: 1fr; } }

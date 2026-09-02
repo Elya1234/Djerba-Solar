@@ -258,6 +258,8 @@ ul { list-style: none; margin: 0; padding: 0; }
 .gm-input:focus-visible { border-color: var(--gm-onyx-900); }
 
 .gm-swatch {
+  -webkit-appearance: none; appearance: none;
+  background: none; font: inherit; display: inline-block;
   width: 2.2rem;
   height: 2.2rem;
   border-radius: 50%;
@@ -267,7 +269,7 @@ ul { list-style: none; margin: 0; padding: 0; }
   position: relative;
 }
 .gm-swatch span { display: block; width: 100%; height: 100%; border-radius: 50%; }
-.gm-swatch[aria-checked="true"] { border-color: var(--gm-onyx-900); }
+.gm-swatch[aria-checked="true"], .gm-swatch[aria-pressed="true"] { border-color: var(--gm-onyx-900); }
 .gm-swatch--gold-yellow span { background: linear-gradient(135deg, #f4d998, #c9a24a); }
 .gm-swatch--gold-white span { background: linear-gradient(135deg, #f2f2f0, #cfcfcb); }
 .gm-swatch--gold-rose span { background: linear-gradient(135deg, #f3c9bd, #cf8f7c); }
@@ -360,9 +362,13 @@ ul { list-style: none; margin: 0; padding: 0; }
 /* =========================================================================
    Responsive helpers
    ========================================================================= */
-.gm-hide-mobile { display: none; }
-.gm-hide-desktop { display: initial; }
+/* !important is deliberate here: these are the one pair of utility classes
+   in the whole system meant to always win regardless of load order — a
+   component stylesheet loaded after theme.css (e.g. header.css) must never
+   be able to silently un-hide something marked mobile/desktop-only. */
+.gm-hide-mobile { display: none !important; }
+.gm-hide-desktop { display: initial !important; }
 @media (min-width: 990px) {
-  .gm-hide-mobile { display: initial; }
-  .gm-hide-desktop { display: none; }
+  .gm-hide-mobile { display: initial !important; }
+  .gm-hide-desktop { display: none !important; }
 }

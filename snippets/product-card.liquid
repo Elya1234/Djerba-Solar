@@ -1,6 +1,7 @@
 {%- comment -%}
   Premium product card.
-  Usage: {% render 'product-card', product: product %}
+  Usage: {% render 'product-card', product: product, priority: true %}
+  `priority: true` marks above-the-fold cards (first row) for eager loading.
 {%- endcomment -%}
 {%- liquid
   assign metal_option = product.options_with_values | where: 'name', 'Métal'
@@ -11,32 +12,52 @@
   assign now_ts = 'now' | date: '%s'
   assign created_ts = product.created_at | date: '%s'
   assign seconds_since_created = now_ts | minus: created_ts
+  assign is_devis = false
+  if product.tags contains 'sur-devis'
+    assign is_devis = true
+  endif
+  assign img_loading = 'lazy'
+  assign img_fetchpriority = 'auto'
+  if priority
+    assign img_loading = 'eager'
+    assign img_fetchpriority = 'high'
+  endif
 -%}
-<article class="gm-card" data-gm-product-card>
+<article class="gm-card{% unless product.available %} gm-card--soldout{% endunless %}" data-gm-product-card data-product-id="{{ product.id }}">
   <div class="gm-card__media-wrap">
     <a href="{{ product.url }}" class="gm-card__media gm-hover-zoom" aria-label="{{ product.title }}">
       {%- if product.featured_image -%}
-        {{ product.featured_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: product.featured_image.alt, widths: '400,600,800', sizes: '(min-width: 990px) 24vw, 50vw' }}
+        {{ product.featured_image | image_url: width: 800 | image_tag: loading: img_loading, fetchpriority: img_fetchpriority, alt: product.featured_image.alt, widths: '400,600,800', sizes: '(min-width: 990px) 24vw, 50vw', class: 'gm-card__media-main', data-gm-card-image: '' }}
       {%- else -%}
         <div class="gm-skeleton" style="width:100%; height:100%;"></div>
       {%- endif -%}
       {%- if product.images[1] -%}
-        {{ product.images[1] | image_url: width: 800 | image_tag: loading: 'lazy', alt: product.title, class: 'gm-card__media-hover' }}
+        {{ product.images[1] | image_url: width: 800 | image_tag: loading: 'lazy', alt: product.title, widths: '400,600,800', sizes: '(min-width: 990px) 24vw, 50vw', class: 'gm-card__media-hover' }}
       {%- endif -%}
     </a>
 
     <div class="gm-card__badges">
-      {%- if seconds_since_created < 5184000 -%}
-        <span class="gm-badge">Nouveauté</span>
-      {%- endif -%}
-      {%- if product.tags contains 'exclusivite' -%}
-        <span class="gm-badge gm-badge--accent">Exclusivité</span>
-      {%- endif -%}
+      {%- unless product.available -%}
+        <span class="gm-badge">Épuisé</span>
+      {%- else -%}
+        {%- if seconds_since_created < 5184000 -%}
+          <span class="gm-badge">Nouveauté</span>
+        {%- endif -%}
+        {%- if product.tags contains 'exclusivite' -%}
+          <span class="gm-badge gm-badge--accent">Exclusivité</span>
+        {%- endif -%}
+      {%- endunless -%}
     </div>
 
     <button class="gm-card__wishlist" data-gm-wishlist-add data-product-id="{{ product.id }}" aria-label="Ajouter {{ product.title }} à ma liste de souhaits" aria-pressed="false">
       {% render 'icon', name: 'heart' %}
     </button>
+
+    {%- if product.available -%}
+      <button type="button" class="gm-card__quickview" data-gm-quickview-open data-product-url="{{ product.url }}" aria-label="Aperçu rapide — {{ product.title }}">
+        {% render 'icon', name: 'plus', size: 14 %} Aperçu rapide
+      </button>
+    {%- endif -%}
   </div>
 
   <div class="gm-card__info">
@@ -45,7 +66,9 @@
     {%- endif -%}
     <a href="{{ product.url }}" class="gm-card__title">{{ product.title }}</a>
     <div class="gm-card__price">
-      {%- if product.price_varies -%}
+      {%- if is_devis -%}
+        Sur devis
+      {%- elsif product.price_varies -%}
         À partir de {{ product.price_min | money }}
       {%- else -%}
         {{ product.price | money }}
@@ -53,7 +76,7 @@
     </div>
 
     {%- if metal_option -%}
-      <div class="gm-card__swatches" role="group" aria-label="Métal disponible">
+      <div class="gm-card__swatches" role="group" aria-label="Métal disponible" data-gm-card-swatches>
         {%- for value in metal_option.values limit: 4 -%}
           {%- liquid
             assign swatch_class = ''
@@ -67,8 +90,17 @@
             else
               assign swatch_class = 'gm-swatch--gold-yellow'
             endif
+
+            assign matching_variant = nil
+            for variant in product.variants
+              if variant.options contains value and variant.featured_image
+                assign matching_variant = variant
+                break
+              endif
+            endfor
           -%}
-          <span class="gm-swatch {{ swatch_class }}" title="{{ value }}"><span></span></span>
+          <button type="button" class="gm-swatch {{ swatch_class }}" title="{{ value }}" aria-label="{{ value }}" aria-pressed="false"
+            {%- if matching_variant %} data-gm-card-swatch data-image="{{ matching_variant.featured_image | image_url: width: 800 }}"{% endif %}><span></span></button>
         {%- endfor -%}
       </div>
     {%- endif -%}

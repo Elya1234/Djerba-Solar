@@ -1,4 +1,5 @@
 {{ 'homepage.css' | asset_url | stylesheet_tag }}
+{{ 'collection.css' | asset_url | stylesheet_tag }}
 
 {%- if recommendations.performed and recommendations.products_count > 0 -%}
   <section class="gm-section--tight gm-container" data-gm-recommendations data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.limit }}&intent={{ section.settings.intent }}">

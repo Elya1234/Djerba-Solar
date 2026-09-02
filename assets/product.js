@@ -9,6 +9,8 @@
 (function () {
   'use strict';
 
+  var lastSizeGuideTrigger = null;
+
   document.querySelectorAll('[data-gm-product-root]').forEach(initProduct);
 
   function initProduct(root) {
@@ -285,7 +287,12 @@
     var sizeGuideBtn = root.querySelector('[data-gm-size-guide-open]');
     var sizeGuideModal = document.querySelector('[data-gm-size-guide-modal]');
     if (sizeGuideBtn && sizeGuideModal) {
-      sizeGuideBtn.addEventListener('click', function () { sizeGuideModal.classList.add('is-open'); });
+      sizeGuideBtn.addEventListener('click', function () {
+        sizeGuideModal.classList.add('is-open');
+        lastSizeGuideTrigger = sizeGuideBtn;
+        var closeBtn = sizeGuideModal.querySelector('.gm-modal__head [data-gm-modal-close]');
+        if (closeBtn) closeBtn.focus();
+      });
     }
 
     /* ---- Worn skin-tone toggle (progressive: only if variant media provided) ---- */
@@ -301,13 +308,17 @@
   }
 
   /* ---- Size guide modal: shared close handling ---- */
+  function closeSizeGuide() {
+    document.querySelectorAll('[data-gm-size-guide-modal].is-open').forEach(function (m) { m.classList.remove('is-open'); });
+    if (lastSizeGuideTrigger) lastSizeGuideTrigger.focus();
+  }
   document.querySelectorAll('[data-gm-size-guide-modal]').forEach(function (modal) {
     modal.querySelectorAll('[data-gm-modal-close]').forEach(function (btn) {
-      btn.addEventListener('click', function () { modal.classList.remove('is-open'); });
+      btn.addEventListener('click', closeSizeGuide);
     });
   });
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') document.querySelectorAll('[data-gm-size-guide-modal].is-open').forEach(function (m) { m.classList.remove('is-open'); });
+    if (e.key === 'Escape') closeSizeGuide();
   });
 
   /* ---- Info tooltips (shared: gemological terms) ---- */

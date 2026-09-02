@@ -41,7 +41,10 @@ Palette : blanc/ivoire, tons pierre, onyx, et un bleu profond signature
 - [x] Phase 5 — Pages éditoriales : La Maison, Savoir-faire, Sur-mesure,
       Fiançailles, Diamants, Pierres précieuses, Services, Boutique,
       Rendez-vous, Contact
-- [ ] Phase 6 — (fusionnée dans la Phase 5, voir ci-dessus)
+- [x] Phase 6 — Catalogue approfondi : sous-catégories, blocs éditoriaux
+      filtrés par type, "explorer d'autres univers", carte produit avec
+      aperçu rapide (Quick View) et prévisualisation métal, favoris
+      cohérents partout, priorité de chargement des images
 - [ ] Phase 7 — Compte, wishlist, panier (le contact/RDV est fait — Phase 5)
 - [ ] Phase 8 — Animations + responsive mobile/tablette/desktop
 - [ ] Phase 9 — SEO, performance, accessibilité
@@ -97,6 +100,30 @@ réutilisé par Contact et Rendez-vous).
 Le formulaire de rendez-vous n'invente aucune confirmation : après envoi, le
 message précise explicitement que ce n'est pas une réservation confirmée et
 que l'équipe recontactera le client.
+
+## Catalogue et découverte (Phase 6)
+
+- `main-collection.liquid` : bannière désactivable (`show_banner`), rangée de
+  sous-catégories (`subcategory` blocks), grille produits avec bloc éditorial
+  périodique, filtres natifs Shopify (desktop + drawer mobile), tri, état
+  "aucun résultat" avec retour vers toutes les créations/collections, et une
+  section "Explorer d'autres univers" en bas de page (`universe` blocks).
+- `product-card.liquid` : gère désormais l'indisponibilité (« Épuisé »), le
+  sur-devis, un bouton Aperçu rapide, et un aperçu au survol/clic du métal
+  qui change l'image principale (basé sur `variant.featured_image` — aucune
+  image inventée). Les 4 premières cartes de chaque grille chargent en
+  priorité (`priority: true`) pour la performance above-the-fold.
+- **Quick View** : décision — implémenté, mais volontairement limité. Pour un
+  produit à une seule option (ex. taille de chaîne), il permet un ajout au
+  panier direct. Pour un produit multi-options (la plupart des bagues avec
+  métal + carat + taille), reproduire le configurateur complet dans une
+  modale duperait la logique ou omettrait des contraintes réelles ; le Quick
+  View affiche donc l'essentiel (image, prix, disponibilité) et renvoie vers
+  la fiche complète pour configurer. Données réelles uniquement, via le
+  endpoint `.json` natif du produit.
+- **Favoris** : même mécanisme partout (carte produit, fiche produit, Quick
+  View) via `data-gm-wishlist-add`. Stockage `localStorage` uniquement — non
+  synchronisé entre appareils, ce qui n'est jamais présenté comme le cas.
 
 ## Notes
 

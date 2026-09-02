@@ -1,0 +1,16 @@
+{%- comment -%}
+  Global Quick View modal — populated client-side from the product's own
+  .json endpoint (real Shopify data, fetched on demand). See assets/quickview.js.
+{%- endcomment -%}
+<div class="gm-modal gm-modal--quickview" data-gm-quickview-modal role="dialog" aria-modal="true" aria-label="Aperçu rapide">
+  <div class="gm-modal__scrim" data-gm-modal-close></div>
+  <div class="gm-modal__panel gm-quickview__panel">
+    <div class="gm-modal__head">
+      <span class="gm-h4">Aperçu rapide</span>
+      <button data-gm-modal-close aria-label="Fermer">{% render 'icon', name: 'close' %}</button>
+    </div>
+    <div class="gm-modal__body" data-gm-quickview-body>
+      <div class="gm-skeleton" style="width:100%; aspect-ratio:4/5; border-radius:4px;"></div>
+    </div>
+  </div>
+</div>
