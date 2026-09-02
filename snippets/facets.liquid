@@ -1,0 +1,81 @@
+{%- comment -%}
+  Renders Shopify's native collection filters (Search & Discovery app).
+  Usage: {% render 'facets', results: collection, paginate: paginate %}
+{%- endcomment -%}
+{%- liquid
+  assign form_id = id | default: 'FacetsForm'
+  assign active_count = 0
+  for filter in results.filters
+    for value in filter.active_values
+      assign active_count = active_count | plus: 1
+    endfor
+  endfor
+-%}
+
+{%- if active_count > 0 -%}
+  <div class="gm-facets__active">
+    {%- for filter in results.filters -%}
+      {%- for value in filter.active_values -%}
+        <span class="gm-facets__pill">
+          {{ value.label }}
+          <a href="{{ value.url_to_remove }}" aria-label="Retirer le filtre {{ value.label }}">{% render 'icon', name: 'close', size: 12 %}</a>
+        </span>
+      {%- endfor -%}
+    {%- endfor -%}
+    <a href="{{ results.url }}" class="gm-facets__clear">Tout effacer</a>
+  </div>
+{%- endif -%}
+
+<form id="{{ form_id }}" method="get" action="{{ results.url }}" data-gm-facets-form>
+  {%- for filter in results.filters -%}
+    <div class="gm-facets__group">
+      <div class="gm-facets__group-title">{{ filter.label }}</div>
+
+      {%- case filter.type -%}
+        {%- when 'list' -%}
+          {%- liquid
+            assign is_metal = false
+            if filter.label contains 'Métal' or filter.label contains 'Metal'
+              assign is_metal = true
+            endif
+          -%}
+          {%- if is_metal -%}
+            <div class="gm-facets__swatch-row">
+              {%- for value in filter.values -%}
+                <label class="gm-swatch{% if value.value contains 'blanc' or value.value contains 'white' %} gm-swatch--gold-white{% elsif value.value contains 'rose' %} gm-swatch--gold-rose{% elsif value.value contains 'platine' or value.value contains 'platinum' %} gm-swatch--platinum{% else %} gm-swatch--gold-yellow{% endif %}" title="{{ value.label }} ({{ value.count }})">
+                  <input type="checkbox" class="gm-visually-hidden" name="{{ value.param_name }}" value="{{ value.value }}"{% if value.active %} checked{% endif %}{% if value.count == 0 and value.active == false %} disabled{% endif %}>
+                  <span></span>
+                </label>
+              {%- endfor -%}
+            </div>
+          {%- else -%}
+            {%- for value in filter.values -%}
+              <label class="gm-facets__option">
+                <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}"{% if value.active %} checked{% endif %}{% if value.count == 0 and value.active == false %} disabled{% endif %}>
+                {{ value.label }}
+                <span class="count">{{ value.count }}</span>
+              </label>
+            {%- endfor -%}
+          {%- endif -%}
+
+        {%- when 'price_range' -%}
+          <div style="display:flex; gap: var(--space-2);">
+            <input type="number" class="gm-input" placeholder="Min" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value }}" min="0">
+            <input type="number" class="gm-input" placeholder="Max" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value }}" min="0">
+          </div>
+
+        {%- when 'boolean' -%}
+          {%- for value in filter.values -%}
+            <label class="gm-facets__option">
+              <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}"{% if value.active %} checked{% endif %}>
+              {{ value.label }}
+            </label>
+          {%- endfor -%}
+      {%- endcase -%}
+    </div>
+  {%- endfor -%}
+
+  <div style="padding-block: var(--space-4);">
+    <button type="submit" class="gm-btn gm-btn--primary gm-btn--full">Afficher les résultats</button>
+  </div>
+</form>

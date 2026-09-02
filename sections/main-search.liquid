@@ -1,0 +1,58 @@
+{{ 'collection.css' | asset_url | stylesheet_tag }}
+{{ 'search.css' | asset_url | stylesheet_tag }}
+
+<div class="gm-container gm-section--tight">
+  <div style="padding-top: var(--space-6); margin-bottom: var(--space-5);">
+    <span class="gm-eyebrow">Recherche</span>
+    <h1 class="gm-h2">
+      {%- if search.performed -%}
+        Résultats pour « {{ search.terms }} »
+      {%- else -%}
+        Rechercher
+      {%- endif -%}
+    </h1>
+    <form action="{{ routes.search_url }}" method="get" role="search" style="margin-top: var(--space-4); max-width: 48rem;">
+      <input type="search" name="q" value="{{ search.terms | escape }}" class="gm-input" placeholder="{{ 'general.search.placeholder' | t }}">
+    </form>
+  </div>
+
+  {%- if search.performed -%}
+    {%- if search.results_count == 0 -%}
+      <div class="gm-empty-state">
+        <p class="gm-lead">Aucun résultat pour « {{ search.terms }} ».</p>
+        <p style="color:var(--gm-text-muted); margin-top:var(--space-2);">Essayez un terme plus général, comme « bague », « or jaune » ou « émeraude ».</p>
+      </div>
+    {%- else -%}
+      {%- paginate search.results by section.settings.results_per_page -%}
+        <p class="gm-toolbar__count" style="margin-bottom: var(--space-5);">{{ search.results_count }} résultat{% if search.results_count > 1 %}s{% endif %}</p>
+        <div class="gm-product-grid">
+          {%- for item in search.results -%}
+            {%- if item.object_type == 'product' -%}
+              {% render 'product-card', product: item %}
+            {%- else -%}
+              <article class="gm-card">
+                <a href="{{ item.url }}" class="gm-card__title" style="font-size:1.8rem;">{{ item.title }}</a>
+                {%- if item.content -%}<p style="color:var(--gm-text-muted); font-size:1.35rem; margin-top:0.6rem;">{{ item.content | strip_html | truncate: 120 }}</p>{%- endif -%}
+              </article>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        {%- if paginate.pages > 1 -%}
+          <nav class="gm-pagination" aria-label="Pagination">
+            {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">← Précédent</a>{%- endif -%}
+            {%- if paginate.next -%}<a href="{{ paginate.next.url }}">Suivant →</a>{%- endif -%}
+          </nav>
+        {%- endif -%}
+      {%- endpaginate -%}
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Résultats de recherche",
+  "settings": [
+    { "type": "range", "id": "results_per_page", "label": "Résultats par page", "min": 8, "max": 48, "step": 4, "default": 24 }
+  ]
+}
+{% endschema %}

@@ -32,7 +32,7 @@
     </a>
 
     <div class="gm-header__actions">
-      <a href="{{ routes.search_url }}" class="gm-header__action" aria-label="{{ 'header.search' | t }}">{% render 'icon', name: 'search' %}</a>
+      <button type="button" class="gm-header__action" aria-label="{{ 'header.search' | t }}" data-gm-search-toggle>{% render 'icon', name: 'search' %}</button>
       <a href="{{ routes.account_url }}" class="gm-header__action gm-hide-mobile" aria-label="{{ 'header.account' | t }}">{% render 'icon', name: 'account' %}</a>
       <a href="{{ routes.root_url }}pages/wishlist" class="gm-header__action gm-hide-mobile" aria-label="{{ 'header.wishlist' | t }}" data-gm-wishlist-toggle>
         {% render 'icon', name: 'heart' %}

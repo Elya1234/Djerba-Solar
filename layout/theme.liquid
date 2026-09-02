@@ -37,10 +37,13 @@
   {{ 'theme.css' | asset_url | stylesheet_tag }}
 
   <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'wishlist.js' | asset_url }}" defer="defer"></script>
   <script>document.documentElement.classList.remove('no-js');</script>
 </head>
 <body class="gm-template-{{ request.page_type }}{% if settings.enable_animations == false %} gm-motion-off{% endif %}">
   {% section 'header' %}
+  {% render 'search-modal' %}
+  <script src="{{ 'search.js' | asset_url }}" defer="defer"></script>
 
   <main id="MainContent" role="main">
     {{ content_for_layout }}

@@ -1,0 +1,76 @@
+{%- comment -%}
+  Premium product card.
+  Usage: {% render 'product-card', product: product %}
+{%- endcomment -%}
+{%- liquid
+  assign metal_option = product.options_with_values | where: 'name', 'Métal'
+  if metal_option.size == 0
+    assign metal_option = product.options_with_values | where: 'name', 'Metal'
+  endif
+  assign metal_option = metal_option.first
+  assign now_ts = 'now' | date: '%s'
+  assign created_ts = product.created_at | date: '%s'
+  assign seconds_since_created = now_ts | minus: created_ts
+-%}
+<article class="gm-card" data-gm-product-card>
+  <div class="gm-card__media-wrap">
+    <a href="{{ product.url }}" class="gm-card__media gm-hover-zoom" aria-label="{{ product.title }}">
+      {%- if product.featured_image -%}
+        {{ product.featured_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: product.featured_image.alt, widths: '400,600,800', sizes: '(min-width: 990px) 24vw, 50vw' }}
+      {%- else -%}
+        <div class="gm-skeleton" style="width:100%; height:100%;"></div>
+      {%- endif -%}
+      {%- if product.images[1] -%}
+        {{ product.images[1] | image_url: width: 800 | image_tag: loading: 'lazy', alt: product.title, class: 'gm-card__media-hover' }}
+      {%- endif -%}
+    </a>
+
+    <div class="gm-card__badges">
+      {%- if seconds_since_created < 5184000 -%}
+        <span class="gm-badge">Nouveauté</span>
+      {%- endif -%}
+      {%- if product.tags contains 'exclusivite' -%}
+        <span class="gm-badge gm-badge--accent">Exclusivité</span>
+      {%- endif -%}
+    </div>
+
+    <button class="gm-card__wishlist" data-gm-wishlist-add data-product-id="{{ product.id }}" aria-label="Ajouter {{ product.title }} à ma liste de souhaits" aria-pressed="false">
+      {% render 'icon', name: 'heart' %}
+    </button>
+  </div>
+
+  <div class="gm-card__info">
+    {%- if product.vendor and product.vendor != shop.name -%}
+      <div class="gm-card__collection">{{ product.vendor }}</div>
+    {%- endif -%}
+    <a href="{{ product.url }}" class="gm-card__title">{{ product.title }}</a>
+    <div class="gm-card__price">
+      {%- if product.price_varies -%}
+        À partir de {{ product.price_min | money }}
+      {%- else -%}
+        {{ product.price | money }}
+      {%- endif -%}
+    </div>
+
+    {%- if metal_option -%}
+      <div class="gm-card__swatches" role="group" aria-label="Métal disponible">
+        {%- for value in metal_option.values limit: 4 -%}
+          {%- liquid
+            assign swatch_class = ''
+            assign v_down = value | downcase
+            if v_down contains 'blanc' or v_down contains 'white'
+              assign swatch_class = 'gm-swatch--gold-white'
+            elsif v_down contains 'rose'
+              assign swatch_class = 'gm-swatch--gold-rose'
+            elsif v_down contains 'platine' or v_down contains 'platinum'
+              assign swatch_class = 'gm-swatch--platinum'
+            else
+              assign swatch_class = 'gm-swatch--gold-yellow'
+            endif
+          -%}
+          <span class="gm-swatch {{ swatch_class }}" title="{{ value }}"><span></span></span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</article>

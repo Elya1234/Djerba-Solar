@@ -32,7 +32,9 @@ Palette : blanc/ivoire, tons pierre, onyx, et un bleu profond signature
 - [x] Phase 1 — Architecture, design system, header + mega-menu + nav mobile, footer
 - [x] Phase 2 — Homepage éditoriale complète (hero, univers, créations, fiançailles,
       pierres précieuses, sur-mesure, savoir-faire, atelier, services, Maison, boutique/RDV)
-- [ ] Phase 3 — Collections, recherche, filtres, cartes produit
+- [x] Phase 3 — Collections (bannière, filtres natifs Search & Discovery, tri,
+      blocs éditoriaux), recherche prédictive + page de résultats, carte produit
+      premium (swatches métal, badges, wishlist)
 - [ ] Phase 4 — Fiche produit avancée + configurateur bague
 - [ ] Phase 5 — Fiançailles, diamants, pierres précieuses
 - [ ] Phase 6 — Sur-mesure, services, Maison, boutique, RDV
