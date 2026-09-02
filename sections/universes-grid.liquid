@@ -1,0 +1,66 @@
+{{ 'homepage.css' | asset_url | stylesheet_tag }}
+
+<section class="gm-section">
+  <div class="gm-container">
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      <div style="max-width: 60rem; margin-bottom: var(--space-7);" data-gm-reveal="fade">
+        {%- if section.settings.eyebrow != blank -%}<span class="gm-eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="gm-h2">{{ section.settings.heading }}</h2>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="gm-universes__list">
+      {%- for block in section.blocks -%}
+        <div class="gm-universes__row{% if forloop.index0 % 2 == 1 %} gm-universes__row--reverse{% endif %}" {{ block.shopify_attributes }} data-gm-reveal="fade">
+          <div class="gm-universes__media gm-hover-zoom">
+            {%- if block.settings.image -%}
+              {{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: block.settings.title }}
+            {%- endif -%}
+          </div>
+          <div class="gm-universes__text">
+            <span class="gm-eyebrow">{{ block.settings.eyebrow }}</span>
+            <h3 class="gm-h3">{{ block.settings.title }}</h3>
+            <p class="gm-lead" style="font-size:1.6rem;">{{ block.settings.text }}</p>
+            {%- if block.settings.link_label != blank -%}
+              <a href="{{ block.settings.link }}" class="gm-btn--ghost gm-btn" style="padding-left:0;">{{ block.settings.link_label }}</a>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Univers Gold Mines",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "L'univers Gold Mines" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Chaque création a sa propre histoire" }
+  ],
+  "blocks": [
+    {
+      "type": "universe",
+      "name": "Univers",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+        { "type": "text", "id": "title", "label": "Titre", "default": "Fiançailles" },
+        { "type": "textarea", "id": "text", "label": "Texte" },
+        { "type": "text", "id": "link_label", "label": "Libellé du lien", "default": "Découvrir" },
+        { "type": "url", "id": "link", "label": "Lien" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Univers Gold Mines",
+      "blocks": [
+        { "type": "universe", "settings": { "title": "Fiançailles", "eyebrow": "Un engagement" } },
+        { "type": "universe", "settings": { "title": "Alliances", "eyebrow": "L'union" } },
+        { "type": "universe", "settings": { "title": "Diamants & Pierres précieuses", "eyebrow": "L'exception" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

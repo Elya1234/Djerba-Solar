@@ -1,0 +1,39 @@
+{{ 'homepage.css' | asset_url | stylesheet_tag }}
+
+<section class="gm-cta-split" data-gm-reveal="fade">
+  <div class="gm-cta-split__panel">
+    {%- if section.settings.boutique_image -%}
+      {{ section.settings.boutique_image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: 'Boutique Gold Mines' }}
+    {%- endif -%}
+    <div>
+      <span class="gm-eyebrow">Notre boutique</span>
+      <h3 class="gm-h3" style="color:var(--gm-white);">{{ section.settings.boutique_heading | default: 'Visitez la boutique' }}</h3>
+      <a href="{{ section.settings.boutique_link | default: '/pages/boutique' }}" class="gm-btn gm-btn--outline" style="color:var(--gm-white); margin-top:var(--space-3);">Découvrir la boutique</a>
+    </div>
+  </div>
+  <div class="gm-cta-split__panel">
+    {%- if section.settings.rdv_image -%}
+      {{ section.settings.rdv_image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: 'Rendez-vous Gold Mines' }}
+    {%- endif -%}
+    <div>
+      <span class="gm-eyebrow">Rendez-vous</span>
+      <h3 class="gm-h3" style="color:var(--gm-white);">{{ section.settings.rdv_heading | default: 'En boutique ou à distance' }}</h3>
+      <a href="{{ section.settings.rdv_link | default: '/pages/rendez-vous' }}" class="gm-btn gm-btn--primary" style="margin-top:var(--space-3);">Prendre rendez-vous</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Boutique & Rendez-vous",
+  "settings": [
+    { "type": "image_picker", "id": "boutique_image", "label": "Image boutique" },
+    { "type": "text", "id": "boutique_heading", "label": "Titre boutique", "default": "Visitez la boutique" },
+    { "type": "url", "id": "boutique_link", "label": "Lien boutique" },
+    { "type": "image_picker", "id": "rdv_image", "label": "Image rendez-vous" },
+    { "type": "text", "id": "rdv_heading", "label": "Titre rendez-vous", "default": "En boutique ou à distance" },
+    { "type": "url", "id": "rdv_link", "label": "Lien rendez-vous" }
+  ],
+  "presets": [{ "name": "Boutique & Rendez-vous" }]
+}
+{% endschema %}

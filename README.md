@@ -30,7 +30,8 @@ Palette : blanc/ivoire, tons pierre, onyx, et un bleu profond signature
 ## Avancement par phases
 
 - [x] Phase 1 — Architecture, design system, header + mega-menu + nav mobile, footer
-- [ ] Phase 2 — Homepage éditoriale complète
+- [x] Phase 2 — Homepage éditoriale complète (hero, univers, créations, fiançailles,
+      pierres précieuses, sur-mesure, savoir-faire, atelier, services, Maison, boutique/RDV)
 - [ ] Phase 3 — Collections, recherche, filtres, cartes produit
 - [ ] Phase 4 — Fiche produit avancée + configurateur bague
 - [ ] Phase 5 — Fiançailles, diamants, pierres précieuses
@@ -47,3 +48,8 @@ Palette : blanc/ivoire, tons pierre, onyx, et un bleu profond signature
   depuis l'admin Shopify une fois les vraies données disponibles.
 - Les animations respectent `prefers-reduced-motion`.
 - Ce thème n'est connecté à aucune boutique Shopify pour le moment.
+- Les pages liées depuis la homepage (Fiançailles, Sur-mesure, La Maison, Boutique,
+  Rendez-vous, Diamants, Pierres précieuses, Services, mentions légales, CGV,
+  confidentialité, cookies) seront créées comme pages Shopify avec leur propre
+  gabarit dans les phases 5 et 6 — elles n'existent pas encore, ce qui est normal
+  à ce stade du build.

@@ -1,0 +1,126 @@
+/* GOLD MINES — Homepage editorial sections (Phase 2) */
+
+/* ---- Hero ---- */
+.gm-hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  color: var(--gm-white);
+  overflow: hidden;
+}
+.gm-hero__media { position: absolute; inset: 0; z-index: 0; }
+.gm-hero__media img, .gm-hero__media video { width: 100%; height: 100%; object-fit: cover; }
+.gm-hero__media::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(0deg, rgba(10,10,11,0.6) 0%, rgba(10,10,11,0.08) 45%, rgba(10,10,11,0.02) 100%);
+}
+.gm-hero__content { position: relative; z-index: 1; padding-block: var(--space-8) var(--space-7); max-width: 62rem; }
+.gm-hero__actions { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-top: var(--space-5); }
+.gm-hero__scroll-cue {
+  position: absolute; left: 50%; bottom: var(--space-4); transform: translateX(-50%);
+  z-index: 1; display: flex; flex-direction: column; align-items: center; gap: var(--space-1);
+  font-size: 1rem; letter-spacing: var(--tracking-wide); text-transform: uppercase; opacity: 0.8;
+}
+.gm-hero__scroll-cue span { width: 1px; height: 32px; background: currentColor; animation: gm-scrollcue 1.8s infinite var(--ease-luxe); }
+@keyframes gm-scrollcue { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 50.01% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+@media (prefers-reduced-motion: reduce) { .gm-hero__scroll-cue span { animation: none; } }
+
+/* ---- Universes editorial alternating grid ---- */
+.gm-universes__list { display: flex; flex-direction: column; gap: var(--space-7); }
+.gm-universes__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  align-items: center;
+}
+.gm-universes__row--reverse .gm-universes__media { order: 2; }
+.gm-universes__media { border-radius: var(--radius-sm); overflow: hidden; aspect-ratio: 4 / 5; }
+.gm-universes__media img { width: 100%; height: 100%; object-fit: cover; }
+.gm-universes__text { max-width: 42rem; }
+.gm-universes__text .gm-h3 { margin-block: var(--space-3) var(--space-3); }
+@media (max-width: 989px) {
+  .gm-universes__row, .gm-universes__row--reverse { grid-template-columns: 1fr; }
+  .gm-universes__row--reverse .gm-universes__media { order: 0; }
+}
+
+/* ---- Creations carousel ---- */
+.gm-creations__track {
+  display: flex;
+  gap: var(--space-4);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: var(--space-3);
+  scrollbar-width: none;
+}
+.gm-creations__track::-webkit-scrollbar { display: none; }
+.gm-creations__item { flex: 0 0 clamp(240px, 26vw, 340px); scroll-snap-align: start; }
+.gm-creations__media { position: relative; aspect-ratio: 3/4; border-radius: var(--radius-sm); overflow: hidden; background: var(--gm-stone-50); }
+.gm-creations__media img { width: 100%; height: 100%; object-fit: cover; }
+.gm-creations__media img.gm-creations__hover { position: absolute; inset: 0; opacity: 0; transition: opacity var(--dur-base) var(--ease-luxe); }
+.gm-creations__item:hover .gm-creations__hover { opacity: 1; }
+.gm-creations__meta { margin-top: var(--space-3); }
+.gm-creations__meta .gm-name { font-family: var(--font-display); font-size: 1.7rem; }
+.gm-creations__meta .gm-price { color: var(--gm-text-muted); font-size: 1.3rem; margin-top: 0.4rem; }
+.gm-creations__head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-5); }
+
+/* ---- Full-bleed immersive banner (Fiançailles, Sur-mesure, Maison) ---- */
+.gm-banner { position: relative; min-height: 78vh; display: flex; color: var(--gm-white); }
+.gm-banner__media { position: absolute; inset: 0; }
+.gm-banner__media img { width: 100%; height: 100%; object-fit: cover; }
+.gm-banner__media::after { content: ""; position: absolute; inset: 0; background: rgba(10,10,11,0.38); }
+.gm-banner__content { position: relative; z-index: 1; align-self: center; max-width: 56rem; }
+.gm-banner--align-right .gm-banner__content { margin-left: auto; text-align: right; }
+
+/* ---- Timeline (savoir-faire) ---- */
+.gm-timeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--space-5); counter-reset: gm-step; }
+.gm-timeline__step { position: relative; padding-top: var(--space-5); border-top: 1px solid var(--gm-border); }
+.gm-timeline__step::before {
+  counter-increment: gm-step;
+  content: counter(gm-step, decimal-leading-zero);
+  position: absolute; top: -1.1em; left: 0;
+  background: var(--gm-bg); padding-right: var(--space-2);
+  font-family: var(--font-display); font-size: 1.4rem; color: var(--gm-accent);
+}
+.gm-timeline__step h3 { font-size: 1.5rem; font-family: var(--font-display); margin-bottom: var(--space-2); }
+.gm-timeline__step p { color: var(--gm-text-muted); font-size: 1.35rem; }
+
+/* ---- Gallery (atelier) ---- */
+.gm-gallery { display: grid; grid-template-columns: repeat(6, 1fr); grid-auto-rows: 14vw; gap: var(--space-2); }
+.gm-gallery__item { overflow: hidden; border-radius: var(--radius-sm); }
+.gm-gallery__item img, .gm-gallery__item video { width: 100%; height: 100%; object-fit: cover; }
+.gm-gallery__item--wide { grid-column: span 3; grid-row: span 2; }
+.gm-gallery__item--tall { grid-column: span 2; grid-row: span 3; }
+.gm-gallery__item--small { grid-column: span 2; grid-row: span 2; }
+@media (max-width: 989px) {
+  .gm-gallery { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 40vw; }
+  .gm-gallery__item, .gm-gallery__item--wide, .gm-gallery__item--tall, .gm-gallery__item--small { grid-column: span 1; grid-row: span 1; }
+}
+
+/* ---- Services grid ---- */
+.gm-services__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--gm-border); border: 1px solid var(--gm-border); }
+.gm-services__item { background: var(--gm-bg); padding: var(--space-5); transition: background-color var(--dur-base) var(--ease-luxe); }
+.gm-services__item:hover { background: var(--gm-bg-soft); }
+.gm-services__item h3 { font-family: var(--font-display); font-size: 1.9rem; margin-bottom: var(--space-2); }
+.gm-services__item p { color: var(--gm-text-muted); font-size: 1.35rem; margin-bottom: var(--space-3); }
+@media (max-width: 989px) { .gm-services__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 599px) { .gm-services__grid { grid-template-columns: 1fr; } }
+
+/* ---- Split story (Maison) ---- */
+.gm-story {
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-7); align-items: center;
+}
+.gm-story__media { aspect-ratio: 4/5; overflow: hidden; border-radius: var(--radius-sm); }
+.gm-story__media img { width: 100%; height: 100%; object-fit: cover; }
+.gm-story__stats { display: flex; gap: var(--space-6); margin-top: var(--space-5); }
+.gm-story__stat .num { font-family: var(--font-display); font-size: 3.2rem; color: var(--gm-accent); }
+.gm-story__stat .lab { font-size: 1.2rem; color: var(--gm-text-muted); letter-spacing: 0.04em; text-transform: uppercase; }
+@media (max-width: 989px) { .gm-story { grid-template-columns: 1fr; } }
+
+/* ---- Boutique / RDV split CTA ---- */
+.gm-cta-split { display: grid; grid-template-columns: 1fr 1fr; }
+.gm-cta-split__panel { position: relative; min-height: 46vh; display: flex; align-items: flex-end; padding: var(--space-6); color: var(--gm-white); }
+.gm-cta-split__panel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+.gm-cta-split__panel::after { content: ""; position: absolute; inset: 0; background: rgba(10,10,11,0.32); z-index: -1; }
+@media (max-width: 767px) { .gm-cta-split { grid-template-columns: 1fr; } }
