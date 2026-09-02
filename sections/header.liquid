@@ -1,0 +1,142 @@
+{{ 'header.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign is_home = request.page_type == 'index'
+  assign transparent_ok = settings.header_style == 'transparent' and is_home
+  assign main_menu = linklists[section.settings.menu]
+-%}
+
+<a class="gm-skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
+
+<header class="gm-header{% unless transparent_ok %} gm-header--solid{% endunless %}" data-gm-header data-transparent="{{ transparent_ok }}">
+  <div class="gm-container gm-header__bar">
+    <button class="gm-header__nav-toggle" data-gm-nav-toggle aria-expanded="false" aria-controls="GmMobileNav">
+      <span class="gm-burger"><span></span><span></span><span></span></span>
+      <span class="gm-hide-mobile">{{ 'header.menu' | t }}</span>
+    </button>
+
+    <nav class="gm-header__nav" aria-label="{{ 'header.menu' | t }}">
+      {%- for link in main_menu.links -%}
+        <div class="gm-header__nav-item" data-gm-nav-item="{{ forloop.index }}">
+          <a href="{{ link.url }}" class="gm-header__nav-link" data-gm-nav-link>{{ link.title }}</a>
+        </div>
+      {%- endfor -%}
+    </nav>
+
+    <a href="{{ routes.root_url }}" class="gm-header__logo">
+      {%- if section.settings.logo -%}
+        {{ section.settings.logo | image_url: width: 320 | image_tag: alt: shop.name, loading: 'eager', style: 'height:28px;width:auto;' }}
+      {%- else -%}
+        GOLD <strong>MINES</strong>
+      {%- endif -%}
+    </a>
+
+    <div class="gm-header__actions">
+      <a href="{{ routes.search_url }}" class="gm-header__action" aria-label="{{ 'header.search' | t }}">{% render 'icon', name: 'search' %}</a>
+      <a href="{{ routes.account_url }}" class="gm-header__action gm-hide-mobile" aria-label="{{ 'header.account' | t }}">{% render 'icon', name: 'account' %}</a>
+      <a href="{{ routes.root_url }}pages/wishlist" class="gm-header__action gm-hide-mobile" aria-label="{{ 'header.wishlist' | t }}" data-gm-wishlist-toggle>
+        {% render 'icon', name: 'heart' %}
+        <span class="gm-header__count" data-gm-wishlist-count hidden>0</span>
+      </a>
+      <a href="{{ routes.cart_url }}" class="gm-header__action" aria-label="{{ 'header.cart' | t }}" data-gm-cart-toggle>
+        {% render 'icon', name: 'bag' %}
+        <span class="gm-header__count" data-gm-cart-count{% if cart.item_count == 0 %} hidden{% endif %}>{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+</header>
+<div class="gm-header-spacer" aria-hidden="true"></div>
+<div class="gm-scrim" data-gm-scrim></div>
+
+{%- comment -%} ---- Desktop mega-menu ---- {%- endcomment -%}
+<div class="gm-mega" data-gm-mega>
+  <div class="gm-mega__inner">
+    {%- for link in main_menu.links -%}
+      {%- liquid
+        assign panel_block = nil
+        for block in section.blocks
+          if block.settings.menu_item_title != blank and block.settings.menu_item_title == link.title
+            assign panel_block = block
+          endif
+        endfor
+      -%}
+      <div data-gm-mega-panel="{{ forloop.index }}"{% unless forloop.first %} hidden{% endunless %} style="display:contents;">
+        {%- if link.links.size > 0 -%}
+          <div>
+            <div class="gm-mega__col-title">{{ link.title }}</div>
+            {%- for sublink in link.links -%}
+              <a href="{{ sublink.url }}" class="gm-mega__link">{{ sublink.title }}</a>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+        {%- if panel_block and panel_block.settings.editorial_image -%}
+          <a href="{{ panel_block.settings.editorial_link | default: link.url }}" class="gm-mega__editorial" style="grid-column: 5;">
+            {{ panel_block.settings.editorial_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: panel_block.settings.editorial_heading }}
+            <span class="gm-mega__editorial-caption">
+              <span class="gm-eyebrow">{{ 'header.book_appointment' | t }}</span>
+              <span class="gm-h4" style="color:var(--gm-white);">{{ panel_block.settings.editorial_heading }}</span>
+            </span>
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{%- comment -%} ---- Mobile fullscreen nav ---- {%- endcomment -%}
+<div class="gm-mobile-nav" id="GmMobileNav" data-gm-mobile-nav>
+  <div class="gm-mobile-nav__head">
+    <span class="gm-header__logo" style="color:var(--gm-text);">GOLD <strong>MINES</strong></span>
+    <button aria-label="{{ 'general.accessibility.close_menu' | t }}" data-gm-mobile-close>{% render 'icon', name: 'close' %}</button>
+  </div>
+  <ul class="gm-mobile-nav__list">
+    {%- for link in main_menu.links -%}
+      <li class="gm-mobile-nav__item">
+        {%- if link.links.size > 0 -%}
+          <button class="gm-mobile-nav__link" data-gm-mobile-trigger aria-expanded="false">
+            {{ link.title }}
+            {% render 'icon', name: 'plus' %}
+          </button>
+          <div class="gm-mobile-nav__sub" data-gm-mobile-sub data-open="false">
+            <div class="gm-mobile-nav__sub-inner">
+              {%- for sublink in link.links -%}
+                <a href="{{ sublink.url }}" class="gm-mobile-nav__sub-link">{{ sublink.title }}</a>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- else -%}
+          <a href="{{ link.url }}" class="gm-mobile-nav__link">{{ link.title }}</a>
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ul>
+  <div class="gm-mobile-nav__foot">
+    <a href="{{ routes.root_url }}pages/rendez-vous" class="gm-btn gm-btn--primary gm-btn--full">{{ 'header.book_appointment' | t }}</a>
+    <a href="{{ routes.account_url }}" class="gm-btn gm-btn--outline gm-btn--full">{{ 'header.account' | t }}</a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.header.name",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "t:sections.header.settings.logo_image_label" },
+    { "type": "link_list", "id": "menu", "label": "Menu principal", "default": "main-menu" }
+  ],
+  "blocks": [
+    {
+      "type": "menu_item",
+      "name": "t:sections.header.blocks.menu_item.name",
+      "settings": [
+        { "type": "text", "id": "menu_item_title", "label": "Titre du lien correspondant", "info": "Doit correspondre exactement au libellé du lien dans le menu (ex. Bagues de fiançailles)." },
+        { "type": "image_picker", "id": "editorial_image", "label": "t:sections.header.blocks.menu_item.settings.editorial_image_label" },
+        { "type": "text", "id": "editorial_heading", "label": "t:sections.header.blocks.menu_item.settings.editorial_heading_label" },
+        { "type": "url", "id": "editorial_link", "label": "t:sections.header.blocks.menu_item.settings.editorial_link_label" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": []
+  }
+}
+{% endschema %}

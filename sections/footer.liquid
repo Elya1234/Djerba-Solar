@@ -1,0 +1,86 @@
+{{ 'footer.css' | asset_url | stylesheet_tag }}
+
+<footer class="gm-footer gm-theme-dark">
+  <div class="gm-container">
+    <div class="gm-footer__newsletter" data-gm-reveal="fade">
+      <h3 class="gm-h3">{{ section.settings.newsletter_heading | default: 'footer.newsletter.heading' | t }}</h3>
+      {%- form 'customer', id: 'FooterNewsletterForm' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="gm-footer__newsletter-form">
+          <input type="email" name="contact[email]" class="gm-input" placeholder="{{ 'footer.newsletter.placeholder' | t }}" required>
+          <button type="submit" class="gm-btn gm-btn--primary">{{ 'footer.newsletter.submit' | t }}</button>
+        </div>
+      {%- endform -%}
+    </div>
+
+    <div class="gm-footer__grid">
+      <div class="gm-footer__brand">
+        <div class="gm-footer__logo">GOLD <strong>MINES</strong></div>
+        <p class="gm-footer__tagline">{{ section.settings.tagline | default: 'Maison de joaillerie contemporaine — créations, sur-mesure et savoir-faire artisanal.' }}</p>
+        <div class="gm-footer__social">
+          {%- if settings.social_instagram != blank -%}<a href="{{ settings.social_instagram }}" aria-label="Instagram">{% render 'icon', name: 'instagram' %}</a>{%- endif -%}
+          {%- if settings.social_facebook != blank -%}<a href="{{ settings.social_facebook }}" aria-label="Facebook">{% render 'icon', name: 'facebook' %}</a>{%- endif -%}
+          {%- if settings.social_pinterest != blank -%}<a href="{{ settings.social_pinterest }}" aria-label="Pinterest">{% render 'icon', name: 'pinterest' %}</a>{%- endif -%}
+        </div>
+      </div>
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'link_list' -%}
+          <div class="gm-footer__col" {{ block.shopify_attributes }}>
+            <div class="gm-footer__col-title">{{ block.settings.title }}</div>
+            <ul>
+              {%- for link in linklists[block.settings.menu].links -%}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="gm-footer__bottom">
+      <span>&copy; {{ 'now' | date: '%Y' }} Gold Mines. {{ 'footer.legal.rights' | t }}</span>
+      <div class="gm-footer__legal">
+        <a href="{{ routes.root_url }}pages/mentions-legales">Mentions légales</a>
+        <a href="{{ routes.root_url }}pages/cgv">CGV</a>
+        <a href="{{ routes.root_url }}pages/confidentialite">Confidentialité</a>
+        <a href="{{ routes.root_url }}pages/cookies">Cookies</a>
+      </div>
+      {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+        <div class="gm-footer__payments">
+          {%- for type in shop.enabled_payment_types -%}
+            {{ type | payment_type_svg_tag }}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "t:sections.footer.name",
+  "settings": [
+    { "type": "text", "id": "newsletter_heading", "label": "t:sections.footer.settings.newsletter_heading_label" },
+    { "type": "textarea", "id": "tagline", "label": "t:sections.footer.settings.tagline_label" },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "t:sections.footer.settings.show_payment_icons_label", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "link_list",
+      "name": "t:sections.footer.blocks.link_list.name",
+      "settings": [
+        { "type": "text", "id": "title", "label": "t:sections.footer.blocks.link_list.settings.title_label" },
+        { "type": "link_list", "id": "menu", "label": "t:sections.footer.blocks.link_list.settings.menu_label" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "link_list", "settings": { "title": "Collections" } },
+      { "type": "link_list", "settings": { "title": "Services" } },
+      { "type": "link_list", "settings": { "title": "La Maison" } }
+    ]
+  }
+}
+{% endschema %}

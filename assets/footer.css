@@ -1,0 +1,70 @@
+/* GOLD MINES — Footer */
+
+.gm-footer {
+  background: var(--gm-navy-900);
+  color: rgba(255, 255, 255, 0.82);
+  padding-block: var(--space-8) var(--space-4);
+}
+.gm-footer a { transition: color var(--dur-fast) var(--ease-luxe); }
+.gm-footer a:hover { color: var(--gm-gold-300); }
+
+.gm-footer__newsletter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: var(--space-7);
+  margin-bottom: var(--space-7);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+.gm-footer__newsletter h3 { color: var(--gm-white); max-width: 42rem; }
+.gm-footer__newsletter-form { display: flex; gap: var(--space-2); min-width: 320px; flex: 1 1 360px; max-width: 480px; }
+.gm-footer__newsletter-form .gm-input {
+  background: transparent; color: var(--gm-white); border-color: rgba(255,255,255,0.28);
+}
+.gm-footer__newsletter-form .gm-input::placeholder { color: rgba(255,255,255,0.5); }
+.gm-footer__newsletter-form .gm-btn--primary { background: var(--gm-white); color: var(--gm-onyx-900); border-color: var(--gm-white); }
+.gm-footer__newsletter-form .gm-btn--primary:hover { background: var(--gm-gold-300); border-color: var(--gm-gold-300); }
+
+.gm-footer__grid {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(4, 1fr);
+  gap: var(--space-5);
+}
+.gm-footer__brand { max-width: 32rem; }
+.gm-footer__logo { font-family: var(--font-display); font-size: 2.2rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gm-white); }
+.gm-footer__tagline { margin-top: var(--space-3); color: rgba(255,255,255,0.6); font-size: 1.3rem; }
+.gm-footer__social { display: flex; gap: var(--space-3); margin-top: var(--space-4); }
+.gm-footer__social a { display: inline-flex; padding: var(--space-2); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; }
+.gm-footer__social svg { width: 16px; height: 16px; }
+
+.gm-footer__col-title { color: var(--gm-white); font-size: 1.1rem; letter-spacing: var(--tracking-wide); text-transform: uppercase; margin-bottom: var(--space-3); }
+.gm-footer__col ul { display: flex; flex-direction: column; gap: var(--space-2); }
+.gm-footer__col a { font-size: 1.35rem; color: rgba(255,255,255,0.78); }
+
+.gm-footer__bottom {
+  margin-top: var(--space-7);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+.gm-footer__legal { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.gm-footer__payments { display: flex; gap: var(--space-2); align-items: center; }
+.gm-footer__payments svg { height: 20px; width: auto; opacity: 0.85; }
+
+@media (max-width: 989px) {
+  .gm-footer__grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-6) var(--space-4); }
+  .gm-footer__brand { grid-column: 1 / -1; max-width: none; }
+  .gm-footer__newsletter { flex-direction: column; align-items: stretch; }
+  .gm-footer__newsletter-form { max-width: none; }
+}
+@media (max-width: 599px) {
+  .gm-footer__grid { grid-template-columns: 1fr 1fr; }
+}

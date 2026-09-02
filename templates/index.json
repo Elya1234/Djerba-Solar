@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-placeholder",
+      "settings": {}
+    }
+  },
+  "order": ["hero"]
+}

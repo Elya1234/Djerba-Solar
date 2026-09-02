@@ -1,0 +1,24 @@
+{
+  "current": "Default",
+  "presets": {
+    "Default": {
+      "font_heading": "eb-garamond_n4",
+      "font_body": "assistant_n4",
+      "color_bg": "#FFFFFF",
+      "color_text": "#0A0A0B",
+      "color_navy": "#0A1A2B",
+      "color_gold": "#B7975C",
+      "color_stone": "#CBBFA5",
+      "page_width": 1440,
+      "header_style": "transparent",
+      "enable_animations": true,
+      "social_instagram": "https://instagram.com",
+      "social_facebook": "https://facebook.com",
+      "social_pinterest": "",
+      "social_whatsapp": "",
+      "shop_phone": "",
+      "shop_address": "",
+      "shop_hours": ""
+    }
+  }
+}

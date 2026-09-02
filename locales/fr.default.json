@@ -1,0 +1,45 @@
+{
+  "general": {
+    "meta": {
+      "tagline": "Haute joaillerie contemporaine"
+    },
+    "accessibility": {
+      "skip_to_content": "Aller au contenu",
+      "close": "Fermer",
+      "open_menu": "Ouvrir le menu",
+      "close_menu": "Fermer le menu"
+    },
+    "search": {
+      "placeholder": "Rechercher une création, une pierre, un guide…",
+      "submit": "Rechercher"
+    }
+  },
+  "header": {
+    "menu": "Menu",
+    "search": "Recherche",
+    "account": "Compte",
+    "wishlist": "Liste de souhaits",
+    "cart": "Panier",
+    "book_appointment": "Prendre rendez-vous"
+  },
+  "footer": {
+    "newsletter": {
+      "heading": "Recevez les nouveautés Gold Mines",
+      "placeholder": "Votre adresse e-mail",
+      "submit": "S'inscrire",
+      "disclaimer": "En vous inscrivant, vous acceptez de recevoir nos communications. Désinscription possible à tout moment."
+    },
+    "legal": {
+      "rights": "Tous droits réservés."
+    }
+  },
+  "cart": {
+    "title": "Votre panier",
+    "empty": "Votre panier est vide.",
+    "subtotal": "Sous-total",
+    "checkout": "Passer commande",
+    "continue_shopping": "Continuer mes achats",
+    "remove": "Retirer",
+    "quantity": "Quantité"
+  }
+}
