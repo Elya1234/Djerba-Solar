@@ -2,9 +2,9 @@
  * GOLD MINES — Product page: gallery, configurator, carat slider,
  * info tooltips, sticky mobile CTA, add-to-cart (AJAX).
  *
- * Reads the full variant graph from the JSON emitted by main-product.liquid
- * (window.__gmProductJSON), so every combination checked here reflects real
- * Shopify variants — no invented state.
+ * Reads the full variant graph from the JSON script tag emitted by
+ * main-product.liquid ([data-gm-product-json]), so every combination
+ * checked here reflects real Shopify variants — no invented state.
  */
 (function () {
   'use strict';
@@ -27,11 +27,25 @@
     var availabilityEl = root.querySelector('[data-gm-availability]');
     var submitBtn = root.querySelector('[data-gm-submit]');
     var variantIdInput = root.querySelector('[data-gm-variant-id]');
+    // The sticky bar is a page-level singleton rendered as a sibling of
+    // [data-gm-product-root] (see main-product.liquid), not a descendant —
+    // it must be looked up from the document, not scoped to root. Declared
+    // here (before the first updateUI() call below) so updateStickyCta can
+    // rely on it from the very first render, not just after a user edit.
+    var stickyBar = document.querySelector('[data-gm-sticky-cta]');
+    var mainCtaAnchor = root.querySelector('[data-gm-cta-anchor]');
+    function updateStickyCta(variant) {
+      if (!stickyBar) return;
+      var priceNode = stickyBar.querySelector('[data-gm-sticky-price]');
+      if (priceNode && variant) priceNode.textContent = money(variant.price);
+    }
+
+    var initialVariantId = Number(root.getAttribute('data-initial-variant-id'));
+    var initialVariant = product.variants.find(function (v) { return v.id === initialVariantId; }) || product.variants[0];
 
     var selected = {};
     (product.options || []).forEach(function (opt, i) {
-      var control = root.querySelector('[data-gm-option="' + opt.name + '"][data-gm-selected="true"]');
-      selected[opt.name] = control ? control.getAttribute('data-value') : (opt.values[0] || null);
+      selected[opt.name] = initialVariant ? initialVariant['option' + (i + 1)] : (opt.values[0] || null);
     });
 
     function findVariant() {
@@ -43,10 +57,13 @@
     }
 
     function optionCombinationExists(name, value) {
+      // A value is only offered as selectable when it leads to a real,
+      // in-stock variant — an existing-but-sold-out combination is
+      // disabled too, not just a genuinely nonexistent one.
       var test = Object.assign({}, selected);
       test[name] = value;
       return product.variants.some(function (v) {
-        return (product.options || []).every(function (opt, i) {
+        return v.available && (product.options || []).every(function (opt, i) {
           return v['option' + (i + 1)] === test[opt.name];
         });
       });
@@ -187,13 +204,6 @@
     }
 
     /* ---- Sticky mobile CTA ---- */
-    var stickyBar = root.querySelector('[data-gm-sticky-cta]');
-    var mainCtaAnchor = root.querySelector('[data-gm-cta-anchor]');
-    function updateStickyCta(variant) {
-      if (!stickyBar) return;
-      var priceNode = stickyBar.querySelector('[data-gm-sticky-price]');
-      if (priceNode && variant) priceNode.textContent = money(variant.price);
-    }
     if (stickyBar && mainCtaAnchor && 'IntersectionObserver' in window) {
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {

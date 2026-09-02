@@ -10,7 +10,7 @@
   endif
 -%}
 
-<div class="gm-container gm-section--tight" data-gm-product-root>
+<div class="gm-container gm-section--tight" data-gm-product-root data-initial-variant-id="{{ product.selected_or_first_available_variant.id }}">
   {%- comment -%} Full variant graph for product.js — real Shopify data, no invented values {%- endcomment -%}
   <script type="application/json" data-gm-product-json>
     {{ product | json }}
@@ -226,7 +226,7 @@
 {%- comment -%} ---- Sticky mobile CTA ---- {%- endcomment -%}
 <div class="gm-sticky-cta" data-gm-sticky-cta>
   <span class="gm-sticky-cta__price" data-gm-sticky-price>{{ product.selected_or_first_available_variant.price | money }}</span>
-  <button type="button" class="gm-btn gm-btn--primary" data-gm-sticky-add>Ajouter au panier</button>
+  <button type="button" class="gm-btn gm-btn--primary gm-sticky-cta__add" data-gm-sticky-add>Ajouter</button>
   <button type="button" class="gm-sticky-cta__fav" data-gm-wishlist-add data-product-id="{{ product.id }}" aria-label="Favoris" aria-pressed="false">{% render 'icon', name: 'heart' %}</button>
 </div>
 

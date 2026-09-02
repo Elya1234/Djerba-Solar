@@ -3,7 +3,7 @@
 .gm-product { display: grid; grid-template-columns: 1fr; }
 @media (min-width: 990px) {
   .gm-product { grid-template-columns: 1.15fr 0.85fr; gap: var(--space-7); align-items: start; }
-  .gm-product__info { position: sticky; top: calc(var(--header-h-scrolled) + var(--space-4)); max-height: calc(100svh - var(--header-h-scrolled) - var(--space-6)); overflow-y: auto; padding-right: 4px; }
+  .gm-product__info { position: sticky; top: calc(var(--header-h-scrolled) + var(--space-4)); align-self: start; }
 }
 
 /* ---- Gallery ---- */
@@ -21,7 +21,17 @@
 .gm-gallery-product__dots { display: none; justify-content: center; gap: 0.6rem; margin-top: var(--space-2); }
 .gm-gallery-product__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gm-border); }
 .gm-gallery-product__dot.is-active { background: var(--gm-onyx-900); }
-@media (max-width: 989px) {
+/* Tablet (768–989px): a genuine intermediate composition, not a stretched
+   phone layout — keep the thumbnail rail (there's room for it at this
+   width) but cap the main image's height so product info and the
+   configurator are reachable without one long blind scroll. */
+@media (min-width: 768px) and (max-width: 989px) {
+  .gm-gallery-product__slide { aspect-ratio: auto; height: min(62vh, 640px); }
+  .gm-gallery-product__thumbs { max-height: min(62vh, 640px); }
+}
+
+/* True mobile (<768px): single column, swipe + dots, no thumbnail rail */
+@media (max-width: 767px) {
   .gm-gallery-product { grid-template-columns: 1fr; }
   .gm-gallery-product__thumbs { display: none; }
   .gm-gallery-product__dots { display: flex; }
@@ -118,9 +128,11 @@
 /* ---- Info tooltip ---- */
 .gm-info-btn { display: inline-flex; width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--gm-text-muted); align-items: center; justify-content: center; font-size: 1.05rem; color: var(--gm-text-muted); flex-shrink: 0; }
 .gm-info-popover {
-  position: absolute; top: calc(100% + 8px); left: 0; z-index: var(--z-toast); max-width: 280px;
+  position: absolute; top: calc(100% + 8px); left: 0; z-index: var(--z-toast);
+  max-width: min(280px, calc(100vw - 2 * var(--container-pad)));
   background: var(--gm-onyx-900); color: var(--gm-white); padding: var(--space-3);
-  border-radius: var(--radius-sm); font-size: 1.25rem; line-height: 1.5;
+  border-radius: var(--radius-sm); font-size: 1.3rem; line-height: 1.5;
+  font-family: var(--font-body); font-weight: 400; text-transform: none; letter-spacing: normal;
   box-shadow: var(--shadow-lg);
   opacity: 0; visibility: hidden; transform: translateY(4px);
   transition: opacity var(--dur-fast) var(--ease-luxe), transform var(--dur-fast) var(--ease-luxe), visibility 0s linear var(--dur-fast);
@@ -130,7 +142,7 @@
 /* ---- CTAs ---- */
 .gm-product__ctas { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-6); }
 .gm-product__ctas-row { display: flex; gap: var(--space-2); }
-.gm-product__ctas-row .gm-btn { flex: 1; }
+.gm-product__ctas-row .gm-btn { flex: 1; min-width: 0; }
 .gm-product__secondary-ctas { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-3); }
 .gm-product__secondary-ctas a, .gm-product__secondary-ctas button { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 1.2rem; color: var(--gm-text-muted); }
 .gm-product__secondary-ctas a:hover, .gm-product__secondary-ctas button:hover { color: var(--gm-text); }
@@ -156,8 +168,8 @@
   transition: transform var(--dur-base) var(--ease-luxe);
 }
 .gm-sticky-cta.is-visible { transform: translateY(0); }
-.gm-sticky-cta__price { font-family: var(--font-display); font-size: 1.7rem; flex-shrink: 0; }
-.gm-sticky-cta .gm-btn { flex: 1; }
+.gm-sticky-cta__price { font-family: var(--font-display); font-size: 1.5rem; flex-shrink: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gm-sticky-cta__add { flex: 1 1 auto; min-width: 0; padding: 1.3rem 1.4rem; font-size: 1.1rem; white-space: nowrap; }
 .gm-sticky-cta__fav { flex-shrink: 0; }
 @media (min-width: 990px) { .gm-sticky-cta { display: none; } }
 
