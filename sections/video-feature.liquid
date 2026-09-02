@@ -1,0 +1,32 @@
+{{ 'pages.css' | asset_url | stylesheet_tag }}
+
+<section class="gm-video-feature">
+  <div class="gm-video-feature__media">
+    {%- if section.settings.video != blank -%}
+      {{ section.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true, image_size: '1920x' }}
+    {%- elsif section.settings.image -%}
+      {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'lazy', alt: section.settings.heading }}
+    {%- endif -%}
+  </div>
+  <div class="gm-container">
+    <div class="gm-video-feature__content" data-gm-reveal="fade">
+      {%- if section.settings.eyebrow != blank -%}<span class="gm-eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2 class="gm-h2" style="color:var(--gm-white);">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="gm-lead" style="color:rgba(255,255,255,0.8); margin-top:var(--space-3);">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Vidéo plein écran",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image de secours" },
+    { "type": "video", "id": "video", "label": "Vidéo" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Artisanat" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "L'Atelier" },
+    { "type": "textarea", "id": "text", "label": "Texte" }
+  ],
+  "presets": [{ "name": "Vidéo plein écran" }]
+}
+{% endschema %}

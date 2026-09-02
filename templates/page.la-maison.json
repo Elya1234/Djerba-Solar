@@ -1,0 +1,85 @@
+{
+  "sections": {
+    "intro": {
+      "type": "immersive-banner",
+      "settings": {
+        "eyebrow": "Depuis les origines",
+        "heading": "La Maison",
+        "text": "Gold Mines — By Orpaz est une maison de joaillerie contemporaine, portée par l'exigence de l'artisanat et l'amour des belles matières.",
+        "align": "left"
+      }
+    },
+    "philosophie": {
+      "type": "editorial-split",
+      "settings": {
+        "eyebrow": "Notre philosophie",
+        "heading": "Une joaillerie pensée pour durer",
+        "text": "<p>Chaque création Gold Mines est pensée comme une pièce intemporelle, loin des tendances éphémères.</p>",
+        "image_position": "left"
+      },
+      "blocks": {
+        "s1": { "type": "stat", "settings": { "number": "100%", "label": "Fabrication artisanale" } }
+      },
+      "block_order": ["s1"]
+    },
+    "expertise": {
+      "type": "editorial-split",
+      "settings": {
+        "eyebrow": "Notre expertise",
+        "heading": "Une exigence joaillière",
+        "text": "<p>De la sélection des pierres à la finition du bijou, chaque étape est suivie avec la plus grande attention.</p>",
+        "link_label": "Découvrir notre savoir-faire",
+        "link": "/pages/savoir-faire",
+        "image_position": "right"
+      }
+    },
+    "atelier-video": {
+      "type": "video-feature",
+      "settings": {
+        "eyebrow": "L'atelier",
+        "heading": "Nos artisans",
+        "text": "Un savoir-faire transmis avec exigence, au service de chaque création."
+      }
+    },
+    "matieres": {
+      "type": "editorial-split",
+      "settings": {
+        "eyebrow": "Nos matières",
+        "heading": "Diamants & pierres précieuses",
+        "text": "<p>Chaque pierre est sélectionnée avec exigence, pour sa qualité et son éclat.</p>",
+        "link_label": "Découvrir les diamants",
+        "link": "/pages/diamants",
+        "image_position": "left"
+      }
+    },
+    "gallery": {
+      "type": "atelier-gallery",
+      "settings": {
+        "eyebrow": "En images",
+        "heading": "L'Atelier Gold Mines",
+        "text": "Un aperçu du travail artisanal derrière chaque création."
+      },
+      "blocks": {
+        "a1": { "type": "media", "settings": { "size": "wide" } },
+        "a2": { "type": "media", "settings": { "size": "tall" } },
+        "a3": { "type": "media", "settings": { "size": "small" } },
+        "a4": { "type": "media", "settings": { "size": "small" } }
+      },
+      "block_order": ["a1", "a2", "a3", "a4"]
+    },
+    "cta": {
+      "type": "cta-banner",
+      "settings": {
+        "eyebrow": "Envie d'en savoir plus ?",
+        "heading": "Visitez la boutique ou prenez rendez-vous",
+        "text": "Notre équipe est à votre écoute pour vous accompagner dans votre projet."
+      },
+      "blocks": {
+        "b1": { "type": "button", "settings": { "label": "Prendre rendez-vous", "link": "/pages/rendez-vous" } },
+        "b2": { "type": "button", "settings": { "label": "Voir la boutique", "link": "/pages/boutique" } }
+      },
+      "block_order": ["b1", "b2"]
+    }
+  },
+  "order": ["intro", "philosophie", "expertise", "atelier-video", "matieres", "gallery", "cta"]
+}

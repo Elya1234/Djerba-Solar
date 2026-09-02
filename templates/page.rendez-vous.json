@@ -1,0 +1,30 @@
+{
+  "sections": {
+    "appointment": {
+      "type": "main-appointment",
+      "settings": {
+        "eyebrow": "Rendez-vous",
+        "heading": "Prendre rendez-vous",
+        "text": "En boutique ou à distance, choisissez le motif de votre rendez-vous et laissez-nous vos coordonnées."
+      },
+      "blocks": {
+        "r1": { "type": "reason", "settings": { "label": "Découvrir les collections" } },
+        "r2": { "type": "reason", "settings": { "label": "Bague de fiançailles" } },
+        "r3": { "type": "reason", "settings": { "label": "Création sur mesure" } },
+        "r4": { "type": "reason", "settings": { "label": "Réparation" } },
+        "r5": { "type": "reason", "settings": { "label": "Transformation" } },
+        "r6": { "type": "reason", "settings": { "label": "Expertise / conseil" } },
+        "r7": { "type": "reason", "settings": { "label": "Autre demande" } }
+      },
+      "block_order": ["r1", "r2", "r3", "r4", "r5", "r6", "r7"]
+    },
+    "info": {
+      "type": "store-info",
+      "settings": {
+        "eyebrow": "Nous préférez appeler ?",
+        "heading": "Contactez-nous directement"
+      }
+    }
+  },
+  "order": ["appointment", "info"]
+}

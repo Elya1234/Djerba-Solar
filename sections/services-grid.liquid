@@ -7,9 +7,12 @@
     <div class="gm-services__grid" data-gm-reveal="fade">
       {%- for block in section.blocks -%}
         <div class="gm-services__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.image -%}
+            <div class="gm-services__image">{{ block.settings.image | image_url: width: 500 | image_tag: loading: 'lazy', alt: block.settings.title }}</div>
+          {%- endif -%}
           <h3>{{ block.settings.title }}</h3>
           <p>{{ block.settings.text }}</p>
-          {%- if block.settings.link_label != blank -%}
+          {%- if block.settings.link_label != blank and block.settings.link != blank -%}
             <a href="{{ block.settings.link }}" class="gm-btn gm-btn--ghost" style="padding-left:0;">{{ block.settings.link_label }}</a>
           {%- endif -%}
         </div>
@@ -30,6 +33,7 @@
       "type": "service",
       "name": "Service",
       "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image (optionnelle)" },
         { "type": "text", "id": "title", "label": "Titre", "default": "Création sur mesure" },
         { "type": "textarea", "id": "text", "label": "Description" },
         { "type": "text", "id": "link_label", "label": "Libellé du lien" },

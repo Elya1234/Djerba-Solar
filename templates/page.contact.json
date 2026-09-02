@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "contact": {
+      "type": "main-contact",
+      "settings": {
+        "eyebrow": "Nous écrire",
+        "heading": "Contact",
+        "text": "Une question sur une création, un service ou votre commande ? Notre équipe vous répond rapidement."
+      }
+    }
+  },
+  "order": ["contact"]
+}

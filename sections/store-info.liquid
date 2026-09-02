@@ -1,0 +1,73 @@
+{{ 'pages.css' | asset_url | stylesheet_tag }}
+
+<section class="gm-section">
+  <div class="gm-container gm-store-info">
+    <div data-gm-reveal="fade">
+      {%- if section.settings.eyebrow != blank -%}<span class="gm-eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      <h2 class="gm-h2">{{ section.settings.heading | default: 'Notre boutique' }}</h2>
+
+      {%- if section.settings.address != blank -%}
+        <div class="gm-store-info__block">
+          <div class="gm-store-info__label">Adresse</div>
+          <p>{{ section.settings.address }}</p>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.hours != blank -%}
+        <div class="gm-store-info__block">
+          <div class="gm-store-info__label">Horaires</div>
+          <div>{{ section.settings.hours }}</div>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.phone != blank -%}
+        <div class="gm-store-info__block">
+          <div class="gm-store-info__label">Téléphone</div>
+          <p><a href="tel:{{ section.settings.phone }}">{{ section.settings.phone }}</a></p>
+        </div>
+      {%- endif -%}
+
+      <div class="gm-store-info__actions">
+        {%- if section.settings.address != blank -%}
+          <a href="https://maps.google.com/?q={{ section.settings.address | url_encode }}" target="_blank" rel="noopener" class="gm-btn gm-btn--outline">{% render 'icon', name: 'pin', size: 16 %} Itinéraire</a>
+        {%- endif -%}
+        {%- if section.settings.whatsapp != blank -%}
+          <a href="https://wa.me/{{ section.settings.whatsapp }}" target="_blank" rel="noopener" class="gm-btn gm-btn--outline">{% render 'icon', name: 'whatsapp', size: 16 %} WhatsApp</a>
+        {%- endif -%}
+        {%- if section.settings.appointment_link != blank -%}
+          <a href="{{ section.settings.appointment_link }}" class="gm-btn gm-btn--primary">Prendre rendez-vous</a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div data-gm-reveal="fade">
+      {%- if section.settings.map_embed_url != blank -%}
+        <div class="gm-store-info__map">
+          <iframe src="{{ section.settings.map_embed_url }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Carte — {{ shop.name }}"></iframe>
+        </div>
+      {%- elsif section.settings.image -%}
+        <div class="gm-store-info__map">
+          {{ section.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: 'Boutique Gold Mines' }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Coordonnées boutique",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Nous rendre visite" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Notre boutique" },
+    { "type": "text", "id": "address", "label": "Adresse" },
+    { "type": "richtext", "id": "hours", "label": "Horaires" },
+    { "type": "text", "id": "phone", "label": "Téléphone" },
+    { "type": "text", "id": "whatsapp", "label": "Numéro WhatsApp (avec indicatif)" },
+    { "type": "url", "id": "appointment_link", "label": "Lien prise de rendez-vous" },
+    { "type": "text", "id": "map_embed_url", "label": "URL d'intégration Google Maps (iframe src)" },
+    { "type": "image_picker", "id": "image", "label": "Image de secours (si pas de carte)" }
+  ],
+  "presets": [{ "name": "Coordonnées boutique" }]
+}
+{% endschema %}

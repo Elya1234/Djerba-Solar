@@ -211,6 +211,11 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 .gm-btn:active { transform: scale(0.98); }
 .gm-btn:disabled, .gm-btn[aria-disabled="true"] { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+/* A long label (e.g. a full sentence CTA) must wrap rather than overflow
+   the viewport on narrow phones — nowrap is a desktop/tablet refinement. */
+@media (max-width: 479px) {
+  .gm-btn { white-space: normal; text-align: center; max-width: 100%; }
+}
 
 .gm-btn--primary { background: var(--gm-onyx-900); color: var(--gm-white); border-color: var(--gm-onyx-900); }
 .gm-btn--primary:hover { background: var(--gm-navy-900); border-color: var(--gm-navy-900); }

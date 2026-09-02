@@ -1,0 +1,61 @@
+{{ 'pages.css' | asset_url | stylesheet_tag }}
+
+<section class="gm-section">
+  <div class="gm-container">
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      <div style="max-width:60rem; margin-bottom:var(--space-7);" data-gm-reveal="fade">
+        {%- if section.settings.eyebrow != blank -%}<span class="gm-eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="gm-h2">{{ section.settings.heading }}</h2>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="gm-process">
+      {%- for block in section.blocks -%}
+        <div class="gm-process__step{% if forloop.index0 % 2 == 1 %} gm-process__step--reverse{% endif %}" {{ block.shopify_attributes }} data-gm-reveal="fade">
+          <div class="gm-process__media">
+            {%- if block.settings.image -%}
+              {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: block.settings.title }}
+            {%- endif -%}
+          </div>
+          <div class="gm-process__text">
+            <div class="gm-process__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</div>
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Parcours visuel (étapes)",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Le parcours" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "De l'idée au bijou" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Étape",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "title", "label": "Titre", "default": "Idée" },
+        { "type": "textarea", "id": "text", "label": "Description" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Parcours visuel (étapes)",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Idée" } },
+        { "type": "step", "settings": { "title": "Échange" } },
+        { "type": "step", "settings": { "title": "Dessin / 3D" } },
+        { "type": "step", "settings": { "title": "Choix des matières" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

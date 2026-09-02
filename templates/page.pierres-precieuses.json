@@ -1,0 +1,49 @@
+{
+  "sections": {
+    "intro": {
+      "type": "immersive-banner",
+      "settings": {
+        "eyebrow": "L'exception",
+        "heading": "Pierres précieuses",
+        "text": "Émeraude, saphir, rubis : chaque pierre est choisie avec exigence pour sa qualité, sa couleur et son éclat.",
+        "align": "left"
+      }
+    },
+    "gems": {
+      "type": "gemstones-grid",
+      "settings": {
+        "eyebrow": "Nos pierres",
+        "heading": "Découvrir nos pierres précieuses"
+      },
+      "blocks": {
+        "g1": { "type": "gem", "settings": { "title": "Émeraude", "link": "/collections/all" } },
+        "g2": { "type": "gem", "settings": { "title": "Saphir", "link": "/collections/all" } },
+        "g3": { "type": "gem", "settings": { "title": "Rubis", "link": "/collections/all" } },
+        "g4": { "type": "gem", "settings": { "title": "Diamant", "link": "/pages/diamants" } }
+      },
+      "block_order": ["g1", "g2", "g3", "g4"]
+    },
+    "certification": {
+      "type": "editorial-split",
+      "settings": {
+        "eyebrow": "Notre exigence",
+        "heading": "Une sélection rigoureuse",
+        "text": "<p>Chaque pierre précieuse est sélectionnée pour sa qualité et, lorsque cela est pertinent, accompagnée d'un certificat gemmologique.</p>",
+        "image_position": "right"
+      }
+    },
+    "cta": {
+      "type": "cta-banner",
+      "settings": {
+        "heading": "Découvrez nos créations",
+        "text": "Explorez nos bijoux sertis de pierres précieuses ou échangez avec notre équipe."
+      },
+      "blocks": {
+        "b1": { "type": "button", "settings": { "label": "Voir les créations", "link": "/collections/all" } },
+        "b2": { "type": "button", "settings": { "label": "Prendre rendez-vous", "link": "/pages/rendez-vous" } }
+      },
+      "block_order": ["b1", "b2"]
+    }
+  },
+  "order": ["intro", "gems", "certification", "cta"]
+}

@@ -38,9 +38,11 @@ Palette : blanc/ivoire, tons pierre, onyx, et un bleu profond signature
 - [x] Phase 4 — Fiche produit avancée + configurateur bague (galerie, options
       dynamiques, slider carat, gravure, CTA sticky mobile, réassurance,
       recommandations natives Shopify)
-- [ ] Phase 5 — Fiançailles, diamants, pierres précieuses
-- [ ] Phase 6 — Sur-mesure, services, Maison, boutique, RDV
-- [ ] Phase 7 — Compte, wishlist, panier, contact
+- [x] Phase 5 — Pages éditoriales : La Maison, Savoir-faire, Sur-mesure,
+      Fiançailles, Diamants, Pierres précieuses, Services, Boutique,
+      Rendez-vous, Contact
+- [ ] Phase 6 — (fusionnée dans la Phase 5, voir ci-dessus)
+- [ ] Phase 7 — Compte, wishlist, panier (le contact/RDV est fait — Phase 5)
 - [ ] Phase 8 — Animations + responsive mobile/tablette/desktop
 - [ ] Phase 9 — SEO, performance, accessibilité
 - [ ] Phase 10 — Audit final
@@ -63,6 +65,38 @@ Palette : blanc/ivoire, tons pierre, onyx, et un bleu profond signature
 - Recommandations « Vous pourriez aussi aimer » et « À associer avec »
   utilisent l'API native Shopify Product Recommendations (`intent=related` /
   `intent=complementary`) — aucune donnée inventée.
+
+## Pages éditoriales (Phase 5)
+
+Chaque page utilise un gabarit JSON dédié (`templates/page.<handle>.json`),
+entièrement composé de sections réutilisables — pas de gros bloc de texte.
+Pour que les liens internes déjà en place fonctionnent, les pages Shopify
+doivent être créées avec ces handles exacts et leur thème associé :
+
+| Page Shopify (handle) | Gabarit |
+|---|---|
+| `la-maison` | Histoire, philosophie, expertise, atelier, matières, galerie |
+| `savoir-faire` | Timeline 9 étapes, vidéo, galerie |
+| `sur-mesure` | Points de départ, parcours visuel 8 étapes, galerie, CTA (4 boutons) |
+| `fiancailles` | Hero, formes, métaux, créations, configurateur, guide |
+| `diamants` | Éducation 4C, naturel/laboratoire, certification |
+| `pierres-precieuses` | Grille de pierres, exigence qualité |
+| `services` | 10 services avec image + description + CTA |
+| `boutique` | Coordonnées, carte (iframe optionnelle), galerie |
+| `rendez-vous` | Motifs (cartes), formulaire Shopify natif |
+| `contact` | Formulaire + coordonnées |
+
+Nouveaux composants réutilisables : `editorial-split` (image/texte, généralisé
+depuis le bloc Maison de la homepage), `process-steps` (parcours visuel avec
+image par étape), `video-feature` (vidéo plein écran), `cta-banner` (bannière
+multi-boutons — chaque bouton ne s'affiche que si libellé + lien sont
+renseignés), `diamond-education` (les 4C), `store-info` (coordonnées
+boutique), et le formulaire de contact natif Shopify (`snippets/contact-form-fields.liquid`,
+réutilisé par Contact et Rendez-vous).
+
+Le formulaire de rendez-vous n'invente aucune confirmation : après envoi, le
+message précise explicitement que ce n'est pas une réservation confirmée et
+que l'équipe recontactera le client.
 
 ## Notes
 

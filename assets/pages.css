@@ -1,0 +1,83 @@
+/* GOLD MINES — Editorial pages: process steps, video feature, CTA banner,
+   diamond education, store info, contact/appointment forms (Phase 5) */
+
+/* ---- Visual process steps (Sur-mesure) ---- */
+.gm-process { display: flex; flex-direction: column; gap: var(--space-8); }
+.gm-process__step { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); align-items: center; }
+.gm-process__step--reverse .gm-process__media { order: 2; }
+.gm-process__media { aspect-ratio: 4/5; border-radius: var(--radius-sm); overflow: hidden; background: var(--gm-stone-50); position: relative; }
+.gm-process__media img { width: 100%; height: 100%; object-fit: cover; }
+.gm-process__num { font-family: var(--font-display); font-size: 1.6rem; color: var(--gm-accent); margin-bottom: var(--space-2); }
+.gm-process__text h3 { font-family: var(--font-display); font-size: 2.4rem; margin-bottom: var(--space-3); }
+.gm-process__text p { color: var(--gm-text-muted); font-size: 1.5rem; }
+@media (max-width: 989px) {
+  .gm-process__step, .gm-process__step--reverse { grid-template-columns: 1fr; }
+  .gm-process__step--reverse .gm-process__media { order: 0; }
+}
+
+/* ---- Video feature (full-bleed) ---- */
+.gm-video-feature { position: relative; min-height: 70vh; display: flex; align-items: flex-end; color: var(--gm-white); overflow: hidden; }
+.gm-video-feature__media { position: absolute; inset: 0; }
+.gm-video-feature__media video, .gm-video-feature__media img { width: 100%; height: 100%; object-fit: cover; }
+.gm-video-feature__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(10,10,11,0.55), transparent 60%); }
+.gm-video-feature__content { position: relative; z-index: 1; padding-block: var(--space-6); max-width: 52rem; }
+
+/* ---- CTA banner (reusable, multi-button) ---- */
+.gm-cta-banner { background: var(--gm-navy-900); color: var(--gm-white); text-align: center; }
+.gm-cta-banner__inner { padding-block: var(--space-8); max-width: 64rem; margin-inline: auto; }
+.gm-cta-banner__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-3); margin-top: var(--space-5); }
+.gm-cta-banner .gm-btn--outline { color: var(--gm-white); }
+
+/* ---- Diamond education (4Cs) ---- */
+.gm-education-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
+.gm-education-card { border: 1px solid var(--gm-border); border-radius: var(--radius-sm); padding: var(--space-5); }
+.gm-education-card__num { font-family: var(--font-display); font-size: 1.4rem; color: var(--gm-accent); }
+.gm-education-card h3 { font-family: var(--font-display); font-size: 2rem; margin-block: var(--space-2) var(--space-2); }
+.gm-education-card p { color: var(--gm-text-muted); font-size: 1.35rem; }
+@media (max-width: 989px) { .gm-education-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 599px) { .gm-education-grid { grid-template-columns: 1fr; } }
+
+/* ---- Store info ---- */
+.gm-store-info { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-7); }
+.gm-store-info__block + .gm-store-info__block { margin-top: var(--space-5); }
+.gm-store-info__label { font-size: 1.1rem; letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--gm-text-muted); margin-bottom: var(--space-2); }
+.gm-store-info__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-5); }
+.gm-store-info__map { border-radius: var(--radius-sm); overflow: hidden; aspect-ratio: 4/3; }
+.gm-store-info__map iframe { width: 100%; height: 100%; border: 0; }
+@media (max-width: 989px) { .gm-store-info { grid-template-columns: 1fr; } }
+
+/* ---- Appointment reason cards ---- */
+.gm-reason-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin-bottom: var(--space-6); }
+.gm-reason-card {
+  display: block; padding: var(--space-4); border: 1px solid var(--gm-border); border-radius: var(--radius-sm);
+  font-size: 1.4rem; font-family: var(--font-display); text-align: center; cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-luxe), background-color var(--dur-fast) var(--ease-luxe);
+}
+.gm-reason-card:hover { border-color: var(--gm-text-muted); }
+.gm-reason-card input { position: absolute; opacity: 0; pointer-events: none; }
+.gm-reason-card:has(input:checked), .gm-reason-card.is-active { border-color: var(--gm-onyx-900); background: var(--gm-bg-soft); }
+@media (max-width: 767px) { .gm-reason-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* ---- Contact / appointment form ---- */
+.gm-form { max-width: 62rem; }
+.gm-form__row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-bottom: var(--space-3); }
+.gm-form__field { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: var(--space-3); }
+.gm-form__field label { font-size: 1.2rem; letter-spacing: 0.03em; }
+.gm-form__field textarea { min-height: 140px; resize: vertical; }
+.gm-form__error { color: var(--gm-error); font-size: 1.2rem; }
+.gm-form__field[data-invalid="true"] .gm-input { border-color: var(--gm-error); }
+.gm-form__notice { padding: var(--space-4); border-radius: var(--radius-sm); font-size: 1.4rem; margin-bottom: var(--space-5); }
+.gm-form__notice--success { background: #eef4ef; color: var(--gm-success); }
+.gm-form__notice--error { background: #f7ece9; color: var(--gm-error); }
+.gm-form__submit-row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-4); }
+.gm-form__submit-row .gm-btn { white-space: normal; text-align: center; }
+@media (max-width: 599px) { .gm-form__submit-row .gm-btn { width: 100%; } }
+@media (max-width: 599px) { .gm-form__row { grid-template-columns: 1fr; } }
+
+/* ---- Contact info list (Contact page) ---- */
+.gm-contact-layout { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: var(--space-7); align-items: start; }
+.gm-contact-list { display: flex; flex-direction: column; gap: var(--space-4); }
+.gm-contact-list__item { display: flex; gap: var(--space-3); align-items: flex-start; padding-bottom: var(--space-4); border-bottom: 1px solid var(--gm-border); }
+.gm-contact-list__item strong { display: block; font-size: 1.4rem; }
+.gm-contact-list__item span, .gm-contact-list__item a { color: var(--gm-text-muted); font-size: 1.3rem; }
+@media (max-width: 989px) { .gm-contact-layout { grid-template-columns: 1fr; } }

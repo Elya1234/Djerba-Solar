@@ -33,6 +33,29 @@
       "rights": "Tous droits réservés."
     }
   },
+  "contact": {
+    "form": {
+      "name": "Nom",
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "message": "Message",
+      "preferred_date": "Date souhaitée",
+      "submit": "Envoyer",
+      "success": "Votre message a bien été envoyé. Notre équipe vous répondra dans les meilleurs délais.",
+      "error": "Un ou plusieurs champs sont invalides. Merci de vérifier votre message."
+    },
+    "appointment": {
+      "submit": "Envoyer ma demande de rendez-vous",
+      "disclaimer": "Cette demande n'est pas une réservation confirmée : notre équipe vous recontactera pour convenir ensemble d'un créneau."
+    },
+    "info": {
+      "phone": "Téléphone",
+      "email": "E-mail",
+      "store": "Boutique",
+      "store_link": "Voir la boutique",
+      "book": "Prendre rendez-vous"
+    }
+  },
   "cart": {
     "title": "Votre panier",
     "empty": "Votre panier est vide.",

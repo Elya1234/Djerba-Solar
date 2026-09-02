@@ -1,0 +1,82 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "eyebrow": "Fiançailles",
+        "heading": "La bague de votre histoire",
+        "subheading": "Solitaires, halos, trilogies : composez la bague de fiançailles qui vous ressemble.",
+        "primary_label": "Découvrir les bagues",
+        "primary_link": "/collections/fiancailles",
+        "secondary_label": "Prendre rendez-vous",
+        "secondary_link": "/pages/rendez-vous"
+      }
+    },
+    "shapes": {
+      "type": "gemstones-grid",
+      "settings": {
+        "eyebrow": "Choisir une forme",
+        "heading": "Quelle forme pour votre diamant ?",
+        "guide_link": "/pages/diamants"
+      },
+      "blocks": {
+        "g1": { "type": "gem", "settings": { "title": "Rond", "link": "/collections/fiancailles" } },
+        "g2": { "type": "gem", "settings": { "title": "Ovale", "link": "/collections/fiancailles" } },
+        "g3": { "type": "gem", "settings": { "title": "Poire", "link": "/collections/fiancailles" } },
+        "g4": { "type": "gem", "settings": { "title": "Coussin", "link": "/collections/fiancailles" } }
+      },
+      "block_order": ["g1", "g2", "g3", "g4"]
+    },
+    "metals": {
+      "type": "gemstones-grid",
+      "settings": {
+        "eyebrow": "Choisir un métal",
+        "heading": "Or jaune, or blanc, or rose ou platine"
+      },
+      "blocks": {
+        "m1": { "type": "gem", "settings": { "title": "Or jaune 18K", "link": "/collections/fiancailles" } },
+        "m2": { "type": "gem", "settings": { "title": "Or blanc 18K", "link": "/collections/fiancailles" } },
+        "m3": { "type": "gem", "settings": { "title": "Or rose 18K", "link": "/collections/fiancailles" } },
+        "m4": { "type": "gem", "settings": { "title": "Platine", "link": "/collections/fiancailles" } }
+      },
+      "block_order": ["m1", "m2", "m3", "m4"]
+    },
+    "creations": {
+      "type": "featured-creations",
+      "settings": {
+        "eyebrow": "Nos bagues",
+        "heading": "Bagues de fiançailles",
+        "limit": 8
+      }
+    },
+    "configurator": {
+      "type": "immersive-banner",
+      "settings": {
+        "eyebrow": "Composez votre bague",
+        "heading": "Choisissez le métal, la forme et le diamant",
+        "text": "Chaque bague de fiançailles peut être configurée directement sur sa fiche produit : métal, carat, forme et taille de doigt.",
+        "link_label": "Voir une bague à configurer",
+        "link": "/collections/fiancailles",
+        "align": "right"
+      }
+    },
+    "cta": {
+      "type": "cta-banner",
+      "settings": {
+        "heading": "Besoin d'aide pour choisir ?",
+        "text": "Consultez notre guide des diamants ou échangez avec notre équipe."
+      },
+      "blocks": {
+        "b1": { "type": "button", "settings": { "label": "Guide des diamants", "link": "/pages/diamants" } },
+        "b2": { "type": "button", "settings": { "label": "Prendre rendez-vous", "link": "/pages/rendez-vous" } },
+        "b3": { "type": "button", "settings": { "label": "Création sur mesure", "link": "/pages/sur-mesure" } }
+      },
+      "block_order": ["b1", "b2", "b3"]
+    },
+    "boutique-rdv": {
+      "type": "boutique-rdv-cta",
+      "settings": {}
+    }
+  },
+  "order": ["hero", "shapes", "metals", "creations", "configurator", "cta", "boutique-rdv"]
+}
