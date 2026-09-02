@@ -1,0 +1,164 @@
+/* GOLD MINES — Product page + configurator (Phase 4) */
+
+.gm-product { display: grid; grid-template-columns: 1fr; }
+@media (min-width: 990px) {
+  .gm-product { grid-template-columns: 1.15fr 0.85fr; gap: var(--space-7); align-items: start; }
+  .gm-product__info { position: sticky; top: calc(var(--header-h-scrolled) + var(--space-4)); max-height: calc(100svh - var(--header-h-scrolled) - var(--space-6)); overflow-y: auto; padding-right: 4px; }
+}
+
+/* ---- Gallery ---- */
+.gm-gallery-product { display: grid; grid-template-columns: 88px 1fr; gap: var(--space-3); }
+.gm-gallery-product__thumbs { display: flex; flex-direction: column; gap: var(--space-2); max-height: 84vh; overflow-y: auto; }
+.gm-gallery-product__thumb { aspect-ratio: 3/4; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid transparent; opacity: 0.6; transition: opacity var(--dur-fast) var(--ease-luxe), border-color var(--dur-fast) var(--ease-luxe); }
+.gm-gallery-product__thumb img, .gm-gallery-product__thumb video { width: 100%; height: 100%; object-fit: cover; }
+.gm-gallery-product__thumb.is-active { opacity: 1; border-color: var(--gm-onyx-900); }
+.gm-gallery-product__main { position: relative; overflow: hidden; border-radius: var(--radius-sm); background: var(--gm-stone-50); }
+.gm-gallery-product__track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.gm-gallery-product__track::-webkit-scrollbar { display: none; }
+.gm-gallery-product__slide { flex: 0 0 100%; scroll-snap-align: start; aspect-ratio: 4/5; cursor: zoom-in; }
+.gm-gallery-product__slide img, .gm-gallery-product__slide video { width: 100%; height: 100%; object-fit: cover; }
+.gm-gallery-product__zoom-hint { position: absolute; bottom: var(--space-3); right: var(--space-3); background: rgba(255,255,255,0.9); border-radius: var(--radius-full); padding: 0.6rem 1.2rem; font-size: 1.1rem; letter-spacing: 0.04em; text-transform: uppercase; }
+.gm-gallery-product__dots { display: none; justify-content: center; gap: 0.6rem; margin-top: var(--space-2); }
+.gm-gallery-product__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gm-border); }
+.gm-gallery-product__dot.is-active { background: var(--gm-onyx-900); }
+@media (max-width: 989px) {
+  .gm-gallery-product { grid-template-columns: 1fr; }
+  .gm-gallery-product__thumbs { display: none; }
+  .gm-gallery-product__dots { display: flex; }
+}
+
+/* Skin-tone worn preview toggle (progressive: only renders if variant media provided) */
+.gm-worn-toggle { display: flex; gap: 0.6rem; align-items: center; margin-top: var(--space-2); }
+.gm-worn-toggle__swatch { width: 22px; height: 22px; border-radius: 50%; border: 2px solid transparent; }
+.gm-worn-toggle__swatch.is-active { border-color: var(--gm-onyx-900); }
+.gm-worn-toggle__label { font-size: 1.1rem; color: var(--gm-text-muted); margin-right: 0.4rem; }
+
+/* ---- Product head ---- */
+.gm-product__eyebrow { display: flex; align-items: center; justify-content: space-between; }
+.gm-product__title { font-family: var(--font-display); font-size: clamp(2.6rem, 3vw, 3.4rem); margin-top: 0.6rem; }
+.gm-product__ref { color: var(--gm-text-muted); font-size: 1.2rem; margin-top: 0.4rem; }
+.gm-product__price-row { display: flex; align-items: baseline; gap: var(--space-3); margin-top: var(--space-3); }
+.gm-product__price { font-size: 2.2rem; font-family: var(--font-display); transition: opacity var(--dur-fast) var(--ease-luxe); }
+.gm-product__price.is-updating { opacity: 0.35; }
+.gm-product__availability { font-size: 1.25rem; margin-top: 0.6rem; display: flex; align-items: center; gap: 0.6rem; }
+.gm-product__availability .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gm-success); }
+.gm-product__availability.is-unavailable .dot { background: var(--gm-error); }
+.gm-product__share { display: inline-flex; gap: var(--space-2); }
+
+/* ---- Configurator ---- */
+.gm-config { margin-top: var(--space-6); border-top: 1px solid var(--gm-border); }
+.gm-config__step { border-bottom: 1px solid var(--gm-border); padding-block: var(--space-4); }
+.gm-config__step-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-3); }
+.gm-config__step-title { font-size: 1.2rem; letter-spacing: var(--tracking-wide); text-transform: uppercase; display: flex; align-items: center; gap: 0.6rem; }
+.gm-config__step-value { font-size: 1.3rem; color: var(--gm-text-muted); }
+
+.gm-option-swatches { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.gm-option-swatch {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  padding: 0.7rem 1.2rem 0.7rem 0.7rem;
+  border: 1px solid var(--gm-border); border-radius: var(--radius-full);
+  font-size: 1.25rem; transition: border-color var(--dur-fast) var(--ease-luxe);
+}
+.gm-option-swatch:hover { border-color: var(--gm-text-muted); }
+.gm-option-swatch[aria-checked="true"] { border-color: var(--gm-onyx-900); }
+.gm-option-swatch[aria-disabled="true"] { opacity: 0.35; text-decoration: line-through; cursor: not-allowed; }
+
+.gm-option-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: var(--space-2); }
+.gm-option-card {
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  padding: var(--space-2); border: 1px solid var(--gm-border); border-radius: var(--radius-sm);
+  transition: border-color var(--dur-fast) var(--ease-luxe), transform var(--dur-fast) var(--ease-luxe);
+}
+.gm-option-card:hover { transform: translateY(-2px); }
+.gm-option-card[aria-checked="true"] { border-color: var(--gm-onyx-900); }
+.gm-option-card[aria-disabled="true"] { opacity: 0.35; cursor: not-allowed; }
+.gm-option-card svg, .gm-option-card img { width: 28px; height: 28px; }
+.gm-option-card span { font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.03em; }
+
+.gm-option-pills { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.gm-option-pill {
+  padding: 0.7rem 1.4rem; border: 1px solid var(--gm-border); border-radius: var(--radius-full); font-size: 1.2rem;
+  transition: background-color var(--dur-fast) var(--ease-luxe), color var(--dur-fast) var(--ease-luxe), border-color var(--dur-fast) var(--ease-luxe);
+}
+.gm-option-pill:hover { border-color: var(--gm-text-muted); }
+.gm-option-pill[aria-checked="true"] { background: var(--gm-onyx-900); color: var(--gm-white); border-color: var(--gm-onyx-900); }
+.gm-option-pill[aria-disabled="true"] { opacity: 0.35; text-decoration: line-through; cursor: not-allowed; }
+
+.gm-option-select { position: relative; }
+.gm-option-select select { width: 100%; }
+.gm-size-guide-link { display: inline-block; margin-top: var(--space-2); font-size: 1.2rem; text-decoration: underline; text-underline-offset: 4px; }
+
+/* ---- Carat slider ---- */
+.gm-carat {
+  padding-block: var(--space-3);
+}
+.gm-carat__display { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: var(--space-3); }
+.gm-carat__value { font-family: var(--font-display); font-size: 2.4rem; }
+.gm-carat__price-delta { font-size: 1.2rem; color: var(--gm-text-muted); }
+.gm-carat__track-wrap { position: relative; padding-block: var(--space-2); }
+.gm-carat__track {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 2px; background: var(--gm-border); border-radius: var(--radius-full); outline: none;
+}
+.gm-carat__track::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 20px; height: 20px; border-radius: 50%; background: var(--gm-onyx-900);
+  border: 3px solid var(--gm-white); box-shadow: var(--shadow-sm); cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-luxe);
+}
+.gm-carat__track::-webkit-slider-thumb:hover { transform: scale(1.15); }
+.gm-carat__track::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--gm-onyx-900); border: 3px solid var(--gm-white); box-shadow: var(--shadow-sm); cursor: pointer; }
+.gm-carat__ticks { display: flex; justify-content: space-between; margin-top: 0.6rem; font-size: 1.05rem; color: var(--gm-text-muted); }
+.gm-carat__ticks button[aria-current="true"] { color: var(--gm-text); font-weight: 600; }
+
+/* ---- Engraving ---- */
+.gm-engraving__input { display: flex; align-items: center; gap: var(--space-2); }
+.gm-engraving__count { font-size: 1.1rem; color: var(--gm-text-muted); white-space: nowrap; }
+
+/* ---- Info tooltip ---- */
+.gm-info-btn { display: inline-flex; width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--gm-text-muted); align-items: center; justify-content: center; font-size: 1.05rem; color: var(--gm-text-muted); flex-shrink: 0; }
+.gm-info-popover {
+  position: absolute; top: calc(100% + 8px); left: 0; z-index: var(--z-toast); max-width: 280px;
+  background: var(--gm-onyx-900); color: var(--gm-white); padding: var(--space-3);
+  border-radius: var(--radius-sm); font-size: 1.25rem; line-height: 1.5;
+  box-shadow: var(--shadow-lg);
+  opacity: 0; visibility: hidden; transform: translateY(4px);
+  transition: opacity var(--dur-fast) var(--ease-luxe), transform var(--dur-fast) var(--ease-luxe), visibility 0s linear var(--dur-fast);
+}
+.gm-info-popover.is-open { opacity: 1; visibility: visible; transform: translateY(0); transition: opacity var(--dur-fast) var(--ease-luxe), transform var(--dur-fast) var(--ease-luxe); }
+
+/* ---- CTAs ---- */
+.gm-product__ctas { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-6); }
+.gm-product__ctas-row { display: flex; gap: var(--space-2); }
+.gm-product__ctas-row .gm-btn { flex: 1; }
+.gm-product__secondary-ctas { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-3); }
+.gm-product__secondary-ctas a, .gm-product__secondary-ctas button { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 1.2rem; color: var(--gm-text-muted); }
+.gm-product__secondary-ctas a:hover, .gm-product__secondary-ctas button:hover { color: var(--gm-text); }
+
+/* ---- Reassurance ---- */
+.gm-reassurance { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-4); margin-top: var(--space-6); padding-top: var(--space-5); border-top: 1px solid var(--gm-border); }
+.gm-reassurance__item { display: flex; gap: var(--space-2); align-items: flex-start; font-size: 1.25rem; }
+.gm-reassurance__item svg { flex-shrink: 0; margin-top: 0.2rem; }
+.gm-reassurance__item strong { display: block; font-size: 1.3rem; }
+.gm-reassurance__item span { color: var(--gm-text-muted); }
+
+/* ---- Details accordions ---- */
+.gm-product-details { margin-top: var(--space-7); }
+
+/* ---- Sticky mobile CTA ---- */
+.gm-sticky-cta {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: var(--z-header);
+  background: var(--gm-bg); border-top: 1px solid var(--gm-border);
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  padding-bottom: calc(var(--space-2) + env(safe-area-inset-bottom));
+  transform: translateY(100%);
+  transition: transform var(--dur-base) var(--ease-luxe);
+}
+.gm-sticky-cta.is-visible { transform: translateY(0); }
+.gm-sticky-cta__price { font-family: var(--font-display); font-size: 1.7rem; flex-shrink: 0; }
+.gm-sticky-cta .gm-btn { flex: 1; }
+.gm-sticky-cta__fav { flex-shrink: 0; }
+@media (min-width: 990px) { .gm-sticky-cta { display: none; } }
+
+/* ---- Complementary / recommendations carousels reuse .gm-creations__track from homepage.css ---- */

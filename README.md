@@ -35,13 +35,34 @@ Palette : blanc/ivoire, tons pierre, onyx, et un bleu profond signature
 - [x] Phase 3 — Collections (bannière, filtres natifs Search & Discovery, tri,
       blocs éditoriaux), recherche prédictive + page de résultats, carte produit
       premium (swatches métal, badges, wishlist)
-- [ ] Phase 4 — Fiche produit avancée + configurateur bague
+- [x] Phase 4 — Fiche produit avancée + configurateur bague (galerie, options
+      dynamiques, slider carat, gravure, CTA sticky mobile, réassurance,
+      recommandations natives Shopify)
 - [ ] Phase 5 — Fiançailles, diamants, pierres précieuses
 - [ ] Phase 6 — Sur-mesure, services, Maison, boutique, RDV
 - [ ] Phase 7 — Compte, wishlist, panier, contact
 - [ ] Phase 8 — Animations + responsive mobile/tablette/desktop
 - [ ] Phase 9 — SEO, performance, accessibilité
 - [ ] Phase 10 — Audit final
+
+## Données Shopify attendues par la fiche produit (Phase 4)
+
+- **Variantes natives** : Métal, Forme, Carat, Couleur, Pureté, Taille de
+  doigt, Largeur, Sertissage, Certificat — le configurateur détecte ces noms
+  d'option automatiquement (insensible à la casse) et choisit l'interface
+  adaptée (pastilles métal, slider carat, cartes forme, sélecteur taille…).
+  Un nom d'option différent retombe sur des pastilles génériques.
+- `product.metafields.custom.engraving_available` (booléen) — révèle le champ
+  de gravure sur les produits qui le proposent réellement.
+- `product.metafields.custom.gem_details` (rich text) — détails gemmologiques
+  affichés dans l'accordéon « Bague & détails de la pierre ».
+- Tag produit `sur-devis` — remplace le bouton « Ajouter au panier » par
+  « Demander un devis ».
+- Tag produit `exclusivite` — affiche le badge « Exclusivité » sur la carte
+  produit.
+- Recommandations « Vous pourriez aussi aimer » et « À associer avec »
+  utilisent l'API native Shopify Product Recommendations (`intent=related` /
+  `intent=complementary`) — aucune donnée inventée.
 
 ## Notes
 
@@ -55,3 +76,9 @@ Palette : blanc/ivoire, tons pierre, onyx, et un bleu profond signature
   confidentialité, cookies) seront créées comme pages Shopify avec leur propre
   gabarit dans les phases 5 et 6 — elles n'existent pas encore, ce qui est normal
   à ce stade du build.
+- La prévisualisation « bague portée » avec choix de teint de peau (Phase 4)
+  a son architecture JS prête (`data-gm-worn-toggle` / `data-gm-worn-slide`)
+  mais n'est pas encore rendue : elle nécessite un metaobject listant les
+  médias par teint, à définir une fois les vraies photos disponibles.
+- Le panier reste une requête AJAX simple vers `/cart/add.js` pour l'instant ;
+  le drawer panier visuel complet arrive en Phase 7.

@@ -1,0 +1,38 @@
+{%- comment -%}
+  Generic ring-size guide (public conversion data) + measuring instructions.
+  Rendered once globally; opened from any product configurator via
+  [data-gm-size-guide-open].
+{%- endcomment -%}
+<div class="gm-modal" data-gm-size-guide-modal role="dialog" aria-modal="true" aria-label="Guide des tailles">
+  <div class="gm-modal__scrim" data-gm-modal-close></div>
+  <div class="gm-modal__panel">
+    <div class="gm-modal__head">
+      <span class="gm-h4">Guide des tailles</span>
+      <button data-gm-modal-close aria-label="Fermer">{% render 'icon', name: 'close' %}</button>
+    </div>
+    <div class="gm-modal__body">
+      <p class="gm-lead" style="font-size:1.5rem;">Mesurez le tour de doigt avec un fil ou une bande de papier, ou comparez une bague qui vous va déjà à ce tableau de correspondance.</p>
+      <div style="overflow-x:auto; margin-top: var(--space-4);">
+        <table style="width:100%; border-collapse:collapse; font-size:1.35rem;">
+          <thead>
+            <tr style="border-bottom:1px solid var(--gm-border); text-align:left;">
+              <th style="padding:0.8rem 0;">Tour de doigt (mm)</th>
+              <th>Taille FR</th>
+              <th>Taille US</th>
+              <th>Taille UK</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--gm-border);"><td style="padding:0.7rem 0;">46.8</td><td>47</td><td>4</td><td>H</td></tr>
+            <tr style="border-bottom:1px solid var(--gm-border);"><td style="padding:0.7rem 0;">48.7</td><td>49</td><td>5</td><td>J ½</td></tr>
+            <tr style="border-bottom:1px solid var(--gm-border);"><td style="padding:0.7rem 0;">50.6</td><td>51</td><td>6</td><td>L ½</td></tr>
+            <tr style="border-bottom:1px solid var(--gm-border);"><td style="padding:0.7rem 0;">52.4</td><td>53</td><td>7</td><td>O</td></tr>
+            <tr style="border-bottom:1px solid var(--gm-border);"><td style="padding:0.7rem 0;">54.4</td><td>55</td><td>8</td><td>Q ½</td></tr>
+            <tr><td style="padding:0.7rem 0;">56.3</td><td>57</td><td>9</td><td>S ½</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="color:var(--gm-text-muted); font-size:1.2rem; margin-top:var(--space-3);">Entre deux tailles, ou pour un conseil personnalisé, contactez la Maison ou prenez rendez-vous en boutique.</p>
+    </div>
+  </div>
+</div>

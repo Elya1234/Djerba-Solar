@@ -1,0 +1,35 @@
+{%- comment -%}
+  Product gallery: desktop thumbnails + swipeable track, mobile swipe + dots.
+  Usage: {% render 'product-gallery', product: product %}
+{%- endcomment -%}
+<div class="gm-gallery-product">
+  <div class="gm-gallery-product__thumbs" role="tablist" aria-label="Miniatures">
+    {%- for media in product.media -%}
+      <button type="button" class="gm-gallery-product__thumb{% if forloop.first %} is-active{% endif %}" data-gm-gallery-thumb role="tab" aria-label="Image {{ forloop.index }}">
+        {{ media.preview_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: media.alt }}
+      </button>
+    {%- endfor -%}
+  </div>
+
+  <div class="gm-gallery-product__main">
+    <div class="gm-gallery-product__track" data-gm-gallery-track>
+      {%- for media in product.media -%}
+        <div class="gm-gallery-product__slide" data-gm-gallery-slide data-gm-media-id="{{ media.id }}">
+          {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+            {{ media | media_tag: image_size: '1200x', controls: true }}
+          {%- else -%}
+            {{ media | image_url: width: 1200 | image_tag: loading: 'eager', alt: media.alt, widths: '600,900,1200,1600', sizes: '(min-width: 990px) 55vw, 100vw' }}
+          {%- endif -%}
+        </div>
+      {%- else -%}
+        <div class="gm-gallery-product__slide gm-skeleton"></div>
+      {%- endfor -%}
+    </div>
+    {%- if product.media.size > 1 -%}<span class="gm-gallery-product__zoom-hint gm-hide-mobile">Survoler pour zoomer</span>{%- endif -%}
+    <div class="gm-gallery-product__dots">
+      {%- for media in product.media -%}
+        <span class="gm-gallery-product__dot{% if forloop.first %} is-active{% endif %}" data-gm-gallery-dot></span>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>

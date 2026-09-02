@@ -43,6 +43,7 @@
 <body class="gm-template-{{ request.page_type }}{% if settings.enable_animations == false %} gm-motion-off{% endif %}">
   {% section 'header' %}
   {% render 'search-modal' %}
+  {% render 'size-guide-modal' %}
   <script src="{{ 'search.js' | asset_url }}" defer="defer"></script>
 
   <main id="MainContent" role="main">
