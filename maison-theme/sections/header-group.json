@@ -5,16 +5,47 @@
     "header": {
       "type": "header",
       "settings": {
-        "logo_text": "MAISON",
+        "logo_text": "GOLD MINES",
         "menu": "main-menu",
-        "appointment_label": "Rendez-vous",
+        "appointment_label": "Prendre rendez-vous",
         "show_localization": true,
         "transparent_templates": "index",
         "transparent_light": true,
         "appointment_link": "/pages/rendez-vous",
-        "wishlist_link": "/pages/favoris"
+        "wishlist_link": "/pages/favoris",
+        "contact_link": "/pages/contact"
       },
       "blocks": {
+        "mega-bagues": {
+          "type": "mega",
+          "settings": {
+            "parent_handle": "bagues-de-fiancailles",
+            "title_1": "Découvrir",
+            "title_2": "Par style",
+            "title_3": "Par métal",
+            "title_4": "Par pierre",
+            "media_title": "La Collection",
+            "media_cta": "Découvrir",
+            "view_all_label": "Voir toutes les bagues de fiançailles",
+            "guides_title": "Guides",
+            "guide_1_title": "Guide bagues de fiançailles",
+            "guide_2_title": "Guide des diamants"
+          }
+        },
+        "mega-alliances": {
+          "type": "mega",
+          "settings": {
+            "parent_handle": "alliances",
+            "title_1": "Découvrir",
+            "title_2": "Par style",
+            "title_3": "Par métal",
+            "media_title": "Les Alliances",
+            "media_cta": "Découvrir",
+            "view_all_label": "Voir toutes les alliances",
+            "inline_group_handles": "alliances-femme,alliances-homme",
+            "guides_title": "Guides"
+          }
+        },
         "mega-joaillerie": {
           "type": "mega",
           "settings": {
@@ -24,25 +55,40 @@
             "title_3": "Par métal",
             "title_4": "Par pierre",
             "media_title": "La Collection",
-            "media_cta": "Découvrir"
+            "media_cta": "Découvrir",
+            "view_all_label": "Voir toute la joaillerie"
           }
         },
-        "mega-bagues": {
+        "mega-offrir": {
           "type": "mega",
           "settings": {
-            "parent_handle": "bagues",
+            "parent_handle": "offrir",
             "title_1": "Découvrir",
-            "title_2": "Par style",
-            "title_3": "Par métal",
-            "title_4": "Par pierre",
-            "media_title": "La Collection",
-            "media_cta": "Découvrir"
+            "title_2": "Par destinataire",
+            "title_3": "Par occasion",
+            "media_title": "Idées cadeaux",
+            "media_cta": "Découvrir",
+            "view_all_label": "Voir toutes les idées cadeaux"
+          }
+        },
+        "mega-guides": {
+          "type": "mega",
+          "settings": {
+            "parent_handle": "guides",
+            "title_1": "Nos conseils",
+            "title_2": "Services",
+            "media_title": "Savoir-faire",
+            "media_cta": "Découvrir",
+            "view_all_label": "Voir tous les guides"
           }
         }
       },
       "block_order": [
+        "mega-bagues",
+        "mega-alliances",
         "mega-joaillerie",
-        "mega-bagues"
+        "mega-offrir",
+        "mega-guides"
       ]
     }
   },

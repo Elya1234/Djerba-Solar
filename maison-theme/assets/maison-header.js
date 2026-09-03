@@ -220,7 +220,11 @@
   }
 
   /* ---------------------------------------------------------------------
-     4. MENU MOBILE
+     4. MENU MOBILE — panneaux empilés (racine > catégorie > métaux/formes…)
+     Chaque niveau glisse depuis la droite ; le niveau qu'il recouvre reste
+     visible, légèrement décalé et estompé ("is-back"), pour donner une
+     sensation de profondeur plutôt qu'un saut brutal. RETOUR dépile
+     exactement le niveau courant ; X ferme tout, quel que soit le niveau.
      --------------------------------------------------------------------- */
   var mmenu = document.querySelector('[data-mmenu]');
   var burger = header.querySelector('[data-mmenu-open]');
@@ -228,10 +232,11 @@
 
   if (mmenu && burger) {
     var closers = mmenu.querySelectorAll('[data-mmenu-close]');
-    var subTriggers = mmenu.querySelectorAll('[data-mmenu-sub]');
+    var openers = mmenu.querySelectorAll('[data-mmenu-open]');
     var backs = mmenu.querySelectorAll('[data-mmenu-back]');
-
-    var viewport = mmenu.querySelector('.mmenu__viewport');
+    var rootPanel = mmenu.querySelector('.mmenu__panel--root');
+    var viewport = mmenu.querySelector('[data-mmenu-viewport]');
+    var stack = rootPanel ? [rootPanel] : [];
 
     /* Le focus ne doit jamais faire défiler le conteneur : sur iOS, donner le
        focus à un élément d'un panneau encore hors écran décale tout le menu
@@ -242,6 +247,25 @@
       if (viewport) { viewport.scrollLeft = 0; viewport.scrollTop = 0; }
     }
 
+    function panelById(id) {
+      return mmenu.querySelector('#' + id);
+    }
+
+    function markActive(panel) {
+      panel.classList.add('is-active');
+      panel.classList.remove('is-back');
+      panel.setAttribute('aria-hidden', 'false');
+    }
+    function markBack(panel) {
+      panel.classList.remove('is-active');
+      panel.classList.add('is-back');
+      panel.setAttribute('aria-hidden', 'true');
+    }
+    function markHidden(panel) {
+      panel.classList.remove('is-active', 'is-back');
+      panel.setAttribute('aria-hidden', 'true');
+    }
+
     function openMobile() {
       lastFocus = document.activeElement;
       mmenu.classList.add('is-open');
@@ -249,7 +273,7 @@
       burger.setAttribute('aria-expanded', 'true');
       document.body.classList.add('is-locked');
       if (viewport) { viewport.scrollLeft = 0; viewport.scrollTop = 0; }
-      focusQuietly(mmenu.querySelector('[data-mmenu-close]'));
+      focusQuietly(mmenu.querySelector('.mmenu__bar [data-mmenu-close]'));
     }
 
     function closeMobile() {
@@ -257,60 +281,71 @@
       mmenu.setAttribute('aria-hidden', 'true');
       burger.setAttribute('aria-expanded', 'false');
       document.body.classList.remove('is-locked');
-      resetSub();
+      collapseToRoot();
       if (lastFocus) lastFocus.focus();
     }
 
-    function resetSub(refocus) {
-      mmenu.classList.remove('has-sub');
-      mmenu.querySelectorAll('.mmenu__panel.is-active').forEach(function (p) {
-        p.classList.remove('is-active');
-        p.setAttribute('aria-hidden', 'true');
-      });
-      if (viewport) { viewport.scrollLeft = 0; viewport.scrollTop = 0; }
-      if (refocus) {
-        var root = mmenu.querySelector('.mmenu__panel--root');
-        if (root) { root.scrollTop = 0; focusQuietly(root.querySelector('[data-mmenu-sub], .mmenu__row')); }
+    function collapseToRoot() {
+      while (stack.length > 1) {
+        markHidden(stack.pop());
       }
+      if (rootPanel) markActive(rootPanel);
+      mmenu.classList.remove('has-sub');
+      if (viewport) { viewport.scrollLeft = 0; viewport.scrollTop = 0; }
     }
 
-    function openSub(key) {
-      var panel = mmenu.querySelector('[data-mmenu-panel="' + key + '"]');
+    function openPanel(id) {
+      var panel = panelById(id);
       if (!panel) return;
-      resetSub();
-      panel.classList.add('is-active');
-      panel.setAttribute('aria-hidden', 'false');
+      var top = stack[stack.length - 1];
+      if (top) markBack(top);
+      markActive(panel);
+      stack.push(panel);
       mmenu.classList.add('has-sub');
       panel.scrollTop = 0;
       if (viewport) { viewport.scrollLeft = 0; viewport.scrollTop = 0; }
       focusQuietly(panel.querySelector('[data-mmenu-back]'));
     }
 
+    function goBack() {
+      if (stack.length <= 1) return;
+      markHidden(stack.pop());
+      var prev = stack[stack.length - 1];
+      markActive(prev);
+      mmenu.classList.toggle('has-sub', stack.length > 1);
+      if (viewport) { viewport.scrollLeft = 0; viewport.scrollTop = 0; }
+      focusQuietly(prev.querySelector('[data-mmenu-open], [data-mmenu-back], .mmenu__row'));
+    }
+
     burger.addEventListener('click', openMobile);
     closers.forEach(function (btn) { btn.addEventListener('click', closeMobile); });
-    subTriggers.forEach(function (btn) {
-      btn.addEventListener('click', function () { openSub(btn.dataset.mmenuSub); });
+    openers.forEach(function (btn) {
+      btn.addEventListener('click', function () { openPanel(btn.dataset.mmenuOpen); });
     });
-    backs.forEach(function (btn) {
-      btn.addEventListener('click', function () { resetSub(true); });
-    });
+    backs.forEach(function (btn) { btn.addEventListener('click', goBack); });
+
+    function getFocusable(container) {
+      if (!container) return [];
+      return Array.prototype.filter.call(
+        container.querySelectorAll('a[href], button:not([disabled]), select'),
+        function (el) { return el.offsetParent !== null; }
+      );
+    }
 
     mmenu.addEventListener('keydown', function (event) {
       if (event.key === 'Escape') {
-        if (mmenu.classList.contains('has-sub')) { resetSub(true); }
-        else { closeMobile(); }
+        if (stack.length > 1) { goBack(); } else { closeMobile(); }
         return;
       }
       if (event.key !== 'Tab') return;
 
-      // Piège de focus : le menu occupe tout l'écran
-      var focusables = Array.prototype.filter.call(
-        mmenu.querySelectorAll('a[href], button:not([disabled])'),
-        function (el) { return el.offsetParent !== null; }
+      // Piège de focus limité à la barre + au panneau du niveau courant
+      var scope = getFocusable(mmenu.querySelector('.mmenu__bar')).concat(
+        getFocusable(stack[stack.length - 1])
       );
-      if (!focusables.length) return;
-      var first = focusables[0];
-      var last = focusables[focusables.length - 1];
+      if (!scope.length) return;
+      var first = scope[0];
+      var last = scope[scope.length - 1];
       if (event.shiftKey && document.activeElement === first) {
         event.preventDefault(); last.focus();
       } else if (!event.shiftKey && document.activeElement === last) {

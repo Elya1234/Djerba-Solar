@@ -388,6 +388,7 @@
   justify-content: space-between;
   height: var(--h-bar);
   padding-inline: var(--page-x);
+  padding-top: env(safe-area-inset-top, 0px);
   border-bottom: var(--hairline);
   flex: 0 0 auto;
 }
@@ -400,22 +401,42 @@
 /* iOS peut faire défiler horizontalement un conteneur masqué quand on donne
    le focus à un élément hors écran : on verrouille ce décalage. */
 .mmenu__viewport { scroll-behavior: auto; }
+
+/* Panneaux empilés : chaque niveau (0 = racine, 1 = catégorie, 2 = métaux/formes…)
+   vit dans sa propre couche, ordonnée par data-depth. Le panneau actif est visible
+   au centre ; celui qu'il recouvre glisse légèrement à gauche et s'estompe
+   ("is-back") plutôt que de disparaître d'un coup — c'est ce qui donne la
+   sensation de profondeur pendant la transition. */
 .mmenu__panel {
   position: absolute;
   inset: 0;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: var(--s-6) var(--page-x) var(--s-8);
+  padding: var(--s-6) var(--page-x) var(--s-9);
   background: var(--c-paper);
   transform: translateX(100%);
   visibility: hidden;
-  transition: transform var(--d-m) var(--e-luxe), visibility 0s linear var(--d-m);
+  pointer-events: none;
+  transition: transform var(--d-m) var(--e-luxe), opacity var(--d-m) var(--e-out), visibility 0s linear var(--d-m);
 }
-.mmenu__panel:not(.is-active):not(.mmenu__panel--root) { pointer-events: none; }
-.mmenu.has-sub .mmenu__panel--root { pointer-events: none; }
-.mmenu__panel--root { transform: translateX(0); visibility: visible; transition: transform var(--d-m) var(--e-luxe), opacity var(--d-m) var(--e-out); }
-.mmenu.has-sub .mmenu__panel--root { transform: translateX(-24%); opacity: .35; }
-.mmenu__panel.is-active { transform: translateX(0); visibility: visible; transition: transform var(--d-m) var(--e-luxe), visibility 0s; }
+.mmenu__panel[data-depth="0"] { z-index: 1; }
+.mmenu__panel[data-depth="1"] { z-index: 2; }
+.mmenu__panel[data-depth="2"] { z-index: 3; }
+
+.mmenu__panel.is-active {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: transform var(--d-m) var(--e-luxe), opacity var(--d-m) var(--e-out), visibility 0s;
+}
+.mmenu__panel.is-back {
+  transform: translateX(-22%);
+  opacity: .32;
+  visibility: visible;
+  pointer-events: none;
+  transition: transform var(--d-m) var(--e-luxe), opacity var(--d-m) var(--e-out), visibility 0s;
+}
 
 .mmenu__list { display: grid; }
 .mmenu__row {
@@ -424,46 +445,169 @@
   justify-content: space-between;
   gap: var(--s-4);
   width: 100%;
+  min-height: 48px;
   padding: var(--s-4) 0;
   border-bottom: var(--hairline);
   text-align: left;
 }
+.mmenu__row--quiet { min-height: 44px; padding: var(--s-3) 0; border-bottom: 0; }
+.mmenu__row--nested { padding-block: var(--s-3); }
 @keyframes mmenu-row-in {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: none; }
 }
-.mmenu.is-open .mmenu__panel--root .mmenu__row,
 .mmenu__panel.is-active .mmenu__row {
   animation: mmenu-row-in var(--d-m) var(--e-luxe) both;
   animation-delay: calc(100ms + var(--i, 0) * 32ms);
 }
 .mmenu__row-label { font-size: 1.0625rem; font-family: var(--f-display); letter-spacing: .02em; }
-.mmenu__chev { width: 7px; height: 7px; border-top: 1px solid currentColor; border-right: 1px solid currentColor; transform: rotate(45deg); flex: 0 0 auto; }
+.mmenu__row--quiet .mmenu__row-label,
+.mmenu__row--nested .mmenu__row-label { font-family: var(--f-ui); font-size: var(--t-ui-s, .9rem); }
+.mmenu__chev { width: 7px; height: 7px; border-top: 1px solid currentColor; border-right: 1px solid currentColor; transform: rotate(45deg); flex: 0 0 auto; opacity: .7; }
 
+.mmenu__panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  margin-bottom: var(--s-5);
+}
 .mmenu__back {
   display: inline-flex;
   align-items: center;
   gap: var(--s-3);
-  margin-bottom: var(--s-5);
 }
-.mmenu__back .mmenu__chev { transform: rotate(-135deg); }
+.mmenu__back .mmenu__chev--back { transform: rotate(-135deg); opacity: 1; }
+.mmenu__x {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; height: 40px;
+  margin-right: calc(var(--s-2) * -1);
+}
 
-.mmenu__media { margin-top: var(--s-6); display: grid; gap: var(--s-4); }
-.mmenu__media .mega__frame { aspect-ratio: 3 / 2; clip-path: inset(0 0 0 0); }
-.mmenu__media .mega__frame img { transform: none; }
+.mmenu__panel-title { margin-bottom: var(--s-5); }
+
+/* ---- Image éditoriale de tête de panneau, titre superposé ---- */
+.mmenu__hero {
+  position: relative;
+  margin-bottom: var(--s-6);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.mmenu__hero .mega__frame { aspect-ratio: 4 / 3; clip-path: inset(0); }
+.mmenu__hero .mega__frame img { transform: none; }
+.mmenu__hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 55%;
+  background: linear-gradient(to top, rgba(17,16,19,.55), rgba(17,16,19,0));
+  pointer-events: none;
+}
+.mmenu__hero-title {
+  position: absolute;
+  left: var(--s-4);
+  right: var(--s-4);
+  bottom: var(--s-4);
+  color: #fff;
+  font-size: 1.35rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.mmenu__viewall {
+  display: inline-block;
+  margin-bottom: var(--s-6);
+  text-transform: uppercase;
+}
+
+/* ---- Groupes inline (ex. ALLIANCES FEMME / ALLIANCES HOMME) ---- */
+.mmenu__group { padding-top: var(--s-5); }
+.mmenu__group-title {
+  color: var(--c-ink-soft);
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-size: .75rem;
+  padding-bottom: var(--s-2);
+}
+.mmenu__list--nested { padding-left: var(--s-2); }
+
+/* ---- Guides visuels ---- */
+.mmenu__guides { margin-top: var(--s-7); padding-top: var(--s-5); border-top: var(--hairline); }
+.mmenu__guides-grid {
+  margin-top: var(--s-4);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-4);
+}
+.mmenu__guide-card { display: grid; gap: var(--s-3); }
+.mmenu__guide-frame {
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.mmenu__guide-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mmenu__guide-title { line-height: 1.3; }
+
+/* ---- Métaux : pastilles de couleur ---- */
+.mmenu__row--metal { gap: var(--s-3); }
+.mmenu__swatch {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  border: 1px solid rgba(17,16,19,.14);
+  background: #D9D6CF;
+}
+.mmenu__swatch--or-rose,
+.mmenu__swatch--rose-gold        { background: linear-gradient(155deg, #F3D3C4, #E0A98F); }
+.mmenu__swatch--or-blanc,
+.mmenu__swatch--white-gold       { background: linear-gradient(155deg, #F2F1ED, #D3D2CC); }
+.mmenu__swatch--or-jaune,
+.mmenu__swatch--yellow-gold      { background: linear-gradient(155deg, #F1D998, #C69A3F); }
+.mmenu__swatch--platine,
+.mmenu__swatch--platinum         { background: linear-gradient(155deg, #EDEDED, #B9BABC); }
+.mmenu__row-label { flex: 1 1 auto; }
+
+/* ---- Formes : icônes fines ---- */
+.mmenu__row--shape { gap: var(--s-4); }
+.icon--shape { width: 20px; height: 20px; flex: 0 0 auto; }
+
+/* ---- Compte / favoris / contact / langue ---- */
+.mmenu__secondary {
+  margin-top: var(--s-7);
+  padding-top: var(--s-5);
+  border-top: var(--hairline);
+  display: grid;
+}
+.mmenu__locale { display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+.mmenu__locale-select {
+  border: 0;
+  background: transparent;
+  font-family: var(--f-ui);
+  font-size: .9rem;
+  color: var(--c-ink-soft);
+  text-align: right;
+}
 
 .mmenu__foot {
   flex: 0 0 auto;
   border-top: var(--hairline);
   padding: var(--s-5) var(--page-x) calc(var(--s-5) + env(safe-area-inset-bottom, 0px));
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--s-4) var(--s-5);
   background: var(--c-surface);
 }
-.mmenu__foot a { justify-self: start; }
+.mmenu__cta {
+  width: 100%;
+  min-height: 52px;
+  letter-spacing: .14em;
+}
 
 /* Le mega-menu desktop reste masqué sur mobile même si la classe est active */
 @media (max-width: 989px) {
   .hdr.is-mega-open .hdr__surface { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mmenu, .mmenu__panel, .mmenu__panel .mmenu__row { transition-duration: 1ms !important; animation-duration: 1ms !important; }
 }

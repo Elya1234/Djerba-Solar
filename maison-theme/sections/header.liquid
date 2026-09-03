@@ -211,7 +211,13 @@
 <div class="hdr__scrim" data-scrim aria-hidden="true"></div>
 {%- unless transparent -%}<div class="hdr-spacer" aria-hidden="true"></div>{%- endunless -%}
 
-{%- comment -%} ---------- MENU MOBILE ---------- {%- endcomment -%}
+{%- comment -%}
+  ---------- MENU MOBILE ----------
+  Panneaux empilés (niveau 1 = racine, niveau 2 = catégorie, niveau 3 = métaux / formes / etc.).
+  data-mmenu-open="<id du panneau>" ouvre un panneau et l'empile ; data-mmenu-back dépile le
+  panneau courant. Toute la logique de glissement est en CSS (transform), pilotée par les
+  classes .is-active / .is-back posées par maison-header.js.
+{%- endcomment -%}
 <div class="mmenu" id="MaisonMobileMenu" data-mmenu aria-hidden="true">
   <div class="mmenu__bar">
     <button class="hdr__util" type="button" data-mmenu-close>
@@ -226,13 +232,14 @@
     </a>
   </div>
 
-  <div class="mmenu__viewport">
-    <div class="mmenu__panel mmenu__panel--root">
+  <div class="mmenu__viewport" data-mmenu-viewport>
+    {%- comment -%} ---- Niveau 1 : racine ---- {%- endcomment -%}
+    <div class="mmenu__panel mmenu__panel--root is-active" data-mmenu-panel="mmenu-root" data-depth="0" id="mmenu-root">
       <ul class="mmenu__list">
         {%- for link in menu.links -%}
           <li>
             {%- if link.links.size > 0 -%}
-              <button class="mmenu__row" type="button" data-mmenu-sub="{{ link.handle }}" style="--i: {{ forloop.index0 }}">
+              <button class="mmenu__row" type="button" data-mmenu-open="mmenu-{{ link.handle }}" style="--i: {{ forloop.index0 }}">
                 <span class="mmenu__row-label">{{ link.title }}</span>
                 <span class="mmenu__chev" aria-hidden="true"></span>
               </button>
@@ -244,72 +251,205 @@
           </li>
         {%- endfor -%}
       </ul>
+
+      <div class="mmenu__secondary">
+        {%- if shop.customer_accounts_enabled -%}
+          <a class="mmenu__row mmenu__row--quiet" href="{{ routes.account_url }}">
+            <span class="mmenu__row-label t-label">{{ 'header.account' | t: default: 'Mon compte' }}</span>
+          </a>
+        {%- endif -%}
+        {%- if section.settings.wishlist_link != blank -%}
+          <a class="mmenu__row mmenu__row--quiet" href="{{ section.settings.wishlist_link }}">
+            <span class="mmenu__row-label t-label">{{ 'header.wishlist' | t: default: 'Favoris' }}</span>
+          </a>
+        {%- endif -%}
+        {%- if section.settings.contact_link != blank -%}
+          <a class="mmenu__row mmenu__row--quiet" href="{{ section.settings.contact_link }}">
+            <span class="mmenu__row-label t-label">{{ 'header.contact' | t: default: 'Nous contacter' }}</span>
+          </a>
+        {%- endif -%}
+        {%- if section.settings.show_localization and localization.available_countries.size > 1 -%}
+          {%- form 'localization', class: 'mmenu__row mmenu__row--quiet mmenu__locale' -%}
+            <label class="mmenu__row-label t-label" for="MaisonCountryMobile">{{ 'header.language' | t: default: 'Langue' }}</label>
+            <select class="mmenu__locale-select" id="MaisonCountryMobile" name="country_code" aria-label="{{ 'header.country' | t: default: 'Pays / région' }}">
+              {%- for country in localization.available_countries -%}
+                <option value="{{ country.iso_code }}" {% if country.iso_code == localization.country.iso_code %}selected{% endif %}>{{ country.name }}</option>
+              {%- endfor -%}
+            </select>
+          {%- endform -%}
+        {%- endif -%}
+      </div>
     </div>
 
+    {%- comment -%} ---- Niveaux 2 et 3 : générés depuis les liens ayant des enfants ---- {%- endcomment -%}
     {%- for link in menu.links -%}
       {%- if link.links.size > 0 -%}
         {%- liquid
-          assign panel_image = blank
-          assign panel_title = blank
-          assign panel_link = blank
-          for block in section.blocks
-            assign handle = block.settings.parent_handle | strip | downcase
-            if handle == link.handle and block.settings.image != blank
-              assign panel_image = block.settings.image
-              assign panel_title = block.settings.media_title
-              assign panel_link = block.settings.media_link
+          assign panel_block = nil
+          for b in section.blocks
+            assign h = b.settings.parent_handle | strip | downcase
+            if h == link.handle
+              assign panel_block = b
             endif
           endfor
+          assign inline_handles = ''
+          if panel_block
+            assign inline_handles = panel_block.settings.inline_group_handles | strip | downcase
+          endif
+          assign inline_list = inline_handles | split: ','
         -%}
-        <div class="mmenu__panel" data-mmenu-panel="{{ link.handle }}" aria-hidden="true">
-          <button class="mmenu__back t-label" type="button" data-mmenu-back>
-            <span class="mmenu__chev" aria-hidden="true"></span>
-            {{ link.title }}
-          </button>
+        <div class="mmenu__panel" data-mmenu-panel="mmenu-{{ link.handle }}" data-depth="1" id="mmenu-{{ link.handle }}" aria-hidden="true">
+          <div class="mmenu__panel-head">
+            <button class="mmenu__back t-label" type="button" data-mmenu-back>
+              <span class="mmenu__chev mmenu__chev--back" aria-hidden="true"></span>
+              {{ 'general.back' | t: default: 'Retour' }}
+            </button>
+            <button class="mmenu__x" type="button" data-mmenu-close>
+              {% render 'maison-icon', icon: 'close' %}
+              <span class="visually-hidden">{{ 'header.close_menu' | t: default: 'Fermer le menu' }}</span>
+            </button>
+          </div>
+
+          {%- if panel_block and panel_block.settings.image != blank -%}
+            <div class="mmenu__hero">
+              <div class="mega__frame">
+                {{ panel_block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '100vw', widths: '480,700,900', alt: link.title }}
+              </div>
+              <span class="mmenu__hero-title t-h2">{{ link.title }}</span>
+            </div>
+          {%- else -%}
+            <p class="mmenu__panel-title t-h2">{{ link.title }}</p>
+          {%- endif -%}
+
+          <a class="mmenu__viewall link-rule t-label" href="{{ link.url }}">
+            {%- if panel_block and panel_block.settings.view_all_label != blank -%}
+              {{ panel_block.settings.view_all_label }}
+            {%- else -%}
+              {{ 'header.view_all' | t: default: 'Voir tout' }} — {{ link.title }}
+            {%- endif -%}
+          </a>
+
           <ul class="mmenu__list">
-            <li>
-              <a class="mmenu__row" href="{{ link.url }}" style="--i: 0">
-                <span class="mmenu__row-label">{{ 'header.view_all' | t: default: 'Tout voir' }} — {{ link.title }}</span>
-              </a>
-            </li>
-            {%- for child in link.links -%}
-              <li>
-                <a class="mmenu__row" href="{{ child.url }}" style="--i: {{ forloop.index }}">
-                  <span class="mmenu__row-label">{{ child.title }}</span>
-                </a>
-              </li>
+            {%- for sub in link.links -%}
+              {%- assign sub_handle = sub.handle | downcase -%}
+              {%- if inline_list contains sub_handle -%}
+                <li class="mmenu__group">
+                  <p class="mmenu__group-title t-label">{{ sub.title }}</p>
+                  <ul class="mmenu__list mmenu__list--nested">
+                    {%- for leaf in sub.links -%}
+                      <li>
+                        <a class="mmenu__row mmenu__row--nested" href="{{ leaf.url }}">
+                          <span class="mmenu__row-label">{{ leaf.title }}</span>
+                          <span class="mmenu__chev" aria-hidden="true"></span>
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </li>
+              {%- elsif sub.links.size > 0 -%}
+                <li>
+                  <button class="mmenu__row" type="button" data-mmenu-open="mmenu-{{ link.handle }}-{{ sub_handle }}">
+                    <span class="mmenu__row-label">{{ sub.title }}</span>
+                    <span class="mmenu__chev" aria-hidden="true"></span>
+                  </button>
+                </li>
+              {%- else -%}
+                <li>
+                  <a class="mmenu__row" href="{{ sub.url }}">
+                    <span class="mmenu__row-label">{{ sub.title }}</span>
+                  </a>
+                </li>
+              {%- endif -%}
             {%- endfor -%}
           </ul>
-          {%- if panel_image != blank -%}
-            <div class="mmenu__media">
-              <div class="mega__frame">
-                {{ panel_image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '100vw', widths: '400,700,900' }}
+
+          {%- if panel_block and panel_block.settings.guide_1_image != blank or panel_block.settings.guide_2_image != blank -%}
+            {%- liquid
+              assign guides_title = panel_block.settings.guides_title
+              if guides_title == blank
+                assign guides_title = 'header.guides' | t: default: 'Guides'
+              endif
+            -%}
+            <div class="mmenu__guides">
+              <p class="mmenu__group-title t-label">{{ guides_title }}</p>
+              <div class="mmenu__guides-grid">
+                {%- if panel_block.settings.guide_1_image != blank -%}
+                  <a class="mmenu__guide-card" href="{{ panel_block.settings.guide_1_link | default: '#' }}">
+                    <span class="mmenu__guide-frame">
+                      {{ panel_block.settings.guide_1_image | image_url: width: 500 | image_tag: loading: 'lazy', sizes: '50vw', widths: '260,400,500' }}
+                    </span>
+                    <span class="mmenu__guide-title t-label">{{ panel_block.settings.guide_1_title }}</span>
+                  </a>
+                {%- endif -%}
+                {%- if panel_block.settings.guide_2_image != blank -%}
+                  <a class="mmenu__guide-card" href="{{ panel_block.settings.guide_2_link | default: '#' }}">
+                    <span class="mmenu__guide-frame">
+                      {{ panel_block.settings.guide_2_image | image_url: width: 500 | image_tag: loading: 'lazy', sizes: '50vw', widths: '260,400,500' }}
+                    </span>
+                    <span class="mmenu__guide-title t-label">{{ panel_block.settings.guide_2_title }}</span>
+                  </a>
+                {%- endif -%}
               </div>
-              {%- if panel_link != blank -%}
-                <a class="cta" href="{{ panel_link }}">
-                  {{ panel_title | default: 'Découvrir la collection' }}
-                  <span class="cta__arrow" aria-hidden="true"></span>
-                </a>
-              {%- endif -%}
             </div>
           {%- endif -%}
         </div>
+
+        {%- comment -%} ---- Niveau 3 : sous-catégories avec enfants (métaux, formes...) ---- {%- endcomment -%}
+        {%- for sub in link.links -%}
+          {%- assign sub_handle = sub.handle | downcase -%}
+          {%- unless inline_list contains sub_handle -%}
+            {%- if sub.links.size > 0 -%}
+              {%- liquid
+                assign mode = 'plain'
+                if sub_handle contains 'metal' or sub_handle contains 'metau'
+                  assign mode = 'metal'
+                endif
+                if sub_handle contains 'forme' or sub_handle contains 'shape'
+                  assign mode = 'shape'
+                endif
+              -%}
+              <div class="mmenu__panel" data-mmenu-panel="mmenu-{{ link.handle }}-{{ sub_handle }}" data-depth="2" id="mmenu-{{ link.handle }}-{{ sub_handle }}" aria-hidden="true">
+                <div class="mmenu__panel-head">
+                  <button class="mmenu__back t-label" type="button" data-mmenu-back>
+                    <span class="mmenu__chev mmenu__chev--back" aria-hidden="true"></span>
+                    {{ 'general.back' | t: default: 'Retour' }}
+                  </button>
+                  <button class="mmenu__x" type="button" data-mmenu-close>
+                    {% render 'maison-icon', icon: 'close' %}
+                    <span class="visually-hidden">{{ 'header.close_menu' | t: default: 'Fermer le menu' }}</span>
+                  </button>
+                </div>
+                <p class="mmenu__panel-title t-h2">{{ sub.title }}</p>
+                <ul class="mmenu__list{% if mode != 'plain' %} mmenu__list--{{ mode }}{% endif %}">
+                  {%- for leaf in sub.links -%}
+                    <li>
+                      <a class="mmenu__row{% if mode == 'metal' %} mmenu__row--metal{% elsif mode == 'shape' %} mmenu__row--shape{% endif %}" href="{{ leaf.url }}">
+                        {%- if mode == 'metal' -%}
+                          <span class="mmenu__swatch mmenu__swatch--{{ leaf.handle | downcase }}" aria-hidden="true"></span>
+                        {%- elsif mode == 'shape' -%}
+                          {% render 'maison-icon', icon: 'shape-' | append: leaf.handle | downcase %}
+                        {%- endif -%}
+                        <span class="mmenu__row-label">{{ leaf.title }}</span>
+                        <span class="mmenu__chev" aria-hidden="true"></span>
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- endif -%}
+          {%- endunless -%}
+        {%- endfor -%}
       {%- endif -%}
     {%- endfor -%}
   </div>
 
-  <div class="mmenu__foot">
-    <a class="t-label" href="{{ routes.search_url }}" data-search-open>{{ 'header.search' | t: default: 'Rechercher' }}</a>
-    {%- if shop.customer_accounts_enabled -%}
-      <a class="t-label" href="{{ routes.account_url }}">{{ 'header.account' | t: default: 'Compte' }}</a>
-    {%- endif -%}
-    {%- if section.settings.appointment_link != blank -%}
-      <a class="t-label" href="{{ section.settings.appointment_link }}">{{ section.settings.appointment_label | default: 'Rendez-vous' }}</a>
-    {%- endif -%}
-    {%- if section.settings.wishlist_link != blank -%}
-      <a class="t-label" href="{{ section.settings.wishlist_link }}">{{ 'header.wishlist' | t: default: 'Favoris' }}</a>
-    {%- endif -%}
-  </div>
+  {%- if section.settings.appointment_link != blank -%}
+    <div class="mmenu__foot">
+      <a class="btn btn--line mmenu__cta" href="{{ section.settings.appointment_link }}">
+        {{ section.settings.appointment_label | default: 'Prendre rendez-vous' }}
+      </a>
+    </div>
+  {%- endif -%}
 </div>
 
 {% schema %}
@@ -323,7 +463,8 @@
     { "type": "header", "content": "Navigation" },
     { "type": "link_list", "id": "menu", "label": "Menu principal", "default": "main-menu" },
     { "type": "url", "id": "wishlist_link", "label": "Lien Favoris", "info": "Pointez-le vers la page Favoris (modèle « favoris »). L'icône n'apparaît que si un lien est défini." },
-    { "type": "text", "id": "appointment_label", "label": "Libellé Rendez-vous", "default": "Rendez-vous" },
+    { "type": "url", "id": "contact_link", "label": "Lien Nous contacter", "info": "Affiché dans le pied du menu mobile." },
+    { "type": "text", "id": "appointment_label", "label": "Libellé Rendez-vous", "default": "Prendre rendez-vous" },
     { "type": "url", "id": "appointment_link", "label": "Lien Rendez-vous" },
     { "type": "checkbox", "id": "show_localization", "label": "Afficher le sélecteur pays / région", "default": true },
     { "type": "header", "content": "En-tête transparent" },
@@ -352,11 +493,22 @@
         { "type": "text", "id": "media_title", "label": "Titre", "default": "La Collection" },
         { "type": "text", "id": "media_text", "label": "Texte" },
         { "type": "text", "id": "media_cta", "label": "Libellé du lien", "default": "Découvrir" },
-        { "type": "url", "id": "media_link", "label": "Lien" }
+        { "type": "url", "id": "media_link", "label": "Lien" },
+        { "type": "header", "content": "Panneau mobile" },
+        { "type": "paragraph", "content": "L'image principale ci-dessus sert aussi d'image éditoriale au panneau mobile de cette catégorie." },
+        { "type": "text", "id": "view_all_label", "label": "Libellé « voir tout »", "default": "Voir tout" },
+        { "type": "text", "id": "inline_group_handles", "label": "Sous-catégories affichées en groupe (sans panneau)", "info": "Handles séparés par des virgules, ex. : alliances-femme,alliances-homme — utilisé pour afficher un sous-menu à deux temps (ex. ALLIANCES FEMME / ALLIANCES HOMME) sans ouvrir un panneau supplémentaire." },
+        { "type": "text", "id": "guides_title", "label": "Titre du bloc guides", "default": "Guides" },
+        { "type": "image_picker", "id": "guide_1_image", "label": "Guide 1 — image" },
+        { "type": "text", "id": "guide_1_title", "label": "Guide 1 — titre" },
+        { "type": "url", "id": "guide_1_link", "label": "Guide 1 — lien" },
+        { "type": "image_picker", "id": "guide_2_image", "label": "Guide 2 — image" },
+        { "type": "text", "id": "guide_2_title", "label": "Guide 2 — titre" },
+        { "type": "url", "id": "guide_2_link", "label": "Guide 2 — lien" }
       ]
     }
   ],
-  "max_blocks": 8,
+  "max_blocks": 12,
   "enabled_on": { "groups": ["header"] }
 }
 {% endschema %}

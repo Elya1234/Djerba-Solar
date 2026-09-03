@@ -4,6 +4,7 @@
     "home": "Accueil",
     "breadcrumb": "Fil d'Ariane",
     "close": "Fermer",
+    "back": "Retour",
     "to_fill": "Réponse à renseigner"
   },
   "header": {
@@ -16,7 +17,10 @@
     "main_nav": "Navigation principale",
     "open_menu": "Ouvrir le menu",
     "close_menu": "Fermer le menu",
-    "view_all": "Tout voir"
+    "view_all": "Tout voir",
+    "contact": "Nous contacter",
+    "language": "Langue",
+    "guides": "Guides"
   },
   "collection": {
     "filter": "Filtrer",

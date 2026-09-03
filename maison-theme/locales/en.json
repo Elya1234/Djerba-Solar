@@ -4,6 +4,7 @@
     "home": "Home",
     "breadcrumb": "Breadcrumb",
     "close": "Close",
+    "back": "Back",
     "to_fill": "Answer to be provided"
   },
   "header": {
@@ -16,7 +17,10 @@
     "main_nav": "Main navigation",
     "open_menu": "Open menu",
     "close_menu": "Close menu",
-    "view_all": "View all"
+    "view_all": "View all",
+    "contact": "Contact us",
+    "language": "Language",
+    "guides": "Guides"
   },
   "collection": {
     "filter": "Filter",
