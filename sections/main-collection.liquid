@@ -23,6 +23,7 @@
       </div>
     {%- endif -%}
     <div class="gm-container gm-collection-banner__content" data-gm-reveal="fade">
+      {% render 'breadcrumbs' %}
       <span class="gm-eyebrow">Collection</span>
       <h1 class="gm-h2"{% if collection.image %} style="color:var(--gm-white);"{% endif %}>{{ collection.title }}</h1>
       {%- if collection.description != blank -%}
@@ -32,6 +33,7 @@
   </div>
 {%- else -%}
   <div class="gm-container" style="padding-top: var(--space-7);">
+    {% render 'breadcrumbs' %}
     <span class="gm-eyebrow">Collection</span>
     <h1 class="gm-h2">{{ collection.title }}</h1>
     {%- if collection.description != blank -%}

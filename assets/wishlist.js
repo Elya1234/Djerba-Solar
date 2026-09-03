@@ -56,6 +56,13 @@
     return true;
   }
 
+  function bump(el) {
+    el.classList.remove('gm-bump');
+    // Force reflow so the animation replays even if it's still mid-run.
+    void el.offsetWidth;
+    el.classList.add('gm-bump');
+  }
+
   function updateCountBadges() {
     var entries = read();
     document.querySelectorAll('[data-gm-wishlist-count]').forEach(function (el) {
@@ -76,7 +83,11 @@
     e.preventDefault();
     var id = btn.getAttribute('data-product-id');
     var url = btn.getAttribute('data-product-url');
-    toggle(id, url);
+    var nowSaved = toggle(id, url);
+    bump(btn);
+    if (nowSaved) {
+      document.querySelectorAll('[data-gm-wishlist-count]').forEach(bump);
+    }
   });
 
   // Every write (add/remove/toggle, from any control — including the

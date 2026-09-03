@@ -360,6 +360,39 @@ ul { list-style: none; margin: 0; padding: 0; }
 @media (prefers-reduced-motion: reduce) { .gm-skeleton::after { animation: none; } }
 
 /* =========================================================================
+   Touch targets — WCAG 2.5.5 recommends ~44px on touch; a few icon-only
+   controls sit slightly under that at their default (desktop-tuned) size.
+   ========================================================================= */
+@media (max-width: 767px), (pointer: coarse) {
+  .gm-header__action { padding: 1.1rem; }
+  .gm-card__wishlist { width: 40px; height: 40px; }
+  .gm-qty-stepper__btn { width: 40px; height: 40px; }
+}
+
+/* =========================================================================
+   Micro-interactions: counter/heart "bump" feedback
+   ========================================================================= */
+@keyframes gm-bump { 0% { transform: scale(1); } 45% { transform: scale(1.32); } 100% { transform: scale(1); } }
+.gm-bump { animation: gm-bump 340ms var(--ease-luxe); }
+@media (prefers-reduced-motion: reduce) { .gm-bump { animation: none; } }
+
+/* =========================================================================
+   404
+   ========================================================================= */
+.gm-404__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center; margin-top: var(--space-5); }
+
+/* =========================================================================
+   Breadcrumbs
+   ========================================================================= */
+.gm-breadcrumbs { margin-bottom: var(--space-4); }
+.gm-breadcrumbs ol { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; font-size: 1.2rem; color: inherit; opacity: 0.68; }
+.gm-breadcrumbs li { display: flex; align-items: center; gap: 0.5rem; }
+.gm-breadcrumbs li:not(:last-child)::after { content: "/"; opacity: 0.6; }
+.gm-breadcrumbs a { text-decoration: underline; text-underline-offset: 3px; }
+.gm-breadcrumbs a:hover { opacity: 0.8; }
+.gm-breadcrumbs li[aria-current="page"] { opacity: 1; }
+
+/* =========================================================================
    Responsive helpers
    ========================================================================= */
 /* !important is deliberate here: these are the one pair of utility classes

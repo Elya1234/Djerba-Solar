@@ -1,8 +1,13 @@
-<div class="gm-section gm-container" style="text-align:center; padding-block: var(--space-9);">
+<div class="gm-section gm-container gm-404" style="text-align:center; padding-block: var(--space-9);" data-gm-reveal="fade">
   <span class="gm-eyebrow">404</span>
   <h1 class="gm-h2">Cette page n'existe plus.</h1>
-  <p class="gm-lead" style="margin: var(--space-4) auto; max-width: 44ch;">La création que vous cherchez a peut-être changé de place. Découvrez nos collections ou contactez la Maison.</p>
-  <a href="{{ routes.root_url }}" class="gm-btn gm-btn--primary">Retour à l'accueil</a>
+  <p class="gm-lead" style="margin: var(--space-4) auto; max-width: 44ch;">La création que vous cherchez a peut-être changé de place. Découvrez nos collections, lancez une recherche, ou prenez rendez-vous avec la Maison.</p>
+  <div class="gm-404__actions">
+    <a href="{{ routes.root_url }}" class="gm-btn gm-btn--primary">Accueil</a>
+    <a href="{{ routes.all_products_collection_url }}" class="gm-btn gm-btn--outline">Collections</a>
+    <a href="{{ routes.search_url }}" class="gm-btn gm-btn--outline">Recherche</a>
+    <a href="{{ routes.root_url }}pages/rendez-vous" class="gm-btn gm-btn--outline">Prendre rendez-vous</a>
+  </div>
 </div>
 
 {% schema %}

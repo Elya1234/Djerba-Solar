@@ -11,6 +11,7 @@
 -%}
 
 <div class="gm-container gm-section--tight" data-gm-product-root data-initial-variant-id="{{ product.selected_or_first_available_variant.id }}">
+  {% render 'breadcrumbs' %}
   {%- comment -%} Full variant graph for product.js — real Shopify data, no invented values {%- endcomment -%}
   <script type="application/json" data-gm-product-json>
     {{ product | json }}

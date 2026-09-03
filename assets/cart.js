@@ -102,10 +102,19 @@
     if (subtotalEl) subtotalEl.textContent = money(cart.items_subtotal_price);
   }
 
+  var lastKnownItemCount = 0;
+
   function updateHeaderCount(cart) {
+    var grew = cart.item_count > lastKnownItemCount;
+    lastKnownItemCount = cart.item_count;
     document.querySelectorAll('[data-gm-cart-count]').forEach(function (el) {
       el.textContent = cart.item_count;
       el.hidden = cart.item_count === 0;
+      if (grew) {
+        el.classList.remove('gm-bump');
+        void el.offsetWidth;
+        el.classList.add('gm-bump');
+      }
     });
   }
 

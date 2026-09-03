@@ -53,8 +53,13 @@ Palette : blanc/ivoire, tons pierre, onyx, et un bleu profond signature
       (informations, commandes réelles), détail de commande, page Favoris
       dédiée branchée sur le moteur panier partagé, état du compte dans le
       header (desktop et mobile)
-- [ ] Phase 9 — Animations approfondies + responsive final
-- [ ] Phase 10 — SEO, performance, accessibilité, audit final
+- [x] Phase 9 — Finitions luxe, animations, responsive, performance, SEO,
+      accessibilité : fil d'Ariane + données structurées (Organization,
+      WebSite, Product, BreadcrumbList), Open Graph/Twitter Card, page 404
+      avec navigation utile, micro-interactions (badges panier/favoris),
+      cibles tactiles élargies sur mobile, QA horizontale sans débordement
+      de 390px à 1920px
+- [ ] Phase 10 — Audit final
 
 ## Données Shopify attendues par la fiche produit (Phase 4)
 
@@ -201,6 +206,39 @@ que l'équipe recontactera le client.
 - **Hors périmètre, assumé** : `templates/customers/addresses.json`
   (gestion des adresses) et `templates/customers/activate_account.json`
   (activation de compte invité) ne sont pas construits dans cette phase.
+
+## Finitions luxe, SEO, performance & accessibilité (Phase 9)
+
+- **Données structurées** (`snippets/structured-data.liquid`, inclus une
+  fois dans `layout/theme.liquid`) : `Organization` + `WebSite` sur
+  toutes les pages, `Product` et `BreadcrumbList` sur les fiches produit
+  et collections — construites uniquement à partir des objets Shopify
+  réels (`shop`, `product`, `collection`), jamais de faux avis ou de
+  fausses données. N'entre pas en conflit avec les données structurées
+  natives de Shopify (aucune duplication du même type).
+- **Fil d'Ariane visible** (`snippets/breadcrumbs.liquid`) sur fiche
+  produit et collection — même trajet que le `BreadcrumbList` ci-dessus,
+  couleur héritée du contexte (s'adapte automatiquement à une bannière
+  sombre ou à un fond clair).
+- **Partage social** : Open Graph (`og:image` sur l'image produit réelle
+  ou le favicon), Twitter Card `summary_large_image`.
+- **Page 404** enrichie avec quatre destinations utiles (Accueil,
+  Collections, Recherche, Prendre rendez-vous) plutôt qu'un simple retour
+  à l'accueil.
+- **Micro-interactions** : un léger « bump » (respecte
+  `prefers-reduced-motion`) sur le compteur panier à chaque ajout et sur
+  le cœur/compteur favoris à chaque changement — jamais gadget, toujours
+  bref et discret.
+- **Cibles tactiles** : icônes du header, cœur de carte produit et
+  boutons +/- du panier agrandis sur mobile/tactile (`pointer: coarse`)
+  pour se rapprocher des ~44px recommandés, sans alourdir la densité
+  visuelle du desktop.
+- **QA responsive élargie** : recherche systématique de débordement
+  horizontal sur neuf largeurs (390, 430, 768, 834, 1024, 1280, 1440,
+  1728, 1920px) — aucun débordement constaté après correctifs ; parcours
+  complets (recherche, Quick View, configurateur, panier, favoris, menu
+  mobile, mega-menu) revérifiés aux trois largeurs de référence
+  (390×844, 834×1194, 1440×900).
 
 ## Notes
 

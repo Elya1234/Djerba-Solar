@@ -1,0 +1,100 @@
+{%- comment -%}
+  JSON-LD structured data. Only ever built from real objects already
+  available to the page (shop, product, collection) — nothing invented.
+  Shopify already emits some structured data natively in some contexts;
+  this snippet intentionally covers only what the theme itself controls
+  (Organization/WebSite site-wide, Product on PDPs, BreadcrumbList on
+  PDPs/collections) so nothing is duplicated.
+{%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": {{ shop.name | json }},
+  "url": {{ shop.url | append: '/' | json }}
+  {%- if settings.favicon -%}, "logo": {{ settings.favicon | image_url: width: 512 | json }}{%- endif -%}
+  {%- if settings.shop_phone != blank -%}, "telephone": {{ settings.shop_phone | json }}{%- endif -%}
+  {%- liquid
+    assign social_list = ''
+    if settings.social_instagram != blank
+      assign social_list = social_list | append: settings.social_instagram | append: '||'
+    endif
+    if settings.social_facebook != blank
+      assign social_list = social_list | append: settings.social_facebook | append: '||'
+    endif
+    if settings.social_pinterest != blank
+      assign social_list = social_list | append: settings.social_pinterest | append: '||'
+    endif
+    assign social_array = social_list | split: '||'
+  -%}
+  {%- if social_array.size > 0 -%}, "sameAs": {{ social_array | json }}{%- endif -%}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": {{ shop.name | json }},
+  "url": {{ shop.url | append: '/' | json }},
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {{ shop.url | append: routes.search_url | append: '?q={search_term_string}' | json }},
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+{%- if template contains 'product' and product -%}
+  {%- liquid
+    assign variant = product.selected_or_first_available_variant | default: product.variants.first
+    assign is_devis = false
+    if product.tags contains 'sur-devis'
+      assign is_devis = true
+    endif
+  -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": {{ product.title | json }},
+    "description": {{ product.description | strip_html | json }},
+    "sku": {{ variant.sku | json }},
+    "brand": { "@type": "Brand", "name": {{ shop.name | json }} },
+    {%- if product.featured_image -%}"image": [{{ product.featured_image | image_url: width: 1200 | json }}],{%- endif -%}
+    "offers": {
+      "@type": "Offer",
+      "url": {{ shop.url | append: product.url | json }},
+      "priceCurrency": {{ cart.currency.iso_code | json }},
+      {%- if is_devis -%}
+        "availability": "https://schema.org/PreOrder"
+      {%- else -%}
+        "price": {{ variant.price | money_without_currency | strip_html | remove: ',' | json }},
+        "availability": "{% if variant.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}"
+      {%- endif -%}
+    }
+  }
+  </script>
+{%- endif -%}
+
+{%- if template contains 'product' or template contains 'collection' -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": {{ shop.name | json }}, "item": {{ shop.url | append: '/' | json }} }
+      {%- if template contains 'collection' and collection -%}
+        , { "@type": "ListItem", "position": 2, "name": {{ collection.title | json }}, "item": {{ shop.url | append: collection.url | json }} }
+      {%- endif -%}
+      {%- if template contains 'product' and product -%}
+        {%- if collection -%}
+          , { "@type": "ListItem", "position": 2, "name": {{ collection.title | json }}, "item": {{ shop.url | append: collection.url | json }} }
+          , { "@type": "ListItem", "position": 3, "name": {{ product.title | json }}, "item": {{ shop.url | append: product.url | json }} }
+        {%- else -%}
+          , { "@type": "ListItem", "position": 2, "name": {{ product.title | json }}, "item": {{ shop.url | append: product.url | json }} }
+        {%- endif -%}
+      {%- endif -%}
+    ]
+  }
+  </script>
+{%- endif -%}
