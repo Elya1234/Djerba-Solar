@@ -3,7 +3,9 @@
     "name": "theme_info",
     "theme_name": "Gold Mines — By Orpaz",
     "theme_version": "1.0.0",
-    "theme_author": "Gold Mines"
+    "theme_author": "Gold Mines",
+    "theme_documentation_url": "https://github.com/Elya1234/Djerba-Solar",
+    "theme_support_email": "goldminesshop5@gmail.com"
   },
   {
     "name": "t:settings.typography.name",
@@ -15,7 +17,7 @@
       {
         "type": "font_picker",
         "id": "font_heading",
-        "default": "eb_garamond_n4",
+        "default": "ebgaramond_n4",
         "label": "t:settings.typography.heading_font"
       },
       {

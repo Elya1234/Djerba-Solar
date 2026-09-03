@@ -2,7 +2,7 @@
   "current": "Default",
   "presets": {
     "Default": {
-      "font_heading": "eb_garamond_n4",
+      "font_heading": "ebgaramond_n4",
       "font_body": "assistant_n4",
       "color_bg": "#FFFFFF",
       "color_text": "#0A0A0B",

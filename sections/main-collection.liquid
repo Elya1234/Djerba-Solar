@@ -91,7 +91,10 @@
           <div class="gm-product-grid">
             {%- for product in collection.products -%}
               {%- liquid
-                assign is_priority_card = forloop.index0 < 4
+                assign is_priority_card = false
+                if forloop.index0 < 4
+                  assign is_priority_card = true
+                endif
                 assign editorial_slot = false
                 if per_row_editorial > 0 and forloop.index0 > 0
                   assign row_position = forloop.index0 | modulo: per_row_editorial
@@ -162,7 +165,7 @@
 
 {% schema %}
 {
-  "name": "Collection — grille produits",
+  "name": "Collection — grille",
   "settings": [
     { "type": "checkbox", "id": "show_banner", "label": "Afficher la bannière (image/description de la collection)", "default": true },
     { "type": "range", "id": "products_per_page", "label": "Produits par page", "min": 8, "max": 48, "step": 4, "default": 24 },
@@ -181,7 +184,7 @@
     },
     {
       "type": "editorial",
-      "name": "Bloc éditorial (entre les produits)",
+      "name": "Bloc éditorial",
       "settings": [
         { "type": "text", "id": "heading", "label": "Titre", "default": "Le saviez-vous ?" },
         { "type": "textarea", "id": "text", "label": "Texte" },
@@ -191,7 +194,7 @@
     },
     {
       "type": "universe",
-      "name": "Univers à explorer (bas de page)",
+      "name": "Univers à explorer",
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Image" },
         { "type": "text", "id": "title", "label": "Titre", "default": "Fiançailles" },
