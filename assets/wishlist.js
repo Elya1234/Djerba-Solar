@@ -1,38 +1,72 @@
 /**
  * GOLD MINES — Wishlist (client-side, localStorage-backed).
- * A full account-synced wishlist can replace this in Phase 7 without
- * changing markup: every control keys off data-gm-wishlist-add /
- * data-product-id, and the header count off [data-gm-wishlist-count].
+ *
+ * Honest architecture note: this is per-browser, per-device storage.
+ * There is no account/back-end sync — a favorite added on a phone will
+ * not appear on a desktop. That limitation is stated plainly in the
+ * account/favorites UI, never hidden.
+ *
+ * Stores {id, url} pairs (not bare ids) because the dedicated Favoris
+ * page (assets/wishlist-page.js) needs a real product URL to fetch each
+ * item's current price/availability from Shopify's own `.json` endpoint
+ * — it never invents or caches stale product data.
+ *
+ * To move this to real account-based persistence later: replace
+ * read/write below with calls to a customer metafield or app API and
+ * keep the same public window.GMWishlist surface — every control in the
+ * theme (product card, product page, Quick View, Favoris page) already
+ * goes through it rather than touching localStorage directly.
  */
 (function () {
   'use strict';
 
   var STORAGE_KEY = 'gm_wishlist';
 
-  function readWishlist() {
+  function read() {
     try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      var raw = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      // Back-compat: earlier versions stored bare ids.
+      return raw.map(function (entry) {
+        return typeof entry === 'object' && entry !== null ? entry : { id: String(entry), url: null };
+      });
     } catch (e) {
       return [];
     }
   }
-  function writeWishlist(ids) {
+  function write(entries) {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
     } catch (e) {}
+    document.dispatchEvent(new CustomEvent('gm:wishlist:changed', { detail: entries }));
   }
+  function has(id) {
+    return read().some(function (e) { return String(e.id) === String(id); });
+  }
+  function add(id, url) {
+    var entries = read();
+    if (!has(id)) entries.push({ id: String(id), url: url || null });
+    write(entries);
+  }
+  function remove(id) {
+    write(read().filter(function (e) { return String(e.id) !== String(id); }));
+  }
+  function toggle(id, url) {
+    if (has(id)) { remove(id); return false; }
+    add(id, url);
+    return true;
+  }
+
   function updateCountBadges() {
-    var ids = readWishlist();
+    var entries = read();
     document.querySelectorAll('[data-gm-wishlist-count]').forEach(function (el) {
-      el.textContent = ids.length;
-      el.hidden = ids.length === 0;
+      el.textContent = entries.length;
+      el.hidden = entries.length === 0;
     });
   }
   function syncButtons() {
-    var ids = readWishlist().map(String);
     document.querySelectorAll('[data-gm-wishlist-add]').forEach(function (btn) {
       var id = btn.getAttribute('data-product-id');
-      btn.setAttribute('aria-pressed', String(ids.indexOf(id) !== -1));
+      btn.setAttribute('aria-pressed', String(has(id)));
     });
   }
 
@@ -41,16 +75,11 @@
     if (!btn) return;
     e.preventDefault();
     var id = btn.getAttribute('data-product-id');
-    var ids = readWishlist().map(String);
-    var index = ids.indexOf(id);
-    if (index === -1) {
-      ids.push(id);
-      btn.setAttribute('aria-pressed', 'true');
-    } else {
-      ids.splice(index, 1);
-      btn.setAttribute('aria-pressed', 'false');
-    }
-    writeWishlist(ids);
+    var url = btn.getAttribute('data-product-url');
+    var nowSaved = toggle(id, url);
+    document.querySelectorAll('[data-gm-wishlist-add][data-product-id="' + id + '"]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(nowSaved));
+    });
     updateCountBadges();
   });
 
@@ -58,4 +87,6 @@
     updateCountBadges();
     syncButtons();
   });
+
+  window.GMWishlist = { read: read, has: has, add: add, remove: remove, toggle: toggle };
 })();

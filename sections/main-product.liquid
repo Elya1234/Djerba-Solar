@@ -179,7 +179,7 @@
             {%- if settings.social_whatsapp != blank -%}
               <a href="https://wa.me/{{ settings.social_whatsapp }}?text={{ product.title | url_encode }}" target="_blank" rel="noopener">{% render 'icon', name: 'whatsapp', size: 16 %} WhatsApp</a>
             {%- endif -%}
-            <button type="button" data-gm-wishlist-add data-product-id="{{ product.id }}" aria-pressed="false">{% render 'icon', name: 'heart', size: 16 %} Favoris</button>
+            <button type="button" data-gm-wishlist-add data-product-id="{{ product.id }}" data-product-url="{{ product.url }}" aria-pressed="false">{% render 'icon', name: 'heart', size: 16 %} Favoris</button>
           </div>
         </div>
       </form>
@@ -227,7 +227,7 @@
 <div class="gm-sticky-cta" data-gm-sticky-cta>
   <span class="gm-sticky-cta__price" data-gm-sticky-price>{{ product.selected_or_first_available_variant.price | money }}</span>
   <button type="button" class="gm-btn gm-btn--primary gm-sticky-cta__add" data-gm-sticky-add>Ajouter</button>
-  <button type="button" class="gm-sticky-cta__fav" data-gm-wishlist-add data-product-id="{{ product.id }}" aria-label="Favoris" aria-pressed="false">{% render 'icon', name: 'heart' %}</button>
+  <button type="button" class="gm-sticky-cta__fav" data-gm-wishlist-add data-product-id="{{ product.id }}" data-product-url="{{ product.url }}" aria-label="Favoris" aria-pressed="false">{% render 'icon', name: 'heart' %}</button>
 </div>
 
 {% schema %}

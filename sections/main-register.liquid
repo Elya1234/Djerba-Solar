@@ -1,0 +1,59 @@
+{{ 'pages.css' | asset_url | stylesheet_tag }}
+{{ 'account.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'contact-form.js' | asset_url }}" defer="defer"></script>
+
+<div class="gm-container gm-section">
+  <div class="gm-auth">
+    <div class="gm-auth__head">
+      <span class="gm-eyebrow">{{ 'customer.register.eyebrow' | t }}</span>
+      <h1 class="gm-h2">{{ 'customer.register.heading' | t }}</h1>
+      <p class="gm-lead">{{ 'customer.register.subheading' | t }}</p>
+    </div>
+
+    {%- form 'create_customer', id: 'RegisterForm', class: 'gm-form' -%}
+      {%- if form.errors -%}
+        <div class="gm-form__notice gm-form__notice--error" role="alert">
+          {{ 'customer.register.error' | t }}
+        </div>
+      {%- endif -%}
+
+      <div class="gm-form__row">
+        <div class="gm-form__field" data-invalid="{{ form.errors contains 'first_name' }}">
+          <label for="RegisterFirstName">{{ 'customer.register.first_name' | t }}</label>
+          <input type="text" class="gm-input" id="RegisterFirstName" name="customer[first_name]" value="{{ form.first_name }}" autocomplete="given-name" required>
+        </div>
+        <div class="gm-form__field" data-invalid="{{ form.errors contains 'last_name' }}">
+          <label for="RegisterLastName">{{ 'customer.register.last_name' | t }}</label>
+          <input type="text" class="gm-input" id="RegisterLastName" name="customer[last_name]" value="{{ form.last_name }}" autocomplete="family-name" required>
+        </div>
+      </div>
+
+      <div class="gm-form__field" data-invalid="{{ form.errors contains 'email' }}">
+        <label for="RegisterEmail">{{ 'customer.register.email' | t }}</label>
+        <input type="email" class="gm-input" id="RegisterEmail" name="customer[email]" value="{{ form.email }}" autocomplete="email" required>
+      </div>
+
+      <div class="gm-form__field" data-invalid="{{ form.errors contains 'password' }}">
+        <label for="RegisterPassword">{{ 'customer.register.password' | t }}</label>
+        <div class="gm-password-field">
+          <input type="password" class="gm-input" id="RegisterPassword" name="customer[password]" autocomplete="new-password" required>
+          <button type="button" class="gm-password-toggle" data-gm-password-toggle="RegisterPassword" data-label-show="{{ 'customer.login.show_password' | t }}" data-label-hide="{{ 'customer.login.hide_password' | t }}" aria-pressed="false">{{ 'customer.login.show_password' | t }}</button>
+        </div>
+      </div>
+
+      <div class="gm-form__submit-row">
+        <button type="submit" class="gm-btn gm-btn--primary gm-btn--full" data-gm-form-submit>{{ 'customer.register.submit' | t }}</button>
+        <span class="gm-form__error" data-gm-form-client-error hidden></span>
+      </div>
+    {%- endform -%}
+
+    <p class="gm-auth__switch">{{ 'customer.register.has_account' | t }} <a href="{{ routes.account_login_url }}">{{ 'customer.register.login_link' | t }}</a></p>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Inscription",
+  "settings": []
+}
+{% endschema %}

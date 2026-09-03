@@ -1,0 +1,65 @@
+{{ 'pages.css' | asset_url | stylesheet_tag }}
+{{ 'account.css' | asset_url | stylesheet_tag }}
+
+<div class="gm-container gm-section">
+  <div class="gm-account__head">
+    <span class="gm-eyebrow">{{ 'customer.account.eyebrow' | t }}</span>
+    <h1 class="gm-h2">{{ 'customer.account.greeting' | t: name: customer.first_name }}</h1>
+  </div>
+
+  <div class="gm-account__layout">
+    <div>
+      <div class="gm-account__card">
+        <h2>{{ 'customer.account.personal_info' | t }}</h2>
+        <div class="gm-account__info-row"><span>{{ 'customer.register.first_name' | t }}</span><span>{{ customer.first_name }}</span></div>
+        <div class="gm-account__info-row"><span>{{ 'customer.register.last_name' | t }}</span><span>{{ customer.last_name }}</span></div>
+        <div class="gm-account__info-row"><span>{{ 'customer.login.email' | t }}</span><span>{{ customer.email }}</span></div>
+        <a href="{{ routes.account_logout_url }}" class="gm-btn gm-btn--outline gm-btn--full gm-account__logout">{{ 'customer.account.logout' | t }}</a>
+      </div>
+
+      <div class="gm-account__card">
+        <h2>{{ 'customer.account.favorites' | t }}</h2>
+        <p style="color:var(--gm-text-muted); font-size:1.3rem; margin-bottom:var(--space-3);">{{ 'customer.account.favorites_note' | t }}</p>
+        <a href="{{ routes.root_url }}pages/wishlist" class="gm-btn gm-btn--outline gm-btn--full">{{ 'customer.account.view_favorites' | t }}</a>
+      </div>
+    </div>
+
+    <div id="orders">
+      <div class="gm-account__card">
+        <h2>{{ 'customer.account.orders' | t }}</h2>
+        {%- paginate customer.orders by: 20 -%}
+          {%- if customer.orders.size == 0 -%}
+            <p class="gm-account__empty">{{ 'customer.account.no_orders' | t }}</p>
+            <a href="{{ routes.all_products_collection_url }}" class="gm-btn gm-btn--primary">{{ 'customer.account.discover' | t }}</a>
+          {%- else -%}
+            <div class="gm-orders-list">
+              {%- for order in customer.orders -%}
+                <a href="{{ order.customer_url }}" class="gm-order-card">
+                  <div class="gm-order-card__main">
+                    <strong>{{ order.name }}</strong>
+                    <span>{{ order.created_at | date: '%d %B %Y' }}</span>
+                  </div>
+                  <span class="gm-order-card__status">{{ order.financial_status_label }}</span>
+                  <span class="gm-order-card__price">{{ order.total_price | money }}</span>
+                </a>
+              {%- endfor -%}
+            </div>
+            {%- if paginate.pages > 1 -%}
+              <div class="gm-form__submit-row" style="margin-top:var(--space-4);">
+                {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}" class="gm-btn gm-btn--outline">{{ 'customer.account.previous' | t }}</a>{%- endif -%}
+                {%- if paginate.next -%}<a href="{{ paginate.next.url }}" class="gm-btn gm-btn--outline">{{ 'customer.account.next' | t }}</a>{%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Mon compte",
+  "settings": []
+}
+{% endschema %}

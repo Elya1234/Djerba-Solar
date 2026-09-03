@@ -1,0 +1,79 @@
+{{ 'pages.css' | asset_url | stylesheet_tag }}
+{{ 'account.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'contact-form.js' | asset_url }}" defer="defer"></script>
+
+<div class="gm-container gm-section">
+  <div class="gm-auth">
+    <div data-gm-login-block>
+      <div class="gm-auth__head">
+        <span class="gm-eyebrow">{{ 'customer.login.eyebrow' | t }}</span>
+        <h1 class="gm-h2">{{ 'customer.login.heading' | t }}</h1>
+        <p class="gm-lead">{{ 'customer.login.subheading' | t }}</p>
+      </div>
+
+      {%- form 'customer_login', id: 'LoginForm', class: 'gm-form' -%}
+        {%- if form.errors -%}
+          <div class="gm-form__notice gm-form__notice--error" role="alert">
+            {{ 'customer.login.error' | t }}
+          </div>
+        {%- endif -%}
+
+        <div class="gm-form__field" data-invalid="{{ form.errors contains 'form' }}">
+          <label for="LoginEmail">{{ 'customer.login.email' | t }}</label>
+          <input type="email" class="gm-input" id="LoginEmail" name="customer[email]" autocomplete="email" autocorrect="off" autocapitalize="off" required>
+        </div>
+
+        <div class="gm-form__field">
+          <label for="LoginPassword">{{ 'customer.login.password' | t }}</label>
+          <div class="gm-password-field">
+            <input type="password" class="gm-input" id="LoginPassword" name="customer[password]" autocomplete="current-password" required>
+            <button type="button" class="gm-password-toggle" data-gm-password-toggle="LoginPassword" data-label-show="{{ 'customer.login.show_password' | t }}" data-label-hide="{{ 'customer.login.hide_password' | t }}" aria-pressed="false">{{ 'customer.login.show_password' | t }}</button>
+          </div>
+          <a href="#recover" class="gm-auth__recover-link" data-gm-show-recover>{{ 'customer.login.forgot_password' | t }}</a>
+        </div>
+
+        <div class="gm-form__submit-row">
+          <button type="submit" class="gm-btn gm-btn--primary gm-btn--full" data-gm-form-submit>{{ 'customer.login.submit' | t }}</button>
+          <span class="gm-form__error" data-gm-form-client-error hidden></span>
+        </div>
+      {%- endform -%}
+
+      <p class="gm-auth__switch">{{ 'customer.login.no_account' | t }} <a href="{{ routes.account_register_url }}">{{ 'customer.login.register_link' | t }}</a></p>
+    </div>
+
+    <div data-gm-recover-block hidden id="recover">
+      <div class="gm-auth__head">
+        <span class="gm-eyebrow">{{ 'customer.recover.eyebrow' | t }}</span>
+        <h1 class="gm-h2">{{ 'customer.recover.heading' | t }}</h1>
+        <p class="gm-lead">{{ 'customer.recover.subheading' | t }}</p>
+      </div>
+
+      {%- form 'recover_customer_password', id: 'RecoverPasswordForm', class: 'gm-form' -%}
+        {%- if form.posted_successfully? -%}
+          <div class="gm-form__notice gm-form__notice--success" role="status" data-gm-form-success>{{ 'customer.recover.success' | t }}</div>
+        {%- elsif form.errors -%}
+          <div class="gm-form__notice gm-form__notice--error" role="alert">{{ 'customer.recover.error' | t }}</div>
+        {%- endif -%}
+
+        <div class="gm-form__field" data-invalid="{{ form.errors contains 'form' }}">
+          <label for="RecoverEmail">{{ 'customer.login.email' | t }}</label>
+          <input type="email" class="gm-input" id="RecoverEmail" name="email" autocomplete="email" required>
+        </div>
+
+        <div class="gm-form__submit-row">
+          <button type="submit" class="gm-btn gm-btn--primary gm-btn--full" data-gm-form-submit>{{ 'customer.recover.submit' | t }}</button>
+          <span class="gm-form__error" data-gm-form-client-error hidden></span>
+        </div>
+      {%- endform -%}
+
+      <p class="gm-auth__switch"><a href="#" data-gm-show-login>{{ 'customer.recover.back_to_login' | t }}</a></p>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Connexion",
+  "settings": []
+}
+{% endschema %}

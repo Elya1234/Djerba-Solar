@@ -1,0 +1,31 @@
+{{ 'pages.css' | asset_url | stylesheet_tag }}
+{{ 'account.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'wishlist-page.js' | asset_url }}" defer="defer"></script>
+
+<div class="gm-container gm-section">
+  <div style="margin-bottom: var(--space-6);">
+    <span class="gm-eyebrow">{{ 'customer.favorites.eyebrow' | t }}</span>
+    <h1 class="gm-h2">{{ 'customer.favorites.heading' | t }}</h1>
+    <p class="gm-lead" style="margin-top:var(--space-2);">{{ 'customer.favorites.persistence_note' | t }}</p>
+  </div>
+
+  <div class="gm-wishlist__skeleton-grid" data-gm-wishlist-skeleton>
+    {%- for i in (1..4) -%}
+      <div class="gm-skeleton" style="aspect-ratio:4/5; border-radius:var(--radius-sm);"></div>
+    {%- endfor -%}
+  </div>
+
+  <div class="gm-wishlist__empty" data-gm-wishlist-empty hidden>
+    <p>{{ 'customer.favorites.empty' | t }}</p>
+    <a href="{{ routes.all_products_collection_url }}" class="gm-btn gm-btn--primary">{{ 'customer.account.discover' | t }}</a>
+  </div>
+
+  <div class="gm-wishlist-grid" data-gm-wishlist-grid hidden></div>
+</div>
+
+{% schema %}
+{
+  "name": "Favoris",
+  "settings": []
+}
+{% endschema %}

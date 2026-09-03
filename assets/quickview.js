@@ -85,7 +85,7 @@
           '<div style="margin-top:2rem; display:flex; flex-direction:column; gap:.8rem;">' +
             ctaHtml +
             '<a href="' + product.url + '" class="gm-btn gm-btn--outline gm-btn--full">Voir la fiche complète</a>' +
-            '<button type="button" class="gm-btn gm-btn--ghost" data-gm-wishlist-add data-product-id="' + product.id + '" aria-pressed="false">Ajouter aux favoris</button>' +
+            '<button type="button" class="gm-btn gm-btn--ghost" data-gm-wishlist-add data-product-id="' + product.id + '" data-product-url="' + product.url + '" aria-pressed="false">Ajouter aux favoris</button>' +
           '</div>' +
         '</div>' +
       '</div>';

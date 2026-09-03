@@ -1,4 +1,5 @@
 {{ 'header.css' | asset_url | stylesheet_tag }}
+{{ 'account.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
   assign is_home = request.page_type == 'index'
@@ -33,7 +34,20 @@
 
     <div class="gm-header__actions">
       <button type="button" class="gm-header__action" aria-label="{{ 'header.search' | t }}" data-gm-search-toggle>{% render 'icon', name: 'search' %}</button>
-      <a href="{{ routes.account_url }}" class="gm-header__action gm-hide-mobile" aria-label="{{ 'header.account' | t }}">{% render 'icon', name: 'account' %}</a>
+      {%- if customer -%}
+        <div class="gm-account-menu gm-hide-mobile" data-gm-account-menu>
+          <button type="button" class="gm-header__action" data-gm-account-trigger aria-haspopup="true" aria-expanded="false" aria-label="{{ 'header.account' | t }}">{% render 'icon', name: 'account' %}</button>
+          <div class="gm-account-menu__panel" data-gm-account-panel role="menu" hidden>
+            <div class="gm-account-menu__greeting">{{ 'customer.account.greeting' | t: name: customer.first_name }}</div>
+            <a href="{{ routes.account_url }}" role="menuitem">{{ 'customer.account.menu_account' | t }}</a>
+            <a href="{{ routes.account_url }}#orders" role="menuitem">{{ 'customer.account.menu_orders' | t }}</a>
+            <a href="{{ routes.root_url }}pages/wishlist" role="menuitem">{{ 'customer.account.menu_favorites' | t }}</a>
+            <a href="{{ routes.account_logout_url }}" role="menuitem">{{ 'customer.account.logout' | t }}</a>
+          </div>
+        </div>
+      {%- else -%}
+        <a href="{{ routes.account_login_url }}" class="gm-header__action gm-hide-mobile" aria-label="{{ 'header.account' | t }}">{% render 'icon', name: 'account' %}</a>
+      {%- endif -%}
       <a href="{{ routes.root_url }}pages/wishlist" class="gm-header__action gm-hide-mobile" aria-label="{{ 'header.wishlist' | t }}" data-gm-wishlist-toggle>
         {% render 'icon', name: 'heart' %}
         <span class="gm-header__count" data-gm-wishlist-count hidden>0</span>
@@ -112,7 +126,12 @@
   </ul>
   <div class="gm-mobile-nav__foot">
     <a href="{{ routes.root_url }}pages/rendez-vous" class="gm-btn gm-btn--primary gm-btn--full">{{ 'header.book_appointment' | t }}</a>
-    <a href="{{ routes.account_url }}" class="gm-btn gm-btn--outline gm-btn--full">{{ 'header.account' | t }}</a>
+    {%- if customer -%}
+      <a href="{{ routes.account_url }}" class="gm-btn gm-btn--outline gm-btn--full">{{ 'customer.account.menu_account' | t }}</a>
+      <a href="{{ routes.account_logout_url }}" class="gm-mobile-nav__account-status">{{ 'customer.account.logout' | t }}</a>
+    {%- else -%}
+      <a href="{{ routes.account_login_url }}" class="gm-btn gm-btn--outline gm-btn--full">{{ 'header.account' | t }}</a>
+    {%- endif -%}
   </div>
 </div>
 
