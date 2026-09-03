@@ -2,8 +2,14 @@
 {{ 'account.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
-  assign is_home = request.page_type == 'index'
-  assign transparent_ok = settings.header_style == 'transparent' and is_home
+  assign is_home = false
+  if request.page_type == 'index'
+    assign is_home = true
+  endif
+  assign transparent_ok = false
+  if settings.header_style == 'transparent' and is_home
+    assign transparent_ok = true
+  endif
   assign main_menu = linklists[section.settings.menu]
 -%}
 

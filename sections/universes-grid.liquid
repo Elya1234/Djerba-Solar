@@ -11,7 +11,8 @@
 
     <div class="gm-universes__list">
       {%- for block in section.blocks -%}
-        <div class="gm-universes__row{% if forloop.index0 % 2 == 1 %} gm-universes__row--reverse{% endif %}" {{ block.shopify_attributes }} data-gm-reveal="fade">
+        {%- assign row_parity = forloop.index0 | modulo: 2 -%}
+        <div class="gm-universes__row{% if row_parity == 1 %} gm-universes__row--reverse{% endif %}" {{ block.shopify_attributes }} data-gm-reveal="fade">
           <div class="gm-universes__media gm-hover-zoom">
             {%- if block.settings.image -%}
               {{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: block.settings.title }}

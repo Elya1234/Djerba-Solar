@@ -3,9 +3,7 @@
     "name": "theme_info",
     "theme_name": "Gold Mines — By Orpaz",
     "theme_version": "1.0.0",
-    "theme_author": "Gold Mines",
-    "theme_documentation_url": "",
-    "theme_support_url": ""
+    "theme_author": "Gold Mines"
   },
   {
     "name": "t:settings.typography.name",
@@ -17,7 +15,7 @@
       {
         "type": "font_picker",
         "id": "font_heading",
-        "default": "eb-garamond_n4",
+        "default": "eb_garamond_n4",
         "label": "t:settings.typography.heading_font"
       },
       {
@@ -107,17 +105,17 @@
   {
     "name": "t:settings.social.name",
     "settings": [
-      { "type": "text", "id": "social_instagram", "label": "Instagram", "default": "" },
-      { "type": "text", "id": "social_facebook", "label": "Facebook", "default": "" },
-      { "type": "text", "id": "social_pinterest", "label": "Pinterest", "default": "" },
-      { "type": "text", "id": "social_whatsapp", "label": "t:settings.social.whatsapp_number", "default": "" }
+      { "type": "text", "id": "social_instagram", "label": "Instagram" },
+      { "type": "text", "id": "social_facebook", "label": "Facebook" },
+      { "type": "text", "id": "social_pinterest", "label": "Pinterest" },
+      { "type": "text", "id": "social_whatsapp", "label": "t:settings.social.whatsapp_number" }
     ]
   },
   {
     "name": "t:settings.contact.name",
     "settings": [
-      { "type": "text", "id": "shop_phone", "label": "t:settings.contact.phone", "default": "" },
-      { "type": "text", "id": "shop_address", "label": "t:settings.contact.address", "default": "" },
+      { "type": "text", "id": "shop_phone", "label": "t:settings.contact.phone" },
+      { "type": "text", "id": "shop_address", "label": "t:settings.contact.address" },
       { "type": "richtext", "id": "shop_hours", "label": "t:settings.contact.hours" }
     ]
   },

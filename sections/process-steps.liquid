@@ -11,7 +11,8 @@
 
     <div class="gm-process">
       {%- for block in section.blocks -%}
-        <div class="gm-process__step{% if forloop.index0 % 2 == 1 %} gm-process__step--reverse{% endif %}" {{ block.shopify_attributes }} data-gm-reveal="fade">
+        {%- assign step_parity = forloop.index0 | modulo: 2 -%}
+        <div class="gm-process__step{% if step_parity == 1 %} gm-process__step--reverse{% endif %}" {{ block.shopify_attributes }} data-gm-reveal="fade">
           <div class="gm-process__media">
             {%- if block.settings.image -%}
               {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: block.settings.title }}

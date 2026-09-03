@@ -18,22 +18,22 @@
       {%- endif -%}
 
       <div class="gm-form__row">
-        <div class="gm-form__field" data-invalid="{{ form.errors contains 'first_name' }}">
+        <div class="gm-form__field" data-invalid="{% if form.errors contains 'first_name' %}true{% else %}false{% endif %}">
           <label for="RegisterFirstName">{{ 'customer.register.first_name' | t }}</label>
           <input type="text" class="gm-input" id="RegisterFirstName" name="customer[first_name]" value="{{ form.first_name }}" autocomplete="given-name" required>
         </div>
-        <div class="gm-form__field" data-invalid="{{ form.errors contains 'last_name' }}">
+        <div class="gm-form__field" data-invalid="{% if form.errors contains 'last_name' %}true{% else %}false{% endif %}">
           <label for="RegisterLastName">{{ 'customer.register.last_name' | t }}</label>
           <input type="text" class="gm-input" id="RegisterLastName" name="customer[last_name]" value="{{ form.last_name }}" autocomplete="family-name" required>
         </div>
       </div>
 
-      <div class="gm-form__field" data-invalid="{{ form.errors contains 'email' }}">
+      <div class="gm-form__field" data-invalid="{% if form.errors contains 'email' %}true{% else %}false{% endif %}">
         <label for="RegisterEmail">{{ 'customer.register.email' | t }}</label>
         <input type="email" class="gm-input" id="RegisterEmail" name="customer[email]" value="{{ form.email }}" autocomplete="email" required>
       </div>
 
-      <div class="gm-form__field" data-invalid="{{ form.errors contains 'password' }}">
+      <div class="gm-form__field" data-invalid="{% if form.errors contains 'password' %}true{% else %}false{% endif %}">
         <label for="RegisterPassword">{{ 'customer.register.password' | t }}</label>
         <div class="gm-password-field">
           <input type="password" class="gm-input" id="RegisterPassword" name="customer[password]" autocomplete="new-password" required>

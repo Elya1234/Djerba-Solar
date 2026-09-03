@@ -36,9 +36,10 @@
   "@type": "WebSite",
   "name": {{ shop.name | json }},
   "url": {{ shop.url | append: '/' | json }},
+  {%- assign search_target = shop.url | append: routes.search_url | append: '?q={search_term_string}' -%}
   "potentialAction": {
     "@type": "SearchAction",
-    "target": {{ shop.url | append: routes.search_url | append: '?q={search_term_string}' | json }},
+    "target": {{ search_target | json }},
     "query-input": "required name=search_term_string"
   }
 }

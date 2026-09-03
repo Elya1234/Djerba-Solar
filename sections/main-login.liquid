@@ -18,7 +18,7 @@
           </div>
         {%- endif -%}
 
-        <div class="gm-form__field" data-invalid="{{ form.errors contains 'form' }}">
+        <div class="gm-form__field" data-invalid="{% if form.errors contains 'form' %}true{% else %}false{% endif %}">
           <label for="LoginEmail">{{ 'customer.login.email' | t }}</label>
           <input type="email" class="gm-input" id="LoginEmail" name="customer[email]" autocomplete="email" autocorrect="off" autocapitalize="off" required>
         </div>
@@ -55,7 +55,7 @@
           <div class="gm-form__notice gm-form__notice--error" role="alert">{{ 'customer.recover.error' | t }}</div>
         {%- endif -%}
 
-        <div class="gm-form__field" data-invalid="{{ form.errors contains 'form' }}">
+        <div class="gm-form__field" data-invalid="{% if form.errors contains 'form' %}true{% else %}false{% endif %}">
           <label for="RecoverEmail">{{ 'customer.login.email' | t }}</label>
           <input type="email" class="gm-input" id="RecoverEmail" name="email" autocomplete="email" required>
         </div>

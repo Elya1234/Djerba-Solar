@@ -90,8 +90,18 @@
         {%- else -%}
           <div class="gm-product-grid">
             {%- for product in collection.products -%}
-              {% render 'product-card', product: product, priority: forloop.index0 < 4 %}
-              {%- if per_row_editorial > 0 and forloop.index0 > 0 and forloop.index0 | modulo: per_row_editorial == 0 -%}
+              {%- liquid
+                assign is_priority_card = forloop.index0 < 4
+                assign editorial_slot = false
+                if per_row_editorial > 0 and forloop.index0 > 0
+                  assign row_position = forloop.index0 | modulo: per_row_editorial
+                  if row_position == 0
+                    assign editorial_slot = true
+                  endif
+                endif
+              -%}
+              {% render 'product-card', product: product, priority: is_priority_card %}
+              {%- if editorial_slot -%}
                 {%- assign editorial_index = forloop.index0 | divided_by: per_row_editorial | minus: 1 -%}
                 {%- assign editorial_block = editorial_blocks[editorial_index] -%}
                 {%- if editorial_block -%}

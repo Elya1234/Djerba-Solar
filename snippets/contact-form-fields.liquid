@@ -22,11 +22,11 @@
   {%- endif -%}
 
   <div class="gm-form__row">
-    <div class="gm-form__field" data-invalid="{{ form.errors contains 'name' }}">
+    <div class="gm-form__field" data-invalid="{% if form.errors contains 'name' %}true{% else %}false{% endif %}">
       <label for="{{ fid }}-name">{{ 'contact.form.name' | t }}</label>
       <input type="text" class="gm-input" id="{{ fid }}-name" name="contact[name]" value="{{ form.name }}" required>
     </div>
-    <div class="gm-form__field" data-invalid="{{ form.errors contains 'email' }}">
+    <div class="gm-form__field" data-invalid="{% if form.errors contains 'email' %}true{% else %}false{% endif %}">
       <label for="{{ fid }}-email">{{ 'contact.form.email' | t }}</label>
       <input type="email" class="gm-input" id="{{ fid }}-email" name="contact[email]" value="{{ form.email }}" autocomplete="email" required>
     </div>

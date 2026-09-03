@@ -100,7 +100,7 @@
                         assign swatch_class = 'gm-swatch--platinum'
                       endif
                     -%}
-                    <span class="gm-option-swatch" role="radio" tabindex="0" data-gm-option="{{ option.name }}" data-value="{{ value }}" aria-checked="{{ option.selected_value == value }}">
+                    <span class="gm-option-swatch" role="radio" tabindex="0" data-gm-option="{{ option.name }}" data-value="{{ value }}" aria-checked="{% if option.selected_value == value %}true{% else %}false{% endif %}">
                       <span class="gm-swatch {{ swatch_class }}"><span></span></span>{{ value }}
                     </span>
                   {%- endfor -%}
@@ -120,7 +120,7 @@
                   </div>
                   <div class="gm-carat__ticks">
                     {%- for value in carat_values -%}
-                      <button type="button" data-gm-carat-tick="{{ option.name }}" aria-current="{{ option.selected_value == value }}">{{ value }}</button>
+                      <button type="button" data-gm-carat-tick="{{ option.name }}" aria-current="{% if option.selected_value == value %}true{% else %}false{% endif %}">{{ value }}</button>
                     {%- endfor -%}
                   </div>
                 </div>
@@ -128,7 +128,7 @@
               {%- elsif opt_name_down contains 'forme' or opt_name_down contains 'shape' -%}
                 <div class="gm-option-cards" role="radiogroup" aria-label="{{ option.name }}">
                   {%- for value in option.values -%}
-                    <span class="gm-option-card" role="radio" tabindex="0" data-gm-option="{{ option.name }}" data-value="{{ value }}" aria-checked="{{ option.selected_value == value }}">
+                    <span class="gm-option-card" role="radio" tabindex="0" data-gm-option="{{ option.name }}" data-value="{{ value }}" aria-checked="{% if option.selected_value == value %}true{% else %}false{% endif %}">
                       <span class="gm-option-card__shape" style="width:28px;height:28px;border:1.3px solid currentColor;border-radius:{% if value contains 'Rond' %}50%{% elsif value contains 'Coussin' %}22%{% elsif value contains 'Princesse' %}2px{% else %}50% / 62%{% endif %};"></span>
                       <span>{{ value }}</span>
                     </span>
@@ -138,7 +138,7 @@
               {%- elsif opt_name_down contains 'taille de doigt' or opt_name_down == 'taille' -%}
                 <div class="gm-option-pills" role="radiogroup" aria-label="{{ option.name }}">
                   {%- for value in option.values -%}
-                    <span class="gm-option-pill" role="radio" tabindex="0" data-gm-option="{{ option.name }}" data-value="{{ value }}" aria-checked="{{ option.selected_value == value }}">{{ value }}</span>
+                    <span class="gm-option-pill" role="radio" tabindex="0" data-gm-option="{{ option.name }}" data-value="{{ value }}" aria-checked="{% if option.selected_value == value %}true{% else %}false{% endif %}">{{ value }}</span>
                   {%- endfor -%}
                 </div>
                 <button type="button" class="gm-size-guide-link" data-gm-size-guide-open>Guide des tailles</button>
@@ -146,7 +146,7 @@
               {%- else -%}
                 <div class="gm-option-pills" role="radiogroup" aria-label="{{ option.name }}">
                   {%- for value in option.values -%}
-                    <span class="gm-option-pill" role="radio" tabindex="0" data-gm-option="{{ option.name }}" data-value="{{ value }}" aria-checked="{{ option.selected_value == value }}">{{ value }}</span>
+                    <span class="gm-option-pill" role="radio" tabindex="0" data-gm-option="{{ option.name }}" data-value="{{ value }}" aria-checked="{% if option.selected_value == value %}true{% else %}false{% endif %}">{{ value }}</span>
                   {%- endfor -%}
                 </div>
               {%- endif -%}
