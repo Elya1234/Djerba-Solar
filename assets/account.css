@@ -87,8 +87,8 @@
   position: absolute; top: 0.8rem; right: 0.8rem; width: 3.2rem; height: 3.2rem; border-radius: 50%;
   background: var(--gm-white); border: 1px solid var(--gm-border); display: flex; align-items: center; justify-content: center; cursor: pointer;
 }
-.gm-wishlist-card__title { margin-top: var(--space-3); font-size: 1.4rem; }
-.gm-wishlist-card__price { color: var(--gm-text-muted); font-size: 1.3rem; margin-top: 0.2rem; }
+.gm-wishlist-card__title { margin-top: var(--space-3); font-family: var(--font-display); font-weight: 500; font-size: var(--type-product-name); color: var(--color-text-secondary); }
+.gm-wishlist-card__price { color: var(--color-text-muted); font-family: var(--font-body); font-size: var(--type-price); margin-top: 0.2rem; }
 .gm-wishlist-card__cta { margin-top: var(--space-3); }
 .gm-wishlist-card__note { font-size: 1.15rem; color: var(--gm-error); margin-top: 0.4rem; }
 /* A Favoris card is much narrower than a full-width button was designed

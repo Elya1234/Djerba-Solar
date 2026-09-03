@@ -19,10 +19,10 @@
 .gm-card__wishlist[aria-pressed="true"] svg { fill: currentColor; }
 .gm-card__info { padding-top: var(--space-3); }
 .gm-card__collection { font-size: 1.1rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gm-text-muted); }
-.gm-card__title { display: block; font-family: var(--font-display); font-size: 1.7rem; margin-top: 0.3rem; }
-.gm-card__price { color: var(--gm-text-muted); font-size: 1.35rem; margin-top: 0.4rem; }
-.gm-card__swatches { display: flex; gap: 0.8rem; margin-top: var(--space-2); }
-.gm-card__swatches .gm-swatch { width: 2rem; height: 2rem; }
+.gm-card__title { display: block; font-family: var(--font-display); font-weight: 500; font-size: var(--type-product-name); color: var(--color-text-secondary); margin-top: 0.3rem; line-height: 1.25; }
+.gm-card__price { color: var(--color-text-muted); font-family: var(--font-body); font-size: var(--type-price); margin-top: 0.3rem; }
+.gm-card__swatches { display: flex; gap: 0.6rem; margin-top: var(--space-2); }
+.gm-card__swatches .gm-swatch { width: 1.8rem; height: 1.8rem; }
 
 .gm-card--soldout .gm-card__media { opacity: 0.55; }
 .gm-card--soldout .gm-card__title, .gm-card--soldout .gm-card__price { color: var(--gm-text-muted); }
@@ -37,8 +37,14 @@
 }
 .gm-card:hover .gm-card__quickview, .gm-card:focus-within .gm-card__quickview { opacity: 1; transform: translateY(0); }
 @media (max-width: 767px) {
-  /* No hover on touch devices: the quick-view trigger stays visible. */
-  .gm-card__quickview { opacity: 1; transform: none; position: static; margin-top: var(--space-2); background: none; padding: 0; justify-content: flex-start; color: var(--gm-text-muted); }
+  /* A minimal card (photo / name / price / metal dots / heart) reads
+     cleaner on a narrow phone grid — the quick-view trigger is a
+     desktop-hover affordance and has no equivalent in the reference
+     layout, so it's dropped from the card entirely on mobile rather
+     than forced into an always-visible text row under the image. */
+  .gm-card__quickview { display: none; }
+  .gm-card__media { aspect-ratio: 1 / 1; }
+  .gm-card__swatches .gm-swatch { width: 1.5rem; height: 1.5rem; }
 }
 
 /* ---- Collection banner ---- */
@@ -49,6 +55,27 @@
 .gm-collection-banner__content { position: relative; z-index: 1; padding-block: var(--space-6); max-width: 60rem; }
 .gm-collection-banner--plain { min-height: 0; color: var(--gm-text); padding-top: var(--space-7); }
 .gm-collection-banner--plain .gm-collection-banner__content { color: var(--gm-text); position: static; }
+
+/* ---- Collection description: truncated with a "Voir plus" toggle ---- */
+.gm-collection-desc__text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+.gm-collection-desc.is-expanded .gm-collection-desc__text {
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+.gm-collection-desc__toggle {
+  display: none;
+  margin-top: var(--space-2);
+  font-size: 1.2rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--color-text-muted);
+}
+.gm-collection-desc__toggle.is-visible { display: inline-block; }
 
 /* ---- Toolbar: filter trigger + result count + sort ---- */
 .gm-toolbar {

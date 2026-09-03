@@ -40,6 +40,20 @@
     });
   });
 
+  /* ---- Collection description: "Voir plus / Voir moins" ---- */
+  document.querySelectorAll('[data-gm-collection-desc]').forEach(function (wrap) {
+    var text = wrap.querySelector('.gm-collection-desc__text');
+    var toggle = wrap.querySelector('[data-gm-collection-desc-toggle]');
+    if (!text || !toggle) return;
+    if (text.scrollHeight > text.clientHeight + 2) {
+      toggle.classList.add('is-visible');
+    }
+    toggle.addEventListener('click', function () {
+      var expanded = wrap.classList.toggle('is-expanded');
+      toggle.textContent = expanded ? 'Voir moins' : 'Voir plus';
+    });
+  });
+
   var sortSelect = document.querySelector('[data-gm-sort-select]');
   if (sortSelect) {
     sortSelect.addEventListener('change', function () {

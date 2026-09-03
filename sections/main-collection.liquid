@@ -27,7 +27,10 @@
       <span class="gm-eyebrow">Collection</span>
       <h1 class="gm-h2"{% if collection.image %} style="color:var(--gm-white);"{% endif %}>{{ collection.title }}</h1>
       {%- if collection.description != blank -%}
-        <div class="gm-lead" style="{% if collection.image %}color:rgba(255,255,255,0.85);{% endif %} margin-top: var(--space-3); max-width:60ch;">{{ collection.description }}</div>
+        <div class="gm-collection-desc" data-gm-collection-desc>
+          <div class="gm-lead gm-collection-desc__text" style="{% if collection.image %}color:rgba(255,255,255,0.85);{% endif %} margin-top: var(--space-3); max-width:60ch;">{{ collection.description }}</div>
+          <button type="button" class="gm-collection-desc__toggle" data-gm-collection-desc-toggle style="{% if collection.image %}color:var(--gm-white);{% endif %}">Voir plus</button>
+        </div>
       {%- endif -%}
     </div>
   </div>
@@ -37,7 +40,10 @@
     <span class="gm-eyebrow">Collection</span>
     <h1 class="gm-h2">{{ collection.title }}</h1>
     {%- if collection.description != blank -%}
-      <div class="gm-lead" style="margin-top: var(--space-3); max-width:60ch;">{{ collection.description }}</div>
+      <div class="gm-collection-desc" data-gm-collection-desc>
+        <div class="gm-lead gm-collection-desc__text" style="margin-top: var(--space-3); max-width:60ch;">{{ collection.description }}</div>
+        <button type="button" class="gm-collection-desc__toggle" data-gm-collection-desc-toggle>Voir plus</button>
+      </div>
     {%- endif -%}
   </div>
 {%- endif -%}

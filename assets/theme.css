@@ -47,6 +47,8 @@
   --type-heading: clamp(2.2rem, 2.6vw, 3rem);
   --type-body: 1.8rem;
   --type-button: 1.2rem;
+  --type-product-name: 1.7rem;
+  --type-price: 1.35rem;
 
   --color-text-primary: #181817;   /* grand titre — presque noir */
   --color-text-secondary: #383836; /* titre secondaire — gris très foncé */
@@ -202,16 +204,18 @@ ul { list-style: none; margin: 0; padding: 0; }
    the text-color tokens follows automatically. */
 @media (max-width: 599px) {
   :root {
-    --type-eyebrow: clamp(0.6875rem, 2.8vw, 0.8125rem); /* 11–13px */
-    --type-display: clamp(2rem, 9vw, 2.625rem);          /* 32–42px */
-    --type-heading: clamp(1.5625rem, 6vw, 1.875rem);     /* 25–30px */
-    --type-body: clamp(1rem, 4vw, 1.1875rem);            /* 16–19px */
-    --type-button: clamp(0.75rem, 3vw, 0.875rem);        /* 12–14px */
-    --container-pad: 1.5rem;                             /* 24px */
+    --type-eyebrow: clamp(0.8125rem, 3vw, 0.875rem);      /* 13–14px */
+    --type-display: clamp(1.6875rem, 6vw, 2rem);           /* 27–32px, drives .gm-h2 */
+    --type-heading: clamp(1.3125rem, 4.5vw, 1.5rem);       /* 21–24px, .gm-h3/.gm-h4 */
+    --type-body: clamp(0.9375rem, 3.2vw, 1.0625rem);       /* 15–17px */
+    --type-button: clamp(0.75rem, 3vw, 0.875rem);          /* 12–14px */
+    --type-product-name: clamp(1.125rem, 4vw, 1.3125rem);  /* 18–21px */
+    --type-price: clamp(1rem, 3.2vw, 1.125rem);            /* 16–18px */
+    --container-pad: 1.5rem;                               /* 24px */
   }
-  .gm-h1 { font-size: clamp(2.25rem, 10vw, 2.75rem); }
+  .gm-h1 { font-size: clamp(2.125rem, 7.5vw, 2.5rem); }    /* 34–40px */
   .gm-eyebrow { margin-bottom: var(--space-2); }
-  .gm-lead { line-height: 1.6; max-width: 34ch; }
+  .gm-lead { line-height: 1.5; max-width: 34ch; }
 }
 @media (max-width: 379px) {
   :root { --container-pad: 1.25rem; } /* 20px on the smallest phones */
