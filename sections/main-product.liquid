@@ -207,7 +207,7 @@
       <button class="gm-accordion__trigger" data-gm-accordion-trigger aria-expanded="false" aria-controls="details-panel">Bague & détails de la pierre<span class="gm-accordion__icon">{% render 'icon', name: 'plus', size: 16 %}</span></button>
       <div class="gm-accordion__panel" id="details-panel" data-open="false"><div class="gm-accordion__panel-inner"><div class="gm-accordion__panel-content">
         {%- if product.metafields.custom.gem_details != blank -%}
-          {{ product.metafields.custom.gem_details.value }}
+          {{ product.metafields.custom.gem_details | metafield_tag }}
         {%- else -%}
           Les caractéristiques détaillées de la pierre (carat, couleur, pureté, certificat) apparaissent ici une fois renseignées dans la fiche produit.
         {%- endif -%}
