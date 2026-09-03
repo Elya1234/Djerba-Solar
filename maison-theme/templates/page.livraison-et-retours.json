@@ -1,0 +1,229 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-hero",
+      "settings": {
+        "eyebrow": "Service client",
+        "title": "Livraison & retours",
+        "text": "",
+        "align": "left",
+        "short": true,
+        "parallax": true,
+        "show_breadcrumb": true,
+        "parent_title": "Service client",
+        "parent_link": "/pages/faq"
+      }
+    },
+    "livraison": {
+      "type": "editorial-image-text",
+      "settings": {
+        "eyebrow": "Contenu de démonstration à personnaliser",
+        "title": "Livraison",
+        "text": "<p>Zones desservies, délais, tarifs et assurance : à renseigner avec vos conditions réelles.</p>",
+        "media_position": "left",
+        "background": "paper",
+        "ratio": "portrait"
+      },
+      "blocks": {
+        "f0": {
+          "type": "precision",
+          "settings": {
+            "key": "Zones desservies",
+            "value": ""
+          }
+        },
+        "f1": {
+          "type": "precision",
+          "settings": {
+            "key": "Délais",
+            "value": ""
+          }
+        },
+        "f2": {
+          "type": "precision",
+          "settings": {
+            "key": "Tarifs",
+            "value": ""
+          }
+        },
+        "f3": {
+          "type": "precision",
+          "settings": {
+            "key": "Assurance",
+            "value": ""
+          }
+        }
+      },
+      "block_order": [
+        "f0",
+        "f1",
+        "f2",
+        "f3"
+      ]
+    },
+    "retrait": {
+      "type": "editorial-image-text",
+      "settings": {
+        "eyebrow": "À renseigner",
+        "title": "Retrait et retours",
+        "text": "<p>Retrait en boutique, retours et échanges : conditions à renseigner.</p>",
+        "media_position": "right",
+        "background": "surface",
+        "ratio": "portrait"
+      },
+      "blocks": {
+        "f0": {
+          "type": "precision",
+          "settings": {
+            "key": "Retrait en boutique",
+            "value": ""
+          }
+        },
+        "f1": {
+          "type": "precision",
+          "settings": {
+            "key": "Délai de retour",
+            "value": ""
+          }
+        },
+        "f2": {
+          "type": "precision",
+          "settings": {
+            "key": "Échanges",
+            "value": ""
+          }
+        },
+        "f3": {
+          "type": "precision",
+          "settings": {
+            "key": "Pièces gravées",
+            "value": ""
+          }
+        }
+      },
+      "block_order": [
+        "f0",
+        "f1",
+        "f2",
+        "f3"
+      ]
+    },
+    "faq": {
+      "type": "editorial-faq",
+      "settings": {
+        "eyebrow": "Questions",
+        "title": "Livraison et retours"
+      },
+      "blocks": {
+        "cat0": {
+          "type": "categorie",
+          "settings": {
+            "title": "Livraison"
+          }
+        },
+        "q0_0": {
+          "type": "question",
+          "settings": {
+            "question": "Quels sont les délais de livraison ?",
+            "answer": ""
+          }
+        },
+        "q0_1": {
+          "type": "question",
+          "settings": {
+            "question": "La livraison est-elle assurée ?",
+            "answer": ""
+          }
+        },
+        "q0_2": {
+          "type": "question",
+          "settings": {
+            "question": "Livrez-vous à l'étranger ?",
+            "answer": ""
+          }
+        },
+        "cat1": {
+          "type": "categorie",
+          "settings": {
+            "title": "Retrait"
+          }
+        },
+        "q1_0": {
+          "type": "question",
+          "settings": {
+            "question": "Puis-je retirer ma commande en boutique ?",
+            "answer": ""
+          }
+        },
+        "q1_1": {
+          "type": "question",
+          "settings": {
+            "question": "Quel document présenter au retrait ?",
+            "answer": ""
+          }
+        },
+        "cat2": {
+          "type": "categorie",
+          "settings": {
+            "title": "Retours et échanges"
+          }
+        },
+        "q2_0": {
+          "type": "question",
+          "settings": {
+            "question": "Quel est le délai de retour ?",
+            "answer": ""
+          }
+        },
+        "q2_1": {
+          "type": "question",
+          "settings": {
+            "question": "Une pièce gravée est-elle reprise ?",
+            "answer": ""
+          }
+        },
+        "q2_2": {
+          "type": "question",
+          "settings": {
+            "question": "Comment procéder à un échange ?",
+            "answer": ""
+          }
+        }
+      },
+      "block_order": [
+        "cat0",
+        "q0_0",
+        "q0_1",
+        "q0_2",
+        "cat1",
+        "q1_0",
+        "q1_1",
+        "cat2",
+        "q2_0",
+        "q2_1",
+        "q2_2"
+      ]
+    },
+    "cta": {
+      "type": "editorial-cta",
+      "settings": {
+        "eyebrow": "",
+        "title": "Une question sur votre commande ?",
+        "text": "",
+        "dark": false,
+        "align": "center",
+        "label_1": "Suivre ma commande",
+        "link_1": "/pages/suivre-ma-commande",
+        "label_2": "Contacter la Maison",
+        "link_2": "/pages/contact"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "livraison",
+    "retrait",
+    "faq",
+    "cta"
+  ]
+}

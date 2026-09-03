@@ -1,0 +1,32 @@
+{
+  "sections": {
+    "guide": {
+      "type": "size-guide-page",
+      "settings": {
+        "eyebrow": "Conseils",
+        "title": "Guide des tailles",
+        "text": "Chaque bague est ajustée à l'atelier. En cas de doute entre deux tailles, choisissez la plus grande.",
+        "bracelet_text": "<p>Mesurez le tour de poignet avec un mètre ruban, sans serrer, puis ajoutez 1 à 1,5 cm selon que vous souhaitez un jonc ajusté ou souple. En cas de doute, un conseiller mesure votre poignet en boutique.</p>",
+        "necklace_text": "<p>Les longueurs de la Maison : 40 cm (ras-de-cou), 45 cm (princesse), 50 cm (matinée), 60 cm et 70 cm (sautoir). Mesurez une chaîne que vous portez déjà pour retrouver la longueur qui vous convient.</p>"
+      }
+    },
+    "cta": {
+      "type": "editorial-cta",
+      "settings": {
+        "eyebrow": "",
+        "title": "Besoin d'aide pour mesurer ?",
+        "text": "",
+        "dark": false,
+        "align": "center",
+        "label_1": "Prendre rendez-vous",
+        "link_1": "/pages/rendez-vous",
+        "label_2": "Contacter la Maison",
+        "link_2": "/pages/contact"
+      }
+    }
+  },
+  "order": [
+    "guide",
+    "cta"
+  ]
+}

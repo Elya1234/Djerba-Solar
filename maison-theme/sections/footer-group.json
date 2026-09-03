@@ -1,0 +1,18 @@
+{
+  "name": "Pied de page",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "settings": { "mark": "MAISON" },
+      "blocks": {
+        "col-1": { "type": "colonne", "settings": { "title": "Service client" } },
+        "col-2": { "type": "colonne", "settings": { "title": "La Maison" } },
+        "col-3": { "type": "colonne", "settings": { "title": "Services" } },
+        "col-4": { "type": "colonne", "settings": { "title": "Informations" } }
+      },
+      "block_order": ["col-1", "col-2", "col-3", "col-4"]
+    }
+  },
+  "order": ["footer"]
+}

@@ -1,0 +1,50 @@
+{%- liquid
+  assign products = section.settings.collection.products
+  assign limit = section.settings.count
+-%}
+<section class="section sel">
+  <div class="page">
+    <div class="sel__head">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h2 class="t-h1 line-mask" style="margin-top: var(--s-4)" data-reveal="mask"><span>{{ section.settings.title }}</span></h2>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.collection != blank -%}
+        <a class="cta" href="{{ section.settings.collection.url }}" data-reveal style="--i: 1">
+          {{ section.settings.cta_label | default: 'Voir la collection' }}<span class="cta__arrow" aria-hidden="true"></span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="sel__track" style="--per-row: {{ limit }}">
+      {%- if products.size > 0 -%}
+        {%- for product in products limit: limit -%}
+          {% render 'maison-card-product', product: product, index: forloop.index0 %}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..limit) -%}
+          {% render 'maison-card-product', index: forloop.index0 %}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sélection de créations",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Label", "default": "Sélection" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Créations de la Maison" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "count", "label": "Créations affichées", "min": 3, "max": 4, "step": 1, "default": 3 },
+    { "type": "text", "id": "cta_label", "label": "Libellé du lien", "default": "Voir la collection" }
+  ],
+  "presets": [{ "name": "Sélection de créations" }]
+}
+{% endschema %}

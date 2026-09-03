@@ -1,0 +1,79 @@
+{%- comment -%}
+  Pages juridiques. Priorité aux politiques Shopify si elles sont
+  renseignées ; sinon au contenu de la page ; sinon un avertissement
+  explicite. Aucune information juridique n'est inventée.
+{%- endcomment -%}
+{%- liquid
+  case section.settings.policy
+    when 'privacy'
+      assign policy = shop.privacy_policy
+    when 'terms'
+      assign policy = shop.terms_of_service
+    when 'refund'
+      assign policy = shop.refund_policy
+    when 'shipping'
+      assign policy = shop.shipping_policy
+    else
+      assign policy = blank
+  endcase
+
+  assign body = blank
+  if policy != blank and policy.body != blank
+    assign body = policy.body
+  elsif page.content != blank
+    assign body = page.content
+  elsif section.settings.text != blank
+    assign body = section.settings.text
+  endif
+-%}
+
+<section class="section" style="padding-top: calc(var(--h-header) + var(--s-6))">
+  <div class="page">
+    <div style="max-width: 72ch">
+      {% render 'maison-breadcrumb', current_title: section.settings.title | default: page.title %}
+
+      <h1 class="t-h1 line-mask" style="margin-top: var(--s-5)" data-reveal="mask">
+        <span>{{ section.settings.title | default: page.title }}</span>
+      </h1>
+
+      {%- if body != blank -%}
+        <div class="t-body etext__rich" style="margin-top: var(--s-6); max-width: none" data-reveal>{{ body }}</div>
+      {%- else -%}
+        <p class="eplaceholder" style="margin-top: var(--s-6)">
+          {{ section.settings.placeholder | default: 'Contenu juridique à renseigner avant mise en ligne.' }}
+        </p>
+        <p class="t-body-s t-muted measure" style="margin-top: var(--s-5)">
+          {{ section.settings.help | default: "Renseignez cette page dans Shopify (Paramètres → Politiques, ou le contenu de la page). Aucun texte juridique n'est généré automatiquement." }}
+        </p>
+      {%- endif -%}
+
+      {%- if section.settings.updated != blank -%}
+        <p class="t-label t-muted" style="margin-top: var(--s-7)">{{ section.settings.updated }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Page juridique",
+  "tag": "div",
+  "settings": [
+    { "type": "paragraph", "content": "Aucun contenu juridique n'est inventé. La page affiche, dans l'ordre : la politique Shopify correspondante, sinon le contenu de la page, sinon un avertissement." },
+    { "type": "text", "id": "title", "label": "Titre" },
+    { "type": "select", "id": "policy", "label": "Politique Shopify liée", "default": "none",
+      "options": [
+        { "value": "none", "label": "Aucune" },
+        { "value": "privacy", "label": "Politique de confidentialité" },
+        { "value": "terms", "label": "Conditions générales" },
+        { "value": "refund", "label": "Politique de remboursement" },
+        { "value": "shipping", "label": "Politique de livraison" }
+      ]
+    },
+    { "type": "richtext", "id": "text", "label": "Texte de repli" },
+    { "type": "text", "id": "placeholder", "label": "Avertissement", "default": "Contenu juridique à renseigner avant mise en ligne." },
+    { "type": "text", "id": "help", "label": "Aide" },
+    { "type": "text", "id": "updated", "label": "Mention de mise à jour" }
+  ],
+  "presets": [{ "name": "Page juridique" }]
+}
+{% endschema %}

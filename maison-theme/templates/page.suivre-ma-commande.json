@@ -1,0 +1,74 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-hero",
+      "settings": {
+        "eyebrow": "Service client",
+        "title": "Suivre ma commande",
+        "text": "",
+        "align": "left",
+        "short": true,
+        "parallax": true,
+        "show_breadcrumb": true
+      }
+    },
+    "infos": {
+      "type": "editorial-image-text",
+      "settings": {
+        "eyebrow": "Suivi",
+        "title": "Où en est votre commande ?",
+        "text": "<p>Le suivi se fait depuis votre compte client, ou depuis le lien de confirmation reçu par e-mail. Ces deux parcours sont gérés par Shopify.</p>",
+        "media_position": "right",
+        "background": "paper",
+        "ratio": "portrait"
+      },
+      "blocks": {
+        "f0": {
+          "type": "precision",
+          "settings": {
+            "key": "Délai de préparation",
+            "value": ""
+          }
+        },
+        "f1": {
+          "type": "precision",
+          "settings": {
+            "key": "Transporteur",
+            "value": ""
+          }
+        },
+        "f2": {
+          "type": "precision",
+          "settings": {
+            "key": "Numéro de suivi",
+            "value": ""
+          }
+        }
+      },
+      "block_order": [
+        "f0",
+        "f1",
+        "f2"
+      ]
+    },
+    "cta": {
+      "type": "editorial-cta",
+      "settings": {
+        "eyebrow": "",
+        "title": "Accéder à votre compte",
+        "text": "",
+        "dark": false,
+        "align": "center",
+        "label_1": "Votre compte",
+        "link_1": "/pages/compte",
+        "label_2": "Contacter la Maison",
+        "link_2": "/pages/contact"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "infos",
+    "cta"
+  ]
+}

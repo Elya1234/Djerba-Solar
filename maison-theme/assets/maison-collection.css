@@ -1,0 +1,398 @@
+/* =========================================================================
+   MAISON — COLLECTIONS, FILTRES, PAGES UNIVERS
+   Consomme les tokens de maison-base.css et les composants de maison-home.css.
+   Aucun nouveau langage d'animation : reveal, mask, crossfade, filets.
+   ========================================================================= */
+
+/* ---------- FIL D'ARIANE ------------------------------------------------- */
+.crumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+  color: var(--c-ink-soft);
+}
+.crumb a:hover { color: var(--c-ink); }
+.crumb__sep { opacity: .5; }
+.crumb[data-on-dark] { color: rgba(255,255,255,.62); }
+.crumb[data-on-dark] a:hover { color: var(--c-surface); }
+
+/* ---------- BANDEAU DE COLLECTION --------------------------------------- */
+.cbanner {
+  position: relative;
+  display: grid;
+  align-items: end;
+  min-height: clamp(420px, 62svh, 720px);
+  color: var(--c-surface);
+  background: var(--c-ink);
+  overflow: hidden;
+}
+.cbanner--plain {
+  min-height: 0;
+  color: var(--c-ink);
+  background: var(--c-paper);
+  padding-block: calc(var(--h-header) + var(--s-8)) var(--s-8);
+}
+.cbanner__media { position: absolute; inset: 0; }
+.cbanner__media img { width: 100%; height: 100%; object-fit: cover; }
+.cbanner__veil {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.34) 0%, rgba(0,0,0,.08) 45%, rgba(0,0,0,.52) 100%);
+}
+.cbanner__inner {
+  position: relative;
+  z-index: 1;
+  padding-block: calc(var(--h-header) + var(--s-7)) clamp(40px, 6vh, 80px);
+  display: grid;
+  gap: var(--s-4);
+  justify-items: start;
+}
+.cbanner--plain .cbanner__inner { padding-block: 0; }
+.cbanner__title { max-width: 18ch; }
+.cbanner__text { max-width: 52ch; margin-top: var(--s-3); }
+.cbanner--plain .cbanner__text { color: var(--c-ink-soft); }
+.cbanner__cta { margin-top: var(--s-4); }
+
+/* ---------- SOUS-CATÉGORIES ---------------------------------------------- */
+.subnav { background: var(--c-paper); padding-block: clamp(40px, 5vw, 88px); }
+.subnav__head { margin-bottom: clamp(24px, 3vw, 48px); }
+
+/* Variante éditoriale : vignettes issues des images de collection Shopify */
+.subnav__rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 62%;
+  gap: clamp(16px, 2vw, 32px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--page-x);
+  margin-inline: calc(var(--page-x) * -1);
+  padding-inline: var(--page-x);
+  scrollbar-width: none;
+}
+.subnav__rail::-webkit-scrollbar { display: none; }
+.subnav__rail > * { scroll-snap-align: start; }
+
+@media (min-width: 750px) {
+  .subnav__rail {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    overflow: visible;
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+}
+
+.subnav__item { display: grid; gap: var(--s-3); }
+.subnav__frame { aspect-ratio: 4 / 5; }
+.subnav__name {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-3);
+  transition: transform var(--d-m) var(--e-luxe);
+}
+.subnav__item:hover .subnav__name { transform: translateX(4px); }
+.subnav__item[aria-current="page"] .subnav__name { color: var(--c-signature); }
+
+/* Variante filets : navigation textuelle très discrète */
+.subnav__links { display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-6); }
+.subnav__link { position: relative; padding-block: var(--s-2); }
+.subnav__link[aria-current="page"] { color: var(--c-signature); }
+
+/* ---------- BARRE D'OUTILS ----------------------------------------------- */
+.ctools {
+  position: sticky;
+  top: var(--h-bar-compact);
+  z-index: 40;
+  background: var(--c-paper);
+  border-block: var(--hairline);
+}
+.ctools__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  min-height: 56px;
+}
+.ctools__count { color: var(--c-ink-soft); }
+.ctools__right { display: flex; align-items: center; gap: var(--s-5); }
+.ctools__btn { display: inline-flex; align-items: center; gap: var(--s-3); }
+.ctools__btn-plus { position: relative; width: 9px; height: 9px; }
+.ctools__btn-plus::before,
+.ctools__btn-plus::after {
+  content: "";
+  position: absolute; inset: 0;
+  margin: auto;
+  background: currentColor;
+}
+.ctools__btn-plus::before { width: 9px; height: 1px; }
+.ctools__btn-plus::after { width: 1px; height: 9px; transition: transform var(--d-m) var(--e-luxe); }
+.ctools__btn[aria-expanded="true"] .ctools__btn-plus::after { transform: scaleY(0); }
+
+.csort { position: relative; display: inline-flex; align-items: center; gap: var(--s-2); }
+.csort select {
+  appearance: none; -webkit-appearance: none;
+  background: transparent; border: 0; color: inherit;
+  font-family: var(--f-ui); font-size: var(--t-ui-s);
+  letter-spacing: var(--ls-label); text-transform: uppercase;
+  padding: var(--s-2) var(--s-4) var(--s-2) 0;
+  cursor: pointer;
+}
+.csort::after {
+  content: ""; position: absolute; right: 2px; top: 42%;
+  width: 6px; height: 6px;
+  border-right: 1px solid currentColor; border-bottom: 1px solid currentColor;
+  transform: translateY(-50%) rotate(45deg);
+  pointer-events: none;
+}
+
+/* Filtres actifs */
+.cactive { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3); padding-block: var(--s-4); }
+.cchip {
+  display: inline-flex; align-items: center; gap: var(--s-3);
+  padding: var(--s-2) var(--s-4);
+  border: 1px solid var(--c-line);
+  color: var(--c-ink);
+  transition: border-color var(--d-s) var(--e-out);
+}
+.cchip:hover { border-color: var(--c-ink); }
+.cchip__x { position: relative; width: 8px; height: 8px; }
+.cchip__x::before, .cchip__x::after {
+  content: ""; position: absolute; inset: 0; margin: auto;
+  width: 9px; height: 1px; background: currentColor;
+}
+.cchip__x::before { transform: rotate(45deg); }
+.cchip__x::after { transform: rotate(-45deg); }
+
+/* ---------- PANNEAU DE FILTRES ------------------------------------------ */
+.cfilters {
+  background: var(--c-paper);
+  border-bottom: var(--hairline);
+  overflow: hidden;
+  height: 0;
+  transition: height var(--d-l) var(--e-luxe);
+}
+.cfilters.is-open { border-bottom: var(--hairline); }
+.cfilters__inner { padding-block: clamp(24px, 3vw, 48px); }
+.cfilters__grid {
+  display: grid;
+  gap: clamp(24px, 3vw, 48px);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 750px) {
+  .cfilters__grid { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+}
+.cfilter__title { color: var(--c-signature); margin-bottom: var(--s-4); }
+.cfilter__list { display: grid; gap: var(--s-3); max-height: 260px; overflow-y: auto; }
+
+.copt { display: flex; align-items: center; gap: var(--s-3); cursor: pointer; }
+.copt input { position: absolute; opacity: 0; width: 0; height: 0; }
+.copt__box {
+  flex: 0 0 auto;
+  width: 13px; height: 13px;
+  border: 1px solid var(--c-line);
+  position: relative;
+  transition: border-color var(--d-s) var(--e-out), background-color var(--d-s) var(--e-out);
+}
+.copt__box::after {
+  content: "";
+  position: absolute; left: 3px; top: 0;
+  width: 5px; height: 9px;
+  border-right: 1px solid var(--c-surface);
+  border-bottom: 1px solid var(--c-surface);
+  transform: rotate(45deg) scale(0);
+  transition: transform var(--d-s) var(--e-luxe);
+}
+.copt input:checked + .copt__box { background: var(--c-signature); border-color: var(--c-signature); }
+.copt input:checked + .copt__box::after { transform: rotate(45deg) scale(1); }
+.copt input:focus-visible + .copt__box { outline: 1px solid var(--c-signature); outline-offset: 3px; }
+.copt__label { font-size: var(--t-body-s); }
+.copt__count { color: var(--c-ink-soft); font-size: var(--t-ui-s); }
+.copt input:disabled + .copt__box { opacity: .4; }
+.copt input:disabled ~ .copt__label { opacity: .4; }
+
+.cprice { display: flex; align-items: center; gap: var(--s-3); }
+.cprice input {
+  width: 100%;
+  padding: var(--s-2) 0;
+  border: 0; border-bottom: 1px solid var(--c-line);
+  background: transparent; color: inherit;
+  font-family: var(--f-body); font-size: var(--t-body-s);
+}
+.cprice input:focus { border-color: var(--c-signature); }
+
+.cfilters__foot {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--s-5);
+  margin-top: clamp(24px, 3vw, 40px);
+  padding-top: var(--s-5);
+  border-top: var(--hairline);
+}
+
+/* Drawer mobile */
+@media (max-width: 749px) {
+  .cfilters {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-mobile);
+    height: 100%;
+    background: var(--c-paper);
+    transform: translateY(100%);
+    visibility: hidden;
+    transition: transform var(--d-l) var(--e-luxe), visibility 0s linear var(--d-l);
+    display: flex;
+    flex-direction: column;
+    border-bottom: 0;
+  }
+  .cfilters.is-open { transform: none; visibility: visible; transition: transform var(--d-l) var(--e-luxe), visibility 0s; }
+  .cfilters__bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 var(--page-x);
+    min-height: var(--h-bar);
+    border-bottom: var(--hairline);
+    flex: 0 0 auto;
+  }
+  .cfilters__inner { flex: 1 1 auto; overflow-y: auto; padding-inline: var(--page-x); }
+  .cfilters__foot {
+    flex: 0 0 auto;
+    margin-top: 0;
+    padding: var(--s-5) var(--page-x) calc(var(--s-5) + env(safe-area-inset-bottom, 0px));
+    background: var(--c-surface);
+  }
+}
+@media (min-width: 750px) { .cfilters__bar { display: none; } }
+
+/* ---------- GRILLE PRODUITS ---------------------------------------------- */
+.cgrid { background: var(--c-surface); padding-block: clamp(40px, 5vw, 88px); }
+.cgrid__list {
+  display: grid;
+  gap: clamp(24px, 3vw, 56px) clamp(16px, 2vw, 32px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 750px) { .cgrid__list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1400px) { .cgrid__list[data-wide] { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* Pagination */
+.cpage { display: flex; align-items: center; justify-content: center; gap: var(--s-5); margin-top: clamp(48px, 6vw, 96px); }
+.cpage__link { padding-block: var(--s-2); }
+.cpage__link[aria-current="page"] { color: var(--c-signature); }
+
+/* État vide */
+.cempty { display: grid; justify-items: center; text-align: center; gap: var(--s-5); padding-block: clamp(64px, 9vw, 140px); }
+.cempty__title { max-width: 20ch; }
+
+/* ---------- CARTE PRODUIT : ajouts étape 3 ------------------------------ */
+.card__swatches { display: flex; gap: var(--s-3); margin-top: var(--s-1); }
+.card__swatch {
+  width: 13px; height: 13px;
+  background: var(--c-line);
+  border-radius: 50%;
+  border: 1px solid var(--c-line);
+  position: relative;
+  transition: transform var(--d-s) var(--e-out);
+}
+.card__swatch:hover { transform: scale(1.15); }
+.card__swatch[aria-pressed="true"]::after {
+  content: "";
+  position: absolute; inset: -4px;
+  border: 1px solid var(--c-ink);
+  border-radius: 50%;
+}
+.card__swatch--or-jaune  { background: #C8A75B; }
+.card__swatch--or-blanc  { background: #D9D9D6; }
+.card__swatch--or-rose   { background: #D8A38C; }
+.card__swatch--platine   { background: #C4C6C7; }
+.card__swatch--argent    { background: #C9CBCC; }
+
+/* Sur mobile, pas de survol : la deuxième image ne s'affiche jamais seule */
+@media (hover: none) {
+  .card:hover .card__img--alt { opacity: 0; }
+  .card:hover .card__img--main { opacity: 1; transform: none; }
+}
+
+/* ---------- PAGES UNIVERS (Mariage, Diamants) --------------------------- */
+.phero {
+  position: relative;
+  display: grid;
+  align-items: end;
+  min-height: clamp(480px, 78svh, 860px);
+  color: var(--c-surface);
+  background: var(--c-ink);
+  overflow: hidden;
+}
+.phero__media { position: absolute; inset: 0; }
+.phero__media img { width: 100%; height: 100%; object-fit: cover; }
+.phero__veil { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.3) 0%, rgba(0,0,0,.08) 42%, rgba(0,0,0,.55) 100%); }
+.phero__inner {
+  position: relative; z-index: 1;
+  padding-block: calc(var(--h-header) + var(--s-7)) clamp(48px, 7vh, 96px);
+  display: grid; gap: var(--s-4); justify-items: start;
+}
+.phero--center .phero__inner { justify-items: center; text-align: center; }
+.phero__title { max-width: 17ch; }
+.phero__text { max-width: 46ch; color: rgba(255,255,255,.78); margin-top: var(--s-3); }
+
+/* Deux grands univers côte à côte */
+.duo { background: var(--c-paper); padding-block: clamp(56px, 7vw, 128px); }
+.duo__grid { display: grid; gap: clamp(20px, 2.6vw, 44px); }
+@media (min-width: 750px) { .duo__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.duo__item { display: grid; gap: var(--s-4); }
+.duo__frame { aspect-ratio: 3 / 4; }
+.duo__label { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-4); }
+.duo__name { transition: transform var(--d-m) var(--e-luxe); }
+.duo__item:hover .duo__name { transform: translateX(6px); }
+.duo__text { color: var(--c-ink-soft); font-size: var(--t-body-s); max-width: 40ch; }
+
+/* Accès secondaires en filets */
+.lgrid { background: var(--c-surface); padding-block: clamp(48px, 6vw, 104px); }
+.lgrid__head { margin-bottom: clamp(24px, 3vw, 48px); }
+.lgrid__list { display: grid; }
+.lgrid__row {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--s-5);
+  padding: var(--s-5) 0;
+  border-top: var(--hairline);
+  transition: padding-left var(--d-m) var(--e-luxe);
+}
+.lgrid__list .lgrid__row:last-child { border-bottom: var(--hairline); }
+.lgrid__row:hover { padding-left: var(--s-4); }
+.lgrid__name { font-family: var(--f-display); font-size: 1.125rem; }
+.lgrid__text { color: var(--c-ink-soft); font-size: var(--t-body-s); }
+@media (min-width: 750px) {
+  .lgrid__row { display: grid; grid-template-columns: 26% 1fr auto; align-items: baseline; }
+}
+
+/* =========================================================================
+   CORRECTIONS MOBILE — univers et sous-catégories
+   ========================================================================= */
+@media (max-width: 749px) {
+  .duo__grid { gap: var(--s-6); }
+  .duo__label { flex-direction: column; align-items: flex-start; gap: var(--s-2); }
+  .duo__name { font-size: 1.25rem; }
+
+  .subnav__name { gap: var(--s-2); }
+  .cgrid__list { gap: var(--s-6) var(--s-3); }
+  .card__meta, .card__price { font-size: var(--t-ui-s); letter-spacing: .04em; }
+  .card__name { font-size: 0.9375rem; }
+
+  .ctools__inner { gap: var(--s-3); }
+  .ctools__right { gap: var(--s-4); }
+  .cactive { gap: var(--s-2); }
+}
+
+.duo__item, .subnav__item, .card, .cline { min-width: 0; }
+.card__name, .card__meta, .cline__name { overflow-wrap: anywhere; }
+
+/* =========================================================================
+   CATALOGUE RÉEL — titres longs
+   Les titres importés peuvent faire plus de 120 caractères. On les limite à
+   deux lignes sur les cartes, sans jamais tronquer le titre Shopify lui-même.
+   ========================================================================= */
+.card__name {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card__meta { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }

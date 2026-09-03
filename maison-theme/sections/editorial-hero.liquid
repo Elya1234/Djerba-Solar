@@ -1,0 +1,72 @@
+{%- comment -%} Bandeau de page éditoriale. Image, vidéo ou fond uni. {%- endcomment -%}
+{%- liquid
+  assign has_media = false
+  if section.settings.image != blank or section.settings.video != blank
+    assign has_media = true
+  endif
+-%}
+<section class="ehero{% unless has_media %} ehero--plain{% endunless %}{% if section.settings.short %} ehero--short{% endif %}{% if section.settings.align == 'center' %} ehero--center{% endif %}"
+  {% if has_media %}data-header-contrast="light"{% endif %}>
+  {%- if has_media -%}
+    <div class="ehero__media" {% if section.settings.parallax %}data-parallax="20"{% endif %}>
+      {%- if section.settings.video != blank -%}
+        {{ section.settings.video | video_tag: image_size: '1920x', autoplay: true, loop: true, muted: true, controls: false, playsinline: true }}
+      {%- elsif section.settings.image_mobile != blank -%}
+        <picture>
+          <source media="(max-width: 749px)" srcset="{{ section.settings.image_mobile | image_url: width: 1200 }}">
+          {{ section.settings.image | image_url: width: 2400 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '100vw', widths: '800,1200,1800,2400', alt: section.settings.image_alt }}
+        </picture>
+      {%- else -%}
+        {{ section.settings.image | image_url: width: 2400 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '100vw', widths: '800,1200,1800,2400', alt: section.settings.image_alt }}
+      {%- endif -%}
+    </div>
+    <div class="ehero__veil" aria-hidden="true"></div>
+  {%- endif -%}
+
+  <div class="ehero__inner page">
+    {%- if section.settings.show_breadcrumb -%}
+      {% render 'maison-breadcrumb',
+         current_title: section.settings.title | default: page.title,
+         parent_title: section.settings.parent_title,
+         parent_url: section.settings.parent_link,
+         on_dark: has_media %}
+    {%- endif -%}
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    <h1 class="t-display ehero__title line-mask" data-reveal="mask"><span>{{ section.settings.title | default: page.title }}</span></h1>
+    {%- if section.settings.text != blank -%}
+      <p class="t-body ehero__text" data-reveal style="--i: 1">{{ section.settings.text }}</p>
+    {%- endif -%}
+    {%- if section.settings.cta_link != blank and section.settings.cta_label != blank -%}
+      <a class="cta" href="{{ section.settings.cta_link }}" data-reveal style="--i: 2">
+        {{ section.settings.cta_label }}<span class="cta__arrow" aria-hidden="true"></span>
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Éditorial — Bandeau",
+  "tag": "div",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image desktop" },
+    { "type": "image_picker", "id": "image_mobile", "label": "Image mobile" },
+    { "type": "video", "id": "video", "label": "Vidéo" },
+    { "type": "text", "id": "image_alt", "label": "Texte alternatif" },
+    { "type": "text", "id": "eyebrow", "label": "Surtitre" },
+    { "type": "text", "id": "title", "label": "Titre" },
+    { "type": "textarea", "id": "text", "label": "Introduction" },
+    { "type": "text", "id": "cta_label", "label": "Libellé du lien" },
+    { "type": "url", "id": "cta_link", "label": "Lien" },
+    { "type": "select", "id": "align", "label": "Alignement", "default": "left",
+      "options": [ { "value": "left", "label": "Gauche" }, { "value": "center", "label": "Centre" } ] },
+    { "type": "checkbox", "id": "short", "label": "Bandeau court", "default": false },
+    { "type": "checkbox", "id": "parallax", "label": "Parallaxe très légère", "default": true },
+    { "type": "checkbox", "id": "show_breadcrumb", "label": "Fil d'Ariane", "default": true },
+    { "type": "text", "id": "parent_title", "label": "Niveau intermédiaire" },
+    { "type": "url", "id": "parent_link", "label": "Lien du niveau intermédiaire" }
+  ],
+  "presets": [{ "name": "Éditorial — Bandeau" }]
+}
+{% endschema %}

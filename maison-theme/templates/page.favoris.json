@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-favourites",
+      "settings": {
+        "title": "Vos favoris",
+        "empty_text": "Touchez le cœur d'une création pour la retrouver ici.",
+        "empty_label": "Découvrir les créations",
+        "empty_link": "/collections/all",
+        "note": "Vos favoris sont enregistrés dans ce navigateur. Ils seront rattachés à votre compte à une prochaine étape."
+      }
+    }
+  },
+  "order": ["main"]
+}

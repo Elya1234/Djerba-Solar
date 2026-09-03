@@ -1,0 +1,52 @@
+{%- comment -%} Galerie éditoriale asymétrique. {%- endcomment -%}
+<section class="section egal">
+  <div class="page">
+    {%- if section.settings.title != blank -%}
+      <div style="margin-bottom: clamp(28px, 3vw, 56px)">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="t-h1 line-mask" style="margin-top: var(--s-4)" data-reveal="mask"><span>{{ section.settings.title }}</span></h2>
+      </div>
+    {%- endif -%}
+
+    <div class="egal__grid">
+      {%- for block in section.blocks -%}
+        <figure class="egal__item" {{ block.shopify_attributes }} data-reveal style="--i: {{ forloop.index0 }}">
+          <div class="frame egal__frame">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 1600 | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 55vw, 100vw', widths: '600,900,1200,1600', alt: block.settings.caption }}
+            {%- else -%}
+              {% render 'maison-placeholder', label: block.settings.caption | default: 'Image' %}
+            {%- endif -%}
+          </div>
+          {%- if block.settings.caption != blank -%}
+            <figcaption class="egal__caption">{{ block.settings.caption }}</figcaption>
+          {%- endif -%}
+        </figure>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Éditorial — Galerie",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre" },
+    { "type": "text", "id": "title", "label": "Titre" }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "caption", "label": "Légende" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [{ "name": "Éditorial — Galerie" }]
+}
+{% endschema %}

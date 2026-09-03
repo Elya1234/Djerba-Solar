@@ -1,0 +1,79 @@
+<section class="section craft">
+  <div class="page">
+    <div class="craft__grid">
+      <div class="craft__sticky">
+        <div class="frame craft__frame" data-reveal="mask">
+          {%- if section.settings.image != blank -%}
+            {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 45vw, 100vw', widths: '600,900,1400', alt: section.settings.image_alt }}
+          {%- else -%}
+            {% render 'maison-placeholder', label: 'Atelier — sertissage' %}
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="craft__steps">
+        <div>
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+          {%- endif -%}
+          {%- if section.settings.title != blank -%}
+            <h2 class="t-h1 line-mask" style="margin-top: var(--s-4)" data-reveal="mask"><span>{{ section.settings.title }}</span></h2>
+          {%- endif -%}
+          {%- if section.settings.text != blank -%}
+            <p class="t-body measure t-muted" style="margin-top: var(--s-5)" data-reveal style="--i: 1">{{ section.settings.text }}</p>
+          {%- endif -%}
+        </div>
+
+        {%- for block in section.blocks -%}
+          <div class="craft__step" {{ block.shopify_attributes }} data-reveal>
+            <p class="t-label craft__index">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</p>
+            <h3 class="t-h2">{{ block.settings.title }}</h3>
+            <p class="t-body-s measure t-muted">{{ block.settings.text }}</p>
+          </div>
+        {%- endfor -%}
+
+        {%- if section.settings.cta_link != blank -%}
+          <a class="cta" href="{{ section.settings.cta_link }}" data-reveal>
+            {{ section.settings.cta_label | default: 'Découvrir notre savoir-faire' }}<span class="cta__arrow" aria-hidden="true"></span>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Savoir-faire",
+  "tag": "div",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image (reste fixe pendant le défilement)" },
+    { "type": "text", "id": "image_alt", "label": "Texte alternatif" },
+    { "type": "text", "id": "eyebrow", "label": "Label", "default": "Le geste" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "L'art du détail" },
+    { "type": "textarea", "id": "text", "label": "Texte" },
+    { "type": "text", "id": "cta_label", "label": "Libellé du lien", "default": "Découvrir notre savoir-faire" },
+    { "type": "url", "id": "cta_link", "label": "Lien" }
+  ],
+  "blocks": [
+    {
+      "type": "etape",
+      "name": "Étape",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre", "default": "Le dessin" },
+        { "type": "textarea", "id": "text", "label": "Texte" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [{
+    "name": "Savoir-faire",
+    "blocks": [
+      { "type": "etape", "settings": { "title": "Le dessin" } },
+      { "type": "etape", "settings": { "title": "La cire" } },
+      { "type": "etape", "settings": { "title": "Le sertissage" } },
+      { "type": "etape", "settings": { "title": "Le poli" } }
+    ]
+  }]
+}
+{% endschema %}

@@ -1,0 +1,151 @@
+{%- comment -%}
+  MAISON — Page panier
+  Fonctionne sans JavaScript (formulaire POST vers /cart) et se met à jour
+  sans rechargement quand le JavaScript est disponible.
+{%- endcomment -%}
+<section class="cartpage" data-cart-page>
+  <div class="page">
+    <div class="cartpage__head">
+      <h1 class="t-h1">{{ 'cart.title' | t: default: 'Votre panier' }}</h1>
+      <p class="t-label t-muted"><span data-cart-page-count>{{ cart.item_count }}</span> {{ 'cart.items' | t: default: 'pièce(s)' }}</p>
+    </div>
+
+    <div data-cart-page-empty {% if cart.item_count > 0 %}hidden{% endif %}>
+      <div class="cempty">
+        <p class="t-h2 cempty__title">{{ 'cart.empty' | t: default: 'Votre panier est vide.' }}</p>
+        {%- if settings.cart_empty_text != blank -%}
+          <p class="t-body-s t-muted measure">{{ settings.cart_empty_text }}</p>
+        {%- endif -%}
+        <a class="cta" href="{{ settings.cart_empty_link | default: routes.all_products_collection_url }}">
+          {{ settings.cart_empty_label | default: 'Découvrir nos créations' }}<span class="cta__arrow" aria-hidden="true"></span>
+        </a>
+      </div>
+    </div>
+
+    <form action="{{ routes.cart_url }}" method="post" novalidate data-cart-page-filled {% if cart.item_count == 0 %}hidden{% endif %}>
+      <div class="cartpage__grid">
+        <div class="cartpage__lines">
+          {%- for item in cart.items -%}
+            <article class="cline" data-line-key="{{ item.key }}">
+              <a class="cline__thumb" href="{{ item.url }}">
+                {%- if item.image -%}
+                  {{ item.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: item.product.title }}
+                {%- else -%}
+                  {% render 'maison-placeholder', label: item.product.title %}
+                {%- endif -%}
+              </a>
+
+              <div>
+                <a class="cline__name" href="{{ item.url }}">{{ item.product.title }}</a>
+                {%- unless item.variant.title contains 'Default' -%}
+                  <p class="cline__variant">{{ item.variant.title }}</p>
+                {%- endunless -%}
+                {%- if item.product.metafields.custom.reference_atelier != blank -%}
+                  <p class="cline__variant t-label">{{ item.product.metafields.custom.reference_atelier }}</p>
+                {%- endif -%}
+
+                <div class="cline__controls">
+                  <div class="qty" data-qty>
+                    <button class="qty__btn" type="button" data-qty-down aria-label="{{ 'cart.decrease' | t: default: 'Diminuer la quantité' }}">−</button>
+                    <input class="qty__input" type="number" inputmode="numeric" min="0"
+                           name="updates[{{ item.key }}]" value="{{ item.quantity }}"
+                           aria-label="{{ 'cart.quantity' | t: default: 'Quantité' }}" data-qty-input>
+                    <button class="qty__btn" type="button" data-qty-up aria-label="{{ 'cart.increase' | t: default: 'Augmenter la quantité' }}">+</button>
+                  </div>
+                  <button class="cline__remove t-label" type="button" data-line-remove>{{ 'cart.remove' | t: default: 'Supprimer' }}</button>
+                </div>
+              </div>
+
+              <p class="cline__price" data-line-price>{{ item.final_line_price | money }}</p>
+            </article>
+          {%- endfor -%}
+
+          <noscript>
+            <button class="btn btn--line" type="submit" name="update" style="margin-top: var(--s-5)">
+              {{ 'cart.update' | t: default: 'Mettre à jour' }}
+            </button>
+          </noscript>
+        </div>
+
+        <aside class="csum">
+          <div class="csum__box">
+            <div class="csum__row">
+              <span class="t-label">{{ 'cart.subtotal' | t: default: 'Sous-total' }}</span>
+              <span class="t-body" data-cart-page-subtotal>{{ cart.total_price | money }}</span>
+            </div>
+
+            {%- if section.settings.summary_note != blank -%}
+              <p class="csum__note">{{ section.settings.summary_note }}</p>
+            {%- endif -%}
+
+            <button class="btn btn--solid" type="submit" name="checkout">{{ 'cart.checkout' | t: default: 'Passer au paiement' }}</button>
+
+            {%- assign info_blocks = section.blocks | where: 'type', 'information' -%}
+            {%- if info_blocks.size > 0 -%}
+              <div class="csum__info">
+                {%- for block in info_blocks -%}
+                  <p class="csum__info-row" {{ block.shopify_attributes }}>
+                    <span class="csum__mark" aria-hidden="true"></span>{{ block.settings.text }}
+                  </p>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.show_gift_note -%}
+              <div class="cgift">
+                <p class="t-label">{{ section.settings.gift_title | default: 'Ajouter un message' }}</p>
+                {%- if section.settings.gift_text != blank -%}
+                  <p class="csum__note">{{ section.settings.gift_text }}</p>
+                {%- endif -%}
+                <div class="cgift__field">
+                  <label class="visually-hidden" for="CartNote">{{ section.settings.gift_title | default: 'Ajouter un message' }}</label>
+                  <textarea id="CartNote" name="note" data-cart-note placeholder="{{ section.settings.gift_placeholder | escape }}">{{ cart.note }}</textarea>
+                </div>
+                <p class="cgift__status" data-cart-note-status hidden></p>
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.ecrin_title != blank or section.settings.ecrin_text != blank -%}
+              <div class="cecrin">
+                <p class="cecrin__title">{{ section.settings.ecrin_title }}</p>
+                {%- if section.settings.ecrin_text != blank -%}
+                  <p class="cecrin__text">{{ section.settings.ecrin_text }}</p>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+        </aside>
+      </div>
+    </form>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Panier",
+  "tag": "div",
+  "settings": [
+    { "type": "paragraph", "content": "Les informations de livraison ne sont pas pré-remplies : renseignez ici vos conditions réelles." },
+    { "type": "text", "id": "summary_note", "label": "Mention sous le sous-total" },
+    { "type": "header", "content": "Message cadeau" },
+    { "type": "checkbox", "id": "show_gift_note", "label": "Proposer un message", "default": true },
+    { "type": "text", "id": "gift_title", "label": "Titre", "default": "Ajouter un message" },
+    { "type": "text", "id": "gift_text", "label": "Texte" },
+    { "type": "text", "id": "gift_placeholder", "label": "Champ", "default": "Votre message, calligraphié sur la carte de la Maison." },
+    { "type": "header", "content": "Écrin" },
+    { "type": "text", "id": "ecrin_title", "label": "Titre", "default": "Écrin de la Maison" },
+    { "type": "textarea", "id": "ecrin_text", "label": "Texte" }
+  ],
+  "blocks": [
+    {
+      "type": "information",
+      "name": "Information",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Texte", "info": "Livraison, retours, paiement : renseignez vos conditions réelles." }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [{ "name": "Panier" }]
+}
+{% endschema %}

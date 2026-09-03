@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" data-money-format="{{ shop.money_format | strip_html | escape }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="{{ settings.c_paper }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 48 }}">
+    {%- endif -%}
+
+    <title>{{ page_title }}{% if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+    {%- if page_description -%}<meta name="description" content="{{ page_description | escape }}">{%- endif -%}
+
+    {{ content_for_header }}
+
+    {%- liquid
+      assign f_display = settings.font_display
+      assign f_body = settings.font_body
+    -%}
+    {{ f_display | font_face: font_display: 'swap' }}
+    {{ f_body | font_face: font_display: 'swap' }}
+    {{ f_body | font_modify: 'weight', '500' | font_face: font_display: 'swap' }}
+
+    {{ 'maison-base.css' | asset_url | stylesheet_tag }}
+    {{ 'maison-header.css' | asset_url | stylesheet_tag }}
+    {{ 'maison-home.css' | asset_url | stylesheet_tag }}
+    {{ 'maison-collection.css' | asset_url | stylesheet_tag }}
+    {{ 'maison-cart.css' | asset_url | stylesheet_tag }}
+    {{ 'maison-search.css' | asset_url | stylesheet_tag }}
+    {{ 'maison-editorial.css' | asset_url | stylesheet_tag }}
+    {%- if page.template_suffix == 'creer-votre-bague' -%}
+      {{ 'maison-configurator.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
+    {%- if template.name == 'product' -%}
+      {{ 'maison-product.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
+
+    <style>
+      :root {
+        --c-paper: {{ settings.c_paper }};
+        --c-surface: {{ settings.c_surface }};
+        --c-ink: {{ settings.c_ink }};
+        --c-ink-soft: {{ settings.c_ink_soft }};
+        --c-line: {{ settings.c_line }};
+        --c-signature: {{ settings.c_signature }};
+        --veil-scrim: {{ settings.c_ink | color_modify: 'alpha', 0.28 }};
+
+        --f-display: {% if settings.font_display_custom != blank %}"{{ settings.font_display_custom }}", {% endif %}{{ f_display.family }}, {{ f_display.fallback_families }};
+        --f-body: {% if settings.font_body_custom != blank %}"{{ settings.font_body_custom }}", {% endif %}{{ f_body.family }}, {{ f_body.fallback_families }};
+
+        --ls-nav: {{ settings.ls_nav }}em;
+        --ls-label: {{ settings.ls_label }}em;
+
+        --d-s: {{ settings.motion_speed | times: 0.6 | round }}ms;
+        --d-m: {{ settings.motion_speed }}ms;
+        --d-l: {{ settings.motion_speed | times: 1.6 | round }}ms;
+        --d-xl: {{ settings.motion_speed | times: 2.6 | round }}ms;
+
+        --max-w: {{ settings.max_width }}px;
+      }
+    </style>
+  </head>
+
+  <body class="template-{{ template.name }}">
+    <a class="skip-link" href="#MainContent">{{ 'general.skip' | t: default: 'Aller au contenu' }}</a>
+
+    <script>
+      window.MaisonRoutes = {
+        cart: '{{ routes.cart_url }}.js',
+        cartAdd: '{{ routes.cart_add_url }}',
+        cartChange: '{{ routes.cart_change_url }}',
+        cartUpdate: '{{ routes.cart_update_url }}'
+      };
+    </script>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% render 'maison-mini-cart' %}
+    {% render 'maison-search-panel' %}
+
+    {% sections 'footer-group' %}
+
+    <script src="{{ 'maison-modal.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'maison-cart.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'maison-search.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'maison-editorial.js' | asset_url }}" defer="defer"></script>
+    {%- if page.template_suffix == 'creer-votre-bague' -%}
+      <script src="{{ 'maison-configurator.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+    {%- if template.name == 'page' -%}
+      <script src="{{ 'maison-favourites.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+    <script src="{{ 'maison-motion.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'maison-collection.js' | asset_url }}" defer="defer"></script>
+    {%- if template.name == 'product' -%}
+      <script src="{{ 'maison-product.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+  </body>
+</html>

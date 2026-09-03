@@ -1,0 +1,104 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-hero",
+      "settings": {
+        "eyebrow": "Les pierres",
+        "title": "Pierres exceptionnelles",
+        "text": "Au-delà d'un certain seuil, une pierre a une histoire avant d'avoir un prix.",
+        "align": "left",
+        "short": false,
+        "parallax": true,
+        "show_breadcrumb": true,
+        "parent_title": "Diamants",
+        "parent_link": "/pages/diamants"
+      }
+    },
+    "intro": {
+      "type": "editorial-image-text",
+      "settings": {
+        "eyebrow": "La rareté",
+        "title": "Une sélection restreinte",
+        "text": "<p>Ces pierres ne sont pas au catalogue : elles se présentent en main, accompagnées d'un gemmologue.</p>",
+        "media_position": "right",
+        "background": "paper",
+        "ratio": "portrait"
+      }
+    },
+    "pierres": {
+      "type": "editorial-cards",
+      "settings": {
+        "eyebrow": "Sélection",
+        "title": "Les pierres de la Maison",
+        "per_row": 4,
+        "style": "image",
+        "background": "surface",
+        "ratio": "landscape"
+      },
+      "blocks": {
+        "c0": {
+          "type": "carte",
+          "settings": {
+            "title": "Diamants",
+            "text": "Blancs et de couleur.",
+            "link": "/collections/bagues-cocktail",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c1": {
+          "type": "carte",
+          "settings": {
+            "title": "Émeraudes",
+            "text": "Acceptées avec leurs jardins.",
+            "link": "/collections/bagues-cocktail",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c2": {
+          "type": "carte",
+          "settings": {
+            "title": "Saphirs",
+            "text": "Du bleu velours au rose.",
+            "link": "/collections/bagues-cocktail",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c3": {
+          "type": "carte",
+          "settings": {
+            "title": "Rubis",
+            "text": "La plus rare des couleurs.",
+            "link": "/collections/bagues-cocktail",
+            "cta_label": "Découvrir"
+          }
+        }
+      },
+      "block_order": [
+        "c0",
+        "c1",
+        "c2",
+        "c3"
+      ]
+    },
+    "cta": {
+      "type": "editorial-cta",
+      "settings": {
+        "eyebrow": "",
+        "title": "Voir une pierre en main",
+        "text": "Sur rendez-vous, accompagné d'un gemmologue.",
+        "dark": false,
+        "align": "center",
+        "label_1": "Prendre rendez-vous",
+        "link_1": "/pages/rendez-vous",
+        "label_2": "Découvrir les créations",
+        "link_2": "/collections/all"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "intro",
+    "pierres",
+    "cta"
+  ]
+}

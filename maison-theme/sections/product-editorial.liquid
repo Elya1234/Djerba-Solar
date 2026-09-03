@@ -1,0 +1,54 @@
+{%- comment -%}
+  Grande image éditoriale pleine largeur. Image propre au produit via
+  le metafield custom.image_editoriale, sinon image de section.
+{%- endcomment -%}
+{%- liquid
+  assign image = product.metafields.custom.image_editoriale | default: section.settings.image
+-%}
+
+<section class="pedito" {% if section.settings.parallax %}{% endif %}>
+  <div class="pedito__media" {% if section.settings.parallax %}data-parallax="24"{% endif %}>
+    {%- if image != blank -%}
+      {%- if section.settings.image_mobile != blank -%}
+        <picture>
+          <source media="(max-width: 749px)" srcset="{{ section.settings.image_mobile | image_url: width: 1200 }}">
+          {{ image | image_url: width: 2400 | image_tag: loading: 'lazy', sizes: '100vw', widths: '900,1400,2000,2400', alt: section.settings.title | default: product.title }}
+        </picture>
+      {%- else -%}
+        {{ image | image_url: width: 2400 | image_tag: loading: 'lazy', sizes: '100vw', widths: '900,1400,2000,2400', alt: section.settings.title | default: product.title }}
+      {%- endif -%}
+    {%- else -%}
+      {% render 'maison-placeholder', label: 'Image éditoriale — portée ou macro', variant: 'dark' %}
+    {%- endif -%}
+  </div>
+  <div class="pedito__veil" aria-hidden="true"></div>
+
+  <div class="pedito__inner page">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    {%- if section.settings.title != blank -%}
+      <h2 class="t-display pedito__title line-mask" data-reveal="mask"><span>{{ section.settings.title }}</span></h2>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <p class="t-body pedito__text" data-reveal style="--i: 1">{{ section.settings.text }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Image éditoriale produit",
+  "tag": "div",
+  "settings": [
+    { "type": "paragraph", "content": "Le metafield custom.image_editoriale du produit remplace l'image ci-dessous." },
+    { "type": "image_picker", "id": "image", "label": "Image desktop" },
+    { "type": "image_picker", "id": "image_mobile", "label": "Image mobile" },
+    { "type": "text", "id": "eyebrow", "label": "Label" },
+    { "type": "text", "id": "title", "label": "Titre" },
+    { "type": "textarea", "id": "text", "label": "Texte" },
+    { "type": "checkbox", "id": "parallax", "label": "Parallaxe très légère", "default": true }
+  ],
+  "presets": [{ "name": "Image éditoriale produit" }]
+}
+{% endschema %}

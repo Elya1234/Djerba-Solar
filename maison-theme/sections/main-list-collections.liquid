@@ -1,0 +1,23 @@
+<section class="section">
+  <div class="page">
+    {% render 'maison-breadcrumb', current_title: 'Collections' %}
+    <h1 class="t-h1 line-mask" style="margin-top: var(--s-5); margin-bottom: clamp(32px,4vw,64px)" data-reveal="mask"><span>{{ section.settings.title | default: 'Les collections' }}</span></h1>
+    <div class="subnav__rail">
+      {%- for collection in collections -%}
+        <a class="subnav__item" href="{{ collection.url }}" data-reveal style="--i: {{ forloop.index0 }}">
+          <div class="frame frame--zoom subnav__frame">
+            {%- if collection.image -%}
+              {{ collection.image | image_url: width: 800 | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 20vw, 62vw', widths: '300,500,800', alt: collection.title }}
+            {%- else -%}
+              {% render 'maison-placeholder', label: collection.title %}
+            {%- endif -%}
+          </div>
+          <span class="t-nav subnav__name">{{ collection.title }}<span class="cta__arrow" aria-hidden="true"></span></span>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{ "name": "Liste des collections", "tag": "div", "settings": [ { "type": "text", "id": "title", "label": "Titre", "default": "Les collections" } ] }
+{% endschema %}

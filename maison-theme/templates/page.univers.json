@@ -1,0 +1,37 @@
+{
+  "sections": {
+    "hero": {
+      "type": "page-hero",
+      "settings": {
+        "align": "left",
+        "show_breadcrumb": true,
+        "parallax": true
+      }
+    },
+    "duo": {
+      "type": "duo-univers",
+      "settings": { "eyebrow": "Les deux chemins", "title": "" },
+      "blocks": {
+        "d1": { "type": "univers", "settings": { "cta_label": "Découvrir" } },
+        "d2": { "type": "univers", "settings": { "cta_label": "Découvrir" } }
+      },
+      "block_order": ["d1", "d2"]
+    },
+    "acces": {
+      "type": "link-grid",
+      "settings": { "eyebrow": "Aller plus loin", "title": "" },
+      "blocks": {
+        "a1": { "type": "acces", "settings": { "title": "", "cta_label": "Découvrir" } },
+        "a2": { "type": "acces", "settings": { "title": "", "cta_label": "Découvrir" } },
+        "a3": { "type": "acces", "settings": { "title": "", "cta_label": "Découvrir" } },
+        "a4": { "type": "acces", "settings": { "title": "", "cta_label": "Prendre rendez-vous" } }
+      },
+      "block_order": ["a1", "a2", "a3", "a4"]
+    },
+    "selection": {
+      "type": "selection",
+      "settings": { "eyebrow": "Sélection", "title": "Créations de la Maison", "count": 3 }
+    }
+  },
+  "order": ["hero", "duo", "acces", "selection"]
+}

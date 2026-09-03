@@ -1,0 +1,63 @@
+{%- comment -%} Chronologie. Chaque repère est un bloc administrable. {%- endcomment -%}
+<section class="section etime">
+  <div class="page">
+    {%- if section.settings.title != blank -%}
+      <div style="margin-bottom: clamp(28px, 3vw, 56px)">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="t-h1 line-mask" style="margin-top: var(--s-4)" data-reveal="mask"><span>{{ section.settings.title }}</span></h2>
+      </div>
+    {%- endif -%}
+
+    <div class="etime__list">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.title != blank or block.settings.year != blank -%}
+          <article class="etime__item" {{ block.shopify_attributes }} data-reveal style="--i: {{ forloop.index0 }}">
+            <p class="etime__year">{{ block.settings.year }}</p>
+            <div class="etime__body">
+              <h3 class="t-h3">{{ block.settings.title }}</h3>
+              {%- if block.settings.text != blank -%}
+                <p class="etime__text">{{ block.settings.text }}</p>
+              {%- endif -%}
+            </div>
+            {%- if block.settings.image != blank -%}
+              <div class="frame etime__frame">
+                {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 28vw, 100vw', widths: '400,600,800', alt: block.settings.title }}
+              </div>
+            {%- endif -%}
+          </article>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.note != blank -%}
+      <p class="eplaceholder" style="margin-top: var(--s-6)">{{ section.settings.note }}</p>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Éditorial — Chronologie",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre" },
+    { "type": "text", "id": "title", "label": "Titre" },
+    { "type": "text", "id": "note", "label": "Mention", "info": "Ex. : dates réelles à renseigner." }
+  ],
+  "blocks": [
+    {
+      "type": "repere",
+      "name": "Repère",
+      "settings": [
+        { "type": "text", "id": "year", "label": "Année" },
+        { "type": "text", "id": "title", "label": "Titre" },
+        { "type": "textarea", "id": "text", "label": "Texte" },
+        { "type": "image_picker", "id": "image", "label": "Image" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [{ "name": "Éditorial — Chronologie" }]
+}
+{% endschema %}

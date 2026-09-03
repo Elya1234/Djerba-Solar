@@ -1,0 +1,53 @@
+<section class="section story{% if section.settings.media_position == 'left' %} story--media-left{% endif %}">
+  <div class="page">
+    <div class="story__grid">
+      <div class="story__text">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h2 class="t-h1 line-mask" data-reveal="mask"><span>{{ section.settings.title }}</span></h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <p class="t-body measure t-muted" data-reveal style="--i: 1">{{ section.settings.text }}</p>
+        {%- endif -%}
+        {%- if section.settings.cta_link != blank -%}
+          <a class="cta" href="{{ section.settings.cta_link }}" data-reveal style="--i: 2">
+            {{ section.settings.cta_label | default: 'Découvrir notre histoire' }}<span class="cta__arrow" aria-hidden="true"></span>
+          </a>
+        {%- endif -%}
+      </div>
+
+      <div class="frame story__frame" data-reveal="mask">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 40vw, 100vw', widths: '600,900,1400', alt: section.settings.image_alt }}
+        {%- else -%}
+          {% render 'maison-placeholder', label: 'La Maison — atelier' %}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "La Maison",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Label", "default": "La Maison" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Une histoire de passion et de précision" },
+    { "type": "textarea", "id": "text", "label": "Texte" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "image_alt", "label": "Texte alternatif" },
+    { "type": "select", "id": "media_position", "label": "Position de l'image", "default": "right",
+      "options": [
+        { "value": "right", "label": "À droite" },
+        { "value": "left", "label": "À gauche" }
+      ]
+    },
+    { "type": "text", "id": "cta_label", "label": "Libellé du lien", "default": "Découvrir notre histoire" },
+    { "type": "url", "id": "cta_link", "label": "Lien" }
+  ],
+  "presets": [{ "name": "La Maison" }]
+}
+{% endschema %}

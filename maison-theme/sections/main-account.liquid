@@ -1,0 +1,124 @@
+{%- comment -%}
+  MAISON — Compte client
+  Utilise le système de comptes réellement activé dans la boutique.
+  Aucune authentification maison : les liens pointent vers les routes
+  Shopify. Aucun champ mot de passe n'est inventé — si la boutique utilise
+  les nouveaux comptes clients (code par e-mail), Shopify gère l'écran de
+  connexion et nous n'affichons que le point d'entrée.
+{%- endcomment -%}
+<section class="section" style="padding-top: calc(var(--h-header) + var(--s-6))" data-account>
+  <div class="page">
+    {% render 'maison-breadcrumb', current_title: section.settings.title | default: 'Votre compte' %}
+
+    {%- if shop.customer_accounts_enabled == false -%}
+      <div class="cempty" style="margin-top: var(--s-6)">
+        <p class="t-h2 cempty__title">{{ 'account.disabled' | t: default: 'Les comptes clients ne sont pas encore activés.' }}</p>
+        <p class="t-body-s t-muted measure">{{ 'account.disabled_text' | t: default: "Activez-les dans Shopify (Paramètres → Comptes clients) pour que cette page devienne fonctionnelle." }}</p>
+      </div>
+
+    {%- elsif customer -%}
+      <div class="acct">
+        <div class="acct__head">
+          <p class="t-label eyebrow">{{ section.settings.eyebrow | default: 'Votre compte' }}</p>
+          <h1 class="t-h1 line-mask" data-reveal="mask">
+            <span>{{ 'account.hello' | t: default: 'Bonjour' }}{% if customer.first_name != blank %}, {{ customer.first_name }}{% endif %}.</span>
+          </h1>
+        </div>
+
+        <div class="acct__grid">
+          <section class="acct__block">
+            <p class="t-label acct__title">{{ 'account.orders' | t: default: 'Mes commandes' }}</p>
+            {%- if customer.orders.size > 0 -%}
+              <div class="lgrid__list">
+                {%- for order in customer.orders limit: 5 -%}
+                  <a class="lgrid__row" href="{{ order.customer_url }}">
+                    <span class="lgrid__name">{{ order.name }}</span>
+                    <span class="lgrid__text">{{ order.created_at | date: '%d/%m/%Y' }} — {{ order.financial_status_label }}</span>
+                    <span class="cta">{{ order.total_price | money }}<span class="cta__arrow" aria-hidden="true"></span></span>
+                  </a>
+                {%- endfor -%}
+              </div>
+            {%- else -%}
+              <p class="t-body-s t-muted measure">{{ 'account.no_order' | t: default: "Vous n'avez pas encore passé commande." }}</p>
+            {%- endif -%}
+          </section>
+
+          <section class="acct__block">
+            <p class="t-label acct__title">{{ 'account.details' | t: default: 'Mes informations' }}</p>
+            <p class="t-body-s t-muted">{{ customer.name }}</p>
+            <p class="t-body-s t-muted">{{ customer.email }}</p>
+            {%- if customer.default_address != blank -%}
+              <p class="t-body-s t-muted">{{ customer.default_address.summary }}</p>
+            {%- endif -%}
+            <a class="cta" href="{{ routes.account_url }}" style="margin-top: var(--s-4)">
+              {{ 'account.manage' | t: default: 'Gérer mes informations' }}<span class="cta__arrow" aria-hidden="true"></span>
+            </a>
+          </section>
+
+          <section class="acct__block">
+            <p class="t-label acct__title">{{ 'header.wishlist' | t: default: 'Favoris' }}</p>
+            <p class="t-body-s t-muted measure">{{ section.settings.favourites_text }}</p>
+            {%- if section.settings.favourites_link != blank -%}
+              <a class="cta" href="{{ section.settings.favourites_link }}">
+                {{ 'account.see_favourites' | t: default: 'Voir mes favoris' }}<span class="cta__arrow" aria-hidden="true"></span>
+              </a>
+            {%- endif -%}
+          </section>
+        </div>
+
+        <a class="cta acct__logout" href="{{ routes.account_logout_url }}">
+          {{ 'account.logout' | t: default: 'Déconnexion' }}<span class="cta__arrow" aria-hidden="true"></span>
+        </a>
+      </div>
+
+    {%- else -%}
+      <div class="acct acct--guest">
+        <p class="t-label eyebrow">{{ section.settings.eyebrow | default: 'Votre compte' }}</p>
+        <h1 class="t-h1 line-mask" data-reveal="mask"><span>{{ section.settings.title | default: 'Votre compte' }}</span></h1>
+        <p class="t-body measure t-muted">{{ section.settings.text }}</p>
+
+        <div class="acct__reasons">
+          {%- for block in section.blocks -%}
+            <p class="ptrust__row" {{ block.shopify_attributes }}>
+              <span class="ptrust__mark" aria-hidden="true"></span>{{ block.settings.text }}
+            </p>
+          {%- endfor -%}
+        </div>
+
+        <div class="acct__actions">
+          <a class="btn btn--solid" href="{{ routes.account_login_url }}">{{ 'account.login' | t: default: 'Se connecter' }}</a>
+          <a class="cta" href="{{ routes.account_register_url }}">
+            {{ 'account.register' | t: default: 'Créer un compte' }}<span class="cta__arrow" aria-hidden="true"></span>
+          </a>
+        </div>
+
+        <p class="t-label t-muted acct__note">{{ section.settings.note }}</p>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Compte",
+  "tag": "div",
+  "settings": [
+    { "type": "paragraph", "content": "La connexion est gérée par Shopify. Selon le mode de comptes choisi (classiques ou nouveaux comptes clients), Shopify affiche son propre écran : aucun champ n'est reproduit ici." },
+    { "type": "text", "id": "eyebrow", "label": "Label", "default": "Votre compte" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Votre compte" },
+    { "type": "textarea", "id": "text", "label": "Texte" },
+    { "type": "text", "id": "favourites_text", "label": "Texte favoris" },
+    { "type": "url", "id": "favourites_link", "label": "Lien favoris" },
+    { "type": "text", "id": "note", "label": "Mention" }
+  ],
+  "blocks": [
+    {
+      "type": "raison",
+      "name": "Avantage",
+      "settings": [ { "type": "text", "id": "text", "label": "Texte", "default": "Suivre vos commandes" } ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [{ "name": "Compte" }]
+}
+{% endschema %}

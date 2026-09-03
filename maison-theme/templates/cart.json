@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-cart",
+      "settings": {
+        "show_gift_note": true,
+        "gift_title": "Ajouter un message",
+        "ecrin_title": "Écrin de la Maison",
+        "ecrin_text": "Chaque création est remise dans l'écrin de la Maison, accompagnée de son certificat."
+      },
+      "blocks": {},
+      "block_order": []
+    }
+  },
+  "order": ["main"]
+}

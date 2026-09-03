@@ -1,0 +1,50 @@
+{%- comment -%}
+  Guide des tailles. Le tableau reprend la correspondance normalisée
+  taille EU / diamètre / circonférence : ce sont des mesures physiques,
+  pas du contenu marchand. Les textes d'accompagnement sont réglables
+  dans les paramètres de la section.
+{%- endcomment -%}
+<div class="psize" id="MaisonSizeGuide" data-modal data-size-guide role="dialog" aria-modal="true" aria-label="{{ 'products.size_guide' | t: default: 'Guide des tailles' }}" aria-hidden="true">
+  <div class="psize__bar">
+    <p class="t-label">{{ 'products.size_guide' | t: default: 'Guide des tailles' }}</p>
+    <button class="hdr__util" type="button" data-size-guide-close data-modal-close data-modal-initial>
+      {% render 'maison-icon', icon: 'close' %}
+      <span class="visually-hidden">{{ 'general.close' | t: default: 'Fermer' }}</span>
+    </button>
+  </div>
+
+  <div class="psize__body">
+    {%- if settings.size_intro != blank -%}
+      <div class="t-body-s t-muted measure">{{ settings.size_intro }}</div>
+    {%- else -%}
+      <p class="t-body-s t-muted measure">
+        Chaque bague est ajustée à l'atelier. En cas de doute entre deux tailles, choisissez la plus grande.
+      </p>
+    {%- endif -%}
+
+    {% render 'maison-size-table' %}
+
+    <div class="psize__steps">
+      {%- if settings.size_method != blank -%}
+        <div class="t-body-s t-muted measure">{{ settings.size_method }}</div>
+      {%- else -%}
+        <div class="psize__step">
+          <span class="t-label psize__num">01</span>
+          <p class="t-body-s t-muted">Entourez la base du doigt avec une bande de papier fine, sans serrer.</p>
+        </div>
+        <div class="psize__step">
+          <span class="t-label psize__num">02</span>
+          <p class="t-body-s t-muted">Marquez le point de rencontre, puis mesurez la longueur en millimètres.</p>
+        </div>
+        <div class="psize__step">
+          <span class="t-label psize__num">03</span>
+          <p class="t-body-s t-muted">Cette longueur correspond à la circonférence, donc directement à votre taille EU.</p>
+        </div>
+        <div class="psize__step">
+          <span class="t-label psize__num">04</span>
+          <p class="t-body-s t-muted">Mesurez en fin de journée, à température ambiante : le doigt varie au fil des heures.</p>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

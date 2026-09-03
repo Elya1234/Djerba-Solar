@@ -1,0 +1,63 @@
+{%- comment -%}
+  Savoir-faire sous la fiche produit. Le texte peut être propre au produit
+  (metafield custom.savoir_faire_texte) ou commun à toute la boutique.
+{%- endcomment -%}
+{%- liquid
+  assign mf = product.metafields.custom
+  assign body = mf.savoir_faire_texte | default: section.settings.text
+  assign image = mf.savoir_faire_image | default: section.settings.image
+-%}
+
+{%- if body != blank or image != blank -%}
+  <section class="section craft">
+    <div class="page">
+      <div class="craft__grid">
+        <div class="craft__sticky">
+          <div class="frame craft__frame" data-reveal="mask">
+            {%- if image != blank -%}
+              {{ image | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 45vw, 100vw', widths: '600,900,1400', alt: section.settings.title }}
+            {%- else -%}
+              {% render 'maison-placeholder', label: 'Atelier — savoir-faire' %}
+            {%- endif -%}
+          </div>
+        </div>
+
+        <div class="craft__steps">
+          <div>
+            {%- if section.settings.eyebrow != blank -%}
+              <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+            {%- endif -%}
+            {%- if section.settings.title != blank -%}
+              <h2 class="t-h1 line-mask" style="margin-top: var(--s-4)" data-reveal="mask"><span>{{ section.settings.title }}</span></h2>
+            {%- endif -%}
+            {%- if body != blank -%}
+              <div class="t-body measure t-muted" style="margin-top: var(--s-5)" data-reveal>{{ body }}</div>
+            {%- endif -%}
+            {%- if section.settings.cta_link != blank -%}
+              <a class="cta" href="{{ section.settings.cta_link }}" data-reveal style="margin-top: var(--s-6)">
+                {{ section.settings.cta_label | default: 'Découvrir notre savoir-faire' }}<span class="cta__arrow" aria-hidden="true"></span>
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Savoir-faire du produit",
+  "tag": "div",
+  "settings": [
+    { "type": "paragraph", "content": "Si le produit possède les metafields custom.savoir_faire_texte et custom.savoir_faire_image, ils remplacent les valeurs ci-dessous." },
+    { "type": "text", "id": "eyebrow", "label": "Label", "default": "Le geste" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "L'art du détail" },
+    { "type": "richtext", "id": "text", "label": "Texte commun" },
+    { "type": "image_picker", "id": "image", "label": "Image commune" },
+    { "type": "text", "id": "cta_label", "label": "Libellé du lien", "default": "Découvrir notre savoir-faire" },
+    { "type": "url", "id": "cta_link", "label": "Lien" }
+  ],
+  "presets": [{ "name": "Savoir-faire du produit" }]
+}
+{% endschema %}

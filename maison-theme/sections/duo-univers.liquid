@@ -1,0 +1,80 @@
+{%- comment -%}
+  Deux grands univers côte à côte (ex. Bagues de fiançailles / Alliances).
+  Chaque bloc pointe vers une vraie collection ou page choisie dans Shopify.
+{%- endcomment -%}
+<section class="duo">
+  <div class="page">
+    {%- if section.settings.title != blank -%}
+      <div class="duo__head" style="margin-bottom: clamp(28px, 3vw, 56px)">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="t-h1 line-mask" style="margin-top: var(--s-4)" data-reveal="mask"><span>{{ section.settings.title }}</span></h2>
+      </div>
+    {%- endif -%}
+
+    <div class="duo__grid">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign destination = block.settings.link
+          assign image = block.settings.image
+          if destination == blank and block.settings.collection != blank
+            assign destination = block.settings.collection.url
+          endif
+          if image == blank and block.settings.collection.image
+            assign image = block.settings.collection.image
+          endif
+          assign heading = block.settings.title | default: block.settings.collection.title
+        -%}
+        {%- if destination != blank -%}
+          <a class="duo__item" href="{{ destination }}" {{ block.shopify_attributes }} data-reveal style="--i: {{ forloop.index0 }}">
+            <div class="frame frame--zoom duo__frame">
+              {%- if image != blank -%}
+                {{ image | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 48vw, 100vw', widths: '600,900,1400', alt: heading }}
+              {%- else -%}
+                {% render 'maison-placeholder', label: heading %}
+              {%- endif -%}
+            </div>
+            <div class="duo__label">
+              <span class="t-h2 duo__name">{{ heading }}</span>
+              <span class="cta">{{ block.settings.cta_label | default: 'Découvrir' }}<span class="cta__arrow" aria-hidden="true"></span></span>
+            </div>
+            {%- if block.settings.text != blank -%}
+              <p class="duo__text">{{ block.settings.text }}</p>
+            {%- endif -%}
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Deux univers",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Label" },
+    { "type": "text", "id": "title", "label": "Titre" }
+  ],
+  "blocks": [
+    {
+      "type": "univers",
+      "name": "Univers",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection", "info": "Fournit le lien, le titre et l'image si les champs ci-dessous restent vides." },
+        { "type": "text", "id": "title", "label": "Titre" },
+        { "type": "textarea", "id": "text", "label": "Texte" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "cta_label", "label": "Libellé du lien", "default": "Découvrir" },
+        { "type": "url", "id": "link", "label": "Lien", "info": "Prioritaire sur la collection." }
+      ]
+    }
+  ],
+  "max_blocks": 2,
+  "presets": [{
+    "name": "Deux univers",
+    "blocks": [ { "type": "univers" }, { "type": "univers" } ]
+  }]
+}
+{% endschema %}

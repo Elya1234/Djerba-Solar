@@ -1,0 +1,63 @@
+{%- comment -%}
+  Bandeau de page univers (Mariage, Diamants, et toute page à venir).
+  Réutilisable : le contenu vient des réglages de section, l'image du
+  Theme Editor.
+{%- endcomment -%}
+<section class="phero{% if section.settings.align == 'center' %} phero--center{% endif %}"
+         {% if section.settings.image != blank %}data-header-contrast="light"{% endif %}>
+  <div class="phero__media" {% if section.settings.parallax %}data-parallax="22"{% endif %}>
+    {%- if section.settings.image != blank -%}
+      {%- if section.settings.image_mobile != blank -%}
+        <picture>
+          <source media="(max-width: 749px)" srcset="{{ section.settings.image_mobile | image_url: width: 1200 }}">
+          {{ section.settings.image | image_url: width: 2400 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '100vw', widths: '800,1200,1800,2400', alt: section.settings.image_alt }}
+        </picture>
+      {%- else -%}
+        {{ section.settings.image | image_url: width: 2400 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '100vw', widths: '800,1200,1800,2400', alt: section.settings.image_alt }}
+      {%- endif -%}
+    {%- else -%}
+      {% render 'maison-placeholder', label: 'Bandeau de page', variant: 'dark' %}
+    {%- endif -%}
+  </div>
+  <div class="phero__veil" aria-hidden="true"></div>
+
+  <div class="phero__inner page">
+    {%- if section.settings.show_breadcrumb -%}
+      {% render 'maison-breadcrumb', current_title: page.title | default: section.settings.title, on_dark: true %}
+    {%- endif -%}
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    <h1 class="t-display phero__title line-mask" data-reveal="mask"><span>{{ section.settings.title | default: page.title }}</span></h1>
+    {%- if section.settings.text != blank -%}
+      <p class="t-body phero__text" data-reveal style="--i: 1">{{ section.settings.text }}</p>
+    {%- endif -%}
+    {%- if section.settings.cta_link != blank and section.settings.cta_label != blank -%}
+      <a class="cta" href="{{ section.settings.cta_link }}" data-reveal style="--i: 2">
+        {{ section.settings.cta_label }}<span class="cta__arrow" aria-hidden="true"></span>
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bandeau de page",
+  "tag": "div",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image desktop" },
+    { "type": "image_picker", "id": "image_mobile", "label": "Image mobile" },
+    { "type": "text", "id": "image_alt", "label": "Texte alternatif" },
+    { "type": "text", "id": "eyebrow", "label": "Label" },
+    { "type": "text", "id": "title", "label": "Titre" },
+    { "type": "textarea", "id": "text", "label": "Texte" },
+    { "type": "text", "id": "cta_label", "label": "Libellé du lien" },
+    { "type": "url", "id": "cta_link", "label": "Lien" },
+    { "type": "select", "id": "align", "label": "Alignement", "default": "left",
+      "options": [ { "value": "left", "label": "Gauche" }, { "value": "center", "label": "Centre" } ] },
+    { "type": "checkbox", "id": "show_breadcrumb", "label": "Afficher le fil d'Ariane", "default": true },
+    { "type": "checkbox", "id": "parallax", "label": "Parallaxe très légère", "default": true }
+  ],
+  "presets": [{ "name": "Bandeau de page" }]
+}
+{% endschema %}

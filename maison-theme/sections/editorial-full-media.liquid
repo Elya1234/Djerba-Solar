@@ -1,0 +1,52 @@
+{%- comment -%} Grande image pleine largeur, très peu de texte. {%- endcomment -%}
+<section class="emedia">
+  <div class="emedia__media" {% if section.settings.parallax %}data-parallax="24"{% endif %}>
+    {%- if section.settings.image != blank -%}
+      {%- if section.settings.image_mobile != blank -%}
+        <picture>
+          <source media="(max-width: 749px)" srcset="{{ section.settings.image_mobile | image_url: width: 1200 }}">
+          {{ section.settings.image | image_url: width: 2400 | image_tag: loading: 'lazy', sizes: '100vw', widths: '900,1400,2000,2400', alt: section.settings.image_alt }}
+        </picture>
+      {%- else -%}
+        {{ section.settings.image | image_url: width: 2400 | image_tag: loading: 'lazy', sizes: '100vw', widths: '900,1400,2000,2400', alt: section.settings.image_alt }}
+      {%- endif -%}
+    {%- else -%}
+      {% render 'maison-placeholder', label: section.settings.title | default: 'Image pleine largeur', variant: 'dark' %}
+    {%- endif -%}
+  </div>
+  <div class="emedia__veil" aria-hidden="true"></div>
+  <div class="emedia__inner page">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    {%- if section.settings.title != blank -%}
+      <h2 class="t-display line-mask" data-reveal="mask" style="max-width: 18ch"><span>{{ section.settings.title }}</span></h2>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <p class="t-body emedia__text" data-reveal style="--i: 1">{{ section.settings.text }}</p>
+    {%- endif -%}
+    {%- if section.settings.cta_link != blank and section.settings.cta_label != blank -%}
+      <a class="cta" href="{{ section.settings.cta_link }}" data-reveal style="--i: 2">
+        {{ section.settings.cta_label }}<span class="cta__arrow" aria-hidden="true"></span>
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Éditorial — Média pleine largeur",
+  "tag": "div",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image desktop" },
+    { "type": "image_picker", "id": "image_mobile", "label": "Image mobile" },
+    { "type": "text", "id": "image_alt", "label": "Texte alternatif" },
+    { "type": "text", "id": "eyebrow", "label": "Surtitre" },
+    { "type": "text", "id": "title", "label": "Titre" },
+    { "type": "textarea", "id": "text", "label": "Texte" },
+    { "type": "text", "id": "cta_label", "label": "Libellé du lien" },
+    { "type": "url", "id": "cta_link", "label": "Lien" },
+    { "type": "checkbox", "id": "parallax", "label": "Parallaxe très légère", "default": true }
+  ],
+  "presets": [{ "name": "Éditorial — Média pleine largeur" }]
+}
+{% endschema %}

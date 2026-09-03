@@ -1,0 +1,99 @@
+{%- comment -%}
+  Page de résultats. Recherche native Shopify, carte produit commune.
+{%- endcomment -%}
+{%- paginate search.results by section.settings.per_page -%}
+  <section class="section" style="padding-top: calc(var(--h-header) + var(--s-6))">
+    <div class="page">
+      <h1 class="t-h1 line-mask" data-reveal="mask"><span>{{ 'search.title' | t: default: 'Recherche' }}</span></h1>
+
+      <form class="srch__page-form" action="{{ routes.search_url }}" method="get" role="search">
+        <input type="hidden" name="type" value="product,page,article">
+        <label class="visually-hidden" for="SearchPageInput">{{ 'search.label' | t: default: 'Que recherchez-vous ?' }}</label>
+        <div class="news__field">
+          <input class="news__input" id="SearchPageInput" type="search" name="q"
+                 value="{{ search.terms | escape }}"
+                 placeholder="{{ 'search.placeholder' | t: default: 'Que recherchez-vous ?' }}">
+        </div>
+        <button class="cta" type="submit">
+          {{ 'header.search' | t: default: 'Rechercher' }}<span class="cta__arrow" aria-hidden="true"></span>
+        </button>
+      </form>
+
+      {%- if search.performed -%}
+        <p class="t-label t-muted" style="margin-top: var(--s-6)">
+          {{ search.results_count }} {{ 'search.results' | t: default: 'résultat(s)' }}
+        </p>
+
+        {%- if search.results_count > 0 -%}
+          {%- assign products = search.results | where: 'object_type', 'product' -%}
+          {%- if products.size > 0 -%}
+            <div class="cgrid__list" data-wide style="margin-top: var(--s-6)">
+              {%- for item in products -%}
+                {% render 'maison-card-product', product: item, index: forloop.index0 %}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          {%- assign editorial = search.results | where: 'object_type', 'page' -%}
+          {%- if editorial.size > 0 -%}
+            <div class="lgrid__list" style="margin-top: clamp(40px, 5vw, 80px)">
+              {%- for item in editorial -%}
+                <a class="lgrid__row" href="{{ item.url }}" data-reveal style="--i: {{ forloop.index0 }}">
+                  <span class="lgrid__name">{{ item.title }}</span>
+                  <span class="lgrid__text">{{ 'search.page' | t: default: 'La Maison' }}</span>
+                  <span class="cta">{{ 'search.open' | t: default: 'Ouvrir' }}<span class="cta__arrow" aria-hidden="true"></span></span>
+                </a>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          {%- if paginate.pages > 1 -%}
+            <nav class="cpage t-label" aria-label="{{ 'collection.pagination' | t: default: 'Pagination' }}">
+              {%- if paginate.previous -%}<a class="cpage__link" href="{{ paginate.previous.url }}">{{ 'collection.previous' | t: default: 'Précédent' }}</a>{%- endif -%}
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <a class="cpage__link" href="{{ part.url }}">{{ part.title }}</a>
+                {%- else -%}
+                  <span class="cpage__link" {% if part.title == paginate.current_page %}aria-current="page"{% endif %}>{{ part.title }}</span>
+                {%- endif -%}
+              {%- endfor -%}
+              {%- if paginate.next -%}<a class="cpage__link" href="{{ paginate.next.url }}">{{ 'collection.next' | t: default: 'Suivant' }}</a>{%- endif -%}
+            </nav>
+          {%- endif -%}
+
+        {%- else -%}
+          <div class="cempty">
+            <p class="t-h2 cempty__title">{{ 'search.no_result' | t: default: 'Aucun résultat' }}</p>
+            <p class="t-body-s t-muted measure">{{ section.settings.empty_text }}</p>
+            <div class="srch__empty-links">
+              {%- if section.settings.empty_collection != blank -%}
+                <a class="cta" href="{{ section.settings.empty_collection.url }}">
+                  {{ section.settings.empty_label | default: 'Découvrir les nouveautés' }}<span class="cta__arrow" aria-hidden="true"></span>
+                </a>
+              {%- endif -%}
+              {%- if section.settings.advisor_link != blank -%}
+                <a class="cta" href="{{ section.settings.advisor_link }}">
+                  {{ 'search.advisor' | t: default: 'Contacter un conseiller' }}<span class="cta__arrow" aria-hidden="true"></span>
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </section>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Recherche",
+  "tag": "div",
+  "settings": [
+    { "type": "range", "id": "per_page", "label": "Résultats par page", "min": 12, "max": 48, "step": 6, "default": 24 },
+    { "type": "textarea", "id": "empty_text", "label": "Texte sans résultat" },
+    { "type": "collection", "id": "empty_collection", "label": "Collection suggérée" },
+    { "type": "text", "id": "empty_label", "label": "Libellé du lien", "default": "Découvrir les nouveautés" },
+    { "type": "url", "id": "advisor_link", "label": "Lien conseiller" }
+  ]
+}
+{% endschema %}

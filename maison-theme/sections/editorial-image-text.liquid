@@ -1,0 +1,78 @@
+{%- comment -%} Image + texte. Blocs « précision » pour des données factuelles. {%- endcomment -%}
+<section class="section etext{% if section.settings.background == 'surface' %} etext--surface{% endif %}{% if section.settings.media_position == 'right' %} etext--media-right{% endif %}{% if section.settings.ratio == 'landscape' %} etext--landscape{% endif %}">
+  <div class="page">
+    <div class="etext__grid">
+      <div class="frame etext__frame" data-reveal="mask">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1600 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 50vw, 100vw', widths: '600,900,1200,1600', alt: section.settings.image_alt }}
+        {%- else -%}
+          {% render 'maison-placeholder', label: section.settings.title | default: 'Image' %}
+        {%- endif -%}
+      </div>
+
+      <div class="etext__body">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h2 class="t-h1 line-mask" data-reveal="mask"><span>{{ section.settings.title }}</span></h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="t-body etext__rich" data-reveal style="--i: 1">{{ section.settings.text }}</div>
+        {%- endif -%}
+
+        {%- if section.blocks.size > 0 -%}
+          <div class="efacts" data-reveal style="--i: 2">
+            {%- for block in section.blocks -%}
+              {%- if block.settings.value != blank -%}
+                <div class="efact" {{ block.shopify_attributes }}>
+                  <span class="t-label efact__key">{{ block.settings.key }}</span>
+                  <span class="efact__value">{{ block.settings.value }}</span>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.cta_link != blank and section.settings.cta_label != blank -%}
+          <a class="cta" href="{{ section.settings.cta_link }}" data-reveal style="--i: 3">
+            {{ section.settings.cta_label }}<span class="cta__arrow" aria-hidden="true"></span>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Éditorial — Image + texte",
+  "tag": "div",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "image_alt", "label": "Texte alternatif" },
+    { "type": "text", "id": "eyebrow", "label": "Surtitre" },
+    { "type": "text", "id": "title", "label": "Titre" },
+    { "type": "richtext", "id": "text", "label": "Texte" },
+    { "type": "text", "id": "cta_label", "label": "Libellé du lien" },
+    { "type": "url", "id": "cta_link", "label": "Lien" },
+    { "type": "select", "id": "media_position", "label": "Position de l'image", "default": "left",
+      "options": [ { "value": "left", "label": "À gauche" }, { "value": "right", "label": "À droite" } ] },
+    { "type": "select", "id": "ratio", "label": "Format", "default": "portrait",
+      "options": [ { "value": "portrait", "label": "Portrait" }, { "value": "landscape", "label": "Paysage" } ] },
+    { "type": "select", "id": "background", "label": "Fond", "default": "paper",
+      "options": [ { "value": "paper", "label": "Papier" }, { "value": "surface", "label": "Blanc" } ] }
+  ],
+  "blocks": [
+    {
+      "type": "precision",
+      "name": "Précision",
+      "settings": [
+        { "type": "text", "id": "key", "label": "Intitulé", "info": "Ex. : Année, Fondateur, Ville" },
+        { "type": "text", "id": "value", "label": "Valeur", "info": "Laissez vide tant que l'information réelle n'est pas connue : la ligne n'apparaîtra pas." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [{ "name": "Éditorial — Image + texte" }]
+}
+{% endschema %}

@@ -1,0 +1,87 @@
+{%- comment -%}
+  FAQ et contenus en accordéons. Les catégories sont des blocs « catégorie »,
+  les questions des blocs « question » rattachés à la catégorie précédente.
+{%- endcomment -%}
+<section class="section efaq">
+  <div class="page">
+    {%- if section.settings.title != blank -%}
+      <div style="margin-bottom: clamp(28px, 3vw, 56px)">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="t-h1 line-mask" style="margin-top: var(--s-4)" data-reveal="mask"><span>{{ section.settings.title }}</span></h2>
+      </div>
+    {%- endif -%}
+
+    <div class="efaq__grid">
+      <nav class="efaq__nav" aria-label="{{ section.settings.title | default: 'Catégories' | escape }}">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'categorie' -%}
+            <a class="t-label efaq__navlink" href="#cat-{{ block.id }}">{{ block.settings.title }}</a>
+          {%- endif -%}
+        {%- endfor -%}
+      </nav>
+
+      <div>
+        {%- assign open_group = false -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'categorie' -%}
+            {%- if open_group -%}</div></section>{%- endif -%}
+            <section class="efaq__group" id="cat-{{ block.id }}" {{ block.shopify_attributes }}>
+              <p class="t-label efaq__group-title">{{ block.settings.title }}</p>
+              <div class="pacc">
+            {%- assign open_group = true -%}
+          {%- elsif block.type == 'question' -%}
+            {%- unless open_group -%}
+              <section class="efaq__group"><div class="pacc">
+              {%- assign open_group = true -%}
+            {%- endunless -%}
+            <div class="pacc__item" data-accordion {{ block.shopify_attributes }}>
+              <button class="pacc__head t-label" type="button" data-accordion-head aria-expanded="false" aria-controls="faq-{{ block.id }}">
+                {{ block.settings.question }}
+                <span class="pacc__sign" aria-hidden="true"></span>
+              </button>
+              <div class="pacc__panel" id="faq-{{ block.id }}" data-accordion-panel aria-hidden="true">
+                <div class="pacc__inner" data-accordion-inner>
+                  {%- if block.settings.answer != blank -%}
+                    {{ block.settings.answer }}
+                  {%- else -%}
+                    <p class="eplaceholder">{{ 'general.to_fill' | t: default: 'Réponse à renseigner' }}</p>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if open_group -%}</div></section>{%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Éditorial — Questions",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre" },
+    { "type": "text", "id": "title", "label": "Titre" }
+  ],
+  "blocks": [
+    {
+      "type": "categorie",
+      "name": "Catégorie",
+      "settings": [ { "type": "text", "id": "title", "label": "Titre", "default": "Commandes" } ]
+    },
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question" },
+        { "type": "richtext", "id": "answer", "label": "Réponse", "info": "Laissez vide tant que la réponse réelle n'est pas connue : la mention « à renseigner » s'affiche." }
+      ]
+    }
+  ],
+  "max_blocks": 50,
+  "presets": [{ "name": "Éditorial — Questions" }]
+}
+{% endschema %}

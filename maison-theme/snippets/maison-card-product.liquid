@@ -1,0 +1,94 @@
+{%- comment -%}
+  MAISON — Carte produit (composant unique)
+  Utilisée par : homepage (sélection), pages collections, et plus tard
+  recommandations et recherche. Ne pas dupliquer : modifier ici.
+
+  Paramètres :
+    product  — objet produit Shopify (facultatif : sans lui, emplacement vide)
+    index    — pour le décalage d'apparition
+    sizes    — attribut sizes des images
+{%- endcomment -%}
+
+{%- liquid
+  assign card_sizes = sizes | default: '(min-width: 990px) 30vw, (min-width: 750px) 45vw, 78vw'
+
+  assign swatch_position = 0
+  for option in product.options_with_values
+    assign option_name = option.name | downcase
+    if option_name contains 'métal' or option_name contains 'metal' or option_name contains 'couleur' or option_name contains 'color' or option_name contains 'finition'
+      assign swatch_position = option.position
+      assign swatch_values = option.values
+      break
+    endif
+  endfor
+-%}
+
+{%- if product != blank and product.id -%}
+  <article class="card" data-reveal style="--i: {{ index | default: 0 }}" data-product-url="{{ product.url }}">
+    <a class="card__media" data-card-link href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+      {%- if product.featured_media -%}
+        {{ product.featured_media | image_url: width: 1200 | image_tag: class: 'card__img--main', loading: 'lazy', sizes: card_sizes, widths: '400,600,900,1200', alt: product.featured_media.alt | default: product.title }}
+      {%- else -%}
+        {% render 'maison-placeholder', label: product.title %}
+      {%- endif -%}
+      {%- if product.media[1] -%}
+        {{ product.media[1] | image_url: width: 1200 | image_tag: class: 'card__img--alt', loading: 'lazy', sizes: card_sizes, widths: '400,600,900,1200', alt: '' }}
+      {%- endif -%}
+    </a>
+
+    <button class="card__fav" type="button" data-fav="{{ product.id }}" data-fav-handle="{{ product.handle }}" aria-pressed="false">
+      {% render 'maison-icon', icon: 'heart' %}
+      <span class="visually-hidden">{{ 'products.favourite' | t: default: 'Ajouter aux favoris' }} — {{ product.title | escape }}</span>
+    </button>
+
+    <div class="card__info">
+      <a class="card__name" data-card-link href="{{ product.url }}">
+        {{- product.metafields.custom.titre_court | default: product.title -}}
+      </a>
+
+      {%- if swatch_position > 0 and swatch_values.size > 1 -%}
+        {%- assign option_index = swatch_position | minus: 1 -%}
+        <div class="card__swatches" data-swatches role="group" aria-label="{{ 'products.metal' | t: default: 'Métal' }}">
+          {%- for value in swatch_values -%}
+            {%- assign matched = blank -%}
+            {%- for variant in product.variants -%}
+              {%- if matched == blank and variant.options[option_index] == value -%}
+                {%- assign matched = variant -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if matched != blank -%}
+              <button
+                class="card__swatch card__swatch--{{ value | handleize }}"
+                type="button"
+                data-swatch
+                data-swatch-variant="{{ matched.id }}"
+                {% if matched.featured_media %}data-swatch-image="{{ matched.featured_media | image_url: width: 1200 }}"{% endif %}
+                aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+              >
+                <span class="visually-hidden">{{ value }}</span>
+              </button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if product.type != blank -%}
+        <p class="card__meta">{{ product.type }}</p>
+      {%- endif -%}
+
+      <p class="card__price">
+        {%- if product.price == 0 -%}
+          {{ settings.price_on_request | default: 'Prix sur demande' }}
+        {%- elsif product.price_varies -%}
+          {{ 'products.from' | t: default: 'À partir de' }} {{ product.price_min | money }}
+        {%- else -%}
+          {{ product.price | money }}
+        {%- endif -%}
+      </p>
+    </div>
+  </article>
+{%- else -%}
+  <article class="card" data-reveal style="--i: {{ index | default: 0 }}">
+    <div class="card__media">{% render 'maison-placeholder', label: 'Produit à sélectionner' %}</div>
+  </article>
+{%- endif -%}

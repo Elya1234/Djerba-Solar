@@ -1,0 +1,228 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-hero",
+      "settings": {
+        "eyebrow": "L'atelier",
+        "title": "Le savoir-faire",
+        "text": "Du premier trait au dernier poli, chaque geste est fait une fois.",
+        "align": "left",
+        "short": false,
+        "parallax": true,
+        "show_breadcrumb": true,
+        "parent_title": "La Maison",
+        "parent_link": "/pages/notre-histoire"
+      }
+    },
+    "intro": {
+      "type": "editorial-image-text",
+      "settings": {
+        "eyebrow": "Le parcours",
+        "title": "De l'idée à la création",
+        "text": "<p>Huit étapes séparent une intuition d'une pièce portée. Aucune ne peut être sautée.</p>",
+        "media_position": "right",
+        "background": "paper",
+        "ratio": "portrait"
+      }
+    },
+    "etapes_1": {
+      "type": "editorial-steps",
+      "settings": {
+        "eyebrow": "Étapes 1 à 4",
+        "title": "Concevoir",
+        "text": "",
+        "numbered": true
+      },
+      "blocks": {
+        "s0": {
+          "type": "etape",
+          "settings": {
+            "title": "Inspiration",
+            "text": "Une ligne, une pierre, une commande particulière."
+          }
+        },
+        "s1": {
+          "type": "etape",
+          "settings": {
+            "title": "Dessin",
+            "text": "Le trait est repris à la main jusqu'à ce que la proportion tienne seule."
+          }
+        },
+        "s2": {
+          "type": "etape",
+          "settings": {
+            "title": "Conception",
+            "text": "Le volume est étudié en cire, pour juger de l'objet porté."
+          }
+        },
+        "s3": {
+          "type": "etape",
+          "settings": {
+            "title": "Sélection des pierres",
+            "text": "Chaque pierre est choisie à l'œil, une à une."
+          }
+        }
+      },
+      "block_order": [
+        "s0",
+        "s1",
+        "s2",
+        "s3"
+      ]
+    },
+    "media_1": {
+      "type": "editorial-full-media",
+      "settings": {
+        "eyebrow": "En atelier",
+        "title": "Le dessin",
+        "text": "Tout commence par un trait, repris autant de fois qu'il le faut.",
+        "parallax": true
+      }
+    },
+    "etapes_2": {
+      "type": "editorial-steps",
+      "settings": {
+        "eyebrow": "Étapes 5 à 8",
+        "title": "Fabriquer",
+        "text": "",
+        "numbered": true
+      },
+      "blocks": {
+        "s0": {
+          "type": "etape",
+          "settings": {
+            "title": "Fabrication",
+            "text": "Le métal est coulé, mis en forme, ajusté au centième."
+          }
+        },
+        "s1": {
+          "type": "etape",
+          "settings": {
+            "title": "Sertissage",
+            "text": "Le sertisseur ouvre le métal, place la pierre, referme."
+          }
+        },
+        "s2": {
+          "type": "etape",
+          "settings": {
+            "title": "Polissage",
+            "text": "Trois passages pour une surface sans trace d'outil."
+          }
+        },
+        "s3": {
+          "type": "etape",
+          "settings": {
+            "title": "Contrôle final",
+            "text": "Chaque pièce passe entre trois paires de mains avant de partir."
+          }
+        }
+      },
+      "block_order": [
+        "s0",
+        "s1",
+        "s2",
+        "s3"
+      ]
+    },
+    "media_2": {
+      "type": "editorial-full-media",
+      "settings": {
+        "eyebrow": "Macro",
+        "title": "Le sertissage",
+        "text": "Rien ne rattrape une erreur de sertissage : le geste est fait une fois.",
+        "parallax": true
+      }
+    },
+    "matieres": {
+      "type": "editorial-cards",
+      "settings": {
+        "eyebrow": "Matières",
+        "title": "Les matières",
+        "per_row": 4,
+        "style": "image",
+        "background": "surface",
+        "ratio": "landscape"
+      },
+      "blocks": {
+        "c0": {
+          "type": "carte",
+          "settings": {
+            "title": "Or",
+            "text": "Jaune, blanc, rose, en 18 carats.",
+            "link": "/pages/entretien",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c1": {
+          "type": "carte",
+          "settings": {
+            "title": "Platine",
+            "text": "Le métal le plus dense de nos ateliers.",
+            "link": "/pages/entretien",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c2": {
+          "type": "carte",
+          "settings": {
+            "title": "Diamants",
+            "text": "Choisis un à un, selon les quatre critères.",
+            "link": "/pages/diamants",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c3": {
+          "type": "carte",
+          "settings": {
+            "title": "Pierres précieuses",
+            "text": "Émeraude, saphir, rubis.",
+            "link": "/pages/pierres-exceptionnelles",
+            "cta_label": "Découvrir"
+          }
+        }
+      },
+      "block_order": [
+        "c0",
+        "c1",
+        "c2",
+        "c3"
+      ]
+    },
+    "surmesure": {
+      "type": "editorial-full-media",
+      "settings": {
+        "eyebrow": "Sur-mesure",
+        "title": "La création sur-mesure",
+        "text": "Un projet particulier, une pierre de famille, une pièce à dessiner ensemble.",
+        "parallax": true,
+        "cta_label": "Créer votre bague",
+        "cta_link": "/pages/creer-votre-bague"
+      }
+    },
+    "cta": {
+      "type": "editorial-cta",
+      "settings": {
+        "eyebrow": "",
+        "title": "Parler à un conseiller",
+        "text": "",
+        "dark": false,
+        "align": "center",
+        "label_1": "Prendre rendez-vous",
+        "link_1": "/pages/rendez-vous",
+        "label_2": "Visiter les ateliers",
+        "link_2": "/pages/nos-ateliers"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "intro",
+    "etapes_1",
+    "media_1",
+    "etapes_2",
+    "media_2",
+    "matieres",
+    "surmesure",
+    "cta"
+  ]
+}

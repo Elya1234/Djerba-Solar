@@ -1,0 +1,192 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Maison",
+    "theme_version": "0.1.0",
+    "theme_author": "Étape 1 — Fondation, header, mega-menu",
+    "theme_documentation_url": "https://shopify.dev/docs/themes",
+    "theme_support_url": "https://shopify.dev/docs/themes"
+  },
+  {
+    "name": "Couleurs",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Palette volontairement restreinte. La couleur de Maison ne doit apparaître que sur les filets, les titres de colonnes du mega-menu et le focus clavier."
+      },
+      {
+        "type": "color",
+        "id": "c_paper",
+        "label": "Fond — blanc gemme",
+        "default": "#FAFAF8"
+      },
+      {
+        "type": "color",
+        "id": "c_surface",
+        "label": "Surfaces — blanc pur",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "c_ink",
+        "label": "Encre — noir onyx",
+        "default": "#111013"
+      },
+      {
+        "type": "color",
+        "id": "c_ink_soft",
+        "label": "Encre secondaire — cendre",
+        "default": "#6E6A65"
+      },
+      {
+        "type": "color",
+        "id": "c_line",
+        "label": "Filets",
+        "default": "#E4E1DA"
+      },
+      {
+        "type": "color",
+        "id": "c_signature",
+        "label": "Couleur de Maison — malachite",
+        "default": "#1A3A31"
+      }
+    ]
+  },
+  {
+    "name": "Typographie",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_display",
+        "label": "Titres éditoriaux",
+        "default": "playfair_display_n4"
+      },
+      {
+        "type": "text",
+        "id": "font_display_custom",
+        "label": "Police de titres personnalisée",
+        "info": "Nom exact de la famille si vous chargez une police propriétaire (Adobe Fonts, hébergée). Prioritaire sur le choix ci-dessus."
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Texte et interface",
+        "default": "assistant_n4"
+      },
+      {
+        "type": "text",
+        "id": "font_body_custom",
+        "label": "Police de texte personnalisée"
+      },
+      {
+        "type": "range",
+        "id": "ls_nav",
+        "label": "Interlettrage navigation",
+        "min": 0.08,
+        "max": 0.3,
+        "step": 0.01,
+        "unit": "em",
+        "default": 0.16
+      },
+      {
+        "type": "range",
+        "id": "ls_label",
+        "label": "Interlettrage labels",
+        "min": 0.1,
+        "max": 0.4,
+        "step": 0.01,
+        "unit": "em",
+        "default": 0.22
+      }
+    ]
+  },
+  {
+    "name": "Mise en page",
+    "settings": [
+      {
+        "type": "range",
+        "id": "max_width",
+        "label": "Largeur maximale",
+        "min": 1280,
+        "max": 1920,
+        "step": 40,
+        "unit": "px",
+        "default": 1680
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  },
+  {
+    "name": "Mouvement",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Durée de référence du langage d'animation. Les autres durées en sont dérivées, ce qui garde toutes les transitions du site cohérentes entre elles."
+      },
+      {
+        "type": "range",
+        "id": "motion_speed",
+        "label": "Durée de référence",
+        "min": 240,
+        "max": 640,
+        "step": 20,
+        "unit": "ms",
+        "default": 420
+      }
+    ]
+  },
+  {
+    "name": "Panier",
+    "settings": [
+      {
+        "type": "text",
+        "id": "cart_empty_text",
+        "label": "Texte du panier vide"
+      },
+      {
+        "type": "text",
+        "id": "cart_empty_label",
+        "label": "Libellé du lien",
+        "default": "Découvrir nos créations"
+      },
+      {
+        "type": "url",
+        "id": "cart_empty_link",
+        "label": "Lien du panier vide"
+      },
+      {
+        "type": "text",
+        "id": "cart_footer_note",
+        "label": "Mention sous le sous-total",
+        "info": "Frais et délais réels : laissez vide tant qu'ils ne sont pas définis."
+      },
+      {
+        "type": "text",
+        "id": "price_on_request",
+        "label": "Libellé quand le prix vaut 0",
+        "default": "Prix sur demande",
+        "info": "Utilisé sur les cartes produit tant qu'un prix n'est pas renseigné."
+      }
+    ]
+  },
+  {
+    "name": "Recherche & compte",
+    "settings": [
+      {
+        "type": "link_list",
+        "id": "search_menu",
+        "label": "Suggestions de recherche",
+        "info": "Affichées tant qu'aucune recherche n'est saisie."
+      },
+      {
+        "type": "url",
+        "id": "advisor_link",
+        "label": "Lien conseiller"
+      }
+    ]
+  }
+]

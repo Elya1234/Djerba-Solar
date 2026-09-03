@@ -1,0 +1,133 @@
+{%- comment -%}
+  Prise de rendez-vous. Aucun service externe n'est branché : le formulaire
+  utilise le formulaire de contact Shopify, avec le type, la date et l'heure
+  transmis comme champs. Un outil de réservation pourra être connecté plus
+  tard sans changer la mise en page.
+{%- endcomment -%}
+<section class="section appt" data-appointment>
+  <div class="page">
+    <div style="margin-bottom: clamp(28px, 3vw, 56px)">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="t-h1 line-mask" style="margin-top: var(--s-4)" data-reveal="mask"><span>{{ section.settings.title }}</span></h2>
+      {%- if section.settings.text != blank -%}
+        <p class="t-body measure t-muted" style="margin-top: var(--s-5)" data-reveal>{{ section.settings.text }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="appt__grid">
+      <div class="appt__steps">
+        <div>
+          <p class="t-label" style="margin-bottom: var(--s-4)">{{ 'appointment.type' | t: default: 'Type de rendez-vous' }}</p>
+          <div class="appt__choices">
+            {%- for block in section.blocks -%}
+              <button class="appt__choice" type="button" data-appt-type="{{ block.settings.title | escape }}"
+                      aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" {{ block.shopify_attributes }}>
+                <span class="appt__choice-name">{{ block.settings.title }}</span>
+                {%- if block.settings.text != blank -%}
+                  <span class="appt__choice-text">{{ block.settings.text }}</span>
+                {%- endif -%}
+              </button>
+            {%- endfor -%}
+          </div>
+        </div>
+
+        {%- form 'contact', class: 'eform', id: 'AppointmentForm' -%}
+          {%- if form.posted_successfully? -%}
+            <p class="eform__status t-label" role="status">
+              {{ section.settings.success | default: 'Merci. Nous revenons vers vous pour confirmer le créneau.' }}
+            </p>
+          {%- elsif form.errors -%}
+            <p class="cart-error" role="alert">{{ form.errors | default_errors }}</p>
+          {%- endif -%}
+
+          <input type="hidden" name="contact[Type de rendez-vous]" value="" data-appt-type-field>
+          <input type="hidden" name="contact[Créneau]" value="" data-appt-slot-field>
+
+          <div class="eform__row eform__row--two">
+            <div class="eform__field">
+              <label class="t-label" for="ApptDate">{{ 'appointment.date' | t: default: 'Date souhaitée' }}</label>
+              <input id="ApptDate" type="date" name="contact[Date souhaitée]" data-appt-date>
+            </div>
+            <div class="eform__field">
+              <label class="t-label" for="ApptName">{{ 'contact.name' | t: default: 'Nom et prénom' }}</label>
+              <input id="ApptName" type="text" name="contact[Nom]" autocomplete="name" required>
+            </div>
+          </div>
+
+          <div>
+            <p class="t-label" style="margin-bottom: var(--s-3)">{{ 'appointment.slot' | t: default: 'Heure' }}</p>
+            <div class="appt__slots">
+              {%- assign slots = section.settings.slots | split: ',' -%}
+              {%- for slot in slots -%}
+                <button class="appt__slot" type="button" data-appt-slot="{{ slot | strip | escape }}"
+                        aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ slot | strip }}</button>
+              {%- endfor -%}
+            </div>
+          </div>
+
+          <div class="eform__row eform__row--two">
+            <div class="eform__field">
+              <label class="t-label" for="ApptEmail">{{ 'contact.email' | t: default: 'Adresse e-mail' }}</label>
+              <input id="ApptEmail" type="email" name="contact[email]" autocomplete="email" required>
+            </div>
+            <div class="eform__field">
+              <label class="t-label" for="ApptPhone">{{ 'contact.phone' | t: default: 'Téléphone (facultatif)' }}</label>
+              <input id="ApptPhone" type="tel" name="contact[Téléphone]" autocomplete="tel">
+            </div>
+          </div>
+
+          <div class="eform__field">
+            <label class="t-label" for="ApptBody">{{ 'appointment.project' | t: default: 'Votre projet' }}</label>
+            <textarea id="ApptBody" name="contact[body]"></textarea>
+          </div>
+
+          <button class="btn btn--solid" type="submit">{{ section.settings.button | default: 'Demander ce rendez-vous' }}</button>
+          {%- if section.settings.note != blank -%}
+            <p class="t-label eform__note">{{ section.settings.note }}</p>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+
+      <aside class="appt__summary" data-appt-summary>
+        <p class="t-label">{{ 'appointment.summary' | t: default: 'Votre demande' }}</p>
+        <p class="appt__row"><span>{{ 'appointment.type' | t: default: 'Type' }}</span><span data-appt-summary-type></span></p>
+        <p class="appt__row"><span>{{ 'appointment.date' | t: default: 'Date' }}</span><span data-appt-summary-date>—</span></p>
+        <p class="appt__row"><span>{{ 'appointment.slot' | t: default: 'Heure' }}</span><span data-appt-summary-slot></span></p>
+        {%- if section.settings.summary_note != blank -%}
+          <p class="csum__note">{{ section.settings.summary_note }}</p>
+        {%- endif -%}
+      </aside>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Rendez-vous",
+  "tag": "div",
+  "settings": [
+    { "type": "paragraph", "content": "Aucun outil de réservation n'est branché : la demande part par le formulaire de contact Shopify. Une app ou un agenda pourra être connecté plus tard." },
+    { "type": "text", "id": "eyebrow", "label": "Surtitre" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Prendre rendez-vous" },
+    { "type": "textarea", "id": "text", "label": "Texte" },
+    { "type": "text", "id": "slots", "label": "Créneaux proposés", "default": "10:00, 11:30, 14:00, 15:30, 17:00", "info": "Séparés par des virgules. Adaptez-les à vos horaires réels." },
+    { "type": "text", "id": "button", "label": "Bouton", "default": "Demander ce rendez-vous" },
+    { "type": "text", "id": "success", "label": "Message de confirmation", "default": "Merci. Nous revenons vers vous pour confirmer le créneau." },
+    { "type": "text", "id": "note", "label": "Mention sous le formulaire" },
+    { "type": "text", "id": "summary_note", "label": "Mention du récapitulatif" }
+  ],
+  "blocks": [
+    {
+      "type": "type",
+      "name": "Type de rendez-vous",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre", "default": "En boutique" },
+        { "type": "text", "id": "text", "label": "Texte" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [{ "name": "Rendez-vous" }]
+}
+{% endschema %}

@@ -1,0 +1,362 @@
+{%- comment -%}
+  MAISON — Header
+  Contient : barre utilitaire, logo centré, navbar, mega-menu, menu mobile.
+  Tout le contenu provient des menus Shopify et des blocs de section.
+{%- endcomment -%}
+
+{%- comment -%} maison-header.css est chargé une seule fois, depuis layout/theme.liquid {%- endcomment -%}
+<script src="{{ 'maison-header.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign menu = linklists[section.settings.menu]
+  assign transparent = false
+  assign t_list = section.settings.transparent_templates | replace: ' ', '' | split: ','
+  for t in t_list
+    if t == template.name or t == template
+      assign transparent = true
+    endif
+  endfor
+-%}
+
+<header
+  class="hdr{% if transparent and section.settings.transparent_light %} is-inverted{% endif %}"
+  data-header
+  {% if transparent %}data-transparent{% endif %}
+  role="banner"
+>
+  <div class="hdr__surface" aria-hidden="true"></div>
+
+  <div class="hdr__bar">
+    <div class="hdr__zone hdr__zone--left">
+      <button class="hdr__util hdr__burger" type="button" data-mmenu-open aria-expanded="false" aria-controls="MaisonMobileMenu">
+        {% render 'maison-icon', icon: 'burger' %}
+        <span class="visually-hidden">{{ 'header.open_menu' | t: default: 'Ouvrir le menu' }}</span>
+      </button>
+
+      {%- if section.settings.show_localization -%}
+        {%- if localization.available_countries.size > 1 -%}
+          {%- form 'localization', class: 'hdr__locale' -%}
+            <label class="visually-hidden" for="MaisonCountry">{{ 'header.country' | t: default: 'Pays / région' }}</label>
+            {% render 'maison-icon', icon: 'globe' %}
+            <select class="hdr__locale-select t-label" id="MaisonCountry" name="country_code">
+              {%- for country in localization.available_countries -%}
+                <option value="{{ country.iso_code }}" {% if country.iso_code == localization.country.iso_code %}selected{% endif %}>
+                  {{ country.name }}
+                </option>
+              {%- endfor -%}
+            </select>
+          {%- endform -%}
+        {%- else -%}
+          <span class="hdr__locale t-label t-muted">
+            {% render 'maison-icon', icon: 'globe' %}
+            {{ localization.country.name | default: shop.address.country }}
+          </span>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+
+    <a class="hdr__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} — {{ 'header.home' | t: default: 'Accueil' }}">
+      {%- if section.settings.logo != blank -%}
+        {{ section.settings.logo | image_url: width: 480 | image_tag: loading: 'eager', alt: shop.name }}
+      {%- else -%}
+        <span class="hdr__logo-mark">{{ section.settings.logo_text | default: shop.name }}</span>
+      {%- endif -%}
+    </a>
+
+    <div class="hdr__zone hdr__zone--right">
+      <a class="hdr__util hdr__util--search t-label" href="{{ routes.search_url }}" data-search-open>
+        {% render 'maison-icon', icon: 'search' %}
+        <span class="visually-hidden">{{ 'header.search' | t: default: 'Rechercher' }}</span>
+      </a>
+
+      {%- if section.settings.wishlist_link != blank -%}
+        <a class="hdr__util" href="{{ section.settings.wishlist_link }}">
+          {% render 'maison-icon', icon: 'heart' %}
+          <span class="visually-hidden">{{ 'header.wishlist' | t: default: 'Favoris' }}</span>
+          <span class="hdr__count" data-fav-count aria-hidden="true" hidden>0</span>
+        </a>
+      {%- endif -%}
+
+      {%- if shop.customer_accounts_enabled -%}
+        <a class="hdr__util hdr__util--account" href="{{ routes.account_url }}">
+          {% render 'maison-icon', icon: 'account' %}
+          <span class="visually-hidden">{{ 'header.account' | t: default: 'Compte' }}</span>
+        </a>
+      {%- endif -%}
+
+      <a class="hdr__util" href="{{ routes.cart_url }}" data-cart-open>
+        {% render 'maison-icon', icon: 'bag' %}
+        <span class="visually-hidden">{{ 'header.cart' | t: default: 'Panier' }}</span>
+        <span class="hdr__count" data-header-cart-count aria-hidden="true" {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+
+  {%- if menu != blank and menu.links.size > 0 -%}
+    <nav class="hdr__nav" data-nav aria-label="{{ 'header.main_nav' | t: default: 'Navigation principale' }}">
+      <ul class="nav__list">
+        {%- for link in menu.links -%}
+          {%- liquid
+            assign has_panel = false
+            for block in section.blocks
+              assign handle = block.settings.parent_handle | strip | downcase
+              if handle == link.handle
+                assign has_panel = true
+              endif
+            endfor
+          -%}
+          <li class="nav__item">
+            {%- if has_panel -%}
+              <button
+                class="nav__link t-nav"
+                type="button"
+                data-mega-trigger="{{ link.handle }}"
+                aria-expanded="false"
+                aria-controls="MaisonMega"
+              >{{ link.title }}</button>
+            {%- else -%}
+              <a class="nav__link t-nav" href="{{ link.url }}">{{ link.title }}</a>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <div class="mega" id="MaisonMega" data-mega>
+      <div class="mega__stage" data-mega-stage>
+        {%- for block in section.blocks -%}
+          {%- assign handle = block.settings.parent_handle | strip | downcase -%}
+          <div class="mega__panel" data-panel="{{ handle }}" aria-hidden="true" {{ block.shopify_attributes }}>
+            <div class="mega__inner">
+              <div class="mega__cols">
+                {%- assign col_index = 0 -%}
+                {%- for i in (1..4) -%}
+                  {%- liquid
+                    case i
+                      when 1
+                        assign list = linklists[block.settings.menu_1]
+                        assign title = block.settings.title_1
+                      when 2
+                        assign list = linklists[block.settings.menu_2]
+                        assign title = block.settings.title_2
+                      when 3
+                        assign list = linklists[block.settings.menu_3]
+                        assign title = block.settings.title_3
+                      when 4
+                        assign list = linklists[block.settings.menu_4]
+                        assign title = block.settings.title_4
+                    endcase
+                  -%}
+                  {%- if list != blank and list.links.size > 0 -%}
+                    <div class="mega__col" style="--i: {{ col_index }}">
+                      <p class="mega__title t-label">{{ title | default: list.title }}</p>
+                      <ul class="mega__links">
+                        {%- for child in list.links -%}
+                          <li><a class="mega__link link-rule" href="{{ child.url }}">{{ child.title }}</a></li>
+                        {%- endfor -%}
+                      </ul>
+                    </div>
+                    {%- assign col_index = col_index | plus: 1 -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+
+              {%- if block.settings.image != blank or block.settings.image_2 != blank -%}
+                <div class="mega__media">
+                  <div class="mega__media-grid{% if block.settings.image != blank and block.settings.image_2 != blank %} has-two{% endif %}">
+                    {%- if block.settings.image != blank -%}
+                      {%- if block.settings.image_link != blank -%}
+                        <a class="mega__frame" href="{{ block.settings.image_link }}" tabindex="-1" aria-hidden="true">
+                          {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 30vw, 100vw', widths: '400,600,900' }}
+                        </a>
+                      {%- else -%}
+                        <div class="mega__frame">
+                          {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 30vw, 100vw', widths: '400,600,900' }}
+                        </div>
+                      {%- endif -%}
+                    {%- endif -%}
+                    {%- if block.settings.image_2 != blank -%}
+                      <div class="mega__frame mega__frame--small">
+                        {{ block.settings.image_2 | image_url: width: 600 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 14vw, 50vw', widths: '300,600' }}
+                      </div>
+                    {%- endif -%}
+                  </div>
+
+                  {%- if block.settings.media_title != blank or block.settings.media_link != blank -%}
+                    <div class="mega__caption">
+                      {%- if block.settings.media_title != blank -%}
+                        <p class="t-h3">{{ block.settings.media_title }}</p>
+                      {%- endif -%}
+                      {%- if block.settings.media_text != blank -%}
+                        <p class="t-body-s t-muted">{{ block.settings.media_text }}</p>
+                      {%- endif -%}
+                      {%- if block.settings.media_link != blank -%}
+                        <a class="cta" href="{{ block.settings.media_link }}">
+                          {{ block.settings.media_cta | default: 'Découvrir' }}
+                          <span class="cta__arrow" aria-hidden="true"></span>
+                        </a>
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+</header>
+
+<div class="hdr__scrim" data-scrim aria-hidden="true"></div>
+{%- unless transparent -%}<div class="hdr-spacer" aria-hidden="true"></div>{%- endunless -%}
+
+{%- comment -%} ---------- MENU MOBILE ---------- {%- endcomment -%}
+<div class="mmenu" id="MaisonMobileMenu" data-mmenu aria-hidden="true">
+  <div class="mmenu__bar">
+    <button class="hdr__util" type="button" data-mmenu-close>
+      {% render 'maison-icon', icon: 'close' %}
+      <span class="visually-hidden">{{ 'header.close_menu' | t: default: 'Fermer le menu' }}</span>
+    </button>
+    <span class="hdr__logo-mark" style="width:auto">{{ section.settings.logo_text | default: shop.name }}</span>
+    <a class="hdr__util" href="{{ routes.cart_url }}" data-cart-open>
+      {% render 'maison-icon', icon: 'bag' %}
+      <span class="visually-hidden">{{ 'header.cart' | t: default: 'Panier' }}</span>
+      <span class="hdr__count" data-header-cart-count aria-hidden="true" {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span>
+    </a>
+  </div>
+
+  <div class="mmenu__viewport">
+    <div class="mmenu__panel mmenu__panel--root">
+      <ul class="mmenu__list">
+        {%- for link in menu.links -%}
+          <li>
+            {%- if link.links.size > 0 -%}
+              <button class="mmenu__row" type="button" data-mmenu-sub="{{ link.handle }}" style="--i: {{ forloop.index0 }}">
+                <span class="mmenu__row-label">{{ link.title }}</span>
+                <span class="mmenu__chev" aria-hidden="true"></span>
+              </button>
+            {%- else -%}
+              <a class="mmenu__row" href="{{ link.url }}" style="--i: {{ forloop.index0 }}">
+                <span class="mmenu__row-label">{{ link.title }}</span>
+              </a>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+
+    {%- for link in menu.links -%}
+      {%- if link.links.size > 0 -%}
+        {%- liquid
+          assign panel_image = blank
+          assign panel_title = blank
+          assign panel_link = blank
+          for block in section.blocks
+            assign handle = block.settings.parent_handle | strip | downcase
+            if handle == link.handle and block.settings.image != blank
+              assign panel_image = block.settings.image
+              assign panel_title = block.settings.media_title
+              assign panel_link = block.settings.media_link
+            endif
+          endfor
+        -%}
+        <div class="mmenu__panel" data-mmenu-panel="{{ link.handle }}" aria-hidden="true">
+          <button class="mmenu__back t-label" type="button" data-mmenu-back>
+            <span class="mmenu__chev" aria-hidden="true"></span>
+            {{ link.title }}
+          </button>
+          <ul class="mmenu__list">
+            <li>
+              <a class="mmenu__row" href="{{ link.url }}" style="--i: 0">
+                <span class="mmenu__row-label">{{ 'header.view_all' | t: default: 'Tout voir' }} — {{ link.title }}</span>
+              </a>
+            </li>
+            {%- for child in link.links -%}
+              <li>
+                <a class="mmenu__row" href="{{ child.url }}" style="--i: {{ forloop.index }}">
+                  <span class="mmenu__row-label">{{ child.title }}</span>
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+          {%- if panel_image != blank -%}
+            <div class="mmenu__media">
+              <div class="mega__frame">
+                {{ panel_image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '100vw', widths: '400,700,900' }}
+              </div>
+              {%- if panel_link != blank -%}
+                <a class="cta" href="{{ panel_link }}">
+                  {{ panel_title | default: 'Découvrir la collection' }}
+                  <span class="cta__arrow" aria-hidden="true"></span>
+                </a>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  <div class="mmenu__foot">
+    <a class="t-label" href="{{ routes.search_url }}" data-search-open>{{ 'header.search' | t: default: 'Rechercher' }}</a>
+    {%- if shop.customer_accounts_enabled -%}
+      <a class="t-label" href="{{ routes.account_url }}">{{ 'header.account' | t: default: 'Compte' }}</a>
+    {%- endif -%}
+    {%- if section.settings.appointment_link != blank -%}
+      <a class="t-label" href="{{ section.settings.appointment_link }}">{{ section.settings.appointment_label | default: 'Rendez-vous' }}</a>
+    {%- endif -%}
+    {%- if section.settings.wishlist_link != blank -%}
+      <a class="t-label" href="{{ section.settings.wishlist_link }}">{{ 'header.wishlist' | t: default: 'Favoris' }}</a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "En-tête",
+  "class": "maison-header-section",
+  "settings": [
+    { "type": "header", "content": "Identité" },
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "text", "id": "logo_text", "label": "Logo typographique (si aucune image)", "default": "MAISON" },
+    { "type": "header", "content": "Navigation" },
+    { "type": "link_list", "id": "menu", "label": "Menu principal", "default": "main-menu" },
+    { "type": "url", "id": "wishlist_link", "label": "Lien Favoris", "info": "Pointez-le vers la page Favoris (modèle « favoris »). L'icône n'apparaît que si un lien est défini." },
+    { "type": "text", "id": "appointment_label", "label": "Libellé Rendez-vous", "default": "Rendez-vous" },
+    { "type": "url", "id": "appointment_link", "label": "Lien Rendez-vous" },
+    { "type": "checkbox", "id": "show_localization", "label": "Afficher le sélecteur pays / région", "default": true },
+    { "type": "header", "content": "En-tête transparent" },
+    { "type": "text", "id": "transparent_templates", "label": "Modèles en en-tête transparent", "info": "Liste séparée par des virgules, ex. : index, page.maison", "default": "" },
+    { "type": "checkbox", "id": "transparent_light", "label": "Logo et navigation en blanc au chargement", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "mega",
+      "name": "Mega-menu",
+      "settings": [
+        { "type": "text", "id": "parent_handle", "label": "Handle du lien parent", "info": "Le handle du lien du menu principal qui ouvre ce panneau, ex. : bagues" },
+        { "type": "header", "content": "Colonnes" },
+        { "type": "text", "id": "title_1", "label": "Titre colonne 1", "default": "Découvrir" },
+        { "type": "link_list", "id": "menu_1", "label": "Menu colonne 1" },
+        { "type": "text", "id": "title_2", "label": "Titre colonne 2", "default": "Par style" },
+        { "type": "link_list", "id": "menu_2", "label": "Menu colonne 2" },
+        { "type": "text", "id": "title_3", "label": "Titre colonne 3", "default": "Par métal" },
+        { "type": "link_list", "id": "menu_3", "label": "Menu colonne 3" },
+        { "type": "text", "id": "title_4", "label": "Titre colonne 4", "default": "Par pierre" },
+        { "type": "link_list", "id": "menu_4", "label": "Menu colonne 4" },
+        { "type": "header", "content": "Éditorial" },
+        { "type": "image_picker", "id": "image", "label": "Image principale" },
+        { "type": "image_picker", "id": "image_2", "label": "Image secondaire" },
+        { "type": "url", "id": "image_link", "label": "Lien de l'image" },
+        { "type": "text", "id": "media_title", "label": "Titre", "default": "La Collection" },
+        { "type": "text", "id": "media_text", "label": "Texte" },
+        { "type": "text", "id": "media_cta", "label": "Libellé du lien", "default": "Découvrir" },
+        { "type": "url", "id": "media_link", "label": "Lien" }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "enabled_on": { "groups": ["header"] }
+}
+{% endschema %}

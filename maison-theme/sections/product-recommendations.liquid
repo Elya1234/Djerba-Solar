@@ -1,0 +1,66 @@
+{%- comment -%}
+  MAISON — Vous aimerez également
+  Recommandations natives Shopify, chargées de façon asynchrone via
+  routes.product_recommendations_url. Si Shopify ne renvoie rien, la
+  collection associée sert de repli. Une seule carte produit : maison-card-product.
+{%- endcomment -%}
+
+{%- liquid
+  assign limit = section.settings.count
+  assign items = recommendations.products
+  assign is_fallback = false
+  if recommendations.performed and recommendations.products_count == 0
+    assign items = product.collections.first.products
+    assign is_fallback = true
+  endif
+  unless recommendations.performed
+    assign items = product.collections.first.products
+    assign is_fallback = true
+  endunless
+-%}
+
+{%- if items.size > 0 -%}
+  <section class="section sel"
+    data-recommendations
+    data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ limit }}">
+    <div class="page">
+      <div class="sel__head">
+        <div>
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+          {%- endif -%}
+          <h2 class="t-h1 line-mask" style="margin-top: var(--s-4)" data-reveal="mask"><span>{{ section.settings.title }}</span></h2>
+        </div>
+        {%- if product.collections.first != blank -%}
+          <a class="cta" href="{{ product.collections.first.url }}" data-reveal style="--i: 1">
+            {{ section.settings.cta_label | default: 'Voir la collection' }}<span class="cta__arrow" aria-hidden="true"></span>
+          </a>
+        {%- endif -%}
+      </div>
+
+      <div class="sel__track" style="--per-row: {{ limit }}" data-reco-list>
+        {%- assign shown = 0 -%}
+        {%- for item in items -%}
+          {%- if shown < limit and item.id != product.id -%}
+            {% render 'maison-card-product', product: item, index: forloop.index0 %}
+            {%- assign shown = shown | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Vous aimerez également",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Label" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Vous aimerez également" },
+    { "type": "range", "id": "count", "label": "Créations affichées", "min": 3, "max": 4, "step": 1, "default": 4 },
+    { "type": "text", "id": "cta_label", "label": "Libellé du lien", "default": "Voir la collection" }
+  ],
+  "presets": [{ "name": "Vous aimerez également" }]
+}
+{% endschema %}

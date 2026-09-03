@@ -1,0 +1,141 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "show_buy_bar": true,
+        "show_size_guide": true,
+        "appointment_label": "Prendre rendez-vous",
+        "appointment_link": "/pages/rendez-vous",
+        "advisor_label": "Contacter un conseiller",
+        "advisor_link": "/pages/conseil-joaillier"
+      },
+      "blocks": {
+        "trust-1": {
+          "type": "confiance",
+          "settings": {
+            "text": "Livraison assurée et remise en main propre"
+          }
+        },
+        "trust-2": {
+          "type": "confiance",
+          "settings": {
+            "text": "Certificat d'authenticité de la Maison"
+          }
+        },
+        "trust-3": {
+          "type": "confiance",
+          "settings": {
+            "text": "Écrin et gravure offerts"
+          }
+        },
+        "trust-4": {
+          "type": "confiance",
+          "settings": {
+            "text": "Entretien à vie en atelier"
+          }
+        },
+        "trust-5": {
+          "type": "confiance",
+          "settings": {
+            "text": "Retours sous 30 jours, selon conditions"
+          }
+        },
+        "acc-details": {
+          "type": "accordeon",
+          "settings": {
+            "title": "Détails",
+            "source": "description",
+            "open": true
+          }
+        },
+        "acc-specs": {
+          "type": "accordeon",
+          "settings": {
+            "title": "Matières & pierres",
+            "source": "caracteristiques"
+          }
+        },
+        "acc-craft": {
+          "type": "accordeon",
+          "settings": {
+            "title": "Savoir-faire",
+            "source": "metafield",
+            "metafield_key": "savoir_faire_texte"
+          }
+        },
+        "acc-shipping": {
+          "type": "accordeon",
+          "settings": {
+            "title": "Livraison & retours",
+            "source": "page",
+            "page": ""
+          }
+        },
+        "acc-care": {
+          "type": "accordeon",
+          "settings": {
+            "title": "Entretien",
+            "source": "metafield",
+            "metafield_key": "entretien"
+          }
+        },
+        "acc-cert": {
+          "type": "accordeon",
+          "settings": {
+            "title": "Certificat",
+            "source": "metafield",
+            "metafield_key": "certificat"
+          }
+        }
+      },
+      "block_order": [
+        "trust-1",
+        "trust-2",
+        "trust-3",
+        "trust-4",
+        "trust-5",
+        "acc-details",
+        "acc-specs",
+        "acc-craft",
+        "acc-shipping",
+        "acc-care",
+        "acc-cert"
+      ]
+    },
+    "craft": {
+      "type": "product-craft",
+      "settings": {
+        "eyebrow": "Le geste",
+        "title": "L'art du détail",
+        "cta_link": "/pages/savoir-faire"
+      }
+    },
+    "editorial": {
+      "type": "product-editorial",
+      "settings": {
+        "parallax": true
+      }
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "title": "Vous aimerez également",
+        "count": 4
+      }
+    },
+    "collection": {
+      "type": "related-collection",
+      "settings": {
+        "eyebrow": "La collection"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "craft",
+    "editorial",
+    "recommendations",
+    "collection"
+  ]
+}

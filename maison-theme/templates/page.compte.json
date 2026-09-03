@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-account",
+      "settings": {
+        "eyebrow": "Votre compte",
+        "title": "Votre compte",
+        "text": "Retrouvez vos commandes, vos informations et vos créations favorites.",
+        "favourites_text": "Vos favoris sont pour l'instant enregistrés dans ce navigateur.",
+        "favourites_link": "/pages/favoris",
+        "note": "La connexion est gérée par Shopify."
+      },
+      "blocks": {
+        "r1": { "type": "raison", "settings": { "text": "Suivre vos commandes" } },
+        "r2": { "type": "raison", "settings": { "text": "Retrouver vos informations" } },
+        "r3": { "type": "raison", "settings": { "text": "Faciliter vos prochains achats" } }
+      },
+      "block_order": ["r1", "r2", "r3"]
+    }
+  },
+  "order": ["main"]
+}

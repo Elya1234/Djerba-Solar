@@ -1,0 +1,43 @@
+{%- comment -%} Bandeau d'appel : conseiller, rendez-vous, créations. {%- endcomment -%}
+<section class="section section--tight ecta{% if section.settings.dark %} ecta--dark{% endif %}{% if section.settings.align == 'center' %} ecta--center{% endif %}">
+  <div class="page">
+    <div class="ecta__inner">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <h2 class="t-h2 line-mask" data-reveal="mask"><span>{{ section.settings.title }}</span></h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <p class="t-body-s t-muted" data-reveal style="--i: 1">{{ section.settings.text }}</p>
+      {%- endif -%}
+      <div class="ecta__links" data-reveal style="--i: 2">
+        {%- if section.settings.link_1 != blank -%}
+          <a class="cta" href="{{ section.settings.link_1 }}">{{ section.settings.label_1 }}<span class="cta__arrow" aria-hidden="true"></span></a>
+        {%- endif -%}
+        {%- if section.settings.link_2 != blank -%}
+          <a class="cta" href="{{ section.settings.link_2 }}">{{ section.settings.label_2 }}<span class="cta__arrow" aria-hidden="true"></span></a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Éditorial — Appel",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre" },
+    { "type": "text", "id": "title", "label": "Titre" },
+    { "type": "textarea", "id": "text", "label": "Texte" },
+    { "type": "text", "id": "label_1", "label": "Lien 1 — libellé" },
+    { "type": "url", "id": "link_1", "label": "Lien 1" },
+    { "type": "text", "id": "label_2", "label": "Lien 2 — libellé" },
+    { "type": "url", "id": "link_2", "label": "Lien 2" },
+    { "type": "checkbox", "id": "dark", "label": "Fond sombre", "default": false },
+    { "type": "select", "id": "align", "label": "Alignement", "default": "left",
+      "options": [ { "value": "left", "label": "Gauche" }, { "value": "center", "label": "Centre" } ] }
+  ],
+  "presets": [{ "name": "Éditorial — Appel" }]
+}
+{% endschema %}

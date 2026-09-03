@@ -1,0 +1,18 @@
+{
+  "current": {
+    "c_paper": "#FAFAF8",
+    "c_surface": "#FFFFFF",
+    "c_ink": "#111013",
+    "c_ink_soft": "#6E6A65",
+    "c_line": "#E4E1DA",
+    "c_signature": "#1A3A31",
+    "font_display": "playfair_display_n4",
+    "font_body": "assistant_n4",
+    "ls_nav": 0.16,
+    "ls_label": 0.22,
+    "max_width": 1680,
+    "motion_speed": 420,
+    "advisor_link": "/pages/conseil-joaillier",
+    "cart_empty_link": "/collections/joaillerie"
+  }
+}

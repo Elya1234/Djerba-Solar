@@ -1,0 +1,207 @@
+{
+  "sections": {
+    "configurator": {
+      "type": "ring-configurator",
+      "settings": {
+        "eyebrow": "Création sur-mesure",
+        "title": "Créez votre bague",
+        "text": "Choisissez le modèle, le métal, le pavage, la forme puis la pierre. Chaque étape fait évoluer le visuel.",
+        "sizes": "46,47,48,49,50,51,52,53,54,55,56,57,58",
+        "size_guide_link": "/pages/guide-des-tailles",
+        "advisor_link": "/pages/conseil-joaillier",
+        "appointment_link": "/pages/rendez-vous"
+      },
+      "blocks": {
+        "metal0": {
+          "type": "metal",
+          "settings": {
+            "title": "Or jaune 18 carats"
+          }
+        },
+        "metal1": {
+          "type": "metal",
+          "settings": {
+            "title": "Or blanc 18 carats"
+          }
+        },
+        "metal2": {
+          "type": "metal",
+          "settings": {
+            "title": "Or rose 18 carats"
+          }
+        },
+        "metal3": {
+          "type": "metal",
+          "settings": {
+            "title": "Platine"
+          }
+        },
+        "pav0": {
+          "type": "pavage",
+          "settings": {
+            "title": "Sans pavage",
+            "text": "Monture lisse"
+          }
+        },
+        "pav1": {
+          "type": "pavage",
+          "settings": {
+            "title": "Pavage 15 %",
+            "text": "Départ de pavage"
+          }
+        },
+        "pav2": {
+          "type": "pavage",
+          "settings": {
+            "title": "Demi-pavé",
+            "text": "Pavage sur la moitié du corps"
+          }
+        },
+        "pav3": {
+          "type": "pavage",
+          "settings": {
+            "title": "Pavage complet",
+            "text": "Corps entièrement serti"
+          }
+        },
+        "forme0": {
+          "type": "forme",
+          "settings": {
+            "title": "Rond"
+          }
+        },
+        "forme1": {
+          "type": "forme",
+          "settings": {
+            "title": "Ovale"
+          }
+        },
+        "forme2": {
+          "type": "forme",
+          "settings": {
+            "title": "Poire"
+          }
+        },
+        "forme3": {
+          "type": "forme",
+          "settings": {
+            "title": "Coussin"
+          }
+        },
+        "forme4": {
+          "type": "forme",
+          "settings": {
+            "title": "Émeraude"
+          }
+        },
+        "forme5": {
+          "type": "forme",
+          "settings": {
+            "title": "Princesse"
+          }
+        },
+        "forme6": {
+          "type": "forme",
+          "settings": {
+            "title": "Marquise"
+          }
+        },
+        "forme7": {
+          "type": "forme",
+          "settings": {
+            "title": "Radiant"
+          }
+        },
+        "forme8": {
+          "type": "forme",
+          "settings": {
+            "title": "Asscher"
+          }
+        },
+        "forme9": {
+          "type": "forme",
+          "settings": {
+            "title": "Cœur"
+          }
+        },
+        "modele0": {
+          "type": "modele",
+          "settings": {
+            "title": "Solitaire",
+            "text": "Une pierre, une ligne.",
+            "pavages": "",
+            "shapes": ""
+          }
+        },
+        "modele1": {
+          "type": "modele",
+          "settings": {
+            "title": "Halo",
+            "text": "La pierre centrale entourée.",
+            "pavages": "",
+            "shapes": ""
+          }
+        },
+        "modele2": {
+          "type": "modele",
+          "settings": {
+            "title": "Épaulé",
+            "text": "Deux épaules serties.",
+            "pavages": "",
+            "shapes": ""
+          }
+        },
+        "modele3": {
+          "type": "modele",
+          "settings": {
+            "title": "Trois pierres",
+            "text": "Passé, présent, avenir.",
+            "pavages": "",
+            "shapes": ""
+          }
+        }
+      },
+      "block_order": [
+        "metal0",
+        "metal1",
+        "metal2",
+        "metal3",
+        "pav0",
+        "pav1",
+        "pav2",
+        "pav3",
+        "forme0",
+        "forme1",
+        "forme2",
+        "forme3",
+        "forme4",
+        "forme5",
+        "forme6",
+        "forme7",
+        "forme8",
+        "forme9",
+        "modele0",
+        "modele1",
+        "modele2",
+        "modele3"
+      ]
+    },
+    "aide": {
+      "type": "editorial-cta",
+      "settings": {
+        "eyebrow": "Accompagnement",
+        "title": "Un doute sur un choix ?",
+        "text": "Un conseiller peut reprendre votre création et la finaliser avec vous.",
+        "label_1": "Prendre rendez-vous",
+        "link_1": "/pages/rendez-vous",
+        "label_2": "Comprendre les 4C",
+        "link_2": "/pages/les-4c",
+        "align": "center"
+      }
+    }
+  },
+  "order": [
+    "configurator",
+    "aide"
+  ]
+}

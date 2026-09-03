@@ -1,0 +1,132 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-hero",
+      "settings": {
+        "eyebrow": "Services",
+        "title": "Écrin & gravure",
+        "text": "La dernière étape avant vous.",
+        "align": "left",
+        "short": true,
+        "parallax": true,
+        "show_breadcrumb": true,
+        "parent_title": "Services",
+        "parent_link": "/pages/conseil-joaillier"
+      }
+    },
+    "ecrin": {
+      "type": "editorial-image-text",
+      "settings": {
+        "eyebrow": "La remise",
+        "title": "L'écrin",
+        "text": "<p>Chaque création est remise dans l'écrin de la Maison.</p>",
+        "media_position": "left",
+        "background": "paper",
+        "ratio": "portrait"
+      }
+    },
+    "etapes": {
+      "type": "editorial-steps",
+      "settings": {
+        "eyebrow": "Le détail",
+        "title": "La personnalisation",
+        "text": "",
+        "numbered": false
+      },
+      "blocks": {
+        "s0": {
+          "type": "etape",
+          "settings": {
+            "title": "La présentation",
+            "text": "L'écrin, le ruban, la carte."
+          }
+        },
+        "s1": {
+          "type": "etape",
+          "settings": {
+            "title": "La gravure",
+            "text": "Réalisée à l'atelier, à la main ou à la machine."
+          }
+        },
+        "s2": {
+          "type": "etape",
+          "settings": {
+            "title": "Les conditions",
+            "text": "Renseignez ici les délais et conditions réelles de la gravure."
+          }
+        }
+      },
+      "block_order": [
+        "s0",
+        "s1",
+        "s2"
+      ]
+    },
+    "conditions": {
+      "type": "editorial-image-text",
+      "settings": {
+        "eyebrow": "À renseigner",
+        "title": "Conditions",
+        "text": "<p>Précisez ici si la gravure est incluse, son coût éventuel, le nombre de caractères et le délai. Rien n'est affirmé par défaut.</p>",
+        "media_position": "right",
+        "background": "surface",
+        "ratio": "portrait"
+      },
+      "blocks": {
+        "f0": {
+          "type": "precision",
+          "settings": {
+            "key": "Gravure incluse",
+            "value": ""
+          }
+        },
+        "f1": {
+          "type": "precision",
+          "settings": {
+            "key": "Nombre de caractères",
+            "value": ""
+          }
+        },
+        "f2": {
+          "type": "precision",
+          "settings": {
+            "key": "Délai",
+            "value": ""
+          }
+        },
+        "f3": {
+          "type": "precision",
+          "settings": {
+            "key": "Retour possible",
+            "value": ""
+          }
+        }
+      },
+      "block_order": [
+        "f0",
+        "f1",
+        "f2",
+        "f3"
+      ]
+    },
+    "cta": {
+      "type": "editorial-cta",
+      "settings": {
+        "eyebrow": "",
+        "title": "Une demande particulière ?",
+        "text": "",
+        "dark": false,
+        "align": "center",
+        "label_1": "Contacter la Maison",
+        "link_1": "/pages/contact"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "ecrin",
+    "etapes",
+    "conditions",
+    "cta"
+  ]
+}

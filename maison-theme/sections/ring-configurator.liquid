@@ -1,0 +1,307 @@
+{%- comment -%}
+  MAISON — Configurateur de bague
+
+  ARCHITECTURE (documentée dans le LISEZ-MOI) :
+  • Chaque MODÈLE est un produit Shopify réel. Ses variantes correspondent aux
+    combinaisons Métal × Pavage : le prix de la monture est donc un prix Shopify.
+  • Chaque PIERRE est un produit Shopify réel, en quantité 1 (pièce unique).
+  • L'ajout au panier crée DEUX lignes réelles, reliées par une propriété
+    « _configuration ». Le montant facturé est calculé par Shopify.
+  • Le configurateur n'invente aucun prix : il additionne des prix Shopify
+    pour afficher une estimation.
+{%- endcomment -%}
+
+{%- liquid
+  assign metal_words = 'métal,metal,couleur,color' | split: ','
+  assign pavage_words = 'pavage,pavé,pave,setting' | split: ','
+-%}
+
+<section class="cfg" data-configurator>
+  <div class="cfg__grid">
+    {%- comment -%} ---------- VISUEL ---------- {%- endcomment -%}
+    <div class="cfg__stage">
+      <button class="cfg__frame" type="button" data-config-frame data-config-zoom
+              aria-label="{{ 'configurator.zoom' | t: default: 'Agrandir la bague' }}">
+        <span data-config-placeholder>
+          {% render 'maison-placeholder', label: section.settings.placeholder_label | default: 'Votre création' %}
+        </span>
+      </button>
+      <p class="t-label cfg__caption" data-config-caption></p>
+    </div>
+
+    {%- comment -%} ---------- CONFIGURATION ---------- {%- endcomment -%}
+    <div class="cfg__panel">
+      <div class="cfg__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="t-label eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h1 class="t-h1 line-mask" data-reveal="mask"><span>{{ section.settings.title | default: page.title }}</span></h1>
+        {%- if section.settings.text != blank -%}
+          <p class="cfg__hint">{{ section.settings.text }}</p>
+        {%- endif -%}
+      </div>
+
+      <nav class="cfg__steps" data-config-steps aria-label="{{ 'configurator.steps' | t: default: 'Étapes de création' }}"></nav>
+
+      <p class="cfg__running" data-config-running hidden>
+        <span class="t-label">{{ 'configurator.estimate' | t: default: 'Estimation' }}</span>
+        <span class="cfg__running-amount" data-config-running-amount></span>
+      </p>
+
+      <p class="cfg__notice" data-config-notice hidden role="status"></p>
+
+      {%- for i in (0..6) -%}
+        <div class="cfg__pane" data-config-pane="{{ i }}" {% unless forloop.first %}hidden{% endunless %}>
+          <h2 class="t-h2 cfg__title" data-config-title></h2>
+          <div data-config-body></div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <div class="cfg__bar" data-config-bar>
+    <span class="cfg__bar-label">
+      <span class="cfg__bar-step" data-config-bar-step></span>
+      <span class="cfg__bar-value" data-config-bar-value></span>
+      <span class="cfg__bar-price" data-config-bar-price hidden></span>
+    </span>
+    <button class="btn btn--solid" type="button" data-config-next>{{ 'configurator.next' | t: default: 'Continuer' }}</button>
+  </div>
+
+  {%- comment -%} ---------- DONNÉES ---------- {%- endcomment -%}
+  <script type="application/json" data-config-json>
+    {
+      "titles": {
+        "model": {{ section.settings.title_model | default: 'Choisissez le modèle' | json }},
+        "metal": {{ section.settings.title_metal | default: 'Choisissez le métal' | json }},
+        "pavage": {{ section.settings.title_pavage | default: 'Choisissez le pavage' | json }},
+        "shape": {{ section.settings.title_shape | default: 'Choisissez la forme de la pierre' | json }},
+        "stone": {{ section.settings.title_stone | default: 'Choisissez votre pierre' | json }},
+        "size": {{ section.settings.title_size | default: 'Choisissez votre taille' | json }},
+        "recap": {{ section.settings.title_recap | default: 'Votre création' | json }}
+      },
+      "price_note": {{ section.settings.price_note | default: "Estimation. Le montant facturé est calculé par Shopify : la monture et la pierre sont deux articles réels." | json }},
+      "size_guide_url": {{ section.settings.size_guide_link | json }},
+      "advisor_url": {{ section.settings.advisor_link | json }},
+      "appointment_url": {{ section.settings.appointment_link | json }},
+      "sizes": {{ section.settings.sizes | default: '46,47,48,49,50,51,52,53,54,55,56,57,58' | replace: ' ', '' | split: ',' | json }},
+
+      "metals": [
+        {%- assign metals = section.blocks | where: 'type', 'metal' -%}
+        {%- for block in metals -%}
+          {
+            "id": {{ block.settings.title | handleize | json }},
+            "title": {{ block.settings.title | json }}
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ],
+
+      "pavages": [
+        {%- assign pavages = section.blocks | where: 'type', 'pavage' -%}
+        {%- for block in pavages -%}
+          {
+            "id": {{ block.settings.title | handleize | json }},
+            "title": {{ block.settings.title | json }},
+            "text": {{ block.settings.text | json }}
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ],
+
+      "shapes": [
+        {%- assign shapes = section.blocks | where: 'type', 'forme' -%}
+        {%- for block in shapes -%}
+          {
+            "id": {{ block.settings.title | handleize | json }},
+            "title": {{ block.settings.title | json }}
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ],
+
+      "models": [
+        {%- assign models = section.blocks | where: 'type', 'modele' -%}
+        {%- for block in models -%}
+          {%- assign product = block.settings.product -%}
+          {
+            "id": {{ block.settings.title | default: product.title | handleize | json }},
+            "title": {{ block.settings.title | default: product.title | json }},
+            "text": {{ block.settings.text | json }},
+            "image": {%- if block.settings.image != blank -%}{{ block.settings.image | image_url: width: 600 | json }}
+                     {%- elsif product.featured_media -%}{{ product.featured_media | image_url: width: 600 | json }}
+                     {%- else -%}""{%- endif -%},
+            "from_price": {{ product.price_min | default: 0 }},
+            "productUrl": {{ product.url | json }},
+            "pavages": {%- if block.settings.pavages != blank -%}
+                         {{ block.settings.pavages | replace: ' ,', ',' | split: ',' | json }}
+                       {%- else -%}[]{%- endif -%},
+            "shapes": {%- if block.settings.shapes != blank -%}
+                        {{ block.settings.shapes | replace: ' ,', ',' | split: ',' | json }}
+                      {%- else -%}[]{%- endif -%},
+            "variants": {
+              {%- comment -%}
+                Les variantes du produit portent les options Métal et Pavage.
+                On construit la clé « metal|pavage » à partir des noms d'options
+                réels : aucune combinaison n'est inventée.
+              {%- endcomment -%}
+              {%- assign metal_index = -1 -%}
+              {%- assign pavage_index = -1 -%}
+              {%- for option in product.options_with_values -%}
+                {%- assign name = option.name | downcase -%}
+                {%- for word in metal_words -%}
+                  {%- if name contains word and metal_index == -1 -%}
+                    {%- assign metal_index = forloop.parentloop.index0 -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- for word in pavage_words -%}
+                  {%- if name contains word and pavage_index == -1 -%}
+                    {%- assign pavage_index = forloop.parentloop.index0 -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endfor -%}
+
+              {%- for variant in product.variants -%}
+                {%- assign metal_value = '' -%}
+                {%- assign pavage_value = '' -%}
+                {%- if metal_index >= 0 -%}{%- assign metal_value = variant.options[metal_index] | handleize -%}{%- endif -%}
+                {%- if pavage_index >= 0 -%}{%- assign pavage_value = variant.options[pavage_index] | handleize -%}{%- endif -%}
+                {%- if metal_value != '' -%}
+                  {{ metal_value | append: '|' | append: pavage_value | json }}: {
+                    "id": {{ variant.id }},
+                    "price": {{ variant.price }},
+                    "available": {{ variant.available }},
+                    "sku": {{ variant.sku | json }}
+                  }{%- unless forloop.last -%},{%- endunless -%}
+                {%- endif -%}
+              {%- endfor -%}
+            }
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ],
+
+      "stones": [
+        {%- assign stone_collection = section.settings.stones -%}
+        {%- for product in stone_collection.products -%}
+          {%- assign mf = product.metafields.custom -%}
+          {
+            "id": {{ product.handle | json }},
+            "variantId": {{ product.selected_or_first_available_variant.id }},
+            "shape": {{ mf.forme | default: '' | handleize | json }},
+            "carat": {{ mf.carat | default: '' | json }},
+            "color": {{ mf.couleur | default: '' | json }},
+            "clarity": {{ mf.purete | default: '' | json }},
+            "cut": {{ mf.taille_pierre | default: '' | json }},
+            "polish": {{ mf.poli | default: '' | json }},
+            "symmetry": {{ mf.symetrie | default: '' | json }},
+            "fluorescence": {{ mf.fluorescence | default: '' | json }},
+            "dimensions": {{ mf.dimensions | default: '' | json }},
+            "lab": {{ mf.laboratoire | default: '' | json }},
+            "certificate": {{ mf.certificat | default: '' | json }},
+            "reference": {{ product.sku | default: product.handle | json }},
+            "price": {{ product.price }},
+            "available": {{ product.available }}
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ],
+
+      "media": {
+        {%- assign medias = section.blocks | where: 'type', 'media' -%}
+        {%- for block in medias -%}
+          {%- if block.settings.key != blank and block.settings.image != blank -%}
+            {{ block.settings.key | strip | json }}: {{ block.settings.image | image_url: width: 1400 | json }}
+            {%- unless forloop.last -%},{%- endunless -%}
+          {%- endif -%}
+        {%- endfor -%}
+      }
+    }
+  </script>
+</section>
+
+{% render 'maison-zoom' %}
+
+{%- comment -%} ---------- DÉTAIL D'UNE PIERRE ---------- {%- endcomment -%}
+<div class="cfg__drawer" id="MaisonStoneDrawer" data-modal data-stone-drawer role="dialog" aria-modal="true"
+     aria-label="{{ 'configurator.stone' | t: default: 'Détail de la pierre' }}" aria-hidden="true">
+  <div class="cfg__drawer-bar">
+    <p class="t-label">{{ 'configurator.stone' | t: default: 'Détail de la pierre' }}</p>
+    <button class="hdr__util" type="button" data-modal-close data-modal-initial>
+      {% render 'maison-icon', icon: 'close' %}
+      <span class="visually-hidden">{{ 'general.close' | t: default: 'Fermer' }}</span>
+    </button>
+  </div>
+  <div class="cfg__drawer-body" data-stone-detail></div>
+  <div class="cfg__drawer-foot">
+    <button class="btn btn--solid" type="button" data-stone-pick style="width:100%">
+      {{ 'configurator.pick' | t: default: 'Choisir cette pierre' }}
+    </button>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Configurateur de bague",
+  "tag": "div",
+  "settings": [
+    { "type": "paragraph", "content": "Chaque modèle est un produit Shopify dont les variantes sont Métal × Pavage. Les pierres sont les produits d'une collection dédiée. Le prix facturé est toujours celui de Shopify." },
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "Création sur-mesure" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Créez votre bague" },
+    { "type": "textarea", "id": "text", "label": "Introduction" },
+    { "type": "collection", "id": "stones", "label": "Collection des pierres", "info": "Un produit = une pierre, en quantité 1." },
+    { "type": "text", "id": "sizes", "label": "Tailles proposées", "default": "46,47,48,49,50,51,52,53,54,55,56,57,58" },
+    { "type": "text", "id": "placeholder_label", "label": "Libellé de l'aplat", "default": "Votre création" },
+    { "type": "header", "content": "Titres des étapes" },
+    { "type": "text", "id": "title_model", "label": "Modèle", "default": "Choisissez le modèle" },
+    { "type": "text", "id": "title_metal", "label": "Métal", "default": "Choisissez le métal" },
+    { "type": "text", "id": "title_pavage", "label": "Pavage", "default": "Choisissez le pavage" },
+    { "type": "text", "id": "title_shape", "label": "Forme", "default": "Choisissez la forme de la pierre" },
+    { "type": "text", "id": "title_stone", "label": "Pierre", "default": "Choisissez votre pierre" },
+    { "type": "text", "id": "title_size", "label": "Taille", "default": "Choisissez votre taille" },
+    { "type": "text", "id": "title_recap", "label": "Récapitulatif", "default": "Votre création" },
+    { "type": "header", "content": "Liens" },
+    { "type": "url", "id": "size_guide_link", "label": "Guide des tailles" },
+    { "type": "url", "id": "advisor_link", "label": "Conseiller" },
+    { "type": "url", "id": "appointment_link", "label": "Rendez-vous" },
+    { "type": "text", "id": "price_note", "label": "Mention de prix" }
+  ],
+  "blocks": [
+    {
+      "type": "modele",
+      "name": "Modèle",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Produit monture", "info": "Ses variantes doivent être Métal × Pavage." },
+        { "type": "text", "id": "title", "label": "Nom affiché" },
+        { "type": "text", "id": "text", "label": "Description courte" },
+        { "type": "image_picker", "id": "image", "label": "Vignette" },
+        { "type": "text", "id": "pavages", "label": "Pavages compatibles", "info": "Identifiants séparés par des virgules. Vide = tous." },
+        { "type": "text", "id": "shapes", "label": "Formes compatibles", "info": "Identifiants séparés par des virgules. Vide = toutes." }
+      ]
+    },
+    {
+      "type": "metal",
+      "name": "Métal",
+      "settings": [ { "type": "text", "id": "title", "label": "Nom", "default": "Or blanc 18 carats" } ]
+    },
+    {
+      "type": "pavage",
+      "name": "Pavage",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Nom", "default": "Demi-pavé" },
+        { "type": "text", "id": "text", "label": "Précision" }
+      ]
+    },
+    {
+      "type": "forme",
+      "name": "Forme de pierre",
+      "settings": [ { "type": "text", "id": "title", "label": "Nom", "default": "Ovale" } ]
+    },
+    {
+      "type": "media",
+      "name": "Visuel de combinaison",
+      "settings": [
+        { "type": "text", "id": "key", "label": "Combinaison", "info": "modele|metal|pavage|forme — ou partiel : modele|metal, ou modele. Le plus précis gagne." },
+        { "type": "image_picker", "id": "image", "label": "Image" }
+      ]
+    }
+  ],
+  "max_blocks": 50,
+  "presets": [{ "name": "Configurateur de bague" }]
+}
+{% endschema %}

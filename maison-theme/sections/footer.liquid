@@ -1,0 +1,75 @@
+<footer class="foot" role="contentinfo">
+  <div class="page">
+    <div class="foot__grid">
+      <div class="foot__col foot__brand">
+        <p class="foot__mark">{{ section.settings.mark | default: shop.name }}</p>
+        {%- if section.settings.baseline != blank -%}
+          <p class="t-body-s t-muted measure--s">{{ section.settings.baseline }}</p>
+        {%- endif -%}
+        {%- if section.settings.social_menu != blank -%}
+          <div class="foot__social">
+            {%- for link in linklists[section.settings.social_menu].links -%}
+              <a class="t-label" href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- for block in section.blocks -%}
+        {%- assign list = linklists[block.settings.menu] -%}
+        <nav class="foot__col" {{ block.shopify_attributes }} aria-label="{{ block.settings.title | escape }}">
+          <p class="t-label foot__title">{{ block.settings.title | default: list.title }}</p>
+          {%- for link in list.links -%}
+            <a class="foot__link" href="{{ link.url }}">{{ link.title }}</a>
+          {%- endfor -%}
+        </nav>
+      {%- endfor -%}
+    </div>
+
+    <div class="foot__bottom">
+      <p class="t-label">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</p>
+      {%- if section.settings.legal_menu != blank -%}
+        <nav class="foot__social" aria-label="{{ 'footer.legal' | t: default: 'Mentions légales' }}">
+          {%- for link in linklists[section.settings.legal_menu].links -%}
+            <a class="t-label" href="{{ link.url }}">{{ link.title }}</a>
+          {%- endfor -%}
+        </nav>
+      {%- endif -%}
+      {%- if localization.available_countries.size > 1 -%}
+        {%- form 'localization', class: 'hdr__locale' -%}
+          <label class="visually-hidden" for="FooterCountry">{{ 'header.country' | t: default: 'Pays / région' }}</label>
+          {% render 'maison-icon', icon: 'globe' %}
+          <select class="hdr__locale-select t-label" id="FooterCountry" name="country_code">
+            {%- for country in localization.available_countries -%}
+              <option value="{{ country.iso_code }}" {% if country.iso_code == localization.country.iso_code %}selected{% endif %}>{{ country.name }}</option>
+            {%- endfor -%}
+          </select>
+        {%- endform -%}
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Pied de page",
+  "settings": [
+    { "type": "text", "id": "mark", "label": "Signature", "default": "MAISON" },
+    { "type": "textarea", "id": "baseline", "label": "Phrase" },
+    { "type": "link_list", "id": "social_menu", "label": "Menu réseaux sociaux" },
+    { "type": "link_list", "id": "legal_menu", "label": "Menu mentions légales" }
+  ],
+  "blocks": [
+    {
+      "type": "colonne",
+      "name": "Colonne",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre", "default": "Service client" },
+        { "type": "link_list", "id": "menu", "label": "Menu" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "enabled_on": { "groups": ["footer"] }
+}
+{% endschema %}

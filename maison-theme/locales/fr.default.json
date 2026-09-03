@@ -1,0 +1,134 @@
+{
+  "general": {
+    "skip": "Aller au contenu",
+    "home": "Accueil",
+    "breadcrumb": "Fil d'Ariane",
+    "close": "Fermer",
+    "to_fill": "Réponse à renseigner"
+  },
+  "header": {
+    "home": "Accueil",
+    "search": "Rechercher",
+    "wishlist": "Favoris",
+    "account": "Compte",
+    "cart": "Panier",
+    "country": "Pays / région",
+    "main_nav": "Navigation principale",
+    "open_menu": "Ouvrir le menu",
+    "close_menu": "Fermer le menu",
+    "view_all": "Tout voir"
+  },
+  "collection": {
+    "filter": "Filtrer",
+    "filters": "Filtres",
+    "close_filters": "Fermer les filtres",
+    "sort": "Trier par",
+    "apply": "Appliquer",
+    "clear": "Effacer",
+    "clear_all": "Tout effacer",
+    "no_result": "Aucune création ne correspond à cette sélection.",
+    "creation": "création",
+    "creations": "créations",
+    "price_min": "Prix minimum",
+    "price_max": "Prix maximum",
+    "pagination": "Pagination",
+    "previous": "Précédent",
+    "next": "Suivant"
+  },
+  "products": {
+    "favourite": "Ajouter aux favoris",
+    "metal": "Métal",
+    "from": "À partir de",
+    "add": "Ajouter au panier",
+    "sold_out": "Épuisé",
+    "variant": "Choix",
+    "zoom": "Agrandir",
+    "view": "Vue",
+    "gallery": "Galerie",
+    "previous_media": "Média précédent",
+    "next_media": "Média suivant",
+    "size_guide": "Guide des tailles",
+    "adding": "Ajout…",
+    "unavailable": "Indisponible",
+    "error_sold_out": "Cette création est épuisée.",
+    "error_combination": "Cette combinaison n'est pas disponible."
+  },
+  "cart": {
+    "title": "Votre panier",
+    "quantity": "Quantité",
+    "total": "Total",
+    "update": "Mettre à jour",
+    "checkout": "Passer au paiement",
+    "empty": "Votre panier est vide.",
+    "continue": "Découvrir les créations",
+    "added": "Ajouté au panier",
+    "view": "Voir le panier",
+    "continue_shopping": "Poursuivre la visite",
+    "subtotal": "Sous-total",
+    "remove": "Supprimer",
+    "items": "pièce(s)",
+    "increase": "Augmenter la quantité",
+    "decrease": "Diminuer la quantité"
+  },
+  "footer": {
+    "legal": "Mentions légales"
+  },
+  "newsletter": {
+    "email": "Adresse e-mail"
+  },
+  "search": {
+    "label": "Que recherchez-vous ?",
+    "placeholder": "Que recherchez-vous ?",
+    "title": "Recherche",
+    "suggestions": "Suggestions",
+    "no_result": "Aucun résultat",
+    "no_result_text": "Aucune création ne correspond à",
+    "browse": "Parcourir les créations",
+    "advisor": "Contacter un conseiller",
+    "results": "résultat(s)",
+    "page": "La Maison",
+    "open": "Ouvrir"
+  },
+  "account": {
+    "login": "Se connecter",
+    "register": "Créer un compte",
+    "logout": "Déconnexion",
+    "orders": "Mes commandes",
+    "details": "Mes informations",
+    "hello": "Bonjour",
+    "no_order": "Vous n'avez pas encore passé commande.",
+    "manage": "Gérer mes informations",
+    "see_favourites": "Voir mes favoris",
+    "disabled": "Les comptes clients ne sont pas encore activés.",
+    "disabled_text": "Activez-les dans Shopify (Paramètres → Comptes clients) pour que cette page devienne fonctionnelle."
+  },
+  "contact": {
+    "first_name": "Prénom",
+    "last_name": "Nom",
+    "email": "Adresse e-mail",
+    "phone": "Téléphone (facultatif)",
+    "subject": "Sujet",
+    "message": "Message",
+    "name": "Nom et prénom"
+  },
+  "appointment": {
+    "type": "Type de rendez-vous",
+    "date": "Date souhaitée",
+    "slot": "Heure",
+    "project": "Votre projet",
+    "summary": "Votre demande"
+  },
+  "sizes": {
+    "rings": "Bagues",
+    "bracelets": "Bracelets",
+    "necklaces": "Colliers"
+  },
+  "configurator": {
+    "zoom": "Agrandir la bague",
+    "steps": "Étapes de création",
+    "next": "Continuer",
+    "stone": "Détail de la pierre",
+    "pick": "Choisir cette pierre",
+    "estimate": "Estimation"
+  }
+}

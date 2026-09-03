@@ -1,0 +1,121 @@
+/* =========================================================================
+   MAISON — Recherche, favoris, compte
+   Mêmes tokens et mêmes filets que le reste du site.
+   ========================================================================= */
+
+/* ---------- RECHERCHE ----------------------------------------------------- */
+.srch {
+  position: fixed;
+  inset: 0;
+  z-index: 205;
+  display: flex;
+  flex-direction: column;
+  background: var(--c-paper);
+  color: var(--c-ink);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition:
+    opacity var(--d-m) var(--e-out),
+    transform var(--d-m) var(--e-luxe),
+    visibility 0s linear var(--d-m);
+}
+.srch.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity var(--d-m) var(--e-out), transform var(--d-l) var(--e-luxe), visibility 0s;
+}
+
+.srch__bar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  min-height: var(--h-bar);
+  padding-inline: var(--page-x);
+  border-bottom: var(--hairline);
+}
+.srch__form { display: flex; align-items: center; gap: var(--s-3); flex: 1 1 auto; min-width: 0; }
+.srch__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--c-ink);
+  font-family: var(--f-display);
+  font-size: clamp(1.125rem, 2.2vw, 1.75rem);
+  letter-spacing: .01em;
+  padding-block: var(--s-3);
+}
+.srch__input::placeholder { color: var(--c-ink-soft); }
+.srch__input::-webkit-search-cancel-button { display: none; }
+
+.srch__body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: var(--s-6) var(--page-x) calc(var(--s-8) + env(safe-area-inset-bottom, 0px));
+  max-width: 900px;
+  width: 100%;
+}
+
+.srch__group { margin-bottom: clamp(28px, 3vw, 48px); }
+.srch__group-title { color: var(--c-signature); margin-bottom: var(--s-4); }
+.srch__list { display: grid; }
+
+.srch__row {
+  display: block;
+  padding: var(--s-4) 0;
+  border-top: var(--hairline);
+  font-size: var(--t-body-s);
+  transition: padding-left var(--d-m) var(--e-luxe);
+}
+.srch__list li:last-child .srch__row { border-bottom: var(--hairline); }
+.srch__row:hover { padding-left: var(--s-3); }
+
+.srch__product {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: var(--s-4);
+  align-items: center;
+  padding: var(--s-3) 0;
+  border-top: var(--hairline);
+  transition: padding-left var(--d-m) var(--e-luxe);
+}
+.srch__list li:last-child .srch__product { border-bottom: var(--hairline); }
+.srch__product:hover { padding-left: var(--s-3); }
+.srch__thumb { display: block; aspect-ratio: 4 / 5; overflow: hidden; background: var(--c-surface); }
+.srch__thumb img { width: 100%; height: 100%; object-fit: cover; }
+.srch__ph { display: block; width: 100%; height: 100%; background: linear-gradient(160deg, #F3F1EC, #DFDBD3); }
+.srch__body-inner { min-width: 0; }
+.srch__name { display: block; font-family: var(--f-display); font-size: 1rem; }
+.srch__meta { display: block; color: var(--c-ink-soft); font-size: var(--t-ui-s); letter-spacing: .06em; margin-top: 2px; }
+.srch__price { display: block; font-size: var(--t-body-s); margin-top: 4px; }
+.srch__all { margin-top: var(--s-5); }
+
+.srch__empty { display: grid; gap: var(--s-4); justify-items: start; padding-block: var(--s-6); }
+.srch__empty-links { display: flex; flex-wrap: wrap; gap: var(--s-5) var(--s-6); margin-top: var(--s-3); }
+
+.srch__page-form {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  width: min(520px, 100%);
+  margin-top: var(--s-6);
+}
+
+/* ---------- COMPTE -------------------------------------------------------- */
+.acct { display: grid; gap: clamp(28px, 3vw, 48px); margin-top: var(--s-6); }
+.acct__head { display: grid; gap: var(--s-4); }
+.acct__grid { display: grid; gap: clamp(28px, 3vw, 56px); }
+@media (min-width: 750px) { .acct__grid { grid-template-columns: 1.4fr 1fr 1fr; } }
+.acct__block { display: grid; gap: var(--s-3); align-content: start; }
+.acct__title { color: var(--c-signature); }
+.acct__reasons { display: grid; gap: var(--s-3); }
+.acct__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-5); }
+.acct__actions .btn { min-width: 220px; }
+.acct__note { color: var(--c-ink-soft); }
+.acct__logout { justify-self: start; }
+.acct--guest { max-width: 62ch; }

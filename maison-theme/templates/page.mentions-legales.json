@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "legal-page",
+      "settings": {
+        "title": "Mentions légales",
+        "policy": "none",
+        "placeholder": "Contenu juridique à renseigner avant mise en ligne.",
+        "help": "Renseignez cette page dans Shopify (Paramètres → Politiques, ou le contenu de la page). Aucun texte juridique n'est généré automatiquement."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

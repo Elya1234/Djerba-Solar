@@ -1,0 +1,60 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-hero",
+      "settings": {
+        "eyebrow": "Service client",
+        "title": "Contactez la Maison",
+        "text": "",
+        "align": "left",
+        "short": true,
+        "parallax": true,
+        "show_breadcrumb": true
+      }
+    },
+    "contact": {
+      "type": "contact-form",
+      "settings": {
+        "eyebrow": "Écrire à la Maison",
+        "title": "Une question ?",
+        "text": "<p>Conseil joaillier, commande en cours, service après-vente : écrivez-nous et nous revenons vers vous.</p>",
+        "subjects": "Conseil joaillier, Commande, Service après-vente, Création sur-mesure, Autre demande",
+        "consent": "",
+        "button": "Envoyer",
+        "note": "Mention de consentement et coordonnées à renseigner avant mise en ligne."
+      },
+      "blocks": {
+        "c1": {
+          "type": "coordonnee",
+          "settings": {
+            "key": "Téléphone",
+            "value": ""
+          }
+        },
+        "c2": {
+          "type": "coordonnee",
+          "settings": {
+            "key": "Adresse",
+            "value": ""
+          }
+        },
+        "c3": {
+          "type": "coordonnee",
+          "settings": {
+            "key": "Horaires",
+            "value": ""
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ]
+    }
+  },
+  "order": [
+    "hero",
+    "contact"
+  ]
+}

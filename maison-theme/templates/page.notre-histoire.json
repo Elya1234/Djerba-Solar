@@ -1,0 +1,223 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-hero",
+      "settings": {
+        "eyebrow": "La Maison",
+        "title": "Notre histoire",
+        "text": "Une Maison de joaillerie, un atelier, et l'obstination de ne rien livrer qui ne soit juste.",
+        "align": "left",
+        "short": false,
+        "parallax": true,
+        "show_breadcrumb": true
+      }
+    },
+    "origines": {
+      "type": "editorial-image-text",
+      "settings": {
+        "eyebrow": "Les origines",
+        "title": "Nos origines",
+        "text": "<p>Renseignez ici le récit des débuts : l'année, la ville, la première pièce sortie de l'atelier.</p>",
+        "media_position": "left",
+        "background": "paper",
+        "ratio": "portrait"
+      },
+      "blocks": {
+        "f0": {
+          "type": "precision",
+          "settings": {
+            "key": "Année de création",
+            "value": ""
+          }
+        },
+        "f1": {
+          "type": "precision",
+          "settings": {
+            "key": "Fondateur",
+            "value": ""
+          }
+        },
+        "f2": {
+          "type": "precision",
+          "settings": {
+            "key": "Ville",
+            "value": ""
+          }
+        },
+        "f3": {
+          "type": "precision",
+          "settings": {
+            "key": "Premier atelier",
+            "value": ""
+          }
+        }
+      },
+      "block_order": [
+        "f0",
+        "f1",
+        "f2",
+        "f3"
+      ]
+    },
+    "vision": {
+      "type": "editorial-quote",
+      "settings": {
+        "text": "Une seule ligne, reprise jusqu'à ce qu'elle tienne seule.",
+        "author": ""
+      }
+    },
+    "vision_texte": {
+      "type": "editorial-image-text",
+      "settings": {
+        "eyebrow": "Notre vision",
+        "title": "Notre vision",
+        "text": "<p>Ce que la Maison cherche à défendre : une idée de la joaillerie, un rapport au temps, une exigence de fabrication.</p>",
+        "media_position": "right",
+        "background": "surface",
+        "ratio": "portrait"
+      }
+    },
+    "passion": {
+      "type": "editorial-steps",
+      "settings": {
+        "eyebrow": "Ce qui nous anime",
+        "title": "Notre passion",
+        "text": "",
+        "numbered": false
+      },
+      "blocks": {
+        "s0": {
+          "type": "etape",
+          "settings": {
+            "title": "La joaillerie",
+            "text": "Un métier où la main décide encore de tout."
+          }
+        },
+        "s1": {
+          "type": "etape",
+          "settings": {
+            "title": "La création",
+            "text": "Le dessin avant l'objet, toujours."
+          }
+        },
+        "s2": {
+          "type": "etape",
+          "settings": {
+            "title": "Les pierres",
+            "text": "Choisies une à une, jamais par lot."
+          }
+        },
+        "s3": {
+          "type": "etape",
+          "settings": {
+            "title": "L'artisanat",
+            "text": "Des gestes qui s'apprennent à l'établi, pas dans un manuel."
+          }
+        }
+      },
+      "block_order": [
+        "s0",
+        "s1",
+        "s2",
+        "s3"
+      ]
+    },
+    "chronologie": {
+      "type": "editorial-timeline",
+      "settings": {
+        "eyebrow": "Chronologie",
+        "title": "Les dates de la Maison",
+        "note": "Contenu de démonstration : dates et faits réels à renseigner avant mise en ligne."
+      },
+      "blocks": {
+        "r0": {
+          "type": "repere",
+          "settings": {
+            "year": "",
+            "title": "Fondation",
+            "text": "L'année de création et le nom du fondateur."
+          }
+        },
+        "r1": {
+          "type": "repere",
+          "settings": {
+            "year": "",
+            "title": "Premier atelier",
+            "text": "L'installation, la ville, les premiers artisans."
+          }
+        },
+        "r2": {
+          "type": "repere",
+          "settings": {
+            "year": "",
+            "title": "Première collection",
+            "text": "La pièce qui a défini la ligne de la Maison."
+          }
+        },
+        "r3": {
+          "type": "repere",
+          "settings": {
+            "year": "",
+            "title": "Aujourd'hui",
+            "text": "Ce que la Maison est devenue."
+          }
+        }
+      },
+      "block_order": [
+        "r0",
+        "r1",
+        "r2",
+        "r3"
+      ]
+    },
+    "savoir_faire": {
+      "type": "editorial-image-text",
+      "settings": {
+        "eyebrow": "L'atelier",
+        "title": "Notre savoir-faire",
+        "text": "<p>Derrière chaque création, des semaines de travail que l'œil ne voit jamais.</p>",
+        "media_position": "left",
+        "background": "paper",
+        "ratio": "portrait",
+        "cta_label": "Découvrir le savoir-faire",
+        "cta_link": "/pages/savoir-faire"
+      }
+    },
+    "ateliers": {
+      "type": "editorial-full-media",
+      "settings": {
+        "eyebrow": "Les ateliers",
+        "title": "Nos ateliers",
+        "text": "Là où les pièces prennent forme.",
+        "parallax": true,
+        "cta_label": "Visiter les ateliers",
+        "cta_link": "/pages/nos-ateliers"
+      }
+    },
+    "cta": {
+      "type": "editorial-cta",
+      "settings": {
+        "eyebrow": "",
+        "title": "Découvrir nos créations",
+        "text": "",
+        "dark": false,
+        "align": "center",
+        "label_1": "Voir la joaillerie",
+        "link_1": "/collections/all",
+        "label_2": "Rejoindre la Maison",
+        "link_2": "/pages/recrutement"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "origines",
+    "vision",
+    "vision_texte",
+    "passion",
+    "chronologie",
+    "savoir_faire",
+    "ateliers",
+    "cta"
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-hero",
+      "settings": {
+        "eyebrow": "Les diamants",
+        "title": "Les formes du diamant",
+        "text": "Dix tailles, dix caractères.",
+        "align": "left",
+        "short": true,
+        "parallax": true,
+        "show_breadcrumb": true,
+        "parent_title": "Diamants",
+        "parent_link": "/pages/diamants"
+      }
+    },
+    "formes": {
+      "type": "editorial-cards",
+      "settings": {
+        "eyebrow": "Les tailles",
+        "title": "Choisir une forme",
+        "per_row": 5,
+        "style": "shape",
+        "background": "surface",
+        "ratio": "portrait"
+      },
+      "blocks": {
+        "c0": {
+          "type": "carte",
+          "settings": {
+            "title": "Rond",
+            "text": "",
+            "link": "/collections/bagues-cocktail",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c1": {
+          "type": "carte",
+          "settings": {
+            "title": "Ovale",
+            "text": "",
+            "link": "/collections/bagues-cocktail",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c2": {
+          "type": "carte",
+          "settings": {
+            "title": "Poire",
+            "text": "",
+            "link": "/collections/bagues-cocktail",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c3": {
+          "type": "carte",
+          "settings": {
+            "title": "Émeraude",
+            "text": "",
+            "link": "/collections/bagues-cocktail",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c4": {
+          "type": "carte",
+          "settings": {
+            "title": "Coussin",
+            "text": "",
+            "link": "/collections/bagues-cocktail",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c5": {
+          "type": "carte",
+          "settings": {
+            "title": "Marquise",
+            "text": "",
+            "link": "/collections/bagues-cocktail",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c6": {
+          "type": "carte",
+          "settings": {
+            "title": "Princesse",
+            "text": "",
+            "link": "/collections/bagues-cocktail",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c7": {
+          "type": "carte",
+          "settings": {
+            "title": "Radiant",
+            "text": "",
+            "link": "/collections/bagues-cocktail",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c8": {
+          "type": "carte",
+          "settings": {
+            "title": "Asscher",
+            "text": "",
+            "link": "/collections/bagues-cocktail",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c9": {
+          "type": "carte",
+          "settings": {
+            "title": "Cœur",
+            "text": "",
+            "link": "/collections/bagues-cocktail",
+            "cta_label": "Découvrir"
+          }
+        }
+      },
+      "block_order": [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7",
+        "c8",
+        "c9"
+      ]
+    },
+    "cta": {
+      "type": "editorial-cta",
+      "settings": {
+        "eyebrow": "",
+        "title": "Voir les créations",
+        "text": "",
+        "dark": false,
+        "align": "center",
+        "label_1": "Créations diamant",
+        "link_1": "/collections/bagues-cocktail",
+        "label_2": "Comprendre les 4C",
+        "link_2": "/pages/les-4c"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "formes",
+    "cta"
+  ]
+}

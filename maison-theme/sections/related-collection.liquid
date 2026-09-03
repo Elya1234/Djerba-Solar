@@ -1,0 +1,53 @@
+{%- comment -%}
+  Accès à la collection du produit : grande image, titre, lien.
+{%- endcomment -%}
+{%- liquid
+  assign col = section.settings.collection | default: product.collections.first
+  assign image = section.settings.image | default: col.image
+-%}
+
+{%- if col != blank -%}
+  <section class="section story">
+    <div class="page">
+      <div class="story__grid">
+        <div class="story__text">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+          {%- endif -%}
+          <h2 class="t-h1 line-mask" data-reveal="mask"><span>{{ section.settings.title | default: col.title }}</span></h2>
+          {%- if section.settings.text != blank -%}
+            <p class="t-body measure t-muted" data-reveal style="--i: 1">{{ section.settings.text }}</p>
+          {%- endif -%}
+          <a class="cta" href="{{ col.url }}" data-reveal style="--i: 2">
+            {{ section.settings.cta_label | default: 'Découvrir la collection' }}<span class="cta__arrow" aria-hidden="true"></span>
+          </a>
+        </div>
+
+        <a class="frame frame--zoom story__frame" href="{{ col.url }}" data-reveal="mask" aria-label="{{ col.title | escape }}">
+          {%- if image != blank -%}
+            {{ image | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 40vw, 100vw', widths: '600,900,1400', alt: col.title }}
+          {%- else -%}
+            {% render 'maison-placeholder', label: col.title %}
+          {%- endif -%}
+        </a>
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Collection associée",
+  "tag": "div",
+  "settings": [
+    { "type": "paragraph", "content": "Sans collection choisie, la première collection du produit est utilisée." },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "eyebrow", "label": "Label", "default": "La collection" },
+    { "type": "text", "id": "title", "label": "Titre" },
+    { "type": "textarea", "id": "text", "label": "Texte" },
+    { "type": "text", "id": "cta_label", "label": "Libellé du lien", "default": "Découvrir la collection" }
+  ],
+  "presets": [{ "name": "Collection associée" }]
+}
+{% endschema %}

@@ -1,0 +1,92 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-hero",
+      "settings": {
+        "eyebrow": "La Maison",
+        "title": "Rejoindre la Maison",
+        "text": "Les métiers de la joaillerie s'apprennent à l'établi.",
+        "align": "left",
+        "short": false,
+        "parallax": true,
+        "show_breadcrumb": true,
+        "parent_title": "La Maison",
+        "parent_link": "/pages/notre-histoire"
+      }
+    },
+    "maison": {
+      "type": "editorial-image-text",
+      "settings": {
+        "eyebrow": "Travailler ici",
+        "title": "Notre Maison",
+        "text": "<p>Ce que la Maison attend et ce qu'elle offre : à renseigner avec vos informations réelles.</p>",
+        "media_position": "left",
+        "background": "paper",
+        "ratio": "portrait"
+      }
+    },
+    "metiers": {
+      "type": "editorial-steps",
+      "settings": {
+        "eyebrow": "Métiers",
+        "title": "Nos métiers",
+        "text": "",
+        "numbered": false
+      },
+      "blocks": {
+        "s0": {
+          "type": "etape",
+          "settings": {
+            "title": "Joaillier",
+            "text": "La fabrication, de la cire au métal."
+          }
+        },
+        "s1": {
+          "type": "etape",
+          "settings": {
+            "title": "Sertisseur",
+            "text": "La pose des pierres."
+          }
+        },
+        "s2": {
+          "type": "etape",
+          "settings": {
+            "title": "Polisseur",
+            "text": "La finition."
+          }
+        },
+        "s3": {
+          "type": "etape",
+          "settings": {
+            "title": "Conseil et vente",
+            "text": "L'accompagnement des clients."
+          }
+        }
+      },
+      "block_order": [
+        "s0",
+        "s1",
+        "s2",
+        "s3"
+      ]
+    },
+    "offres": {
+      "type": "editorial-cta",
+      "settings": {
+        "eyebrow": "Offres",
+        "title": "Aucune offre disponible actuellement",
+        "text": "Les offres publiées apparaîtront ici. Vous pouvez adresser une candidature spontanée.",
+        "dark": false,
+        "align": "left",
+        "label_1": "Candidature spontanée",
+        "link_1": "/pages/contact"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "maison",
+    "metiers",
+    "offres"
+  ]
+}

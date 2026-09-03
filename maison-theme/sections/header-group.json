@@ -1,0 +1,52 @@
+{
+  "name": "En-tête",
+  "type": "header",
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_text": "MAISON",
+        "menu": "main-menu",
+        "appointment_label": "Rendez-vous",
+        "show_localization": true,
+        "transparent_templates": "index",
+        "transparent_light": true,
+        "appointment_link": "/pages/rendez-vous",
+        "wishlist_link": "/pages/favoris"
+      },
+      "blocks": {
+        "mega-joaillerie": {
+          "type": "mega",
+          "settings": {
+            "parent_handle": "joaillerie",
+            "title_1": "Découvrir",
+            "title_2": "Par création",
+            "title_3": "Par métal",
+            "title_4": "Par pierre",
+            "media_title": "La Collection",
+            "media_cta": "Découvrir"
+          }
+        },
+        "mega-bagues": {
+          "type": "mega",
+          "settings": {
+            "parent_handle": "bagues",
+            "title_1": "Découvrir",
+            "title_2": "Par style",
+            "title_3": "Par métal",
+            "title_4": "Par pierre",
+            "media_title": "La Collection",
+            "media_cta": "Découvrir"
+          }
+        }
+      },
+      "block_order": [
+        "mega-joaillerie",
+        "mega-bagues"
+      ]
+    }
+  },
+  "order": [
+    "header"
+  ]
+}

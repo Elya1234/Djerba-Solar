@@ -1,0 +1,80 @@
+{%- comment -%}
+  Page Guide des tailles. Utilise la même table que le tiroir de la fiche
+  produit (snippet maison-size-table) : une seule source, pas de risque de
+  contradiction.
+{%- endcomment -%}
+<section class="section" style="padding-top: calc(var(--h-header) + var(--s-6))">
+  <div class="page">
+    <div style="max-width: 76ch">
+      {% render 'maison-breadcrumb', current_title: section.settings.title | default: 'Guide des tailles' %}
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="t-label eyebrow" style="margin-top: var(--s-5)" data-reveal>{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h1 class="t-h1 line-mask" style="margin-top: var(--s-4)" data-reveal="mask">
+        <span>{{ section.settings.title | default: 'Guide des tailles' }}</span>
+      </h1>
+      {%- if section.settings.text != blank -%}
+        <p class="t-body measure t-muted" style="margin-top: var(--s-5)" data-reveal>{{ section.settings.text }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="efaq__grid" style="margin-top: clamp(32px, 4vw, 64px)">
+      <nav class="efaq__nav" aria-label="{{ 'products.size_guide' | t: default: 'Guide des tailles' }}">
+        <a class="t-label efaq__navlink" href="#tailles-bagues">{{ 'sizes.rings' | t: default: 'Bagues' }}</a>
+        {%- if section.settings.bracelet_text != blank -%}
+          <a class="t-label efaq__navlink" href="#tailles-bracelets">{{ 'sizes.bracelets' | t: default: 'Bracelets' }}</a>
+        {%- endif -%}
+        {%- if section.settings.necklace_text != blank -%}
+          <a class="t-label efaq__navlink" href="#tailles-colliers">{{ 'sizes.necklaces' | t: default: 'Colliers' }}</a>
+        {%- endif -%}
+      </nav>
+
+      <div>
+        <section id="tailles-bagues" class="efaq__group">
+          <p class="t-label efaq__group-title">{{ 'sizes.rings' | t: default: 'Bagues' }}</p>
+          {% render 'maison-size-table' %}
+
+          <div class="psize__steps" style="margin-top: var(--s-6)">
+            {%- if section.settings.method != blank -%}
+              <div class="t-body-s t-muted measure">{{ section.settings.method }}</div>
+            {%- else -%}
+              <div class="psize__step"><span class="t-label psize__num">01</span><p class="t-body-s t-muted">Entourez la base du doigt avec une bande de papier fine, sans serrer.</p></div>
+              <div class="psize__step"><span class="t-label psize__num">02</span><p class="t-body-s t-muted">Marquez le point de rencontre, puis mesurez la longueur en millimètres.</p></div>
+              <div class="psize__step"><span class="t-label psize__num">03</span><p class="t-body-s t-muted">Cette longueur correspond à la circonférence, donc directement à votre taille EU.</p></div>
+              <div class="psize__step"><span class="t-label psize__num">04</span><p class="t-body-s t-muted">Mesurez en fin de journée : le doigt varie au fil des heures.</p></div>
+            {%- endif -%}
+          </div>
+        </section>
+
+        {%- if section.settings.bracelet_text != blank -%}
+          <section id="tailles-bracelets" class="efaq__group">
+            <p class="t-label efaq__group-title">{{ 'sizes.bracelets' | t: default: 'Bracelets' }}</p>
+            <div class="t-body-s t-muted measure">{{ section.settings.bracelet_text }}</div>
+          </section>
+        {%- endif -%}
+
+        {%- if section.settings.necklace_text != blank -%}
+          <section id="tailles-colliers" class="efaq__group">
+            <p class="t-label efaq__group-title">{{ 'sizes.necklaces' | t: default: 'Colliers' }}</p>
+            <div class="t-body-s t-muted measure">{{ section.settings.necklace_text }}</div>
+          </section>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Guide des tailles",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Guide des tailles" },
+    { "type": "textarea", "id": "text", "label": "Introduction" },
+    { "type": "richtext", "id": "method", "label": "Méthode de mesure", "info": "Laissez vide pour la méthode par défaut." },
+    { "type": "richtext", "id": "bracelet_text", "label": "Bracelets" },
+    { "type": "richtext", "id": "necklace_text", "label": "Colliers" }
+  ],
+  "presets": [{ "name": "Guide des tailles" }]
+}
+{% endschema %}

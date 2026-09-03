@@ -1,0 +1,98 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-hero",
+      "settings": {
+        "eyebrow": "Les diamants",
+        "title": "Comprendre les 4C",
+        "text": "Quatre critères suffisent à décrire une pierre. Les comprendre, c'est choisir en connaissance.",
+        "align": "left",
+        "short": true,
+        "parallax": true,
+        "show_breadcrumb": true,
+        "parent_title": "Diamants",
+        "parent_link": "/pages/diamants"
+      }
+    },
+    "education": {
+      "type": "diamond-education",
+      "settings": {
+        "eyebrow": "Les quatre critères",
+        "title": "Carat, taille, couleur, pureté",
+        "text": "Les échelles ci-dessous sont indicatives et servent à situer une pierre.",
+        "note": "Adaptez ces textes à la politique de sélection réelle de la Maison."
+      },
+      "blocks": {
+        "c1": {
+          "type": "critere",
+          "settings": {
+            "letter": "C",
+            "title": "Carat",
+            "scale": "carats",
+            "values": "0,30, 0,50, 0,70, 1,00, 1,50, 2,00",
+            "text": "<p>Le carat mesure la masse, pas la taille apparente. Deux pierres d'un même carat peuvent paraître différentes selon leur taille.</p>"
+          }
+        },
+        "c2": {
+          "type": "critere",
+          "settings": {
+            "letter": "C",
+            "title": "Taille (cut)",
+            "scale": "shapes",
+            "values": "Excellent, Très bon, Bon, Moyen",
+            "text": "<p>La taille décide de la lumière. C'est le seul des quatre critères qui dépend entièrement de la main de l'homme.</p>"
+          }
+        },
+        "c3": {
+          "type": "critere",
+          "settings": {
+            "letter": "C",
+            "title": "Couleur",
+            "scale": "letters",
+            "values": "D, E, F, G, H, I, J, K",
+            "legend_start": "Incolore",
+            "legend_end": "Teinté",
+            "text": "<p>L'échelle va de D, parfaitement incolore, vers les lettres suivantes, où une teinte apparaît.</p>"
+          }
+        },
+        "c4": {
+          "type": "critere",
+          "settings": {
+            "letter": "C",
+            "title": "Pureté",
+            "scale": "letters",
+            "values": "IF, VVS1, VVS2, VS1, VS2, SI1, SI2",
+            "legend_start": "Sans inclusion",
+            "legend_end": "Inclusions visibles",
+            "text": "<p>La pureté décrit les inclusions naturelles de la pierre, observées à la loupe.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ]
+    },
+    "cta": {
+      "type": "editorial-cta",
+      "settings": {
+        "eyebrow": "",
+        "title": "Besoin d'être conseillé ?",
+        "text": "Un conseiller vous accompagne dans le choix de la pierre.",
+        "dark": false,
+        "align": "center",
+        "label_1": "Prendre rendez-vous",
+        "link_1": "/pages/rendez-vous",
+        "label_2": "Voir les formes",
+        "link_2": "/pages/les-formes"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "education",
+    "cta"
+  ]
+}

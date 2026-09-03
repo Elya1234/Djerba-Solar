@@ -1,0 +1,176 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-hero",
+      "settings": {
+        "eyebrow": "Services",
+        "title": "Prendre soin de votre bijou",
+        "text": "Un bijou porté demande peu, mais régulièrement.",
+        "align": "left",
+        "short": false,
+        "parallax": true,
+        "show_breadcrumb": true,
+        "parent_title": "Services",
+        "parent_link": "/pages/conseil-joaillier"
+      }
+    },
+    "matieres": {
+      "type": "editorial-steps",
+      "settings": {
+        "eyebrow": "Entretien",
+        "title": "Selon la matière",
+        "text": "",
+        "numbered": false
+      },
+      "blocks": {
+        "s0": {
+          "type": "etape",
+          "settings": {
+            "title": "Or",
+            "text": "Un chiffon doux suffit à raviver l'éclat."
+          }
+        },
+        "s1": {
+          "type": "etape",
+          "settings": {
+            "title": "Diamants",
+            "text": "Le diamant attire le gras : un bain d'eau tiède savonneuse le nettoie."
+          }
+        },
+        "s2": {
+          "type": "etape",
+          "settings": {
+            "title": "Pierres précieuses",
+            "text": "Émeraudes et pierres tendres redoutent les ultrasons."
+          }
+        },
+        "s3": {
+          "type": "etape",
+          "settings": {
+            "title": "Perles",
+            "text": "À essuyer après chaque port, à ranger à plat."
+          }
+        }
+      },
+      "block_order": [
+        "s0",
+        "s1",
+        "s2",
+        "s3"
+      ]
+    },
+    "gestes": {
+      "type": "editorial-steps",
+      "settings": {
+        "eyebrow": "Au quotidien",
+        "title": "Les bons gestes",
+        "text": "",
+        "numbered": true
+      },
+      "blocks": {
+        "s0": {
+          "type": "etape",
+          "settings": {
+            "title": "Rangement",
+            "text": "Séparément, pour éviter les rayures."
+          }
+        },
+        "s1": {
+          "type": "etape",
+          "settings": {
+            "title": "Nettoyage",
+            "text": "Doux, régulier, sans produit abrasif."
+          }
+        },
+        "s2": {
+          "type": "etape",
+          "settings": {
+            "title": "Contrôle en atelier",
+            "text": "Faites vérifier les sertis une fois par an."
+          }
+        }
+      },
+      "block_order": [
+        "s0",
+        "s1",
+        "s2"
+      ]
+    },
+    "conditions": {
+      "type": "editorial-image-text",
+      "settings": {
+        "eyebrow": "À renseigner",
+        "title": "Les services d'atelier",
+        "text": "<p>Prestations, conditions et tarifs à renseigner. Aucune gratuité n'est affirmée par défaut.</p>",
+        "media_position": "right",
+        "background": "surface",
+        "ratio": "portrait"
+      },
+      "blocks": {
+        "f0": {
+          "type": "precision",
+          "settings": {
+            "key": "Nettoyage",
+            "value": ""
+          }
+        },
+        "f1": {
+          "type": "precision",
+          "settings": {
+            "key": "Repolissage",
+            "value": ""
+          }
+        },
+        "f2": {
+          "type": "precision",
+          "settings": {
+            "key": "Contrôle des sertis",
+            "value": ""
+          }
+        },
+        "f3": {
+          "type": "precision",
+          "settings": {
+            "key": "Tarifs",
+            "value": ""
+          }
+        },
+        "f4": {
+          "type": "precision",
+          "settings": {
+            "key": "Délai",
+            "value": ""
+          }
+        }
+      },
+      "block_order": [
+        "f0",
+        "f1",
+        "f2",
+        "f3",
+        "f4"
+      ]
+    },
+    "cta": {
+      "type": "editorial-cta",
+      "settings": {
+        "eyebrow": "",
+        "title": "Contacter l'atelier",
+        "text": "",
+        "dark": false,
+        "align": "center",
+        "label_1": "Prendre rendez-vous",
+        "link_1": "/pages/rendez-vous",
+        "label_2": "Contacter la Maison",
+        "link_2": "/pages/contact"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "matieres",
+    "gestes",
+    "conditions",
+    "cta"
+  ]
+}

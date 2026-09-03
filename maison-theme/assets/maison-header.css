@@ -1,0 +1,469 @@
+/* =========================================================================
+   MAISON — HEADER / NAVBAR / MEGA-MENU / MENU MOBILE
+   Dépend de maison-base.css (tokens). Aucun token redéfini ici.
+   ========================================================================= */
+
+/* ---------- HEADER ------------------------------------------------------- */
+.hdr {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: var(--z-header);
+  color: var(--c-ink);
+}
+
+/* Réservation de la hauteur pour le contenu (header non transparent) */
+.hdr-spacer { height: var(--h-header); }
+
+/* Fond du header : transparent → voilé → opaque */
+.hdr__surface {
+  position: absolute;
+  inset: 0;
+  background: var(--c-paper);
+  opacity: 0;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  transition:
+    opacity var(--d-m) var(--e-out),
+    backdrop-filter var(--d-m) var(--e-out),
+    -webkit-backdrop-filter var(--d-m) var(--e-out);
+  pointer-events: none;
+}
+.hdr__surface::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
+  background: var(--c-line);
+  opacity: 0;
+  transition: opacity var(--d-m) var(--e-out);
+}
+.hdr.is-veiled .hdr__surface {
+  opacity: .78;
+  backdrop-filter: blur(16px) saturate(1.15);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
+}
+.hdr.is-solid .hdr__surface { opacity: 1; }
+.hdr.is-solid .hdr__surface::after { opacity: 1; }
+
+/* Mode transparent sur image sombre */
+.hdr.is-inverted { color: var(--c-invert); }
+.hdr.is-inverted.is-solid { color: var(--c-ink); }
+
+/* ---------- BARRE PRINCIPALE -------------------------------------------- */
+.hdr__bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  height: var(--h-bar);
+  padding-inline: var(--page-x);
+  transition: height var(--d-m) var(--e-luxe);
+}
+.hdr.is-compact .hdr__bar { height: var(--h-bar-compact); }
+
+.hdr__zone {
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+  flex: 1 1 0;
+  min-width: 0;
+}
+.hdr__zone--right { justify-content: flex-end; }
+
+/* Logo : centré mathématiquement sur la largeur de l'écran.
+   Le padding latéral de .hdr__bar étant symétrique, left:50% du bloc de
+   positionnement coïncide exactement avec le centre du viewport. */
+.hdr__logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width var(--d-m) var(--e-luxe);
+  width: clamp(150px, 15vw, 210px);
+}
+.hdr.is-compact .hdr__logo { width: clamp(126px, 11vw, 160px); }
+
+.hdr__logo-mark {
+  width: 100%;
+  font-family: var(--f-display);
+  font-size: clamp(1.1rem, 1.5vw, 1.45rem);
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  text-align: center;
+  text-indent: .34em;      /* compense l'interlettrage sur le dernier signe */
+  line-height: 1;
+  white-space: nowrap;
+}
+.hdr__logo img { width: 100%; height: auto; }
+
+/* Utilitaires */
+.hdr__util {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  position: relative;
+  padding-block: 4px;
+}
+.hdr__util .icon { transition: transform var(--d-s) var(--e-out); }
+.hdr__util:hover .icon { transform: translateY(-1px); }
+
+.hdr__locale {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+.hdr__locale-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  padding: 4px 0;
+  cursor: pointer;
+  max-width: 128px;
+  text-overflow: ellipsis;
+}
+.hdr__locale-select option { color: var(--c-ink); }
+
+.hdr__count {
+  position: absolute;
+  top: -2px; right: -9px;
+  font-size: 9px;
+  letter-spacing: 0;
+  font-family: var(--f-ui);
+}
+
+.hdr__burger { display: none; }
+
+/* ---------- NAVBAR ------------------------------------------------------- */
+.hdr__nav {
+  position: relative;
+  height: var(--h-nav);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-inline: var(--page-x);
+  overflow: hidden;
+  transition: height var(--d-m) var(--e-luxe);
+}
+.hdr.is-compact .hdr__nav { height: var(--h-nav-compact); }
+
+.nav__list {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(18px, 2.6vw, 44px);
+}
+.nav__link {
+  position: relative;
+  display: block;
+  padding: var(--s-3) 0 var(--s-4);
+  color: inherit;
+  transition: opacity var(--d-s) var(--e-out), letter-spacing var(--d-m) var(--e-luxe);
+  white-space: nowrap;
+}
+/* Filet signature : se dessine du centre vers les extrémités */
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 10px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: 50% 50%;
+  transition: transform var(--d-m) var(--e-luxe);
+}
+.nav__link:hover,
+.nav__link[aria-expanded="true"] { letter-spacing: calc(var(--ls-nav) + .02em); }
+.nav__link:hover::after,
+.nav__link:focus-visible::after,
+.nav__link[aria-expanded="true"]::after { transform: scaleX(1); }
+
+/* Les catégories non survolées s'effacent légèrement quand le mega-menu est ouvert */
+.hdr.is-mega-open .nav__link { opacity: .45; }
+.hdr.is-mega-open .nav__link:hover,
+.hdr.is-mega-open .nav__link[aria-expanded="true"] { opacity: 1; }
+
+/* Écrans intermédiaires : la navbar se resserre plutôt que de déborder */
+@media (min-width: 990px) and (max-width: 1279px) {
+  .nav__list { gap: clamp(12px, 1.7vw, 26px); }
+  .nav__link { font-size: 11px; letter-spacing: .12em; }
+}
+.hdr.is-compact .nav__link { padding: var(--s-2) 0 var(--s-3); }
+.hdr.is-compact .nav__link::after { bottom: 7px; }
+
+/* ---------- MEGA-MENU ---------------------------------------------------- */
+.mega {
+  position: absolute;
+  top: 100%; left: 0; right: 0;
+  height: 0;
+  overflow: hidden;
+  background: var(--c-surface);
+  color: var(--c-ink);
+  transition: height var(--d-l) var(--e-luxe);
+  z-index: var(--z-mega);
+}
+.mega::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--c-line);
+}
+.mega__stage { position: relative; }
+
+.mega__panel {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--d-m) var(--e-out), visibility 0s linear var(--d-m);
+}
+.mega__panel.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity var(--d-m) var(--e-out) 90ms, visibility 0s;
+}
+
+.mega__inner {
+  display: grid;
+  grid-template-columns: 1fr minmax(280px, 30%);
+  gap: clamp(32px, 4vw, 72px);
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding: clamp(36px, 3.4vw, 56px) var(--page-x) clamp(40px, 3.6vw, 60px);
+}
+.mega__cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: clamp(24px, 3vw, 56px);
+}
+
+.mega__col {
+  position: relative;
+  padding-left: clamp(16px, 1.6vw, 28px);
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity var(--d-m) var(--e-out),
+    transform var(--d-m) var(--e-luxe);
+}
+.mega__col:first-child { padding-left: 0; }
+/* Filet vertical qui se dessine de haut en bas à l'ouverture */
+.mega__col::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 1px;
+  background: var(--c-line);
+  transform: scaleY(0);
+  transform-origin: 50% 0;
+  transition: transform var(--d-l) var(--e-mask);
+}
+.mega__col:first-child::before { display: none; }
+
+.mega__panel.is-active .mega__col {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(120ms + var(--i, 0) * var(--stagger));
+}
+.mega__panel.is-active .mega__col::before {
+  transform: scaleY(1);
+  transition-delay: calc(60ms + var(--i, 0) * var(--stagger));
+}
+
+.mega__title {
+  color: var(--c-signature);
+  margin-bottom: var(--s-5);
+}
+.mega__links { display: grid; gap: var(--s-3); }
+.mega__link {
+  font-size: var(--t-body-s);
+  color: var(--c-ink);
+  justify-self: start;
+}
+
+/* Média éditorial — révélation par masque vertical */
+.mega__media {
+  position: relative;
+  display: grid;
+  gap: var(--s-4);
+  opacity: 0;
+  transition: opacity var(--d-m) var(--e-out);
+}
+.mega__panel.is-active .mega__media { opacity: 1; transition-delay: 80ms; }
+
+.mega__frame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--c-line);
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path var(--d-xl) var(--e-mask);
+}
+.mega__frame--small { aspect-ratio: 1 / 1; }
+.mega__frame img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transform: scale(1.08);
+  transition: transform var(--d-xl) var(--e-mask);
+}
+.mega__panel.is-active .mega__frame {
+  clip-path: inset(0 0 0 0);
+  transition-delay: 60ms;
+}
+.mega__panel.is-active .mega__frame img { transform: scale(1); transition-delay: 60ms; }
+
+.mega__media-grid { display: grid; grid-template-columns: 1fr; gap: var(--s-4); }
+.mega__media-grid.has-two { grid-template-columns: 1.4fr 1fr; align-items: end; }
+
+.mega__caption { display: grid; gap: var(--s-3); justify-items: start; }
+
+/* Voile sur le contenu de la page */
+.hdr__scrim {
+  position: fixed;
+  inset: 0;
+  background: var(--veil-scrim);
+  opacity: 0;
+  visibility: hidden;
+  z-index: var(--z-scrim);
+  transition: opacity var(--d-m) var(--e-out), visibility 0s linear var(--d-m);
+}
+.hdr__scrim.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--d-m) var(--e-out), visibility 0s;
+}
+
+/* Quand le mega-menu est ouvert, le header devient opaque */
+.hdr.is-mega-open .hdr__surface { opacity: 1; backdrop-filter: none; -webkit-backdrop-filter: none; }
+.hdr.is-mega-open.is-inverted { color: var(--c-ink); }
+
+/* ---------- BASCULE MOBILE ---------------------------------------------- */
+@media (max-width: 989px) {
+  .hdr__nav { display: none; }
+  .mega { display: none; }
+  .hdr-spacer { height: var(--h-bar); }
+  .hdr__burger { display: inline-flex; }
+  .hdr__zone--left .hdr__locale { display: none; }
+  .hdr__zone--right .hdr__util--search,
+  .hdr__zone--right .hdr__util--account { display: none; }
+  .hdr__zone { gap: var(--s-4); }
+}
+
+/* ---------- MENU MOBILE -------------------------------------------------- */
+.mmenu {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-mobile);
+  background: var(--c-paper);
+  color: var(--c-ink);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition:
+    opacity var(--d-m) var(--e-out),
+    transform var(--d-m) var(--e-luxe),
+    visibility 0s linear var(--d-m);
+}
+.mmenu.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity var(--d-m) var(--e-out), transform var(--d-l) var(--e-luxe), visibility 0s;
+}
+
+.mmenu__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--h-bar);
+  padding-inline: var(--page-x);
+  border-bottom: var(--hairline);
+  flex: 0 0 auto;
+}
+.mmenu__viewport {
+  position: relative;
+  flex: 1 1 auto;
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+/* iOS peut faire défiler horizontalement un conteneur masqué quand on donne
+   le focus à un élément hors écran : on verrouille ce décalage. */
+.mmenu__viewport { scroll-behavior: auto; }
+.mmenu__panel {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: var(--s-6) var(--page-x) var(--s-8);
+  background: var(--c-paper);
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform var(--d-m) var(--e-luxe), visibility 0s linear var(--d-m);
+}
+.mmenu__panel:not(.is-active):not(.mmenu__panel--root) { pointer-events: none; }
+.mmenu.has-sub .mmenu__panel--root { pointer-events: none; }
+.mmenu__panel--root { transform: translateX(0); visibility: visible; transition: transform var(--d-m) var(--e-luxe), opacity var(--d-m) var(--e-out); }
+.mmenu.has-sub .mmenu__panel--root { transform: translateX(-24%); opacity: .35; }
+.mmenu__panel.is-active { transform: translateX(0); visibility: visible; transition: transform var(--d-m) var(--e-luxe), visibility 0s; }
+
+.mmenu__list { display: grid; }
+.mmenu__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  width: 100%;
+  padding: var(--s-4) 0;
+  border-bottom: var(--hairline);
+  text-align: left;
+}
+@keyframes mmenu-row-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+.mmenu.is-open .mmenu__panel--root .mmenu__row,
+.mmenu__panel.is-active .mmenu__row {
+  animation: mmenu-row-in var(--d-m) var(--e-luxe) both;
+  animation-delay: calc(100ms + var(--i, 0) * 32ms);
+}
+.mmenu__row-label { font-size: 1.0625rem; font-family: var(--f-display); letter-spacing: .02em; }
+.mmenu__chev { width: 7px; height: 7px; border-top: 1px solid currentColor; border-right: 1px solid currentColor; transform: rotate(45deg); flex: 0 0 auto; }
+
+.mmenu__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-bottom: var(--s-5);
+}
+.mmenu__back .mmenu__chev { transform: rotate(-135deg); }
+
+.mmenu__media { margin-top: var(--s-6); display: grid; gap: var(--s-4); }
+.mmenu__media .mega__frame { aspect-ratio: 3 / 2; clip-path: inset(0 0 0 0); }
+.mmenu__media .mega__frame img { transform: none; }
+
+.mmenu__foot {
+  flex: 0 0 auto;
+  border-top: var(--hairline);
+  padding: var(--s-5) var(--page-x) calc(var(--s-5) + env(safe-area-inset-bottom, 0px));
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-4) var(--s-5);
+  background: var(--c-surface);
+}
+.mmenu__foot a { justify-self: start; }
+
+/* Le mega-menu desktop reste masqué sur mobile même si la classe est active */
+@media (max-width: 989px) {
+  .hdr.is-mega-open .hdr__surface { opacity: 1; }
+}

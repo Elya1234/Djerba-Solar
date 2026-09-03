@@ -1,0 +1,25 @@
+{%- comment -%} Manifeste ou citation. {%- endcomment -%}
+<section class="section equote">
+  <div class="page">
+    <div class="equote__inner">
+      <span class="equote__rule" aria-hidden="true"></span>
+      {%- if section.settings.text != blank -%}
+        <blockquote class="t-h1 line-mask" data-reveal="mask"><span>{{ section.settings.text }}</span></blockquote>
+      {%- endif -%}
+      {%- if section.settings.author != blank -%}
+        <p class="t-label equote__author" data-reveal style="--i: 1">{{ section.settings.author }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Éditorial — Manifeste",
+  "tag": "div",
+  "settings": [
+    { "type": "textarea", "id": "text", "label": "Texte" },
+    { "type": "text", "id": "author", "label": "Attribution", "info": "Laissez vide si aucune citation réelle n'est attribuable." }
+  ],
+  "presets": [{ "name": "Éditorial — Manifeste" }]
+}
+{% endschema %}

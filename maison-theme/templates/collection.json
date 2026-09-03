@@ -1,0 +1,30 @@
+{
+  "sections": {
+    "banner": {
+      "type": "collection-banner",
+      "settings": {
+        "show_description": true,
+        "show_breadcrumb": true,
+        "parent_title": "Joaillerie",
+        "parent_link": "/collections/all"
+      }
+    },
+    "subnav": {
+      "type": "collection-subnav",
+      "settings": { "title": "Explorer", "layout": "images" }
+    },
+    "grid": {
+      "type": "collection-grid",
+      "settings": {
+        "show_tools": true,
+        "per_page": 24,
+        "wide": true,
+        "empty_title": "Les prochaines créations arrivent bientôt.",
+        "empty_text": "Cette collection est en cours de composition. Les créations de la Maison vous attendent en attendant.",
+        "empty_label": "Découvrir la joaillerie",
+        "empty_link": "/collections/all"
+      }
+    }
+  },
+  "order": ["banner", "subnav", "grid"]
+}

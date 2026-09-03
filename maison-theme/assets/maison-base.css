@@ -1,0 +1,324 @@
+/* =========================================================================
+   MAISON — DESIGN SYSTEM
+   Fondation typographique, chromatique et spatiale du thème.
+   Aucune règle de ce fichier ne doit être dupliquée ailleurs :
+   tous les composants consomment ces tokens.
+   ========================================================================= */
+
+/* ---------- 1. TOKENS ---------------------------------------------------- */
+:root {
+  /* Couleurs — injectées depuis les Theme Settings (voir layout/theme.liquid) */
+  --c-paper:        #FAFAF8;  /* fond général, blanc gemme légèrement froid   */
+  --c-surface:      #FFFFFF;  /* panneaux, mega-menu, cartes                  */
+  --c-ink:          #111013;  /* onyx — texte principal                       */
+  --c-ink-soft:     #6E6A65;  /* cendre — texte secondaire                    */
+  --c-line:         #E4E1DA;  /* filets, séparateurs                          */
+  --c-signature:    #1A3A31;  /* malachite — couleur de Maison, usage rare    */
+  --c-invert:       #FFFFFF;  /* texte du header en mode transparent/sombre   */
+
+  /* Voiles */
+  --veil-scrim:     rgba(17,16,19,.28);
+  --veil-header:    rgba(250,250,248,.72);
+
+  /* Typographie */
+  --f-display: "Playfair Display", "Times New Roman", serif;
+  --f-body:    "Assistant", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --f-ui:      var(--f-body);
+
+  /* Échelle typographique — ratio 1.25, ancrée sur 16px */
+  --t-display:  clamp(2.75rem, 5.6vw, 5rem);
+  --t-h1:       clamp(2rem, 3.6vw, 3rem);
+  --t-h2:       clamp(1.5rem, 2.4vw, 2rem);
+  --t-h3:       1.25rem;
+  --t-body:     1rem;
+  --t-body-s:   0.875rem;
+  --t-ui:       0.75rem;    /* 12px — navigation                             */
+  --t-ui-s:     0.6875rem;  /* 11px — utilitaires, labels                    */
+
+  /* Interlettrage — le luxe se joue ici */
+  --ls-display: -0.015em;
+  --ls-heading: -0.005em;
+  --ls-body:     0;
+  --ls-nav:      0.16em;
+  --ls-label:    0.22em;
+
+  /* Interlignage */
+  --lh-display: 1.06;
+  --lh-heading: 1.14;
+  --lh-body:    1.62;
+  --lh-ui:      1;
+
+  /* Espacements — échelle 4px */
+  --s-1: 4px;   --s-2: 8px;   --s-3: 12px;  --s-4: 16px;
+  --s-5: 24px;  --s-6: 32px;  --s-7: 48px;  --s-8: 64px;
+  --s-9: 96px;  --s-10: 128px; --s-11: 160px;
+
+  /* Grille & gouttières */
+  --page-x: 20px;              /* marge latérale — symétrique, cf. logo      */
+  --gutter: 16px;
+  --col: 12;
+  --max-w: 1680px;
+
+  /* Hauteurs du header */
+  --h-bar: 64px;
+  --h-nav: 46px;
+  --h-bar-compact: 54px;
+  --h-nav-compact: 40px;
+  --h-header: calc(var(--h-bar) + var(--h-nav));
+
+  /* Bordures */
+  --hairline: 1px solid var(--c-line);
+  --radius: 0px;               /* aucune rondeur : rigueur éditoriale        */
+
+  /* Mouvement — langage unique réutilisé par tout le site */
+  --d-xs: 120ms;
+  --d-s:  240ms;
+  --d-m:  420ms;
+  --d-l:  680ms;
+  --d-xl: 1100ms;
+  --e-out:   cubic-bezier(.22,.61,.36,1);   /* sorties douces               */
+  --e-luxe:  cubic-bezier(.16,.84,.24,1);   /* ouverture des panneaux       */
+  --e-mask:  cubic-bezier(.66,0,.14,1);     /* révélations par masque       */
+  --stagger: 45ms;                          /* décalage entre éléments      */
+
+  /* Couches */
+  --z-scrim: 80;
+  --z-header: 100;
+  --z-mega: 90;
+  --z-mobile: 120;
+}
+
+@media (min-width: 750px)  { :root { --page-x: 32px; --gutter: 20px; --h-bar: 76px; --h-nav: 52px; } }
+@media (min-width: 1200px) { :root { --page-x: 48px; --gutter: 24px; } }
+@media (min-width: 1600px) { :root { --page-x: 64px; } }
+
+/* ---------- 2. RESET SOBRE ---------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--c-paper);
+  color: var(--c-ink);
+  font-family: var(--f-body);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Garde-fou anti-débordement horizontal. « clip » est préféré à « hidden » :
+     il empêche le défilement latéral sans créer de conteneur de défilement,
+     donc sans casser les éléments en position: sticky. */
+  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+img, picture, svg, video { display: block; max-width: 100%; height: auto; }
+
+/* Rien ne peut forcer une largeur supérieure à celle de son parent. */
+main, section, .page, .grid { max-width: 100%; min-width: 0; }
+.cta { max-width: 100%; }
+.cta__arrow { flex: 0 0 auto; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; margin: 0; padding: 0; }
+h1, h2, h3, h4, p { margin: 0; }
+
+/* ---------- 3. TYPOGRAPHIE ---------------------------------------------- */
+.t-display {
+  font-family: var(--f-display);
+  font-size: var(--t-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  font-weight: 400;
+}
+.t-h1 { font-family: var(--f-display); font-size: var(--t-h1); line-height: var(--lh-heading); letter-spacing: var(--ls-heading); font-weight: 400; }
+.t-h2 { font-family: var(--f-display); font-size: var(--t-h2); line-height: var(--lh-heading); letter-spacing: var(--ls-heading); font-weight: 400; }
+.t-h3 { font-family: var(--f-display); font-size: var(--t-h3); line-height: var(--lh-heading); font-weight: 400; }
+.t-body { font-size: var(--t-body); line-height: var(--lh-body); }
+.t-body-s { font-size: var(--t-body-s); line-height: 1.55; }
+
+.t-label {
+  font-family: var(--f-ui);
+  font-size: var(--t-ui-s);
+  line-height: var(--lh-ui);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.t-nav {
+  font-family: var(--f-ui);
+  font-size: var(--t-ui);
+  line-height: var(--lh-ui);
+  letter-spacing: var(--ls-nav);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.t-muted { color: var(--c-ink-soft); }
+
+/* ---------- 4. GRILLE ---------------------------------------------------- */
+.page {
+  width: 100%;
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding-inline: var(--page-x);
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--col), minmax(0, 1fr));
+  gap: var(--gutter);
+}
+
+/* ---------- 5. LIENS & MICRO-INTERACTIONS ------------------------------- */
+/* Filet signature : se dessine du centre vers l'extérieur, en malachite. */
+.link-rule {
+  position: relative;
+  display: inline-block;
+  padding-block: 2px;
+}
+.link-rule::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: 50% 50%;
+  transition: transform var(--d-m) var(--e-luxe);
+}
+.link-rule:hover::after,
+.link-rule:focus-visible::after { transform: scaleX(1); }
+
+/* Lien texte discret, souligné en permanence */
+.link-quiet {
+  border-bottom: 1px solid var(--c-line);
+  padding-bottom: 2px;
+  transition: border-color var(--d-s) var(--e-out);
+}
+.link-quiet:hover { border-color: var(--c-ink); }
+
+/* Appel à l'action éditorial — la flèche avance au survol */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-family: var(--f-ui);
+  font-size: var(--t-ui-s);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--c-ink);
+}
+.cta__arrow {
+  display: inline-block;
+  width: 22px; height: 1px;
+  background: currentColor;
+  position: relative;
+  transition: width var(--d-m) var(--e-luxe);
+}
+.cta__arrow::after {
+  content: "";
+  position: absolute;
+  right: 0; top: -2px;
+  width: 5px; height: 5px;
+  border-top: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+  transform: rotate(45deg);
+}
+.cta:hover .cta__arrow,
+.cta:focus-visible .cta__arrow { width: 34px; }
+
+/* Boutons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 var(--s-6);
+  border-radius: var(--radius);
+  font-family: var(--f-ui);
+  font-size: var(--t-ui-s);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  transition: background-color var(--d-s) var(--e-out), color var(--d-s) var(--e-out), border-color var(--d-s) var(--e-out);
+}
+.btn--solid { background: var(--c-ink); color: var(--c-surface); }
+.btn--solid:hover { background: var(--c-signature); }
+.btn--line { border: 1px solid var(--c-ink); }
+.btn--line:hover { background: var(--c-ink); color: var(--c-surface); }
+
+/* ---------- 6. ICÔNES ---------------------------------------------------- */
+.icon {
+  width: 18px; height: 18px;
+  stroke: currentColor;
+  stroke-width: 1;              /* traits fins uniquement */
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.icon--s { width: 15px; height: 15px; }
+
+/* ---------- 7. ACCESSIBILITÉ -------------------------------------------- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Focus élégant : filet malachite, jamais de halo bleu système.
+   Le rectangle gris d'iOS au toucher est supprimé, mais le focus clavier
+   reste visible : seule la surbrillance tactile disparaît. */
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+a, button, input, select, textarea, summary, [role="link"], [tabindex] {
+  -webkit-tap-highlight-color: transparent;
+}
+button, [role="link"], [role="button"], summary {
+  -webkit-touch-callout: none;
+}
+:focus { outline: none; }
+:focus-visible {
+  outline: 1px solid var(--c-signature);
+  outline-offset: 4px;
+}
+/* Sur écran tactile sans clavier, aucun contour ne subsiste après le toucher. */
+@media (hover: none) and (pointer: coarse) {
+  :focus:not(:focus-visible) { outline: none; }
+}
+.is-inverted :focus-visible { outline-color: var(--c-invert); }
+
+.skip-link {
+  position: fixed;
+  top: var(--s-3); left: 50%;
+  transform: translate(-50%, -160%);
+  z-index: 999;
+  background: var(--c-ink);
+  color: var(--c-surface);
+  padding: var(--s-3) var(--s-5);
+  font-family: var(--f-ui);
+  font-size: var(--t-ui-s);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  transition: transform var(--d-s) var(--e-out);
+}
+.skip-link:focus-visible { transform: translate(-50%, 0); }
+
+/* Verrou de défilement lors de l'ouverture d'un panneau plein écran */
+body.is-locked { overflow: hidden; }
+
+/* ---------- 8. MOUVEMENT RÉDUIT ----------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

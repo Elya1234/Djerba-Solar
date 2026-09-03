@@ -1,0 +1,68 @@
+{%- comment -%}
+  Panneau de recherche. Suggestions via la Predictive Search API de Shopify.
+  Le formulaire fonctionne sans JavaScript : il envoie vers /search.
+{%- endcomment -%}
+<div class="srch" id="MaisonSearch" data-modal data-search-panel data-search-url="{{ routes.search_url }}"
+     role="dialog" aria-modal="true" aria-label="{{ 'header.search' | t: default: 'Rechercher' }}" aria-hidden="true">
+  <div class="srch__bar">
+    <form class="srch__form" action="{{ routes.search_url }}" method="get" role="search">
+      <input type="hidden" name="type" value="product,page,article">
+      <label class="visually-hidden" for="MaisonSearchInput">{{ 'search.label' | t: default: 'Que recherchez-vous ?' }}</label>
+      {% render 'maison-icon', icon: 'search' %}
+      <input
+        class="srch__input"
+        id="MaisonSearchInput"
+        type="search"
+        name="q"
+        autocomplete="off"
+        placeholder="{{ 'search.placeholder' | t: default: 'Que recherchez-vous ?' }}"
+        data-search-input
+        data-modal-initial
+      >
+    </form>
+    <button class="hdr__util" type="button" data-modal-close>
+      {% render 'maison-icon', icon: 'close' %}
+      <span class="visually-hidden">{{ 'general.close' | t: default: 'Fermer' }}</span>
+    </button>
+  </div>
+
+  <div class="srch__body">
+    <p class="visually-hidden" role="status" data-search-status></p>
+
+    <div data-search-initial>
+      {%- if section.settings.search_menu != blank or settings.search_menu != blank -%}
+        {%- assign suggest = linklists[settings.search_menu] -%}
+        {%- if suggest.links.size > 0 -%}
+          <section class="srch__group">
+            <p class="t-label srch__group-title">{{ 'search.suggestions' | t: default: 'Suggestions' }}</p>
+            <ul class="srch__list">
+              {%- for link in suggest.links -%}
+                <li><a class="srch__row" href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </section>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+
+    <div data-search-results></div>
+
+    <div class="srch__empty" data-search-empty hidden>
+      <p class="t-h3">{{ 'search.no_result' | t: default: 'Aucun résultat' }}</p>
+      <p class="t-body-s t-muted">
+        {{ 'search.no_result_text' | t: default: 'Aucune création ne correspond à' }}
+        « <span data-search-empty-terms></span> ».
+      </p>
+      <div class="srch__empty-links">
+        <a class="cta" href="{{ routes.all_products_collection_url }}">
+          {{ 'search.browse' | t: default: 'Parcourir les créations' }}<span class="cta__arrow" aria-hidden="true"></span>
+        </a>
+        {%- if settings.advisor_link != blank -%}
+          <a class="cta" href="{{ settings.advisor_link }}">
+            {{ 'search.advisor' | t: default: 'Contacter un conseiller' }}<span class="cta__arrow" aria-hidden="true"></span>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,112 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-hero",
+      "settings": {
+        "eyebrow": "Les pierres",
+        "title": "Les diamants",
+        "text": "Nous ne retenons que les pierres dont la taille laisse passer la lumière sans la retenir.",
+        "align": "left",
+        "short": false,
+        "parallax": true,
+        "show_breadcrumb": true
+      }
+    },
+    "intro": {
+      "type": "editorial-image-text",
+      "settings": {
+        "eyebrow": "La sélection",
+        "title": "Choisies une à une",
+        "text": "<p>Chaque pierre est examinée avant d'entrer à l'atelier. Ce qui compte n'est pas seulement le carat : c'est la façon dont la taille rend la lumière.</p>",
+        "media_position": "right",
+        "background": "paper",
+        "ratio": "portrait"
+      }
+    },
+    "acces": {
+      "type": "editorial-cards",
+      "settings": {
+        "eyebrow": "Aller plus loin",
+        "title": "Comprendre les diamants",
+        "per_row": 4,
+        "style": "image",
+        "background": "surface",
+        "ratio": "landscape"
+      },
+      "blocks": {
+        "c0": {
+          "type": "carte",
+          "settings": {
+            "title": "Les 4C",
+            "text": "Carat, taille, couleur, pureté.",
+            "link": "/pages/les-4c",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c1": {
+          "type": "carte",
+          "settings": {
+            "title": "Les formes",
+            "text": "Dix tailles, dix caractères.",
+            "link": "/pages/les-formes",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c2": {
+          "type": "carte",
+          "settings": {
+            "title": "Certification",
+            "text": "Ce qui accompagne chaque pierre.",
+            "link": "/pages/certification",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c3": {
+          "type": "carte",
+          "settings": {
+            "title": "Pierres exceptionnelles",
+            "text": "Au-delà de trois carats.",
+            "link": "/pages/pierres-exceptionnelles",
+            "cta_label": "Découvrir"
+          }
+        }
+      },
+      "block_order": [
+        "c0",
+        "c1",
+        "c2",
+        "c3"
+      ]
+    },
+    "emotion": {
+      "type": "editorial-full-media",
+      "settings": {
+        "eyebrow": "La taille",
+        "title": "La lumière avant tout",
+        "text": "Une pierre bien taillée renvoie la lumière plutôt que de l'absorber.",
+        "parallax": true
+      }
+    },
+    "cta": {
+      "type": "editorial-cta",
+      "settings": {
+        "eyebrow": "",
+        "title": "Découvrir nos créations diamant",
+        "text": "",
+        "dark": false,
+        "align": "center",
+        "label_1": "Voir les créations",
+        "link_1": "/collections/bagues-cocktail",
+        "label_2": "Parler à un conseiller",
+        "link_2": "/pages/conseil-joaillier"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "intro",
+    "acces",
+    "emotion",
+    "cta"
+  ]
+}

@@ -1,0 +1,13 @@
+{%- comment -%}
+  Fil d'Ariane discret. Toutes les destinations viennent des routes Shopify.
+  Paramètres : parent_title / parent_url (facultatifs), on_dark (booléen)
+{%- endcomment -%}
+<nav class="crumb t-label" {% if on_dark %}data-on-dark{% endif %} aria-label="{{ 'general.breadcrumb' | t: default: "Fil d'Ariane" }}">
+  <a href="{{ routes.root_url }}">{{ 'general.home' | t: default: 'Accueil' }}</a>
+  {%- if parent_title != blank and parent_url != blank -%}
+    <span class="crumb__sep" aria-hidden="true">/</span>
+    <a href="{{ parent_url }}">{{ parent_title }}</a>
+  {%- endif -%}
+  <span class="crumb__sep" aria-hidden="true">/</span>
+  <span aria-current="page">{{ current_title }}</span>
+</nav>

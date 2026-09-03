@@ -1,0 +1,100 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-hero",
+      "settings": {
+        "eyebrow": "Services",
+        "title": "Votre conseiller joaillier",
+        "text": "Un interlocuteur unique, du premier rendez-vous à la remise du bijou.",
+        "align": "left",
+        "short": false,
+        "parallax": true,
+        "show_breadcrumb": true
+      }
+    },
+    "services": {
+      "type": "editorial-steps",
+      "settings": {
+        "eyebrow": "Accompagnement",
+        "title": "Ce que nous faisons ensemble",
+        "text": "",
+        "numbered": false
+      },
+      "blocks": {
+        "s0": {
+          "type": "etape",
+          "settings": {
+            "title": "Choisir un bijou",
+            "text": "Comprendre ce qui sera porté, et comment."
+          }
+        },
+        "s1": {
+          "type": "etape",
+          "settings": {
+            "title": "Choisir une pierre",
+            "text": "Voir plusieurs pierres en main avant de décider."
+          }
+        },
+        "s2": {
+          "type": "etape",
+          "settings": {
+            "title": "Mariage",
+            "text": "Fiançailles et alliances, accompagnées de bout en bout."
+          }
+        },
+        "s3": {
+          "type": "etape",
+          "settings": {
+            "title": "Création sur-mesure",
+            "text": "Dessiner une pièce qui n'existe pas encore."
+          }
+        },
+        "s4": {
+          "type": "etape",
+          "settings": {
+            "title": "Transformation d'un bijou",
+            "text": "Donner une seconde vie à une pierre de famille."
+          }
+        }
+      },
+      "block_order": [
+        "s0",
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ]
+    },
+    "emotion": {
+      "type": "editorial-full-media",
+      "settings": {
+        "eyebrow": "Sur rendez-vous",
+        "title": "Le temps du conseil",
+        "text": "Une heure réservée, sans autre client dans la boutique.",
+        "parallax": true,
+        "cta_label": "Créer votre bague",
+        "cta_link": "/pages/creer-votre-bague"
+      }
+    },
+    "cta": {
+      "type": "editorial-cta",
+      "settings": {
+        "eyebrow": "",
+        "title": "Prendre rendez-vous",
+        "text": "",
+        "dark": false,
+        "align": "center",
+        "label_1": "Prendre rendez-vous",
+        "link_1": "/pages/rendez-vous",
+        "label_2": "Contacter un conseiller",
+        "link_2": "/pages/contact"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "services",
+    "emotion",
+    "cta"
+  ]
+}

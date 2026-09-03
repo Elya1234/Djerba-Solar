@@ -1,0 +1,106 @@
+{%- comment -%}
+  Les 4C. Les échelles sont dessinées en CSS : aucun graphique tiers.
+  Les textes sont administrables ; rien n'est affirmé par défaut.
+{%- endcomment -%}
+<section class="section escale">
+  <div class="page">
+    {%- if section.settings.title != blank -%}
+      <div style="margin-bottom: var(--s-5)">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="t-h1 line-mask" style="margin-top: var(--s-4)" data-reveal="mask"><span>{{ section.settings.title }}</span></h2>
+        {%- if section.settings.text != blank -%}
+          <p class="t-body measure t-muted" style="margin-top: var(--s-5)" data-reveal>{{ section.settings.text }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      <article class="escale__block" {{ block.shopify_attributes }} data-reveal>
+        <div class="escale__head">
+          <p class="escale__letter">{{ block.settings.letter }}</p>
+          <h3 class="t-h2">{{ block.settings.title }}</h3>
+          {%- if block.settings.text != blank -%}
+            <div class="t-body-s escale__text">{{ block.settings.text }}</div>
+          {%- endif -%}
+        </div>
+
+        {%- case block.settings.scale -%}
+          {%- when 'letters' -%}
+            {%- assign steps = block.settings.values | split: ',' -%}
+            <div class="escale__strip" role="img" aria-label="{{ block.settings.title | escape }}">
+              {%- for step in steps -%}
+                <span class="escale__cell" style="background: rgba(200,167,91,{{ forloop.index0 | times: 6 | divided_by: 100.0 }})">{{ step | strip }}</span>
+              {%- endfor -%}
+            </div>
+            {%- if block.settings.legend_start != blank or block.settings.legend_end != blank -%}
+              <p class="escale__legend t-label">
+                <span>{{ block.settings.legend_start }}</span><span>{{ block.settings.legend_end }}</span>
+              </p>
+            {%- endif -%}
+
+          {%- when 'carats' -%}
+            {%- assign carats = block.settings.values | split: ',' -%}
+            <div class="escale__sizes">
+              {%- for carat in carats -%}
+                {%- assign size = forloop.index | times: 8 | plus: 22 -%}
+                <span class="escale__carat">
+                  <span class="escale__dot" style="width: {{ size }}px; height: {{ size }}px" aria-hidden="true"></span>
+                  <span class="t-label">{{ carat | strip }}</span>
+                </span>
+              {%- endfor -%}
+            </div>
+
+          {%- when 'shapes' -%}
+            <div class="escale__strip" aria-hidden="true">
+              {%- assign cuts = block.settings.values | split: ',' -%}
+              {%- for cut in cuts -%}
+                <span class="escale__cell">{{ cut | strip }}</span>
+              {%- endfor -%}
+            </div>
+        {%- endcase -%}
+      </article>
+    {%- endfor -%}
+
+    {%- if section.settings.note != blank -%}
+      <p class="eplaceholder" style="margin-top: var(--s-6)">{{ section.settings.note }}</p>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Diamants — Les 4C",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre" },
+    { "type": "text", "id": "title", "label": "Titre" },
+    { "type": "textarea", "id": "text", "label": "Introduction" },
+    { "type": "text", "id": "note", "label": "Mention" }
+  ],
+  "blocks": [
+    {
+      "type": "critere",
+      "name": "Critère",
+      "settings": [
+        { "type": "text", "id": "letter", "label": "Lettre", "default": "C" },
+        { "type": "text", "id": "title", "label": "Titre" },
+        { "type": "richtext", "id": "text", "label": "Texte" },
+        { "type": "select", "id": "scale", "label": "Échelle", "default": "letters",
+          "options": [
+            { "value": "letters", "label": "Échelle par paliers" },
+            { "value": "carats", "label": "Tailles de pierre" },
+            { "value": "shapes", "label": "Paliers de taille" },
+            { "value": "none", "label": "Aucune" }
+          ]
+        },
+        { "type": "text", "id": "values", "label": "Valeurs", "info": "Séparées par des virgules." },
+        { "type": "text", "id": "legend_start", "label": "Légende gauche" },
+        { "type": "text", "id": "legend_end", "label": "Légende droite" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [{ "name": "Diamants — Les 4C" }]
+}
+{% endschema %}

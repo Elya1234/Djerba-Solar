@@ -1,0 +1,124 @@
+{%- comment -%}
+  Contact. Utilise le formulaire natif Shopify : les messages arrivent sur
+  l'adresse e-mail de la boutique. Aucun service externe.
+{%- endcomment -%}
+<section class="section etext">
+  <div class="page">
+    <div class="etext__grid">
+      <div class="etext__body">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h2 class="t-h1 line-mask" data-reveal="mask"><span>{{ section.settings.title }}</span></h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="t-body etext__rich" data-reveal style="--i: 1">{{ section.settings.text }}</div>
+        {%- endif -%}
+
+        {%- if section.blocks.size > 0 -%}
+          <div class="efacts" data-reveal style="--i: 2">
+            {%- for block in section.blocks -%}
+              {%- if block.settings.value != blank -%}
+                <div class="efact" {{ block.shopify_attributes }}>
+                  <span class="t-label efact__key">{{ block.settings.key }}</span>
+                  <span class="efact__value">{{ block.settings.value }}</span>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div>
+        {%- form 'contact', class: 'eform' -%}
+          {%- if form.posted_successfully? -%}
+            <p class="eform__status t-label" role="status">
+              {{ section.settings.success | default: 'Merci. Votre message est bien arrivé.' }}
+            </p>
+          {%- elsif form.errors -%}
+            <p class="cart-error" role="alert">{{ form.errors | default_errors }}</p>
+          {%- endif -%}
+
+          <div class="eform__row eform__row--two">
+            <div class="eform__field">
+              <label class="t-label" for="ContactFirstName">{{ 'contact.first_name' | t: default: 'Prénom' }}</label>
+              <input id="ContactFirstName" type="text" name="contact[Prénom]" autocomplete="given-name" required>
+            </div>
+            <div class="eform__field">
+              <label class="t-label" for="ContactLastName">{{ 'contact.last_name' | t: default: 'Nom' }}</label>
+              <input id="ContactLastName" type="text" name="contact[Nom]" autocomplete="family-name" required>
+            </div>
+          </div>
+
+          <div class="eform__row eform__row--two">
+            <div class="eform__field">
+              <label class="t-label" for="ContactEmail">{{ 'contact.email' | t: default: 'Adresse e-mail' }}</label>
+              <input id="ContactEmail" type="email" name="contact[email]" autocomplete="email" required>
+            </div>
+            <div class="eform__field">
+              <label class="t-label" for="ContactPhone">{{ 'contact.phone' | t: default: 'Téléphone (facultatif)' }}</label>
+              <input id="ContactPhone" type="tel" name="contact[Téléphone]" autocomplete="tel">
+            </div>
+          </div>
+
+          <div class="eform__field">
+            <label class="t-label" for="ContactSubject">{{ 'contact.subject' | t: default: 'Sujet' }}</label>
+            <select id="ContactSubject" name="contact[Sujet]">
+              {%- assign subjects = section.settings.subjects | split: ',' -%}
+              {%- for subject in subjects -%}
+                <option value="{{ subject | strip | escape }}">{{ subject | strip }}</option>
+              {%- endfor -%}
+            </select>
+          </div>
+
+          <div class="eform__field">
+            <label class="t-label" for="ContactBody">{{ 'contact.message' | t: default: 'Message' }}</label>
+            <textarea id="ContactBody" name="contact[body]" required></textarea>
+          </div>
+
+          {%- if section.settings.consent != blank -%}
+            <label class="eform__consent">
+              <input type="checkbox" name="contact[Consentement]" value="Oui" required>
+              <span>{{ section.settings.consent }}</span>
+            </label>
+          {%- endif -%}
+
+          <button class="btn btn--solid" type="submit">{{ section.settings.button | default: 'Envoyer' }}</button>
+
+          {%- if section.settings.note != blank -%}
+            <p class="t-label eform__note">{{ section.settings.note }}</p>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Contact",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre" },
+    { "type": "text", "id": "title", "label": "Titre" },
+    { "type": "richtext", "id": "text", "label": "Texte" },
+    { "type": "text", "id": "subjects", "label": "Sujets", "default": "Conseil joaillier, Commande, Service après-vente, Autre demande", "info": "Séparés par des virgules." },
+    { "type": "text", "id": "consent", "label": "Mention de consentement", "info": "À rédiger avec vos conditions réelles." },
+    { "type": "text", "id": "button", "label": "Bouton", "default": "Envoyer" },
+    { "type": "text", "id": "success", "label": "Message de confirmation", "default": "Merci. Votre message est bien arrivé." },
+    { "type": "text", "id": "note", "label": "Mention sous le formulaire" }
+  ],
+  "blocks": [
+    {
+      "type": "coordonnee",
+      "name": "Coordonnée",
+      "settings": [
+        { "type": "text", "id": "key", "label": "Intitulé" },
+        { "type": "text", "id": "value", "label": "Valeur", "info": "Laissez vide tant que l'information réelle n'est pas connue." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [{ "name": "Contact" }]
+}
+{% endschema %}

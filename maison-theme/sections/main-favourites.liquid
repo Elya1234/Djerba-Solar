@@ -1,0 +1,57 @@
+{%- comment -%}
+  Page Favoris. La liste vient du navigateur (voir maison-favourites.js) :
+  Shopify ne stocke pas encore ces favoris, c'est une limite assumée et
+  documentée. La carte produit reste la même que partout ailleurs.
+{%- endcomment -%}
+<section class="section" style="padding-top: calc(var(--h-header) + var(--s-6))" data-favourites>
+  <div class="page">
+    {% render 'maison-breadcrumb', current_title: section.settings.title | default: 'Vos favoris' %}
+
+    <div class="sel__head" style="margin-top: var(--s-5)">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="t-label eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h1 class="t-h1 line-mask" style="margin-top: var(--s-4)" data-reveal="mask">
+          <span>{{ section.settings.title | default: 'Vos favoris' }}</span>
+        </h1>
+      </div>
+      <p class="t-label t-muted"><span data-fav-count hidden>0</span></p>
+    </div>
+
+    <div class="cgrid__list" data-wide data-favourites-list></div>
+
+    <div data-favourites-empty hidden>
+      <div class="cempty">
+        <p class="t-h2 cempty__title">{{ section.settings.empty_title | default: "Vous n'avez pas encore de favoris." }}</p>
+        <p class="t-body-s t-muted measure">{{ section.settings.empty_text }}</p>
+        {%- if section.settings.empty_link != blank -%}
+          <a class="cta" href="{{ section.settings.empty_link }}">
+            {{ section.settings.empty_label | default: 'Découvrir les créations' }}<span class="cta__arrow" aria-hidden="true"></span>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if section.settings.note != blank -%}
+      <p class="t-label t-muted" style="margin-top: clamp(40px, 5vw, 72px)">{{ section.settings.note }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Favoris",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Label" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Vos favoris" },
+    { "type": "text", "id": "empty_title", "label": "Titre sans favori", "default": "Vous n'avez pas encore de favoris." },
+    { "type": "textarea", "id": "empty_text", "label": "Texte sans favori" },
+    { "type": "text", "id": "empty_label", "label": "Libellé du lien", "default": "Découvrir les créations" },
+    { "type": "url", "id": "empty_link", "label": "Lien" },
+    { "type": "text", "id": "note", "label": "Mention", "info": "Ex. : les favoris sont enregistrés dans ce navigateur." }
+  ],
+  "presets": [{ "name": "Favoris" }]
+}
+{% endschema %}

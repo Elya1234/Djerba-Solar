@@ -1,0 +1,12 @@
+<section class="section">
+  <div class="page">
+    <div class="cempty">
+      <h1 class="t-h2 cempty__title">{{ section.settings.title | default: "Cette page n'existe plus." }}</h1>
+      <p class="t-body-s t-muted measure">{{ section.settings.text | default: "Le lien a peut-être changé. Les créations de la Maison vous attendent." }}</p>
+      <a class="cta" href="{{ routes.root_url }}">{{ 'general.home' | t: default: 'Accueil' }}<span class="cta__arrow" aria-hidden="true"></span></a>
+    </div>
+  </div>
+</section>
+{% schema %}
+{ "name": "Page introuvable", "tag": "div", "settings": [ { "type": "text", "id": "title", "label": "Titre" }, { "type": "textarea", "id": "text", "label": "Texte" } ] }
+{% endschema %}

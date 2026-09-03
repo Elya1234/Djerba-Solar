@@ -1,0 +1,296 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "eyebrow": "Collection Vertiges",
+        "title": "L'éclat d'une signature",
+        "text": "Vingt-quatre pièces dessinées autour d'une seule ligne.",
+        "cta_label": "Découvrir la collection",
+        "position": "bottom-left",
+        "veil": 100,
+        "show_scroll": true,
+        "cta_link": "/collections/all"
+      }
+    },
+    "signature": {
+      "type": "signature",
+      "settings": {
+        "layout": "full",
+        "eyebrow": "La Maison présente",
+        "title": "Une création emblématique",
+        "text": "Le solitaire Vertige, serti à la main dans nos ateliers, en une seule journée de travail.",
+        "cta_label": "Découvrir",
+        "parallax": true,
+        "cta_link": "/collections/all"
+      }
+    },
+    "universes": {
+      "type": "universes",
+      "settings": {
+        "eyebrow": "Les univers",
+        "title": "Cinq façons de porter la lumière",
+        "cta_label": "Toutes les créations",
+        "cta_link": "/collections/all"
+      },
+      "blocks": {
+        "u1": {
+          "type": "univers",
+          "settings": {
+            "title": "Bagues",
+            "link": "/collections/bague"
+          }
+        },
+        "u2": {
+          "type": "univers",
+          "settings": {
+            "title": "Bracelets",
+            "link": "/collections/bracelets"
+          }
+        },
+        "u3": {
+          "type": "univers",
+          "settings": {
+            "title": "Colliers",
+            "link": "/collections/chaines-colliers"
+          }
+        },
+        "u4": {
+          "type": "univers",
+          "settings": {
+            "title": "Boucles d'oreilles",
+            "link": "/collections/boucles-d-oreilles"
+          }
+        },
+        "u5": {
+          "type": "univers",
+          "settings": {
+            "title": "Mariage",
+            "link": "/pages/mariage"
+          }
+        }
+      },
+      "block_order": [
+        "u1",
+        "u2",
+        "u3",
+        "u4",
+        "u5"
+      ]
+    },
+    "selection": {
+      "type": "selection",
+      "settings": {
+        "eyebrow": "Sélection",
+        "title": "Créations de la Maison",
+        "count": 3
+      }
+    },
+    "bridal": {
+      "type": "bridal",
+      "settings": {
+        "eyebrow": "Mariage",
+        "title": "Pour une promesse éternelle",
+        "label_1": "Bagues de fiançailles",
+        "label_2": "Alliances",
+        "parallax": true,
+        "link_1": "/collections/bagues-de-fiancailles",
+        "link_2": "/collections/alliances"
+      }
+    },
+    "craft": {
+      "type": "craft",
+      "settings": {
+        "eyebrow": "Le geste",
+        "title": "L'art du détail",
+        "cta_link": "/pages/savoir-faire"
+      },
+      "blocks": {
+        "s1": {
+          "type": "etape",
+          "settings": {
+            "title": "Le dessin",
+            "text": "Chaque pièce commence par un trait à la main, repris jusqu'à ce que la ligne tienne seule."
+          }
+        },
+        "s2": {
+          "type": "etape",
+          "settings": {
+            "title": "La cire",
+            "text": "Le volume est sculpté en cire avant d'être coulé, pour juger de l'objet porté."
+          }
+        },
+        "s3": {
+          "type": "etape",
+          "settings": {
+            "title": "Le sertissage",
+            "text": "Le sertisseur ouvre le métal, place la pierre, referme. Rien ne rattrape une erreur."
+          }
+        },
+        "s4": {
+          "type": "etape",
+          "settings": {
+            "title": "Le poli",
+            "text": "Trois passages successifs pour obtenir une surface qui ne renvoie aucune trace d'outil."
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ]
+    },
+    "stones": {
+      "type": "stones",
+      "settings": {
+        "eyebrow": "Les pierres",
+        "title": "Choisies une à une"
+      },
+      "blocks": {
+        "p1": {
+          "type": "pierre",
+          "settings": {
+            "title": "Diamant",
+            "note": "D à F",
+            "text": "Nous ne retenons que les pierres dont la taille laisse passer la lumière sans la retenir.",
+            "link": "/pages/diamants",
+            "link_label": "Découvrir"
+          }
+        },
+        "p2": {
+          "type": "pierre",
+          "settings": {
+            "title": "Émeraude",
+            "note": "Colombie",
+            "text": "Un vert profond, jamais retouché, accepté avec ses jardins.",
+            "link": "/pages/pierres-exceptionnelles",
+            "link_label": "Découvrir"
+          }
+        },
+        "p3": {
+          "type": "pierre",
+          "settings": {
+            "title": "Saphir",
+            "note": "Ceylan",
+            "text": "Le bleu velours des pierres de Ceylan, choisi pierre à pierre.",
+            "link": "/pages/pierres-exceptionnelles",
+            "link_label": "Découvrir"
+          }
+        },
+        "p4": {
+          "type": "pierre",
+          "settings": {
+            "title": "Rubis",
+            "note": "Birmanie",
+            "text": "Le rouge sang de pigeon, la teinte la plus rare et la plus recherchée.",
+            "link": "/pages/pierres-exceptionnelles",
+            "link_label": "Découvrir"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ]
+    },
+    "story": {
+      "type": "story",
+      "settings": {
+        "eyebrow": "La Maison",
+        "title": "Une histoire de passion et de précision",
+        "text": "Un atelier, une poignée d'artisans, et l'obstination de ne rien livrer qui ne soit juste.",
+        "cta_label": "Découvrir notre histoire",
+        "media_position": "right",
+        "cta_link": "/pages/notre-histoire"
+      }
+    },
+    "services": {
+      "type": "services",
+      "settings": {
+        "eyebrow": "Services",
+        "title": "Ce que la Maison vous propose"
+      },
+      "blocks": {
+        "sv1": {
+          "type": "service",
+          "settings": {
+            "title": "Conseil joaillier",
+            "text": "Un conseiller vous accompagne du choix de la pierre à la remise du bijou.",
+            "link": "/pages/conseil-joaillier"
+          }
+        },
+        "sv2": {
+          "type": "service",
+          "settings": {
+            "title": "Rendez-vous",
+            "text": "En boutique ou à distance, sur une heure réservée à vous seul.",
+            "link": "/pages/rendez-vous"
+          }
+        },
+        "sv3": {
+          "type": "service",
+          "settings": {
+            "title": "Écrin et gravure",
+            "text": "Écrin de la Maison et gravure intérieure, réalisée à l'atelier.",
+            "link": "/pages/ecrin-et-gravure"
+          }
+        },
+        "sv4": {
+          "type": "service",
+          "settings": {
+            "title": "Livraison",
+            "text": "Remise en main propre, assurée, sur rendez-vous.",
+            "link": "/pages/livraison-et-retours"
+          }
+        },
+        "sv5": {
+          "type": "service",
+          "settings": {
+            "title": "Entretien",
+            "text": "Nettoyage, repolissage et contrôle des sertis, à vie.",
+            "link": "/pages/entretien"
+          }
+        }
+      },
+      "block_order": [
+        "sv1",
+        "sv2",
+        "sv3",
+        "sv4",
+        "sv5"
+      ]
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {}
+    },
+    "surmesure": {
+      "type": "editorial-full-media",
+      "settings": {
+        "eyebrow": "Création sur-mesure",
+        "title": "Dessinée avec vous",
+        "text": "Choisissez le modèle, le métal, le pavage, la forme puis la pierre.",
+        "cta_label": "Créer votre bague",
+        "cta_link": "/pages/creer-votre-bague",
+        "parallax": true
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "signature",
+    "universes",
+    "selection",
+    "bridal",
+    "surmesure",
+    "craft",
+    "stones",
+    "story",
+    "services",
+    "newsletter"
+  ]
+}

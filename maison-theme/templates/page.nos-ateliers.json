@@ -1,0 +1,206 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-hero",
+      "settings": {
+        "eyebrow": "La Maison",
+        "title": "Nos ateliers",
+        "text": "Là où les pièces prennent forme.",
+        "align": "left",
+        "short": false,
+        "parallax": true,
+        "show_breadcrumb": true,
+        "parent_title": "La Maison",
+        "parent_link": "/pages/notre-histoire"
+      }
+    },
+    "atelier": {
+      "type": "editorial-image-text",
+      "settings": {
+        "eyebrow": "Le lieu",
+        "title": "L'atelier",
+        "text": "<p>Le lieu, son organisation, sa lumière. Les informations factuelles restent à renseigner.</p>",
+        "media_position": "left",
+        "background": "paper",
+        "ratio": "portrait"
+      },
+      "blocks": {
+        "f0": {
+          "type": "precision",
+          "settings": {
+            "key": "Ville",
+            "value": ""
+          }
+        },
+        "f1": {
+          "type": "precision",
+          "settings": {
+            "key": "Ouvert depuis",
+            "value": ""
+          }
+        },
+        "f2": {
+          "type": "precision",
+          "settings": {
+            "key": "Artisans",
+            "value": ""
+          }
+        },
+        "f3": {
+          "type": "precision",
+          "settings": {
+            "key": "Superficie",
+            "value": ""
+          }
+        }
+      },
+      "block_order": [
+        "f0",
+        "f1",
+        "f2",
+        "f3"
+      ]
+    },
+    "gestes": {
+      "type": "editorial-image-text",
+      "settings": {
+        "eyebrow": "Les gestes",
+        "title": "Les gestes",
+        "text": "<p>Joailliers, sertisseurs, polisseurs : chaque métier a sa main, et chaque main sa spécialité.</p>",
+        "media_position": "right",
+        "background": "surface",
+        "ratio": "portrait"
+      }
+    },
+    "etapes": {
+      "type": "editorial-steps",
+      "settings": {
+        "eyebrow": "Les métiers",
+        "title": "L'atelier au quotidien",
+        "text": "",
+        "numbered": false
+      },
+      "blocks": {
+        "s0": {
+          "type": "etape",
+          "settings": {
+            "title": "Les outils",
+            "text": "Établi, bocfil, brunissoir : des outils qui n'ont pas changé depuis un siècle."
+          }
+        },
+        "s1": {
+          "type": "etape",
+          "settings": {
+            "title": "Le sertissage",
+            "text": "Le centième de millimètre se voit à l'œil nu sur un serti."
+          }
+        },
+        "s2": {
+          "type": "etape",
+          "settings": {
+            "title": "Le polissage",
+            "text": "Le poli final se juge à la lumière rasante."
+          }
+        },
+        "s3": {
+          "type": "etape",
+          "settings": {
+            "title": "Le contrôle",
+            "text": "Chaque pièce passe entre trois paires de mains."
+          }
+        }
+      },
+      "block_order": [
+        "s0",
+        "s1",
+        "s2",
+        "s3"
+      ]
+    },
+    "video": {
+      "type": "editorial-full-media",
+      "settings": {
+        "eyebrow": "Vidéo",
+        "title": "L'atelier en mouvement",
+        "text": "Emplacement prévu pour une vidéo d'atelier.",
+        "parallax": true
+      }
+    },
+    "galerie": {
+      "type": "editorial-gallery",
+      "settings": {
+        "eyebrow": "Galerie",
+        "title": "L'atelier en images"
+      },
+      "blocks": {
+        "g0": {
+          "type": "image",
+          "settings": {
+            "caption": "L'établi"
+          }
+        },
+        "g1": {
+          "type": "image",
+          "settings": {
+            "caption": "Le serti"
+          }
+        },
+        "g2": {
+          "type": "image",
+          "settings": {
+            "caption": "Le poli"
+          }
+        },
+        "g3": {
+          "type": "image",
+          "settings": {
+            "caption": "Le contrôle"
+          }
+        },
+        "g4": {
+          "type": "image",
+          "settings": {
+            "caption": "Les outils"
+          }
+        },
+        "g5": {
+          "type": "image",
+          "settings": {
+            "caption": "La lumière"
+          }
+        }
+      },
+      "block_order": [
+        "g0",
+        "g1",
+        "g2",
+        "g3",
+        "g4",
+        "g5"
+      ]
+    },
+    "cta": {
+      "type": "editorial-cta",
+      "settings": {
+        "eyebrow": "",
+        "title": "Visiter l'atelier",
+        "text": "Les visites se font sur rendez-vous.",
+        "dark": false,
+        "align": "center",
+        "label_1": "Prendre rendez-vous",
+        "link_1": "/pages/rendez-vous",
+        "label_2": "Rejoindre la Maison",
+        "link_2": "/pages/recrutement"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "atelier",
+    "gestes",
+    "etapes",
+    "video",
+    "galerie",
+    "cta"
+  ]
+}

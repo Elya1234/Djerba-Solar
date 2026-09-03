@@ -1,0 +1,57 @@
+<section class="section section--tight news">
+  <div class="page">
+    <div class="news__inner">
+      {%- if section.settings.title != blank -%}
+        <h2 class="t-h2 line-mask" data-reveal="mask"><span>{{ section.settings.title }}</span></h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <p class="t-body-s t-muted" data-reveal style="--i: 1">{{ section.settings.text }}</p>
+      {%- endif -%}
+
+      {%- form 'customer', class: 'news__form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <label class="visually-hidden" for="NewsletterEmail">{{ 'newsletter.email' | t: default: 'Adresse e-mail' }}</label>
+        <div class="news__field">
+          <input
+            class="news__input"
+            id="NewsletterEmail"
+            type="email"
+            name="contact[email]"
+            autocomplete="email"
+            placeholder="{{ section.settings.placeholder | default: 'Votre adresse e-mail' }}"
+            required
+          >
+        </div>
+        <button class="cta news__submit" type="submit">
+          {{ section.settings.button | default: "S'inscrire" }}<span class="cta__arrow" aria-hidden="true"></span>
+        </button>
+
+        {%- if form.posted_successfully? -%}
+          <p class="news__ok t-label" role="status">{{ section.settings.success | default: 'Merci. Vous recevrez bientôt nos nouvelles créations.' }}</p>
+        {%- elsif form.errors -%}
+          <p class="t-label" role="alert">{{ form.errors.messages['email'] }}</p>
+        {%- endif -%}
+      {%- endform -%}
+
+      {%- if section.settings.note != blank -%}
+        <p class="news__note" data-reveal style="--i: 2">{{ section.settings.note }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Titre", "default": "Entrez dans l'univers de la Maison" },
+    { "type": "textarea", "id": "text", "label": "Texte", "default": "Recevez en avant-première nos nouvelles créations et nos histoires." },
+    { "type": "text", "id": "placeholder", "label": "Champ", "default": "Votre adresse e-mail" },
+    { "type": "text", "id": "button", "label": "Bouton", "default": "S'inscrire" },
+    { "type": "text", "id": "success", "label": "Message de confirmation", "default": "Merci. Vous recevrez bientôt nos nouvelles créations." },
+    { "type": "text", "id": "note", "label": "Mention", "default": "Désinscription possible à tout moment." }
+  ],
+  "presets": [{ "name": "Newsletter" }]
+}
+{% endschema %}

@@ -1,0 +1,76 @@
+{%- comment -%}
+  Sous-catégories. La liste vient d'un menu Shopify : par défaut le menu dont
+  le handle est celui de la collection (ex. menu « bagues » pour /collections/bagues).
+  Les vignettes utilisent automatiquement l'image de la collection liée,
+  donc les photos se changent dans Shopify sans toucher au code.
+{%- endcomment -%}
+{%- liquid
+  assign menu_handle = section.settings.menu
+  if menu_handle == blank
+    assign menu_handle = collection.handle
+  endif
+  assign menu = linklists[menu_handle]
+-%}
+
+{%- if menu.links.size > 0 -%}
+  <nav class="subnav" aria-label="{{ section.settings.title | default: 'Sous-catégories' | escape }}">
+    <div class="page">
+      {%- if section.settings.title != blank -%}
+        <p class="t-label eyebrow subnav__head" data-reveal>{{ section.settings.title }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.layout == 'images' -%}
+        <div class="subnav__rail">
+          {%- for link in menu.links -%}
+            {%- liquid
+              assign thumb = blank
+              if link.type == 'collection_link' and link.object.image
+                assign thumb = link.object.image
+              endif
+            -%}
+            <a class="subnav__item" href="{{ link.url }}" data-reveal style="--i: {{ forloop.index0 }}"
+               {% if link.current %}aria-current="page"{% endif %}>
+              <div class="frame frame--zoom subnav__frame">
+                {%- if thumb != blank -%}
+                  {{ thumb | image_url: width: 800 | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 20vw, 62vw', widths: '300,500,800', alt: link.title }}
+                {%- else -%}
+                  {% render 'maison-placeholder', label: link.title %}
+                {%- endif -%}
+              </div>
+              <span class="t-nav subnav__name">
+                {{ link.title }}<span class="cta__arrow" aria-hidden="true"></span>
+              </span>
+            </a>
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <div class="subnav__links">
+          {%- for link in menu.links -%}
+            <a class="subnav__link t-nav link-rule" href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>
+              {{ link.title }}
+            </a>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </nav>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Sous-catégories",
+  "tag": "div",
+  "settings": [
+    { "type": "paragraph", "content": "Sans menu choisi, la section cherche automatiquement le menu portant le même handle que la collection (ex. menu « bagues »). Les vignettes reprennent l'image de chaque collection liée." },
+    { "type": "link_list", "id": "menu", "label": "Menu des sous-catégories" },
+    { "type": "text", "id": "title", "label": "Label" },
+    { "type": "select", "id": "layout", "label": "Présentation", "default": "images",
+      "options": [
+        { "value": "images", "label": "Vignettes" },
+        { "value": "links", "label": "Liens en filets" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Sous-catégories" }]
+}
+{% endschema %}

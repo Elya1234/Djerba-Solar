@@ -1,0 +1,138 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-hero",
+      "settings": {
+        "eyebrow": "Les diamants",
+        "title": "Certificats & authenticité",
+        "text": "Ce qui accompagne une pierre compte autant que la pierre.",
+        "align": "left",
+        "short": true,
+        "parallax": true,
+        "show_breadcrumb": true,
+        "parent_title": "Diamants",
+        "parent_link": "/pages/diamants"
+      }
+    },
+    "intro": {
+      "type": "editorial-image-text",
+      "settings": {
+        "eyebrow": "Le document",
+        "title": "Le certificat",
+        "text": "<p>Précisez quels laboratoires certifient vos pierres et à partir de quel poids. Tant que ces champs sont vides, aucune affirmation n'est faite.</p>",
+        "media_position": "left",
+        "background": "paper",
+        "ratio": "portrait"
+      },
+      "blocks": {
+        "f0": {
+          "type": "precision",
+          "settings": {
+            "key": "Laboratoire",
+            "value": ""
+          }
+        },
+        "f1": {
+          "type": "precision",
+          "settings": {
+            "key": "Seuil de certification",
+            "value": ""
+          }
+        },
+        "f2": {
+          "type": "precision",
+          "settings": {
+            "key": "Numéro gravé",
+            "value": ""
+          }
+        },
+        "f3": {
+          "type": "precision",
+          "settings": {
+            "key": "Document remis",
+            "value": ""
+          }
+        },
+        "f4": {
+          "type": "precision",
+          "settings": {
+            "key": "Lien de vérification",
+            "value": ""
+          }
+        }
+      },
+      "block_order": [
+        "f0",
+        "f1",
+        "f2",
+        "f3",
+        "f4"
+      ]
+    },
+    "etapes": {
+      "type": "editorial-steps",
+      "settings": {
+        "eyebrow": "Le contenu",
+        "title": "Ce que contient un certificat",
+        "text": "",
+        "numbered": false
+      },
+      "blocks": {
+        "s0": {
+          "type": "etape",
+          "settings": {
+            "title": "L'identité de la pierre",
+            "text": "Poids, dimensions, proportions."
+          }
+        },
+        "s1": {
+          "type": "etape",
+          "settings": {
+            "title": "Les quatre critères",
+            "text": "Carat, taille, couleur, pureté."
+          }
+        },
+        "s2": {
+          "type": "etape",
+          "settings": {
+            "title": "La traçabilité",
+            "text": "L'origine déclarée et la chaîne de contrôle."
+          }
+        },
+        "s3": {
+          "type": "etape",
+          "settings": {
+            "title": "L'authenticité",
+            "text": "Le document accompagne la pièce à vie."
+          }
+        }
+      },
+      "block_order": [
+        "s0",
+        "s1",
+        "s2",
+        "s3"
+      ]
+    },
+    "cta": {
+      "type": "editorial-cta",
+      "settings": {
+        "eyebrow": "",
+        "title": "Une question sur une pierre ?",
+        "text": "",
+        "dark": false,
+        "align": "center",
+        "label_1": "Contacter la Maison",
+        "link_1": "/pages/contact",
+        "label_2": "Comprendre les 4C",
+        "link_2": "/pages/les-4c"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "intro",
+    "etapes",
+    "cta"
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-hero",
+      "settings": {
+        "eyebrow": "La Maison",
+        "title": "Mariage",
+        "text": "Pour une promesse éternelle.",
+        "align": "left",
+        "short": false,
+        "parallax": true,
+        "show_breadcrumb": true
+      }
+    },
+    "univers": {
+      "type": "editorial-cards",
+      "settings": {
+        "eyebrow": "Choisir",
+        "title": "Les deux chemins",
+        "per_row": 2,
+        "style": "image",
+        "background": "paper",
+        "ratio": "portrait"
+      },
+      "blocks": {
+        "c0": {
+          "type": "carte",
+          "settings": {
+            "title": "Bagues de fiançailles",
+            "text": "Solitaires et créations serties.",
+            "link": "/collections/bagues-de-fiancailles",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c1": {
+          "type": "carte",
+          "settings": {
+            "title": "Alliances",
+            "text": "Fines, pavées ou gravées.",
+            "link": "/collections/alliances",
+            "cta_label": "Découvrir"
+          }
+        }
+      },
+      "block_order": [
+        "c0",
+        "c1"
+      ]
+    },
+    "acces": {
+      "type": "editorial-cards",
+      "settings": {
+        "eyebrow": "Services",
+        "title": "Aller plus loin",
+        "per_row": 3,
+        "style": "image",
+        "background": "surface",
+        "ratio": "landscape"
+      },
+      "blocks": {
+        "c0": {
+          "type": "carte",
+          "settings": {
+            "title": "Solitaires",
+            "text": "Le classique de la Maison.",
+            "link": "/collections/bagues-de-fiancailles",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c1": {
+          "type": "carte",
+          "settings": {
+            "title": "Alliances femme",
+            "text": "À porter chaque jour.",
+            "link": "/collections/alliances",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c2": {
+          "type": "carte",
+          "settings": {
+            "title": "Alliances homme",
+            "text": "Sobres et confortables.",
+            "link": "/collections/alliances",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c3": {
+          "type": "carte",
+          "settings": {
+            "title": "Diamants",
+            "text": "Comprendre la pierre.",
+            "link": "/pages/diamants",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c4": {
+          "type": "carte",
+          "settings": {
+            "title": "Guide des tailles",
+            "text": "Mesurer son doigt sans se tromper.",
+            "link": "/pages/guide-des-tailles",
+            "cta_label": "Découvrir"
+          }
+        },
+        "c5": {
+          "type": "carte",
+          "settings": {
+            "title": "Conseil personnalisé",
+            "text": "Un conseiller vous accompagne.",
+            "link": "/pages/conseil-joaillier",
+            "cta_label": "Découvrir"
+          }
+        }
+      },
+      "block_order": [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5"
+      ]
+    },
+    "emotion": {
+      "type": "editorial-full-media",
+      "settings": {
+        "eyebrow": "Mariage",
+        "title": "Le jour venu",
+        "text": "Deux mains, un seul geste, une promesse dessinée pour durer.",
+        "parallax": true
+      }
+    },
+    "cta": {
+      "type": "editorial-cta",
+      "settings": {
+        "eyebrow": "",
+        "title": "Préparer votre choix",
+        "text": "",
+        "dark": false,
+        "align": "center",
+        "label_1": "Découvrir les bagues de fiançailles",
+        "link_1": "/collections/bagues-de-fiancailles",
+        "label_2": "Créer votre bague",
+        "link_2": "/pages/creer-votre-bague"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "univers",
+    "acces",
+    "emotion",
+    "cta"
+  ]
+}

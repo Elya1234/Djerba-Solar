@@ -1,0 +1,8 @@
+{%- comment -%}
+  Aplat de substitution. Pas de fausse photographie de bijou :
+  un aplat neutre qui signale l'emplacement, remplaçable depuis Shopify.
+  Usage : {% render 'maison-placeholder', label: 'Bagues — image desktop' %}
+{%- endcomment -%}
+<div class="ph{% if variant == 'b' %} ph--b{% endif %}{% if variant == 'dark' %} ph--dark{% endif %}" aria-hidden="true">
+  <span class="ph__label t-label">{{ label | default: 'Image à charger' }}</span>
+</div>

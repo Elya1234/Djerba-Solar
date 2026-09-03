@@ -1,0 +1,339 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-hero",
+      "settings": {
+        "eyebrow": "Service client",
+        "title": "Questions fréquentes",
+        "text": "",
+        "align": "left",
+        "short": true,
+        "parallax": true,
+        "show_breadcrumb": true
+      }
+    },
+    "faq": {
+      "type": "editorial-faq",
+      "settings": {
+        "eyebrow": "Service client",
+        "title": "Vos questions"
+      },
+      "blocks": {
+        "cat0": {
+          "type": "categorie",
+          "settings": {
+            "title": "Commandes"
+          }
+        },
+        "q0_0": {
+          "type": "question",
+          "settings": {
+            "question": "Comment passer commande ?",
+            "answer": ""
+          }
+        },
+        "q0_1": {
+          "type": "question",
+          "settings": {
+            "question": "Puis-je modifier ma commande ?",
+            "answer": ""
+          }
+        },
+        "q0_2": {
+          "type": "question",
+          "settings": {
+            "question": "Comment savoir si une pièce est disponible ?",
+            "answer": ""
+          }
+        },
+        "cat1": {
+          "type": "categorie",
+          "settings": {
+            "title": "Paiement"
+          }
+        },
+        "q1_0": {
+          "type": "question",
+          "settings": {
+            "question": "Quels moyens de paiement acceptez-vous ?",
+            "answer": ""
+          }
+        },
+        "q1_1": {
+          "type": "question",
+          "settings": {
+            "question": "Le paiement est-il sécurisé ?",
+            "answer": ""
+          }
+        },
+        "q1_2": {
+          "type": "question",
+          "settings": {
+            "question": "Proposez-vous le paiement en plusieurs fois ?",
+            "answer": ""
+          }
+        },
+        "cat2": {
+          "type": "categorie",
+          "settings": {
+            "title": "Livraison"
+          }
+        },
+        "q2_0": {
+          "type": "question",
+          "settings": {
+            "question": "Quels sont les délais ?",
+            "answer": ""
+          }
+        },
+        "q2_1": {
+          "type": "question",
+          "settings": {
+            "question": "Livrez-vous à l'étranger ?",
+            "answer": ""
+          }
+        },
+        "q2_2": {
+          "type": "question",
+          "settings": {
+            "question": "La livraison est-elle assurée ?",
+            "answer": ""
+          }
+        },
+        "cat3": {
+          "type": "categorie",
+          "settings": {
+            "title": "Retours"
+          }
+        },
+        "q3_0": {
+          "type": "question",
+          "settings": {
+            "question": "Quel est le délai de retour ?",
+            "answer": ""
+          }
+        },
+        "q3_1": {
+          "type": "question",
+          "settings": {
+            "question": "Comment procéder à un échange ?",
+            "answer": ""
+          }
+        },
+        "cat4": {
+          "type": "categorie",
+          "settings": {
+            "title": "Bijoux"
+          }
+        },
+        "q4_0": {
+          "type": "question",
+          "settings": {
+            "question": "Vos bijoux sont-ils en or 18 carats ?",
+            "answer": ""
+          }
+        },
+        "q4_1": {
+          "type": "question",
+          "settings": {
+            "question": "Vos bijoux sont-ils poinçonnés ?",
+            "answer": ""
+          }
+        },
+        "cat5": {
+          "type": "categorie",
+          "settings": {
+            "title": "Tailles"
+          }
+        },
+        "q5_0": {
+          "type": "question",
+          "settings": {
+            "question": "Comment connaître ma taille de bague ?",
+            "answer": ""
+          }
+        },
+        "q5_1": {
+          "type": "question",
+          "settings": {
+            "question": "Une bague peut-elle être mise à taille ?",
+            "answer": ""
+          }
+        },
+        "cat6": {
+          "type": "categorie",
+          "settings": {
+            "title": "Entretien"
+          }
+        },
+        "q6_0": {
+          "type": "question",
+          "settings": {
+            "question": "Comment nettoyer mon bijou ?",
+            "answer": ""
+          }
+        },
+        "q6_1": {
+          "type": "question",
+          "settings": {
+            "question": "Proposez-vous un service d'entretien ?",
+            "answer": ""
+          }
+        },
+        "cat7": {
+          "type": "categorie",
+          "settings": {
+            "title": "Diamants"
+          }
+        },
+        "q7_0": {
+          "type": "question",
+          "settings": {
+            "question": "Comment choisissez-vous vos diamants ?",
+            "answer": ""
+          }
+        },
+        "q7_1": {
+          "type": "question",
+          "settings": {
+            "question": "Que signifient les 4C ?",
+            "answer": ""
+          }
+        },
+        "q7_2": {
+          "type": "question",
+          "settings": {
+            "question": "Proposez-vous des diamants de couleur ?",
+            "answer": ""
+          }
+        },
+        "cat8": {
+          "type": "categorie",
+          "settings": {
+            "title": "Certificats"
+          }
+        },
+        "q8_0": {
+          "type": "question",
+          "settings": {
+            "question": "Vos diamants sont-ils certifiés ?",
+            "answer": ""
+          }
+        },
+        "q8_1": {
+          "type": "question",
+          "settings": {
+            "question": "Que contient le certificat ?",
+            "answer": ""
+          }
+        },
+        "cat9": {
+          "type": "categorie",
+          "settings": {
+            "title": "Rendez-vous"
+          }
+        },
+        "q9_0": {
+          "type": "question",
+          "settings": {
+            "question": "Comment prendre rendez-vous ?",
+            "answer": ""
+          }
+        },
+        "q9_1": {
+          "type": "question",
+          "settings": {
+            "question": "La visite est-elle payante ?",
+            "answer": ""
+          }
+        },
+        "cat10": {
+          "type": "categorie",
+          "settings": {
+            "title": "Création sur-mesure"
+          }
+        },
+        "q10_0": {
+          "type": "question",
+          "settings": {
+            "question": "Comment se déroule une création sur-mesure ?",
+            "answer": ""
+          }
+        },
+        "q10_1": {
+          "type": "question",
+          "settings": {
+            "question": "Puis-je faire retravailler une pierre de famille ?",
+            "answer": ""
+          }
+        },
+        "q10_2": {
+          "type": "question",
+          "settings": {
+            "question": "Quel est le délai de fabrication ?",
+            "answer": ""
+          }
+        }
+      },
+      "block_order": [
+        "cat0",
+        "q0_0",
+        "q0_1",
+        "q0_2",
+        "cat1",
+        "q1_0",
+        "q1_1",
+        "q1_2",
+        "cat2",
+        "q2_0",
+        "q2_1",
+        "q2_2",
+        "cat3",
+        "q3_0",
+        "q3_1",
+        "cat4",
+        "q4_0",
+        "q4_1",
+        "cat5",
+        "q5_0",
+        "q5_1",
+        "cat6",
+        "q6_0",
+        "q6_1",
+        "cat7",
+        "q7_0",
+        "q7_1",
+        "q7_2",
+        "cat8",
+        "q8_0",
+        "q8_1",
+        "cat9",
+        "q9_0",
+        "q9_1",
+        "cat10",
+        "q10_0",
+        "q10_1",
+        "q10_2"
+      ]
+    },
+    "cta": {
+      "type": "editorial-cta",
+      "settings": {
+        "eyebrow": "",
+        "title": "Vous ne trouvez pas votre réponse ?",
+        "text": "",
+        "dark": false,
+        "align": "center",
+        "label_1": "Contacter la Maison",
+        "link_1": "/pages/contact",
+        "label_2": "Prendre rendez-vous",
+        "link_2": "/pages/rendez-vous"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "faq",
+    "cta"
+  ]
+}

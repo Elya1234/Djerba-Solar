@@ -1,0 +1,12 @@
+<section class="section">
+  <div class="page">
+    <div style="max-width: 68ch">
+      {% render 'maison-breadcrumb', current_title: page.title %}
+      <h1 class="t-h1 line-mask" style="margin-top: var(--s-5)" data-reveal="mask"><span>{{ page.title }}</span></h1>
+      <div class="t-body" style="margin-top: var(--s-6)" data-reveal>{{ page.content }}</div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{ "name": "Page", "tag": "div", "settings": [] }
+{% endschema %}

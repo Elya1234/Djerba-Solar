@@ -1,0 +1,46 @@
+{%- comment -%}
+  MAISON — Mini-panier
+  Unique système de panier du thème : la fiche produit, l'en-tête et la page
+  panier passent tous par lui. Les lignes sont rendues par maison-cart.js à
+  partir des données renvoyées par Shopify.
+{%- endcomment -%}
+<div class="mcart" id="MaisonMiniCart" data-modal data-mini-cart role="dialog" aria-modal="true"
+     aria-label="{{ 'cart.title' | t: default: 'Votre panier' }}" aria-hidden="true">
+  <div class="mcart__bar">
+    <p class="t-label">{{ 'cart.title' | t: default: 'Votre panier' }} <span data-cart-count>0</span></p>
+    <button class="hdr__util" type="button" data-modal-close data-modal-initial>
+      {% render 'maison-icon', icon: 'close' %}
+      <span class="visually-hidden">{{ 'general.close' | t: default: 'Fermer' }}</span>
+    </button>
+  </div>
+
+  <div class="mcart__body">
+    <div data-cart-empty hidden>
+      <div class="mcart__empty">
+        <p class="t-h3">{{ 'cart.empty' | t: default: 'Votre panier est vide.' }}</p>
+        {%- if settings.cart_empty_text != blank -%}
+          <p class="t-body-s t-muted">{{ settings.cart_empty_text }}</p>
+        {%- endif -%}
+        <a class="cta" href="{{ settings.cart_empty_link | default: routes.all_products_collection_url }}" data-modal-close>
+          {{ settings.cart_empty_label | default: 'Découvrir nos créations' }}<span class="cta__arrow" aria-hidden="true"></span>
+        </a>
+      </div>
+    </div>
+
+    <div data-cart-filled hidden>
+      <div data-cart-lines></div>
+    </div>
+  </div>
+
+  <div class="mcart__foot" data-cart-filled hidden>
+    <p class="mcart__total">
+      <span class="t-label">{{ 'cart.subtotal' | t: default: 'Sous-total' }}</span>
+      <span class="t-body" data-cart-subtotal></span>
+    </p>
+    {%- if settings.cart_footer_note != blank -%}
+      <p class="mcart__note">{{ settings.cart_footer_note }}</p>
+    {%- endif -%}
+    <a class="btn btn--solid" href="{{ routes.cart_url }}/checkout">{{ 'cart.checkout' | t: default: 'Passer au paiement' }}</a>
+    <a class="cta" href="{{ routes.cart_url }}">{{ 'cart.view' | t: default: 'Voir le panier' }}<span class="cta__arrow" aria-hidden="true"></span></a>
+  </div>
+</div>

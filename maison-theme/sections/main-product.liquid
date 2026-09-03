@@ -1,0 +1,469 @@
+{%- comment -%}
+  MAISON — Fiche produit
+  Toutes les données viennent de Shopify : product.media, options_with_values,
+  variantes, metafields. Rien n'est simulé en JavaScript.
+{%- endcomment -%}
+
+{%- liquid
+  assign mf = product.metafields.custom
+  assign variant = product.selected_or_first_available_variant
+  assign lead = mf.delai_fabrication
+  assign unique = mf.piece_unique
+
+  comment
+    Détection des options adaptée aux catalogues réels : le nom de l'option
+    peut être « Métal », « Couleur », « Or »… ou tout autre chose. On regarde
+    donc aussi les VALEURS : une option dont les valeurs contiennent « or
+    blanc », « platine » ou « argent » est un métal ; une option dont les
+    valeurs sont des nombres de 40 à 70 est une taille de bague.
+  endcomment
+  assign size_words = 'taille,size,tour de doigt,doigt,pointure' | split: ','
+  assign swatch_words = 'métal,metal,couleur,color,finition,teinte' | split: ','
+  assign metal_values = 'or blanc,or jaune,or rose,or gris,platine,argent,vermeil' | split: ','
+-%}
+
+<div class="pdp"
+  data-product
+  data-url="{{ product.url }}"
+  data-money-format="{{ shop.money_format | strip_html | escape }}"
+  data-error-sold-out="{{ 'products.error_sold_out' | t: default: 'Cette création est épuisée.' | escape }}"
+  data-error-combination="{{ 'products.error_combination' | t: default: 'Cette combinaison n\'est pas disponible.' | escape }}"
+>
+  <div class="page">
+    {% render 'maison-breadcrumb',
+      current_title: product.title,
+      parent_title: collection.title | default: product.collections.first.title,
+      parent_url: collection.url | default: product.collections.first.url %}
+
+    <div class="pdp__grid" style="margin-top: var(--s-5)">
+
+      {%- comment -%} ---------- GALERIE ---------- {%- endcomment -%}
+      <div class="pgal">
+        <div class="pgal__track" data-gallery-track>
+          {%- for media in product.media -%}
+            <div class="pgal__slide" data-slide data-media-id="{{ media.id }}">
+              {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+                <div class="pgal__frame">
+                  {%- if media.media_type == 'video' -%}
+                    {{ media | video_tag: image_size: '1200x', controls: true, muted: true, playsinline: true, preload: 'none' }}
+                  {%- else -%}
+                    {{ media | external_video_tag }}
+                  {%- endif -%}
+                </div>
+              {%- else -%}
+                <button class="pgal__frame" type="button" data-zoom-open aria-label="{{ 'products.zoom' | t: default: 'Agrandir' }} — {{ product.title | escape }}">
+                  {%- if forloop.first -%}
+                    {{ media | image_url: width: 1600 | image_tag:
+                       loading: 'eager', fetchpriority: 'high',
+                       sizes: '(min-width: 990px) 60vw, 100vw',
+                       widths: '600,900,1200,1600',
+                       alt: media.alt | default: product.title }}
+                  {%- else -%}
+                    {{ media | image_url: width: 1600 | image_tag:
+                       loading: 'lazy',
+                       sizes: '(min-width: 990px) 60vw, 100vw',
+                       widths: '600,900,1200,1600',
+                       alt: media.alt | default: product.title }}
+                  {%- endif -%}
+                </button>
+              {%- endif -%}
+            </div>
+          {%- else -%}
+            <div class="pgal__slide" data-slide>
+              <div class="pgal__frame">{% render 'maison-placeholder', label: product.title %}</div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- if product.media.size > 1 -%}
+          <p class="pgal__counter t-label" data-gallery-counter aria-hidden="true">1 / {{ product.media.size }}</p>
+          <div class="pgal__thumbs">
+            {%- for media in product.media -%}
+              <button class="pgal__thumb" type="button" data-gallery-thumb="{{ forloop.index0 }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}">
+                {{ media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}
+                <span class="visually-hidden">{{ 'products.view' | t: default: 'Vue' }} {{ forloop.index }}</span>
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} ---------- INFORMATIONS ---------- {%- endcomment -%}
+      <div class="pinfo">
+        {%- assign col = product.collections.first -%}
+        {%- if col != blank -%}
+          <a class="t-label pinfo__collection" href="{{ col.url }}">{{ col.title }}</a>
+        {%- endif -%}
+
+        <div>
+          {%- comment -%}
+            Les catalogues importés ont souvent des titres très longs, optimisés
+            pour le référencement. Le metafield custom.titre_court permet
+            d'afficher un nom de Maison sans rien perdre du titre Shopify.
+          {%- endcomment -%}
+          <h1 class="t-h1 pinfo__title">{{ mf.titre_court | default: product.title }}</h1>
+          {%- if mf.description_courte != blank -%}
+            <p class="pinfo__short" style="margin-top: var(--s-3)">{{ mf.description_courte }}</p>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%}
+          Un prix à zéro signale un produit dont le prix n'a pas encore été
+          renseigné : on n'affiche jamais « 0,00 € » sur une boutique de
+          joaillerie. Le libellé et la destination sont réglables.
+        {%- endcomment -%}
+        {%- if variant.price == 0 -%}
+          <div class="pinfo__price">
+            <span class="t-body">{{ section.settings.price_on_request | default: 'Prix sur demande' }}</span>
+          </div>
+        {%- else -%}
+          <div class="pinfo__price">
+            <span class="t-body" data-variant-price>{{ variant.price | money }}</span>
+            <span class="pinfo__compare" data-variant-compare {% unless variant.compare_at_price > variant.price %}hidden{% endunless %}>
+              {{ variant.compare_at_price | money }}
+            </span>
+          </div>
+        {%- endif -%}
+
+        {%- liquid
+          if unique
+            assign stock_label = 'Pièce unique'
+          elsif variant.available and lead != blank
+            assign stock_label = 'Fabrication sous ' | append: lead
+          elsif variant.available and variant.inventory_management == blank
+            assign stock_label = 'Sur commande'
+          elsif variant.available and variant.inventory_quantity > 0
+            assign stock_label = 'En stock'
+          elsif variant.available
+            assign stock_label = 'Sur commande'
+          else
+            assign stock_label = 'Épuisé'
+          endif
+        -%}
+        <p class="pstock t-label" data-variant-stock data-state="{% if variant.available %}in{% else %}out{% endif %}">
+          <span class="pstock__dot" aria-hidden="true"></span>
+          <span data-variant-stock-text>{{ stock_label }}</span>
+        </p>
+
+        {%- comment -%} ---------- OPTIONS ---------- {%- endcomment -%}
+        <form method="post" action="{{ routes.cart_add_url }}" data-product-form id="ProductForm">
+          <input type="hidden" name="form_type" value="product">
+          <input type="hidden" name="utf8" value="✓">
+          <input type="hidden" name="id" value="{{ variant.id }}" data-variant-id>
+
+          {%- unless product.has_only_default_variant -%}
+            {%- for option in product.options_with_values -%}
+              {%- liquid
+                assign name = option.name | downcase
+                assign is_swatch = false
+                for word in swatch_words
+                  if name contains word
+                    assign is_swatch = true
+                  endif
+                endfor
+                assign is_size = false
+                for word in size_words
+                  if name contains word
+                    assign is_size = true
+                  endif
+                endfor
+
+                comment Repli sur les valeurs quand le nom de l'option ne dit rien endcomment
+                unless is_swatch
+                  for value in option.values
+                    assign lowered = value | downcase
+                    for metal in metal_values
+                      if lowered contains metal
+                        assign is_swatch = true
+                      endif
+                    endfor
+                  endfor
+                endunless
+
+                unless is_size or is_swatch
+                  assign numeric_values = 0
+                  for value in option.values
+                    assign as_number = value | plus: 0
+                    if as_number >= 40 and as_number <= 70
+                      assign numeric_values = numeric_values | plus: 1
+                    endif
+                  endfor
+                  if numeric_values == option.values.size and option.values.size > 1
+                    assign is_size = true
+                  endif
+                endunless
+              -%}
+              <fieldset class="popt {% if is_swatch %}popt--swatch{% endif %}" data-option-index="{{ forloop.index0 }}" style="margin-bottom: var(--s-5)">
+                <div class="popt__head">
+                  <legend class="t-label">{{ option.name }}</legend>
+                  {%- if is_size and section.settings.show_size_guide -%}
+                    <button class="t-label link-quiet" type="button" data-size-guide-open>
+                      {{ 'products.size_guide' | t: default: 'Guide des tailles' }}
+                    </button>
+                  {%- else -%}
+                    <span class="popt__value" data-option-value>{{ option.selected_value }}</span>
+                  {%- endif -%}
+                </div>
+                <div class="popt__list">
+                  {%- for value in option.values -%}
+                    <div class="popt__item">
+                      <input
+                        type="radio"
+                        id="Opt-{{ option.position }}-{{ forloop.index }}"
+                        name="option-{{ option.position }}"
+                        value="{{ value | escape }}"
+                        {% if option.selected_value == value %}checked{% endif %}
+                      >
+                      <label class="popt__label {% if is_swatch %}popt__label--{{ value | handleize }}{% endif %}" for="Opt-{{ option.position }}-{{ forloop.index }}">
+                        {%- if is_swatch -%}
+                          <span class="visually-hidden">{{ value }}</span>
+                        {%- else -%}
+                          {{ value }}
+                        {%- endif -%}
+                      </label>
+                    </div>
+                  {%- endfor -%}
+                </div>
+                {%- if is_size -%}
+                  <p class="popt__value" style="margin-top: var(--s-2)"><span data-option-value>{{ option.selected_value }}</span></p>
+                {%- endif -%}
+              </fieldset>
+            {%- endfor -%}
+          {%- endunless -%}
+
+          <div class="pactions">
+            <span data-buy-sentinel aria-hidden="true"></span>
+            {%- if variant.price == 0 and section.settings.request_link != blank -%}
+              <a class="btn btn--solid pactions__add" href="{{ section.settings.request_link }}">
+                {{ section.settings.request_label | default: 'Nous consulter' }}
+              </a>
+            {%- else -%}
+            <button
+              class="btn btn--solid pactions__add"
+              type="submit"
+              data-add-button
+              data-add="{{ 'products.add' | t: default: 'Ajouter au panier' }}"
+              data-adding="{{ 'products.adding' | t: default: 'Ajout en cours…' }}"
+              data-sold-out="{{ 'products.sold_out' | t: default: 'Épuisé' }}"
+              data-unavailable="{{ 'products.unavailable' | t: default: 'Indisponible' }}"
+              {% unless variant.available %}disabled{% endunless %}
+            >
+              {%- if variant.available -%}{{ 'products.add' | t: default: 'Ajouter au panier' }}{%- else -%}{{ 'products.sold_out' | t: default: 'Épuisé' }}{%- endif -%}
+            </button>
+            {%- if section.settings.show_payment_button -%}
+              {%- comment -%}
+                Bouton de paiement natif Shopify : il respecte la variante
+                sélectionnée dans le même formulaire. Aucune logique de
+                paiement n'est écrite à la main.
+              {%- endcomment -%}
+              {{ form | payment_button }}
+            {%- endif -%}
+            {%- endif -%}
+            <p class="cart-error" data-add-error role="status" hidden></p>
+
+            <div class="pactions__row">
+              <button class="pfav t-label" type="button" data-fav="{{ product.id }}" data-fav-handle="{{ product.handle }}" aria-pressed="false">
+                {% render 'maison-icon', icon: 'heart' %}
+                {{ 'products.favourite' | t: default: 'Ajouter aux favoris' }}
+              </button>
+              {%- if product.selected_or_first_available_variant.sku != blank -%}
+                <span class="pinfo__sku" data-variant-sku>{{ variant.sku }}</span>
+              {%- endif -%}
+            </div>
+
+            <div class="pactions__row">
+              {%- if section.settings.appointment_link != blank -%}
+                <a class="cta" href="{{ section.settings.appointment_link }}">
+                  {{ section.settings.appointment_label | default: 'Prendre rendez-vous' }}<span class="cta__arrow" aria-hidden="true"></span>
+                </a>
+              {%- endif -%}
+              {%- if section.settings.advisor_link != blank -%}
+                <a class="cta" href="{{ section.settings.advisor_link }}">
+                  {{ section.settings.advisor_label | default: 'Contacter un conseiller' }}<span class="cta__arrow" aria-hidden="true"></span>
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        </form>
+
+        {%- comment -%} ---------- CONFIANCE ---------- {%- endcomment -%}
+        {%- assign trust_blocks = section.blocks | where: 'type', 'confiance' -%}
+        {%- if trust_blocks.size > 0 -%}
+          <div class="ptrust">
+            {%- for block in trust_blocks -%}
+              <p class="ptrust__row" {{ block.shopify_attributes }}>
+                <span class="ptrust__mark" aria-hidden="true"></span>{{ block.settings.text }}
+              </p>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} ---------- ACCORDÉONS ---------- {%- endcomment -%}
+        <div class="pacc">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'accordeon' -%}
+              {%- liquid
+                assign body = blank
+                case block.settings.source
+                  when 'description'
+                    assign body = product.description
+                  when 'metafield'
+                    assign body = product.metafields.custom[block.settings.metafield_key]
+                  when 'texte'
+                    assign body = block.settings.text
+                  when 'page'
+                    assign body = pages[block.settings.page].content
+                    if body == blank
+                      assign body = block.settings.text
+                    endif
+                  when 'caracteristiques'
+                    assign body = 'specs'
+                endcase
+              -%}
+              {%- if body != blank -%}
+                <div class="pacc__item" data-accordion {{ block.shopify_attributes }}>
+                  <button class="pacc__head t-label" type="button" data-accordion-head
+                          aria-expanded="{% if block.settings.open %}true{% else %}false{% endif %}"
+                          aria-controls="Acc-{{ block.id }}">
+                    {{ block.settings.title }}
+                    <span class="pacc__sign" aria-hidden="true"></span>
+                  </button>
+                  <div class="pacc__panel" id="Acc-{{ block.id }}" data-accordion-panel aria-hidden="{% unless block.settings.open %}true{% endunless %}">
+                    <div class="pacc__inner" data-accordion-inner>
+                      {%- if block.settings.source == 'caracteristiques' -%}
+                        <div class="pspec">
+                          {%- assign specs = 'metal,pierre,carat,couleur,purete,poids,dimensions,certificat,reference_atelier,delai_fabrication' | split: ',' -%}
+                          {%- assign labels = 'Métal,Pierre,Carat,Couleur,Pureté,Poids,Dimensions,Certificat,Référence atelier,Délai de fabrication' | split: ',' -%}
+                          {%- for key in specs -%}
+                            {%- assign value = product.metafields.custom[key] -%}
+                            {%- if value != blank -%}
+                              <div class="pspec__row">
+                                <span class="pspec__key">{{ labels[forloop.index0] }}</span>
+                                <span>{{ value }}</span>
+                              </div>
+                            {%- endif -%}
+                          {%- endfor -%}
+                        </div>
+                      {%- else -%}
+                        {{ body }}
+                      {%- endif -%}
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if section.settings.show_size_guide -%}
+            <div class="pacc__item">
+              <button class="pacc__head t-label" type="button" data-size-guide-open>
+                {{ 'products.size_guide' | t: default: 'Guide des tailles' }}
+                <span class="cta__arrow" aria-hidden="true"></span>
+              </button>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ---------- DONNÉES DE VARIANTES ---------- {%- endcomment -%}
+  <script type="application/json" data-variants-json>
+    [
+      {%- for v in product.variants -%}
+        {%- liquid
+          if unique
+            assign v_label = 'Pièce unique'
+          elsif v.available and lead != blank
+            assign v_label = 'Fabrication sous ' | append: lead
+          elsif v.available and v.inventory_management == blank
+            assign v_label = 'Sur commande'
+          elsif v.available and v.inventory_quantity > 0
+            assign v_label = 'En stock'
+          elsif v.available
+            assign v_label = 'Sur commande'
+          else
+            assign v_label = 'Épuisé'
+          endif
+        -%}
+        {
+          "id": {{ v.id }},
+          "options": {{ v.options | json }},
+          "price": {{ v.price }},
+          "compare_at_price": {{ v.compare_at_price | default: 0 }},
+          "available": {{ v.available }},
+          "sku": {{ v.sku | json }},
+          "media_id": {{ v.featured_media.id | default: 0 }},
+          "availability": {{ v_label | json }}
+        }{%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    ]
+  </script>
+</div>
+
+{%- comment -%} ---------- BARRE D'ACHAT MOBILE ---------- {%- endcomment -%}
+{%- if section.settings.show_buy_bar -%}
+  <div class="pbar" data-buy-bar>
+    <span class="pbar__label">
+      <span class="pbar__name">{{ product.title }}</span>
+      <span class="pbar__price" data-bar-price>{{ variant.price | money }}</span>
+    </span>
+    <button class="btn btn--solid" type="button" data-bar-add>{{ 'products.add' | t: default: 'Ajouter au panier' }}</button>
+  </div>
+{%- endif -%}
+
+{% render 'maison-zoom' %}
+{% render 'maison-size-guide', settings: section.settings %}
+
+{% schema %}
+{
+  "name": "Fiche produit",
+  "tag": "div",
+  "settings": [
+    { "type": "header", "content": "Actions" },
+    { "type": "checkbox", "id": "show_buy_bar", "label": "Barre d'achat mobile", "default": true },
+    { "type": "text", "id": "price_on_request", "label": "Libellé quand le prix vaut 0", "default": "Prix sur demande" },
+    { "type": "text", "id": "request_label", "label": "Bouton quand le prix vaut 0", "default": "Nous consulter" },
+    { "type": "url", "id": "request_link", "label": "Lien du bouton", "info": "Affiché à la place de l'ajout au panier tant que le prix n'est pas renseigné." },
+    { "type": "checkbox", "id": "show_payment_button", "label": "Bouton « Acheter maintenant »", "default": true, "info": "Bouton de paiement natif Shopify. Il utilise la variante sélectionnée : aucune logique de paiement n'est réécrite." },
+    { "type": "text", "id": "appointment_label", "label": "Libellé rendez-vous", "default": "Prendre rendez-vous" },
+    { "type": "url", "id": "appointment_link", "label": "Lien rendez-vous" },
+    { "type": "text", "id": "advisor_label", "label": "Libellé conseiller", "default": "Contacter un conseiller" },
+    { "type": "url", "id": "advisor_link", "label": "Lien conseiller" },
+    { "type": "header", "content": "Guide des tailles" },
+    { "type": "checkbox", "id": "show_size_guide", "label": "Afficher le guide des tailles", "default": true },
+    { "type": "richtext", "id": "size_intro", "label": "Introduction du guide" },
+    { "type": "richtext", "id": "size_method", "label": "Méthode de mesure" }
+  ],
+  "blocks": [
+    {
+      "type": "accordeon",
+      "name": "Accordéon",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre", "default": "Détails" },
+        { "type": "select", "id": "source", "label": "Contenu", "default": "description",
+          "options": [
+            { "value": "description", "label": "Description du produit" },
+            { "value": "caracteristiques", "label": "Caractéristiques (metafields)" },
+            { "value": "metafield", "label": "Un metafield précis" },
+            { "value": "texte", "label": "Texte libre" },
+            { "value": "page", "label": "Contenu d'une page" }
+          ]
+        },
+        { "type": "text", "id": "metafield_key", "label": "Clé du metafield", "info": "Espace de noms custom. Ex. : entretien, savoir_faire_texte" },
+        { "type": "richtext", "id": "text", "label": "Texte libre", "info": "Sert aussi de repli si la page choisie est vide ou non sélectionnée." },
+        { "type": "page", "id": "page", "label": "Page" },
+        { "type": "checkbox", "id": "open", "label": "Ouvert par défaut", "default": false }
+      ]
+    },
+    {
+      "type": "confiance",
+      "name": "Information de confiance",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Texte", "default": "Livraison assurée" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Fiche produit" }]
+}
+{% endschema %}

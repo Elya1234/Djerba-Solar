@@ -1,0 +1,58 @@
+<section class="bridal" aria-label="{{ section.settings.title | escape }}">
+  <div class="bridal__media" {% if section.settings.parallax %}data-parallax="26"{% endif %}>
+    {%- if section.settings.image != blank -%}
+      {%- if section.settings.image_mobile != blank -%}
+        <picture>
+          <source media="(max-width: 749px)" srcset="{{ section.settings.image_mobile | image_url: width: 1200 }}">
+          {{ section.settings.image | image_url: width: 2400 | image_tag: loading: 'lazy', sizes: '100vw', widths: '900,1400,2000,2400', alt: section.settings.image_alt }}
+        </picture>
+      {%- else -%}
+        {{ section.settings.image | image_url: width: 2400 | image_tag: loading: 'lazy', sizes: '100vw', widths: '900,1400,2000,2400', alt: section.settings.image_alt }}
+      {%- endif -%}
+    {%- else -%}
+      {% render 'maison-placeholder', label: 'Mariage — photographie', variant: 'dark' %}
+    {%- endif -%}
+  </div>
+  <div class="bridal__veil" aria-hidden="true"></div>
+
+  <div class="bridal__inner page">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="t-label eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    {%- if section.settings.title != blank -%}
+      <h2 class="t-display bridal__title line-mask" data-reveal="mask"><span>{{ section.settings.title }}</span></h2>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <p class="t-body measure" data-reveal style="--i: 1">{{ section.settings.text }}</p>
+    {%- endif -%}
+    <div class="bridal__links" data-reveal style="--i: 2">
+      {%- if section.settings.link_1 != blank -%}
+        <a class="cta" href="{{ section.settings.link_1 }}">{{ section.settings.label_1 }}<span class="cta__arrow" aria-hidden="true"></span></a>
+      {%- endif -%}
+      {%- if section.settings.link_2 != blank -%}
+        <a class="cta" href="{{ section.settings.link_2 }}">{{ section.settings.label_2 }}<span class="cta__arrow" aria-hidden="true"></span></a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Mariage & fiançailles",
+  "tag": "div",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image desktop" },
+    { "type": "image_picker", "id": "image_mobile", "label": "Image mobile" },
+    { "type": "text", "id": "image_alt", "label": "Texte alternatif" },
+    { "type": "text", "id": "eyebrow", "label": "Label", "default": "Mariage" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Pour une promesse éternelle" },
+    { "type": "textarea", "id": "text", "label": "Texte" },
+    { "type": "text", "id": "label_1", "label": "Lien 1 — libellé", "default": "Bagues de fiançailles" },
+    { "type": "url", "id": "link_1", "label": "Lien 1" },
+    { "type": "text", "id": "label_2", "label": "Lien 2 — libellé", "default": "Alliances" },
+    { "type": "url", "id": "link_2", "label": "Lien 2" },
+    { "type": "checkbox", "id": "parallax", "label": "Parallaxe très légère", "default": true }
+  ],
+  "presets": [{ "name": "Mariage & fiançailles" }]
+}
+{% endschema %}
