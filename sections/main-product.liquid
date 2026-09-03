@@ -1,0 +1,272 @@
+{{ 'product.css' | asset_url | stylesheet_tag }}
+{{ 'homepage.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign engraving_available = product.metafields.custom.engraving_available.value
+  assign devis_only = false
+  if product.tags contains 'sur-devis'
+    assign devis_only = true
+  endif
+  assign display_name = product.metafields.custom.display_name.value | default: product.title
+  assign show_subtitle = false
+  if display_name != product.title
+    assign show_subtitle = true
+  endif
+  assign item_label = product.type | default: product.collections.first.title | default: 'Gold Mines'
+-%}
+
+<div class="gm-container gm-section--tight" data-gm-product-root data-initial-variant-id="{{ product.selected_or_first_available_variant.id }}">
+  {% render 'breadcrumbs' %}
+  {%- comment -%} Full variant graph for product.js — real Shopify data, no invented values {%- endcomment -%}
+  <script type="application/json" data-gm-product-json>
+    {{ product | json }}
+  </script>
+
+  <div class="gm-product">
+    <div class="gm-product__gallery">
+      {% render 'product-gallery', product: product %}
+      {%- comment -%}
+        Worn-on-hand preview with skin-tone toggle: architecture is ready
+        (product.js listens for [data-gm-worn-toggle] / [data-gm-worn-slide])
+        but is only rendered once real "worn" media per skin tone exists —
+        see README for the metaobject this needs.
+      {%- endcomment -%}
+    </div>
+
+    <div class="gm-product__info">
+      <div class="gm-product__eyebrow">
+        <span class="gm-eyebrow">{{ item_label }}</span>
+        <button type="button" class="gm-product__share" aria-label="Partager" data-gm-share data-url="{{ shop.url }}{{ product.url }}" data-title="{{ product.title | escape }}">{% render 'icon', name: 'share', size: 16 %}</button>
+      </div>
+
+      <h1 class="gm-product__title">{{ display_name }}</h1>
+      {%- if show_subtitle -%}
+        <p class="gm-product__subtitle">{{ product.title }}</p>
+      {%- endif -%}
+      {%- if product.selected_or_first_available_variant.sku != blank -%}
+        <div class="gm-product__ref">Réf. {{ product.selected_or_first_available_variant.sku }}</div>
+      {%- endif -%}
+
+      <div class="gm-product__price-row">
+        <span class="gm-product__price" data-gm-price>{{ product.selected_or_first_available_variant.price | money }}</span>
+        <span data-gm-compare-price style="color:var(--gm-text-muted); text-decoration:line-through;"{% unless product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %} hidden{% endunless %}>
+          {{ product.selected_or_first_available_variant.compare_at_price | money }}
+        </span>
+      </div>
+      <div class="gm-product__availability" data-gm-availability data-label-available="{{ section.settings.available_text }}" data-label-unavailable="{{ section.settings.unavailable_text }}">
+        <span class="dot"></span><span data-gm-availability-text>{{ section.settings.available_text }}</span>
+      </div>
+
+      {%- if product.description != blank -%}
+        <div class="gm-lead" style="margin-top: var(--space-4);">{{ product.description | strip_html | truncate: 180 }}</div>
+      {%- endif -%}
+
+      <form method="post" action="/cart/add" data-gm-product-form>
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-gm-variant-id>
+
+        <div class="gm-config">
+          {%- for option in product.options_with_values -%}
+            {%- liquid
+              assign opt_name_down = option.name | downcase
+              assign tooltip_term = ''
+              if opt_name_down contains 'carat'
+                assign tooltip_term = 'carat'
+              elsif opt_name_down contains 'couleur' and opt_name_down contains 'diamant'
+                assign tooltip_term = 'color'
+              elsif opt_name_down contains 'pureté'
+                assign tooltip_term = 'clarity'
+              elsif opt_name_down contains 'taille de la pierre' or opt_name_down contains 'cut'
+                assign tooltip_term = 'cut'
+              elsif opt_name_down contains 'certificat'
+                assign tooltip_term = 'certificate'
+              elsif opt_name_down contains 'largeur'
+                assign tooltip_term = 'ring-width'
+              elsif opt_name_down contains 'sertissage'
+                assign tooltip_term = 'setting'
+              endif
+            -%}
+            <div class="gm-config__step">
+              <div class="gm-config__step-head">
+                <span class="gm-config__step-title">
+                  {{ option.name }}
+                  {%- if tooltip_term != '' -%}{% render 'info-tooltip', term: tooltip_term %}{%- endif -%}
+                </span>
+                <span class="gm-config__step-value" data-gm-step-value="{{ option.name }}">{{ option.selected_value }}</span>
+              </div>
+
+              {%- if opt_name_down contains 'métal' or opt_name_down contains 'metal' -%}
+                <div class="gm-option-swatches" role="radiogroup" aria-label="{{ option.name }}">
+                  {%- for value in option.values -%}
+                    {%- liquid
+                      assign v_down = value | downcase
+                      assign swatch_class = 'gm-swatch--gold-yellow'
+                      if v_down contains 'blanc' or v_down contains 'white'
+                        assign swatch_class = 'gm-swatch--gold-white'
+                      elsif v_down contains 'rose'
+                        assign swatch_class = 'gm-swatch--gold-rose'
+                      elsif v_down contains 'platine' or v_down contains 'platinum'
+                        assign swatch_class = 'gm-swatch--platinum'
+                      endif
+                    -%}
+                    <span class="gm-option-swatch" role="radio" tabindex="0" data-gm-option="{{ option.name }}" data-value="{{ value }}" aria-checked="{% if option.selected_value == value %}true{% else %}false{% endif %}">
+                      <span class="gm-swatch {{ swatch_class }}"><span></span></span>{{ value }}
+                    </span>
+                  {%- endfor -%}
+                </div>
+
+              {%- elsif opt_name_down contains 'carat' -%}
+                {%- liquid
+                  assign carat_values = option.values
+                -%}
+                <div class="gm-carat" data-gm-carat-wrap>
+                  <div class="gm-carat__display">
+                    <span class="gm-carat__value" data-gm-carat-value="{{ option.name }}">{{ option.selected_value }} ct</span>
+                  </div>
+                  <div class="gm-carat__track-wrap">
+                    <input type="range" class="gm-carat__track" min="0" max="{{ carat_values.size | minus: 1 }}" step="1"
+                      data-gm-carat-slider="{{ option.name }}" data-values='{{ carat_values | json }}'>
+                  </div>
+                  <div class="gm-carat__ticks">
+                    {%- for value in carat_values -%}
+                      <button type="button" data-gm-carat-tick="{{ option.name }}" aria-current="{% if option.selected_value == value %}true{% else %}false{% endif %}">{{ value }}</button>
+                    {%- endfor -%}
+                  </div>
+                </div>
+
+              {%- elsif opt_name_down contains 'forme' or opt_name_down contains 'shape' -%}
+                <div class="gm-option-cards" role="radiogroup" aria-label="{{ option.name }}">
+                  {%- for value in option.values -%}
+                    <span class="gm-option-card" role="radio" tabindex="0" data-gm-option="{{ option.name }}" data-value="{{ value }}" aria-checked="{% if option.selected_value == value %}true{% else %}false{% endif %}">
+                      <span class="gm-option-card__shape" style="width:28px;height:28px;border:1.3px solid currentColor;border-radius:{% if value contains 'Rond' %}50%{% elsif value contains 'Coussin' %}22%{% elsif value contains 'Princesse' %}2px{% else %}50% / 62%{% endif %};"></span>
+                      <span>{{ value }}</span>
+                    </span>
+                  {%- endfor -%}
+                </div>
+
+              {%- elsif opt_name_down contains 'taille de doigt' or opt_name_down == 'taille' -%}
+                <div class="gm-option-pills" role="radiogroup" aria-label="{{ option.name }}">
+                  {%- for value in option.values -%}
+                    <span class="gm-option-pill" role="radio" tabindex="0" data-gm-option="{{ option.name }}" data-value="{{ value }}" aria-checked="{% if option.selected_value == value %}true{% else %}false{% endif %}">{{ value }}</span>
+                  {%- endfor -%}
+                </div>
+                <button type="button" class="gm-size-guide-link" data-gm-size-guide-open>Guide des tailles</button>
+
+              {%- else -%}
+                <div class="gm-option-pills" role="radiogroup" aria-label="{{ option.name }}">
+                  {%- for value in option.values -%}
+                    <span class="gm-option-pill" role="radio" tabindex="0" data-gm-option="{{ option.name }}" data-value="{{ value }}" aria-checked="{% if option.selected_value == value %}true{% else %}false{% endif %}">{{ value }}</span>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+
+          {%- if engraving_available -%}
+            <div class="gm-config__step">
+              <div class="gm-config__step-head">
+                <span class="gm-config__step-title">Gravure {% render 'info-tooltip', term: 'setting' %}</span>
+              </div>
+              <div class="gm-engraving__input">
+                <input type="text" class="gm-input" name="properties[Gravure]" maxlength="20" placeholder="Ajouter une gravure (optionnel)" data-gm-engraving-input>
+                <span class="gm-engraving__count" data-gm-engraving-count>0 / 20</span>
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+
+        <div class="gm-product__ctas" data-gm-cta-anchor>
+          <div class="gm-product__ctas-row">
+            {%- if devis_only -%}
+              <a href="{{ routes.root_url }}pages/rendez-vous?produit={{ product.handle }}" class="gm-btn gm-btn--primary">Demander un devis</a>
+            {%- else -%}
+              <button type="submit" class="gm-btn gm-btn--primary" data-gm-submit data-label-available="Ajouter au panier" data-label-unavailable="Indisponible">Ajouter au panier</button>
+            {%- endif -%}
+          </div>
+          <div class="gm-product__secondary-ctas">
+            <a href="{{ routes.root_url }}pages/rendez-vous?produit={{ product.handle }}">{% render 'icon', name: 'pin', size: 16 %} Prendre rendez-vous</a>
+            <a href="mailto:{{ shop.email }}?subject={{ product.title | url_encode }}">{% render 'icon', name: 'phone', size: 16 %} Poser une question</a>
+            {%- if settings.social_whatsapp != blank -%}
+              <a href="https://wa.me/{{ settings.social_whatsapp }}?text={{ product.title | url_encode }}" target="_blank" rel="noopener">{% render 'icon', name: 'whatsapp', size: 16 %} WhatsApp</a>
+            {%- endif -%}
+            <button type="button" data-gm-wishlist-add data-product-id="{{ product.id }}" data-product-url="{{ product.url }}" aria-pressed="false">{% render 'icon', name: 'heart', size: 16 %} Favoris</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="gm-reassurance">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'reassurance' -%}
+            <div class="gm-reassurance__item" {{ block.shopify_attributes }}>
+              {% render 'icon', name: block.settings.icon, size: 18 %}
+              <span><strong>{{ block.settings.title }}</strong><span>{{ block.settings.text }}</span></span>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  <div class="gm-product-details">
+    <div class="gm-accordion__item">
+      <button class="gm-accordion__trigger" data-gm-accordion-trigger aria-expanded="true" aria-controls="desc-panel">Description<span class="gm-accordion__icon">{% render 'icon', name: 'plus', size: 16 %}</span></button>
+      <div class="gm-accordion__panel" id="desc-panel" data-open="true"><div class="gm-accordion__panel-inner"><div class="gm-accordion__panel-content">{{ product.description }}</div></div></div>
+    </div>
+    <div class="gm-accordion__item">
+      <button class="gm-accordion__trigger" data-gm-accordion-trigger aria-expanded="false" aria-controls="details-panel">Bague & détails de la pierre<span class="gm-accordion__icon">{% render 'icon', name: 'plus', size: 16 %}</span></button>
+      <div class="gm-accordion__panel" id="details-panel" data-open="false"><div class="gm-accordion__panel-inner"><div class="gm-accordion__panel-content">
+        {%- if product.metafields.custom.gem_details != blank -%}
+          {{ product.metafields.custom.gem_details | metafield_tag }}
+        {%- else -%}
+          Les caractéristiques détaillées de la pierre (carat, couleur, pureté, certificat) apparaissent ici une fois renseignées dans la fiche produit.
+        {%- endif -%}
+      </div></div></div>
+    </div>
+    <div class="gm-accordion__item">
+      <button class="gm-accordion__trigger" data-gm-accordion-trigger aria-expanded="false" aria-controls="care-panel">Entretien & garanties<span class="gm-accordion__icon">{% render 'icon', name: 'plus', size: 16 %}</span></button>
+      <div class="gm-accordion__panel" id="care-panel" data-open="false"><div class="gm-accordion__panel-inner"><div class="gm-accordion__panel-content">{{ section.settings.care_text }}</div></div></div>
+    </div>
+    <div class="gm-accordion__item">
+      <button class="gm-accordion__trigger" data-gm-accordion-trigger aria-expanded="false" aria-controls="shipping-panel">Livraison & retours<span class="gm-accordion__icon">{% render 'icon', name: 'plus', size: 16 %}</span></button>
+      <div class="gm-accordion__panel" id="shipping-panel" data-open="false"><div class="gm-accordion__panel-inner"><div class="gm-accordion__panel-content">{{ section.settings.shipping_text }}</div></div></div>
+    </div>
+  </div>
+</div>
+
+{%- comment -%} ---- Sticky mobile CTA ---- {%- endcomment -%}
+<div class="gm-sticky-cta" data-gm-sticky-cta>
+  <span class="gm-sticky-cta__price" data-gm-sticky-price>{{ product.selected_or_first_available_variant.price | money }}</span>
+  <button type="button" class="gm-btn gm-btn--primary gm-sticky-cta__add" data-gm-sticky-add>Ajouter</button>
+  <button type="button" class="gm-sticky-cta__fav" data-gm-wishlist-add data-product-id="{{ product.id }}" data-product-url="{{ product.url }}" aria-label="Favoris" aria-pressed="false">{% render 'icon', name: 'heart' %}</button>
+</div>
+
+{% schema %}
+{
+  "name": "Fiche produit",
+  "settings": [
+    { "type": "text", "id": "available_text", "label": "Texte — variante disponible", "default": "Disponible" },
+    { "type": "text", "id": "unavailable_text", "label": "Texte — variante indisponible", "default": "Indisponible — nous consulter" },
+    { "type": "richtext", "id": "care_text", "label": "Texte entretien & garanties", "default": "<p>Chaque création Gold Mines est vérifiée avant expédition. Contactez-nous pour toute question sur l'entretien de votre bijou.</p>" },
+    { "type": "richtext", "id": "shipping_text", "label": "Texte livraison & retours", "default": "<p>Livraison assurée et suivie. Modalités de retour communiquées lors de la commande.</p>" }
+  ],
+  "blocks": [
+    {
+      "type": "reassurance",
+      "name": "Élément de réassurance",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icône", "options": [ { "value": "bag", "label": "Livraison" }, { "value": "plus", "label": "Certificat" }, { "value": "account", "label": "Fabrication" }, { "value": "heart", "label": "Entretien" }, { "value": "pin", "label": "Boutique" } ], "default": "bag" },
+        { "type": "text", "id": "title", "label": "Titre", "default": "Livraison assurée" },
+        { "type": "text", "id": "text", "label": "Description", "default": "Colis suivi et sécurisé" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "reassurance", "settings": { "icon": "bag", "title": "Livraison assurée", "text": "Colis suivi et sécurisé" } },
+      { "type": "reassurance", "settings": { "icon": "plus", "title": "Certificat", "text": "Authenticité de chaque pierre" } },
+      { "type": "reassurance", "settings": { "icon": "account", "title": "Fabrication soignée", "text": "Contrôle qualité avant expédition" } },
+      { "type": "reassurance", "settings": { "icon": "heart", "title": "Entretien & garantie", "text": "Conseils et service après-vente" } }
+    ]
+  }
+}
+{% endschema %}

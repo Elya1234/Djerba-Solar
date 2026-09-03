@@ -1,0 +1,158 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "image": "shopify://shop_images/bijoux_bague_sur_une_mannequin_je_cveut_limage_un_peu_loin.jpg",
+        "eyebrow": "Gold Mines — By Orpaz",
+        "heading": "L'or a trouvé sa maison.",
+        "subheading": "Créations, sur-mesure et haute joaillerie contemporaine.",
+        "primary_label": "Découvrir les créations",
+        "primary_link": "/collections/all",
+        "secondary_label": "Prendre rendez-vous",
+        "secondary_link": "/pages/rendez-vous"
+      }
+    },
+    "universes": {
+      "type": "universes-grid",
+      "settings": {
+        "eyebrow": "L'univers Gold Mines",
+        "heading": "Chaque création a sa propre histoire"
+      },
+      "blocks": {
+        "u1": { "type": "universe", "settings": { "image": "shopify://shop_images/04.jpg", "eyebrow": "Un engagement", "title": "Fiançailles", "text": "Une bague pensée pour un instant unique.", "link_label": "Découvrir", "link": "/pages/fiancailles" } },
+        "u2": { "type": "universe", "settings": { "image": "shopify://shop_images/bijoux_bague_sdur_une_fille_mannequin.jpg", "eyebrow": "L'union", "title": "Alliances", "text": "Des alliances intemporelles, à porter chaque jour.", "link_label": "Découvrir", "link": "/collections/alliances" } },
+        "u3": { "type": "universe", "settings": { "image": "shopify://shop_images/01_5b008397-adc6-4eeb-b991-66c38a6d7b19.jpg", "eyebrow": "L'exception", "title": "Diamants & pierres précieuses", "text": "Des pierres sélectionnées avec exigence.", "link_label": "Découvrir", "link": "/pages/diamants" } }
+      },
+      "block_order": ["u1", "u2", "u3"]
+    },
+    "creations": {
+      "type": "featured-creations",
+      "settings": {
+        "eyebrow": "Signature",
+        "heading": "Créations emblématiques",
+        "collection": "bague",
+        "limit": 8
+      }
+    },
+    "fiancailles-banner": {
+      "type": "immersive-banner",
+      "settings": {
+        "image": "shopify://shop_images/bijoux_bague_sur_une_cxmannequin_je_veut_limage_un_peu_loin.jpg",
+        "eyebrow": "Fiançailles",
+        "heading": "Imaginez la bague de votre histoire",
+        "text": "Choisissez la monture, le métal et le diamant : composez une bague de fiançailles qui vous ressemble.",
+        "link_label": "Créer ma bague",
+        "link": "/pages/fiancailles",
+        "align": "left"
+      }
+    },
+    "gemstones": {
+      "type": "gemstones-grid",
+      "settings": {
+        "eyebrow": "L'exception",
+        "heading": "Diamants & pierres précieuses",
+        "text": "Diamant, saphir, rubis, émeraude : chaque pierre est choisie pour sa qualité et sa provenance.",
+        "guide_link": "/pages/diamants"
+      },
+      "blocks": {
+        "g1": { "type": "gem", "settings": { "image": "shopify://shop_images/02_7c0b6d37-a472-42de-bf6f-64ef3b630178.jpg", "title": "Diamant", "link": "/pages/diamants" } },
+        "g2": { "type": "gem", "settings": { "title": "Saphir", "link": "/pages/pierres-precieuses" } },
+        "g3": { "type": "gem", "settings": { "title": "Rubis", "link": "/pages/pierres-precieuses" } },
+        "g4": { "type": "gem", "settings": { "image": "shopify://shop_images/01_ca48077f-d9e7-4af1-b61f-7fd7a5f2c8bb.jpg", "title": "Émeraude", "link": "/pages/pierres-precieuses" } }
+      },
+      "block_order": ["g1", "g2", "g3", "g4"]
+    },
+    "sur-mesure-banner": {
+      "type": "immersive-banner",
+      "settings": {
+        "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises21_1.jpg",
+        "eyebrow": "Création sur mesure",
+        "heading": "Imaginé par vous. Réalisé par nos artisans.",
+        "text": "De l'esquisse à la pièce finie, notre atelier donne forme à votre projet.",
+        "link_label": "Commencer mon projet",
+        "link": "/pages/sur-mesure",
+        "align": "right"
+      }
+    },
+    "savoir-faire": {
+      "type": "craftsmanship-timeline",
+      "settings": {
+        "eyebrow": "Notre savoir-faire",
+        "heading": "De l'idée au bijou"
+      },
+      "blocks": {
+        "s1": { "type": "step", "settings": { "title": "Croquis", "text": "Le projet prend forme sur le papier." } },
+        "s2": { "type": "step", "settings": { "title": "Conception 3D", "text": "Modélisation précise avant fabrication." } },
+        "s3": { "type": "step", "settings": { "title": "Fabrication", "text": "Façonnage du métal en atelier." } },
+        "s4": { "type": "step", "settings": { "title": "Sertissage", "text": "Chaque pierre est sertie avec précision." } },
+        "s5": { "type": "step", "settings": { "title": "Polissage", "text": "L'éclat final du bijou." } },
+        "s6": { "type": "step", "settings": { "title": "Contrôle qualité", "text": "Vérification avant livraison." } }
+      },
+      "block_order": ["s1", "s2", "s3", "s4", "s5", "s6"]
+    },
+    "atelier": {
+      "type": "atelier-gallery",
+      "settings": {
+        "eyebrow": "Artisanat",
+        "heading": "L'Atelier",
+        "text": "Un savoir-faire artisanal, transmis avec exigence."
+      },
+      "blocks": {
+        "a1": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises31.jpg", "size": "wide" } },
+        "a2": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises39.jpg", "size": "tall" } },
+        "a3": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises5.jpg", "size": "small" } },
+        "a4": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises7.jpg", "size": "small" } }
+      },
+      "block_order": ["a1", "a2", "a3", "a4"]
+    },
+    "services": {
+      "type": "services-grid",
+      "settings": {
+        "eyebrow": "À votre service",
+        "heading": "Nos services"
+      },
+      "blocks": {
+        "sv1": { "type": "service", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises42.jpg", "title": "Création sur mesure", "link_label": "En savoir plus", "link": "/pages/sur-mesure" } },
+        "sv2": { "type": "service", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises44.jpg", "title": "Réparation & transformation", "link_label": "En savoir plus", "link": "/pages/services" } },
+        "sv3": { "type": "service", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises45.jpg", "title": "Mise à taille & gravure", "link_label": "En savoir plus", "link": "/pages/services" } }
+      },
+      "block_order": ["sv1", "sv2", "sv3"]
+    },
+    "maison": {
+      "type": "maison-story",
+      "settings": {
+        "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises29.jpg",
+        "eyebrow": "Depuis les origines",
+        "heading": "La Maison",
+        "link_label": "Notre histoire",
+        "link": "/pages/la-maison"
+      },
+      "blocks": {
+        "m1": { "type": "stat", "settings": { "number": "100%", "label": "Fabrication artisanale" } },
+        "m2": { "type": "stat", "settings": { "number": "1", "label": "Boutique à Paris" } }
+      },
+      "block_order": ["m1", "m2"]
+    },
+    "boutique-rdv": {
+      "type": "boutique-rdv-cta",
+      "settings": {
+        "boutique_image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises16.jpg",
+        "rdv_image": "shopify://shop_images/petit_cadeaux_a_petit_prix_bijoux_dans_moi_une_photos_avec_un_mannequin_qui_porte_des_petite_bijoux_pas_cher.jpg"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "universes",
+    "creations",
+    "fiancailles-banner",
+    "gemstones",
+    "sur-mesure-banner",
+    "savoir-faire",
+    "atelier",
+    "services",
+    "maison",
+    "boutique-rdv"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "sections": {
+    "intro": {
+      "type": "immersive-banner",
+      "settings": {
+        "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises30.jpg",
+        "eyebrow": "Création sur mesure",
+        "heading": "Imaginé par vous. Réalisé par nos artisans.",
+        "text": "Une idée, un dessin, une photo, une pierre de famille ou un ancien bijou à transformer : notre atelier donne forme à votre projet.",
+        "align": "left"
+      }
+    },
+    "starting-points": {
+      "type": "editorial-split",
+      "settings": {
+        "image": "shopify://shop_images/atelier_francais_rue_de_temple_produit_sur_mesure.webp",
+        "eyebrow": "Par où commencer ?",
+        "heading": "Chaque projet a son point de départ",
+        "text": "<p>Vous pouvez partir d'une idée, d'un dessin, d'une photo d'inspiration, d'une pierre ou d'un bijou ancien — ou simplement venir en discuter avec notre équipe en boutique.</p>",
+        "image_position": "left"
+      }
+    },
+    "process": {
+      "type": "process-steps",
+      "settings": {
+        "eyebrow": "Le parcours",
+        "heading": "De l'idée au bijou final"
+      },
+      "blocks": {
+        "p1": { "type": "step", "settings": { "title": "Idée", "text": "Vous partagez votre inspiration, votre histoire, votre projet." } },
+        "p2": { "type": "step", "settings": { "title": "Échange", "text": "Un rendez-vous avec notre équipe pour affiner le projet." } },
+        "p3": { "type": "step", "settings": { "title": "Dessin / 3D", "text": "Le projet prend forme en croquis puis en modélisation 3D." } },
+        "p4": { "type": "step", "settings": { "title": "Choix des matières", "text": "Sélection du métal et des pierres avec vous." } },
+        "p5": { "type": "step", "settings": { "title": "Fabrication", "text": "Façonnage artisanal du bijou en atelier." } },
+        "p6": { "type": "step", "settings": { "title": "Sertissage", "text": "Chaque pierre est sertie avec précision." } },
+        "p7": { "type": "step", "settings": { "title": "Finitions", "text": "Polissage et derniers ajustements." } },
+        "p8": { "type": "step", "settings": { "title": "Bijou final", "text": "Votre création sur mesure vous est remise." } }
+      },
+      "block_order": ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"]
+    },
+    "gallery": {
+      "type": "atelier-gallery",
+      "settings": {
+        "eyebrow": "Nos réalisations",
+        "heading": "Avant / après",
+        "text": "Cette galerie accueillera bientôt nos réalisations sur mesure : inspiration, modélisation 3D, fabrication et résultat final."
+      },
+      "blocks": {
+        "a1": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises4.jpg", "size": "wide" } },
+        "a2": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises46.jpg", "size": "tall" } },
+        "a3": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises8.jpg", "size": "small" } },
+        "a4": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises53.jpg", "size": "small" } }
+      },
+      "block_order": ["a1", "a2", "a3", "a4"]
+    },
+    "cta": {
+      "type": "cta-banner",
+      "settings": {
+        "heading": "Prêt à créer votre bijou ?",
+        "text": "Commencez votre projet ou échangez avec notre équipe."
+      },
+      "blocks": {
+        "b1": { "type": "button", "settings": { "label": "Commencer mon projet", "link": "/pages/contact" } },
+        "b2": { "type": "button", "settings": { "label": "Prendre rendez-vous", "link": "/pages/rendez-vous" } },
+        "b3": { "type": "button", "settings": { "label": "Poser une question", "link": "/pages/contact" } }
+      },
+      "block_order": ["b1", "b2", "b3"]
+    }
+  },
+  "order": ["intro", "starting-points", "process", "gallery", "cta"]
+}

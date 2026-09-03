@@ -1,0 +1,59 @@
+{{ 'pages.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'contact-form.js' | asset_url }}" defer="defer"></script>
+
+<div class="gm-container gm-section">
+  <div style="max-width:60rem; margin-bottom:var(--space-6);">
+    <span class="gm-eyebrow">{{ section.settings.eyebrow | default: 'Rendez-vous' }}</span>
+    <h1 class="gm-h2">{{ section.settings.heading | default: 'Prendre rendez-vous' }}</h1>
+    {%- if section.settings.text != blank -%}<p class="gm-lead" style="margin-top:var(--space-3);">{{ section.settings.text }}</p>{%- endif -%}
+  </div>
+
+  {%- if section.blocks.size > 0 -%}
+    <div class="gm-reason-grid" data-gm-reveal="fade" data-gm-reason-group role="radiogroup" aria-label="Motif du rendez-vous">
+      {%- for block in section.blocks -%}
+        <label class="gm-reason-card" {{ block.shopify_attributes }}>
+          <input type="radio" name="gm-reason-choice" value="{{ block.settings.label }}"{% if forloop.first %} checked{% endif %}>
+          {{ block.settings.label }}
+        </label>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {% render 'contact-form-fields', form_id: 'AppointmentForm', show_reason: true, show_date: true, submit_label: 'contact.appointment.submit' | t %}
+
+  <p style="color:var(--gm-text-muted); font-size:1.3rem; margin-top:var(--space-3); max-width:62rem;">{{ 'contact.appointment.disclaimer' | t }}</p>
+</div>
+
+{% schema %}
+{
+  "name": "Prise de rendez-vous",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Rendez-vous" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Prendre rendez-vous" },
+    { "type": "textarea", "id": "text", "label": "Texte" }
+  ],
+  "blocks": [
+    {
+      "type": "reason",
+      "name": "Motif",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Libellé", "default": "Découvrir les collections" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Prise de rendez-vous",
+      "blocks": [
+        { "type": "reason", "settings": { "label": "Découvrir les collections" } },
+        { "type": "reason", "settings": { "label": "Bague de fiançailles" } },
+        { "type": "reason", "settings": { "label": "Création sur mesure" } },
+        { "type": "reason", "settings": { "label": "Réparation" } },
+        { "type": "reason", "settings": { "label": "Transformation" } },
+        { "type": "reason", "settings": { "label": "Expertise / conseil" } },
+        { "type": "reason", "settings": { "label": "Autre demande" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

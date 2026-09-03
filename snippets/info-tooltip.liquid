@@ -1,0 +1,33 @@
+{%- comment -%}
+  Small "i" icon with a short educational popover for gemological terms.
+  Usage: {% render 'info-tooltip', term: 'carat' %}
+  Generic public gemological knowledge only — never invents product-specific claims.
+{%- endcomment -%}
+{%- liquid
+  case term
+    when 'carat'
+      assign text = "Le carat mesure le poids du diamant (1 carat = 0,2 gramme). À qualité égale, le prix augmente fortement avec le carat."
+    when 'cut'
+      assign text = "La taille détermine la façon dont le diamant capte et réfléchit la lumière. Une taille excellente maximise son éclat."
+    when 'color'
+      assign text = "La couleur d'un diamant blanc est notée de D (incolore) à Z (teinté). Plus la lettre est proche de D, plus le diamant est recherché."
+    when 'clarity'
+      assign text = "La pureté évalue les inclusions internes et externes du diamant, de Flawless (sans inclusion visible) à Included."
+    when 'certificate'
+      assign text = "Un certificat gemmologique indépendant atteste des caractéristiques réelles du diamant (carat, couleur, pureté, taille)."
+    when 'lab-grown'
+      assign text = "Un diamant de laboratoire a la même composition chimique et le même éclat qu'un diamant naturel, cultivé en environnement contrôlé."
+    when 'ring-width'
+      assign text = "La largeur de l'anneau influence le confort au porter et l'allure générale de la bague."
+    when 'setting'
+      assign text = "Le sertissage désigne la technique utilisée pour fixer la ou les pierres sur le bijou."
+    else
+      assign text = ''
+  endcase
+-%}
+{%- if text != blank -%}
+  <span style="position:relative; display:inline-flex;">
+    <button type="button" class="gm-info-btn" data-gm-info-trigger aria-label="En savoir plus">i</button>
+    <span class="gm-info-popover" role="tooltip">{{ text }}</span>
+  </span>
+{%- endif -%}

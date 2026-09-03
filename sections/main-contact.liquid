@@ -1,0 +1,61 @@
+{{ 'pages.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'contact-form.js' | asset_url }}" defer="defer"></script>
+
+<div class="gm-container gm-section">
+  <div style="max-width:60rem; margin-bottom:var(--space-7);">
+    <span class="gm-eyebrow">{{ section.settings.eyebrow | default: 'Nous écrire' }}</span>
+    <h1 class="gm-h2">{{ section.settings.heading | default: 'Contact' }}</h1>
+    {%- if section.settings.text != blank -%}<p class="gm-lead" style="margin-top:var(--space-3);">{{ section.settings.text }}</p>{%- endif -%}
+  </div>
+
+  <div class="gm-contact-layout">
+    <div data-gm-reveal="fade">
+      {% render 'contact-form-fields', form_id: 'ContactPageForm' %}
+    </div>
+
+    <div class="gm-contact-list" data-gm-reveal="fade">
+      {%- if section.settings.phone != blank -%}
+        <div class="gm-contact-list__item">
+          {% render 'icon', name: 'phone', size: 18 %}
+          <div><strong>{{ 'contact.info.phone' | t }}</strong><a href="tel:{{ section.settings.phone }}">{{ section.settings.phone }}</a></div>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.whatsapp != blank -%}
+        <div class="gm-contact-list__item">
+          {% render 'icon', name: 'whatsapp', size: 18 %}
+          <div><strong>WhatsApp</strong><a href="https://wa.me/{{ section.settings.whatsapp }}" target="_blank" rel="noopener">{{ section.settings.whatsapp }}</a></div>
+        </div>
+      {%- endif -%}
+      {%- if shop.email != blank -%}
+        <div class="gm-contact-list__item">
+          {% render 'icon', name: 'account', size: 18 %}
+          <div><strong>{{ 'contact.info.email' | t }}</strong><a href="mailto:{{ shop.email }}">{{ shop.email }}</a></div>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.boutique_link != blank -%}
+        <div class="gm-contact-list__item">
+          {% render 'icon', name: 'pin', size: 18 %}
+          <div><strong>{{ 'contact.info.store' | t }}</strong><a href="{{ section.settings.boutique_link }}">{{ 'contact.info.store_link' | t }}</a></div>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.appointment_link != blank -%}
+        <a href="{{ section.settings.appointment_link }}" class="gm-btn gm-btn--outline" style="margin-top:var(--space-3);">{{ 'contact.info.book' | t }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Contact",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Nous écrire" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Contact" },
+    { "type": "textarea", "id": "text", "label": "Texte" },
+    { "type": "text", "id": "phone", "label": "Téléphone" },
+    { "type": "text", "id": "whatsapp", "label": "Numéro WhatsApp (avec indicatif)" },
+    { "type": "url", "id": "boutique_link", "label": "Lien page boutique" },
+    { "type": "url", "id": "appointment_link", "label": "Lien prise de rendez-vous" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,84 @@
+{
+  "settings": {
+    "typography": {
+      "name": "Typographie",
+      "headings": "Titres",
+      "heading_font": "Police des titres",
+      "body": "Corps de texte",
+      "body_font": "Police du corps de texte"
+    },
+    "colors": {
+      "name": "Couleurs",
+      "bg": "Fond",
+      "text": "Texte",
+      "navy": "Bleu profond Gold Mines",
+      "gold": "Accent or",
+      "stone": "Ton pierre"
+    },
+    "layout": {
+      "name": "Mise en page",
+      "page_width": "Largeur maximale du contenu",
+      "header_style": "Style d'en-tête sur l'accueil",
+      "header_transparent": "Transparent puis opaque au scroll",
+      "header_solid": "Toujours opaque"
+    },
+    "motion": {
+      "name": "Animations",
+      "enable_animations": "Activer les animations d'apparition",
+      "enable_animations_info": "Les animations respectent automatiquement les préférences d'accessibilité du visiteur (mouvement réduit)."
+    },
+    "social": {
+      "name": "Réseaux sociaux",
+      "whatsapp_number": "Numéro WhatsApp (avec indicatif pays)"
+    },
+    "contact": {
+      "name": "Coordonnées de la Maison",
+      "phone": "Téléphone",
+      "address": "Adresse de la boutique",
+      "hours": "Horaires d'ouverture"
+    },
+    "favicon": {
+      "name": "Favicon",
+      "image": "Image du favicon"
+    }
+  },
+  "sections": {
+    "main-page": { "name": "Page standard" },
+    "main-404": { "name": "Page 404" },
+    "header": {
+      "name": "En-tête",
+      "settings": {
+        "logo_text_label": "Texte du logo",
+        "logo_image_label": "Image du logo (optionnelle)"
+      },
+      "blocks": {
+        "menu_item": {
+          "name": "Élément de navigation",
+          "settings": {
+            "link_label": "Lien",
+            "editorial_image_label": "Image éditoriale du mega-menu",
+            "editorial_heading_label": "Titre éditorial",
+            "editorial_link_label": "Lien éditorial"
+          }
+        }
+      }
+    },
+    "footer": {
+      "name": "Pied de page",
+      "settings": {
+        "tagline_label": "Signature de marque",
+        "newsletter_heading_label": "Titre newsletter",
+        "show_payment_icons_label": "Afficher les moyens de paiement disponibles"
+      },
+      "blocks": {
+        "link_list": {
+          "name": "Colonne de liens",
+          "settings": {
+            "title_label": "Titre de la colonne",
+            "menu_label": "Menu"
+          }
+        }
+      }
+    }
+  }
+}

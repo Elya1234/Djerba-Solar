@@ -1,0 +1,495 @@
+/* =========================================================================
+   GOLD MINES — BY ORPAZ
+   Design System — core tokens, typography, layout primitives, components
+   ========================================================================= */
+
+:root {
+  /* ---- Color: neutrals ---- */
+  --gm-white: #ffffff;
+  --gm-ivory: #faf8f4;
+  --gm-stone-50: #f5f2ec;
+  --gm-stone-100: #ede7db;
+  --gm-stone-200: #e0d8c8;
+  --gm-stone-300: #cbbfa5;
+  --gm-stone-500: #a3937a;
+  --gm-stone-700: #6e6353;
+  --gm-onyx-900: #0a0a0b;
+  --gm-onyx-800: #17171a;
+  --gm-onyx-600: #313136;
+
+  /* ---- Color: signature deep blue + gold accent ---- */
+  --gm-navy-900: #0a1a2b;
+  --gm-navy-800: #10263f;
+  --gm-navy-600: #1c3c5e;
+  --gm-gold-300: #e3d3ac;
+  --gm-gold-500: #b7975c;
+  --gm-gold-700: #8f7440;
+
+  /* ---- Semantic ---- */
+  --gm-bg: var(--gm-white);
+  --gm-bg-soft: var(--gm-ivory);
+  --gm-text: var(--gm-onyx-900);
+  --gm-text-muted: var(--gm-onyx-600);
+  --gm-text-inverse: var(--gm-white);
+  --gm-border: var(--gm-stone-200);
+  --gm-accent: var(--gm-gold-500);
+  --gm-focus: var(--gm-navy-800);
+  --gm-success: #2f5b3f;
+  --gm-error: #7a2b22;
+
+  /* ---- Typography system ----
+     Four editorial levels (A eyebrow / B display / C heading / D body)
+     plus buttons, each driven by one variable. Redefine the variable at
+     a breakpoint and every section using it updates together — never
+     hardcode a font-size on a component when one of these fits. */
+  --type-eyebrow: 1.1rem;
+  --type-display: clamp(2.8rem, 4vw, 4.4rem);
+  --type-heading: clamp(2.2rem, 2.6vw, 3rem);
+  --type-body: 1.8rem;
+  --type-body-secondary: 1.5rem;
+  --type-button: 1.2rem;
+  --type-nav: 1.15rem;
+  --type-product-title: clamp(2.4rem, 2.6vw, 3rem);
+  --type-product-name: 1.7rem;
+  --type-price: 1.35rem;
+
+  --color-text-primary: #181817;   /* grand titre — presque noir */
+  --color-text-secondary: #383836; /* titre secondaire — gris très foncé */
+  --color-text-muted: #555552;     /* texte descriptif — gris élégant */
+
+  /* ---- Typography ---- */
+  --font-display: var(--font-heading-family, Georgia, 'Times New Roman', serif);
+  --font-body: var(--font-body-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif);
+  --tracking-wide: 0.1em;
+  --tracking-wider: 0.16em;
+
+  /* ---- Spacing scale (8px rhythm) ---- */
+  --space-1: 0.4rem;
+  --space-2: 0.8rem;
+  --space-3: 1.2rem;
+  --space-4: 1.6rem;
+  --space-5: 2.4rem;
+  --space-6: 3.2rem;
+  --space-7: 4.8rem;
+  --space-8: 6.4rem;
+  --space-9: 9.6rem;
+
+  /* ---- Grid / layout ---- */
+  --container-max: 1440px;
+  --container-pad: clamp(1.6rem, 4vw, 4.8rem);
+  --header-h: 92px;
+  --header-h-scrolled: 72px;
+
+  /* ---- Radius / shadow / motion ---- */
+  --radius-xs: 1px;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-full: 999px;
+  --shadow-sm: 0 1px 2px rgba(10, 10, 11, 0.06);
+  --shadow-md: 0 8px 24px rgba(10, 10, 11, 0.08);
+  --shadow-lg: 0 24px 64px rgba(10, 10, 11, 0.14);
+  --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 180ms;
+  --dur-base: 320ms;
+  --dur-slow: 560ms;
+  --dur-cinematic: 900ms;
+
+  --z-header: 100;
+  --z-mega: 90;
+  --z-drawer: 200;
+  --z-modal: 300;
+  --z-toast: 400;
+}
+
+/* ---- Dark surfaces (Maison, footer, immersive sections) ---- */
+.gm-theme-dark {
+  --gm-bg: var(--gm-navy-900);
+  --gm-bg-soft: var(--gm-navy-800);
+  --gm-text: var(--gm-white);
+  --gm-text-muted: rgba(255, 255, 255, 0.66);
+  --gm-border: rgba(255, 255, 255, 0.14);
+  --color-text-primary: var(--gm-white);
+  --color-text-secondary: var(--gm-white);
+  --color-text-muted: rgba(255, 255, 255, 0.72);
+}
+
+/* =========================================================================
+   Reset
+   ========================================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--gm-bg);
+  color: var(--gm-text);
+  font-family: var(--font-body);
+  font-size: 1.6rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img, svg, video { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+input, select, textarea { font: inherit; color: inherit; }
+ul { list-style: none; margin: 0; padding: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Keyboard-only focus ring — never removes focus outline outright */
+:focus { outline: none; }
+:focus-visible {
+  outline: 1px solid var(--gm-focus);
+  outline-offset: 3px;
+}
+
+/* =========================================================================
+   Typography
+   Editorial hierarchy: A eyebrow (gold sur-titre) → B display (grand
+   titre) → C heading (titre secondaire) → D body (texte descriptif).
+   Every level reads its size from the --type-* variables above — never
+   add a hardcoded font-size to a heading/body element; redefine the
+   variable instead so every section stays in sync.
+   ========================================================================= */
+.gm-h1, .gm-h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  margin: 0;
+  font-size: var(--type-display);
+}
+.gm-h3, .gm-h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: 0.002em;
+  color: var(--color-text-secondary);
+  margin: 0;
+  font-size: var(--type-heading);
+}
+.gm-h4 { font-size: clamp(1.8rem, 1.6vw, 2.2rem); }
+
+.gm-eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: var(--type-eyebrow);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--gm-accent);
+  margin-bottom: var(--space-3);
+}
+.gm-lead {
+  font-size: var(--type-body);
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  font-weight: 300;
+}
+.gm-text-sm {
+  font-size: var(--type-body-secondary);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  font-weight: 300;
+}
+.gm-caption { font-size: 1.2rem; letter-spacing: 0.04em; color: var(--color-text-muted); }
+
+/* ---- Mobile type scale ----
+   The desktop clamp()s above are tuned for wide screens and barely react
+   to viewport width below ~990px (their vw term is tiny next to the
+   fixed minimum), so headings rendered near-desktop-size on a 375–430px
+   phone. Redefining the variables here — rather than every selector
+   above — is what makes this a system: any section reading --type-* or
+   the text-color tokens follows automatically. */
+@media (max-width: 599px) {
+  :root {
+    --type-eyebrow: clamp(0.6875rem, 2.4vw, 0.8125rem);      /* 11–13px — labels/catégories */
+    --type-display: clamp(1.5625rem, 5vw, 1.875rem);         /* 25–30px, drives .gm-h2 */
+    --type-heading: clamp(1.25rem, 3.8vw, 1.5rem);            /* 20–24px, .gm-h3/.gm-h4 */
+    --type-body: clamp(0.9375rem, 2.8vw, 1rem);               /* 15–16px */
+    --type-body-secondary: clamp(0.8125rem, 2.4vw, 0.9375rem); /* 13–15px */
+    --type-button: clamp(0.6875rem, 2.4vw, 0.8125rem);        /* 11–13px */
+    --type-nav: clamp(0.875rem, 2.6vw, 1rem);                 /* 14–16px */
+    --type-product-title: clamp(1.5rem, 5vw, 1.875rem);       /* 24–30px, fiche produit */
+    --type-product-name: clamp(1.0625rem, 3.2vw, 1.25rem);    /* 17–20px, grille */
+    --type-price: clamp(0.9375rem, 2.6vw, 1.0625rem);         /* 15–17px */
+    --container-pad: 1.5rem;                                  /* 24px */
+  }
+  .gm-h1 { font-size: clamp(1.875rem, 6vw, 2.25rem); }        /* 30–36px */
+  .gm-eyebrow { margin-bottom: var(--space-2); }
+  .gm-lead { line-height: 1.55; max-width: 34ch; }
+  .gm-text-sm { line-height: 1.5; }
+  .gm-section { padding-block: var(--space-6); }
+  .gm-section--tight { padding-block: var(--space-4); }
+}
+@media (max-width: 379px) {
+  :root { --container-pad: 1.25rem; } /* 20px on the smallest phones */
+}
+
+/* =========================================================================
+   Layout primitives
+   ========================================================================= */
+.gm-container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+.gm-section { padding-block: var(--space-8); }
+.gm-section--tight { padding-block: var(--space-6); }
+.gm-visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.gm-skip-link {
+  position: fixed;
+  top: -100%;
+  left: var(--space-3);
+  z-index: var(--z-modal);
+  background: var(--gm-onyx-900);
+  color: var(--gm-white);
+  padding: var(--space-2) var(--space-4);
+  transition: top var(--dur-base) var(--ease-luxe);
+}
+.gm-skip-link:focus { top: var(--space-3); }
+
+/* =========================================================================
+   Buttons
+   ========================================================================= */
+.gm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 1.5rem 3.2rem;
+  font-size: var(--type-button);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  border-radius: var(--radius-xs);
+  transition: background-color var(--dur-base) var(--ease-luxe),
+              color var(--dur-base) var(--ease-luxe),
+              border-color var(--dur-base) var(--ease-luxe),
+              transform var(--dur-fast) var(--ease-luxe);
+  white-space: nowrap;
+}
+.gm-btn:active { transform: scale(0.98); }
+.gm-btn:disabled, .gm-btn[aria-disabled="true"] { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+/* A long label (e.g. a full sentence CTA) must wrap rather than overflow
+   the viewport on narrow phones — nowrap is a desktop/tablet refinement.
+   Padding/font-size/letter-spacing are also tuned down here: at full
+   desktop scale a two-word uppercase CTA like "PRENDRE RENDEZ-VOUS" eats
+   most of a 375px button's width in padding alone, leaving too little
+   room for the label itself. */
+@media (max-width: 599px) {
+  .gm-btn {
+    white-space: normal; text-align: center; max-width: 100%;
+    padding: 0.8rem 1.8rem;
+    min-height: 50px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+  }
+  .gm-btn--sm { padding: 0.6rem 1.4rem; min-height: 42px; }
+}
+
+.gm-btn--primary { background: var(--gm-onyx-900); color: var(--gm-white); border-color: var(--gm-onyx-900); }
+.gm-btn--primary:hover { background: var(--gm-navy-900); border-color: var(--gm-navy-900); }
+
+.gm-btn--outline { background: transparent; color: var(--gm-text); border-color: currentColor; }
+.gm-btn--outline:hover { background: var(--gm-text); color: var(--gm-bg); }
+
+.gm-btn--ghost { background: transparent; color: var(--gm-text); padding-inline: var(--space-2); text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px; }
+.gm-btn--ghost:hover { color: var(--gm-accent); }
+
+.gm-btn--sm { padding: 1.1rem 2.2rem; font-size: 1.1rem; }
+.gm-btn--full { width: 100%; }
+
+/* =========================================================================
+   Cards, badges, inputs, accordions — shared building blocks
+   ========================================================================= */
+.gm-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  background: var(--gm-bg);
+  border: 1px solid var(--gm-border);
+  color: var(--gm-text-muted);
+  border-radius: var(--radius-full);
+}
+.gm-badge--accent { border-color: var(--gm-accent); color: var(--gm-gold-700); }
+
+.gm-input {
+  width: 100%;
+  padding: 1.4rem 1.6rem;
+  background: var(--gm-bg);
+  border: 1px solid var(--gm-border);
+  border-radius: var(--radius-xs);
+  transition: border-color var(--dur-base) var(--ease-luxe);
+}
+.gm-input:focus-visible { border-color: var(--gm-onyx-900); }
+
+.gm-swatch {
+  -webkit-appearance: none; appearance: none;
+  background: none; font: inherit; display: inline-block;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  border: 1px solid var(--gm-border);
+  padding: 2px;
+  cursor: pointer;
+  position: relative;
+}
+.gm-swatch span { display: block; width: 100%; height: 100%; border-radius: 50%; }
+.gm-swatch[aria-checked="true"], .gm-swatch[aria-pressed="true"] { border-color: var(--gm-onyx-900); }
+.gm-swatch--gold-yellow span { background: linear-gradient(135deg, #f4d998, #c9a24a); }
+.gm-swatch--gold-white span { background: linear-gradient(135deg, #f2f2f0, #cfcfcb); }
+.gm-swatch--gold-rose span { background: linear-gradient(135deg, #f3c9bd, #cf8f7c); }
+.gm-swatch--platinum span { background: linear-gradient(135deg, #eef0f2, #b9c0c6); }
+
+.gm-accordion__item { border-bottom: 1px solid var(--gm-border); }
+.gm-accordion__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  text-align: left;
+  font-size: clamp(1rem, 1.2vw, 1.125rem);   /* 16–18px */
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+.gm-accordion__icon { transition: transform var(--dur-base) var(--ease-luxe); flex-shrink: 0; width: 14px; height: 14px; }
+.gm-accordion__icon svg { width: 100%; height: 100%; }
+.gm-accordion__trigger[aria-expanded="true"] .gm-accordion__icon { transform: rotate(45deg); }
+.gm-accordion__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur-slow) var(--ease-luxe);
+}
+.gm-accordion__panel[data-open="true"] { grid-template-rows: 1fr; }
+.gm-accordion__panel-inner { overflow: hidden; }
+.gm-accordion__panel-content { padding-bottom: var(--space-4); color: var(--gm-text-muted); font-size: clamp(0.875rem, 1vw, 1rem); line-height: 1.5; }
+@media (max-width: 599px) {
+  .gm-accordion__trigger { padding-block: var(--space-2); }
+}
+
+/* =========================================================================
+   Generic modal (size guide, education glossary, etc.)
+   ========================================================================= */
+.gm-modal {
+  position: fixed; inset: 0; z-index: var(--z-modal);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--dur-base) var(--ease-luxe), visibility 0s linear var(--dur-base);
+}
+.gm-modal.is-open { opacity: 1; visibility: visible; transition: opacity var(--dur-base) var(--ease-luxe); }
+.gm-modal__scrim { position: absolute; inset: 0; background: rgba(10,10,11,0.5); }
+.gm-modal__panel {
+  position: relative; background: var(--gm-bg); width: min(560px, calc(100% - 2 * var(--space-4)));
+  max-height: 84vh; overflow-y: auto; border-radius: var(--radius-sm); box-shadow: var(--shadow-lg);
+  transform: translateY(12px); transition: transform var(--dur-base) var(--ease-luxe);
+}
+.gm-modal.is-open .gm-modal__panel { transform: translateY(0); }
+.gm-modal__head { display: flex; align-items: center; justify-content: space-between; padding: var(--space-4); border-bottom: 1px solid var(--gm-border); position: sticky; top: 0; background: var(--gm-bg); }
+.gm-modal__body { padding: var(--space-4); }
+
+/* =========================================================================
+   Reveal / scroll animations (opt-in via data-attributes, JS toggles state)
+   ========================================================================= */
+[data-gm-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--dur-cinematic) var(--ease-luxe),
+              transform var(--dur-cinematic) var(--ease-luxe);
+}
+[data-gm-reveal].is-visible { opacity: 1; transform: translateY(0); }
+[data-gm-reveal="fade"] { transform: none; }
+[data-gm-reveal="mask"] { transform: translateY(0); clip-path: inset(0 0 100% 0); transition-property: clip-path, opacity; }
+[data-gm-reveal="mask"].is-visible { clip-path: inset(0 0 0% 0); }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-gm-reveal] { opacity: 1; transform: none; clip-path: none; }
+}
+
+.gm-hover-zoom { overflow: hidden; }
+.gm-hover-zoom img { transition: transform var(--dur-cinematic) var(--ease-luxe); }
+.gm-hover-zoom:hover img { transform: scale(1.045); }
+
+/* =========================================================================
+   Skeleton / loading states
+   ========================================================================= */
+.gm-skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--gm-stone-100);
+}
+.gm-skeleton::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
+  animation: gm-shimmer 1.4s infinite;
+}
+@keyframes gm-shimmer {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+@media (prefers-reduced-motion: reduce) { .gm-skeleton::after { animation: none; } }
+
+/* =========================================================================
+   Micro-interactions: counter/heart "bump" feedback
+   ========================================================================= */
+@keyframes gm-bump { 0% { transform: scale(1); } 45% { transform: scale(1.32); } 100% { transform: scale(1); } }
+.gm-bump { animation: gm-bump 340ms var(--ease-luxe); }
+@media (prefers-reduced-motion: reduce) { .gm-bump { animation: none; } }
+
+/* =========================================================================
+   404
+   ========================================================================= */
+.gm-404__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center; margin-top: var(--space-5); }
+
+/* =========================================================================
+   Breadcrumbs
+   ========================================================================= */
+.gm-breadcrumbs { margin-bottom: var(--space-4); }
+.gm-breadcrumbs ol { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; font-size: 1.2rem; color: inherit; opacity: 0.68; }
+.gm-breadcrumbs li { display: flex; align-items: center; gap: 0.5rem; }
+.gm-breadcrumbs li:not(:last-child)::after { content: "/"; opacity: 0.6; }
+.gm-breadcrumbs a { text-decoration: underline; text-underline-offset: 3px; }
+.gm-breadcrumbs a:hover { opacity: 0.8; }
+.gm-breadcrumbs li[aria-current="page"] { opacity: 1; }
+
+/* =========================================================================
+   Responsive helpers
+   ========================================================================= */
+/* !important is deliberate here: these are the one pair of utility classes
+   in the whole system meant to always win regardless of load order — a
+   component stylesheet loaded after theme.css (e.g. header.css) must never
+   be able to silently un-hide something marked mobile/desktop-only. */
+.gm-hide-mobile { display: none !important; }
+.gm-hide-desktop { display: initial !important; }
+@media (min-width: 990px) {
+  .gm-hide-mobile { display: initial !important; }
+  .gm-hide-desktop { display: none !important; }
+}

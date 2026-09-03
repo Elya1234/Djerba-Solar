@@ -1,0 +1,70 @@
+{
+  "sections": {
+    "intro": {
+      "type": "immersive-banner",
+      "settings": {
+        "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises32.jpg",
+        "eyebrow": "Notre savoir-faire",
+        "heading": "De l'inspiration au bijou terminé",
+        "text": "Chaque création traverse un parcours artisanal précis, entre dessin, fabrication et finitions.",
+        "align": "left"
+      }
+    },
+    "timeline": {
+      "type": "craftsmanship-timeline",
+      "settings": {
+        "eyebrow": "Les étapes",
+        "heading": "De l'idée au bijou"
+      },
+      "blocks": {
+        "s1": { "type": "step", "settings": { "title": "Inspiration & dessin", "text": "Le projet prend forme sur le papier." } },
+        "s2": { "type": "step", "settings": { "title": "Conception", "text": "Le design est affiné avec le client." } },
+        "s3": { "type": "step", "settings": { "title": "Modélisation 3D", "text": "Une modélisation précise avant fabrication." } },
+        "s4": { "type": "step", "settings": { "title": "Choix des matières", "text": "Sélection du métal et des pierres." } },
+        "s5": { "type": "step", "settings": { "title": "Fabrication", "text": "Façonnage du métal en atelier." } },
+        "s6": { "type": "step", "settings": { "title": "Sertissage", "text": "Chaque pierre est sertie avec précision." } },
+        "s7": { "type": "step", "settings": { "title": "Polissage & finitions", "text": "L'éclat final du bijou." } },
+        "s8": { "type": "step", "settings": { "title": "Contrôle final", "text": "Vérification complète avant livraison." } },
+        "s9": { "type": "step", "settings": { "title": "Remise au client", "text": "La création rejoint son propriétaire." } }
+      },
+      "block_order": ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9"]
+    },
+    "video": {
+      "type": "video-feature",
+      "settings": {
+        "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises34.jpg",
+        "eyebrow": "En mouvement",
+        "heading": "Le geste artisanal",
+        "text": "Un aperçu du travail de nos artisans en atelier."
+      }
+    },
+    "gallery": {
+      "type": "atelier-gallery",
+      "settings": {
+        "eyebrow": "En images",
+        "heading": "L'Atelier",
+        "text": "Croquis, modélisation, fabrication, sertissage : chaque étape en images."
+      },
+      "blocks": {
+        "a1": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises17.jpg", "size": "wide" } },
+        "a2": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises39.jpg", "size": "tall" } },
+        "a3": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises49.jpg", "size": "small" } },
+        "a4": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises51.jpg", "size": "small" } }
+      },
+      "block_order": ["a1", "a2", "a3", "a4"]
+    },
+    "cta": {
+      "type": "cta-banner",
+      "settings": {
+        "heading": "Envie de créer votre propre bijou ?",
+        "text": "Notre atelier peut donner vie à votre projet sur mesure."
+      },
+      "blocks": {
+        "b1": { "type": "button", "settings": { "label": "Découvrir le sur-mesure", "link": "/pages/sur-mesure" } },
+        "b2": { "type": "button", "settings": { "label": "Prendre rendez-vous", "link": "/pages/rendez-vous" } }
+      },
+      "block_order": ["b1", "b2"]
+    }
+  },
+  "order": ["intro", "timeline", "video", "gallery", "cta"]
+}

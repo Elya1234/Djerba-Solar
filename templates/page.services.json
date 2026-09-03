@@ -1,0 +1,47 @@
+{
+  "sections": {
+    "intro": {
+      "type": "immersive-banner",
+      "settings": {
+        "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises43.jpg",
+        "eyebrow": "À votre service",
+        "heading": "Nos services",
+        "text": "Réparation, transformation, sur-mesure, entretien : la Maison Gold Mines vous accompagne bien après l'achat.",
+        "align": "left"
+      }
+    },
+    "services": {
+      "type": "services-grid",
+      "settings": {
+        "eyebrow": "Nos prestations",
+        "heading": "Un service pour chaque besoin"
+      },
+      "blocks": {
+        "s1": { "type": "service", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises42.jpg", "title": "Création sur mesure", "text": "Un bijou unique, pensé avec vous, de l'idée à la réalisation.", "link_label": "En savoir plus", "link": "/pages/sur-mesure" } },
+        "s2": { "type": "service", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises44.jpg", "title": "Réparation", "text": "Redonnez vie à un bijou abîmé grâce à notre atelier." } },
+        "s3": { "type": "service", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises45.jpg", "title": "Transformation", "text": "Transformez un bijou ancien en une création qui vous ressemble." } },
+        "s4": { "type": "service", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises52.jpg", "title": "Mise à taille", "text": "Ajustement précis de vos bagues pour un confort optimal." } },
+        "s5": { "type": "service", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises35.jpg", "title": "Polissage", "text": "Redonnez de l'éclat à vos bijoux préférés." } },
+        "s6": { "type": "service", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises37.jpg", "title": "Rhodiage", "text": "Un traitement qui restaure la brillance de l'or blanc." } },
+        "s7": { "type": "service", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises19.jpg", "title": "Gravure", "text": "Personnalisez votre bijou avec une gravure sur mesure." } },
+        "s8": { "type": "service", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises21.webp", "title": "Sertissage", "text": "Fixation précise et sécurisée de vos pierres." } },
+        "s9": { "type": "service", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises3.jpg", "title": "Entretien", "text": "Conseils et soins pour préserver l'éclat de vos bijoux." } },
+        "s10": { "type": "service", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises10.jpg", "title": "Expertise & conseil", "text": "Un avis d'expert pour vous accompagner dans vos choix." } }
+      },
+      "block_order": ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10"]
+    },
+    "cta": {
+      "type": "cta-banner",
+      "settings": {
+        "heading": "Une question sur nos services ?",
+        "text": "Notre équipe est à votre disposition pour vous conseiller."
+      },
+      "blocks": {
+        "b1": { "type": "button", "settings": { "label": "Prendre rendez-vous", "link": "/pages/rendez-vous" } },
+        "b2": { "type": "button", "settings": { "label": "Nous contacter", "link": "/pages/contact" } }
+      },
+      "block_order": ["b1", "b2"]
+    }
+  },
+  "order": ["intro", "services", "cta"]
+}

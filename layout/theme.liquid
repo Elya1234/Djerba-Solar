@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>{{ page_title }}{% if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+
+  {%- if page_description -%}<meta name="description" content="{{ page_description | escape }}">{%- endif -%}
+  <link rel="canonical" href="{{ canonical_url }}">
+  {%- if settings.favicon -%}<link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 96 }}">{%- endif -%}
+
+  <meta property="og:site_name" content="{{ shop.name }}">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:type" content="{% if template contains 'product' %}product{% else %}website{% endif %}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  {%- if page_description -%}<meta property="og:description" content="{{ page_description | escape }}">{%- endif -%}
+  {%- if template contains 'product' and product.featured_image -%}
+    <meta property="og:image" content="{{ product.featured_image | image_url: width: 1200 }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="{{ 1200 | divided_by: product.featured_image.aspect_ratio }}">
+  {%- elsif settings.favicon -%}
+    <meta property="og:image" content="{{ settings.favicon | image_url: width: 1200 }}">
+  {%- endif -%}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page_title }}">
+  {%- if page_description -%}<meta name="twitter:description" content="{{ page_description | escape }}">{%- endif -%}
+  <meta name="theme-color" content="{{ settings.color_navy }}">
+  {% render 'structured-data' %}
+
+  {{ content_for_header }}
+
+  {%- style -%}
+    {%- unless settings.font_heading.system? -%}{{ settings.font_heading | font_face: font_display: 'swap' }}{%- endunless -%}
+    {%- unless settings.font_body.system? -%}{{ settings.font_body | font_face: font_display: 'swap' }}{%- endunless -%}
+    :root {
+      --font-heading-family: {{ settings.font_heading.family }}, serif;
+      --font-heading-style: {{ settings.font_heading.style }};
+      --font-body-family: {{ settings.font_body.family }}, sans-serif;
+      --font-body-style: {{ settings.font_body.style }};
+      --gm-bg: {{ settings.color_bg }};
+      --gm-text: {{ settings.color_text }};
+      --gm-navy-900: {{ settings.color_navy }};
+      --gm-accent: {{ settings.color_gold }};
+      --container-max: {{ settings.page_width }}px;
+    }
+  {%- endstyle -%}
+
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+  <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'wishlist.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'account.js' | asset_url }}" defer="defer"></script>
+  <script>document.documentElement.classList.remove('no-js');</script>
+</head>
+<body class="gm-template-{{ request.page_type }}{% if settings.enable_animations == false %} gm-motion-off{% endif %}">
+  {% section 'header' %}
+  {% section 'cart-drawer' %}
+  <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+  {% render 'search-modal' %}
+  {% render 'size-guide-modal' %}
+  {% render 'quick-view-modal' %}
+  <script src="{{ 'search.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quickview.js' | asset_url }}" defer="defer"></script>
+
+  <main id="MainContent" role="main">
+    {{ content_for_layout }}
+  </main>
+
+  {% section 'footer' %}
+
+  {%- comment -%} Cart drawer and search modal are introduced in later phases (Phase 3 & 7). {%- endcomment -%}
+</body>
+</html>

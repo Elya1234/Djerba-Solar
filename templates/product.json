@@ -1,0 +1,73 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "available_text": "Disponible",
+        "unavailable_text": "Indisponible — nous consulter"
+      },
+      "blocks": {
+        "r1": { "type": "reassurance", "settings": { "icon": "bag", "title": "Livraison assurée", "text": "Colis suivi et sécurisé" } },
+        "r2": { "type": "reassurance", "settings": { "icon": "plus", "title": "Certificat", "text": "Authenticité de chaque pierre" } },
+        "r3": { "type": "reassurance", "settings": { "icon": "account", "title": "Fabrication soignée", "text": "Contrôle qualité avant expédition" } },
+        "r4": { "type": "reassurance", "settings": { "icon": "heart", "title": "Entretien & garantie", "text": "Conseils et service après-vente" } }
+      },
+      "block_order": ["r1", "r2", "r3", "r4"]
+    },
+    "complementary": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "À associer avec",
+        "intent": "complementary",
+        "limit": 8
+      }
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "Vous pourriez aussi aimer",
+        "intent": "related",
+        "limit": 8
+      }
+    },
+    "services": {
+      "type": "services-grid",
+      "settings": {
+        "eyebrow": "À votre service",
+        "heading": "Nos services"
+      },
+      "blocks": {
+        "sv1": { "type": "service", "settings": { "title": "Mise à taille & gravure", "link_label": "En savoir plus", "link": "/pages/services" } },
+        "sv2": { "type": "service", "settings": { "title": "Réparation & transformation", "link_label": "En savoir plus", "link": "/pages/services" } },
+        "sv3": { "type": "service", "settings": { "title": "Entretien & rhodiage", "link_label": "En savoir plus", "link": "/pages/services" } }
+      },
+      "block_order": ["sv1", "sv2", "sv3"]
+    },
+    "savoir-faire": {
+      "type": "craftsmanship-timeline",
+      "settings": {
+        "eyebrow": "Notre savoir-faire",
+        "heading": "De l'idée au bijou"
+      },
+      "blocks": {
+        "s1": { "type": "step", "settings": { "title": "Croquis", "text": "Le projet prend forme sur le papier." } },
+        "s2": { "type": "step", "settings": { "title": "Conception 3D", "text": "Modélisation précise avant fabrication." } },
+        "s3": { "type": "step", "settings": { "title": "Fabrication", "text": "Façonnage du métal en atelier." } },
+        "s4": { "type": "step", "settings": { "title": "Sertissage", "text": "Chaque pierre est sertie avec précision." } }
+      },
+      "block_order": ["s1", "s2", "s3", "s4"]
+    },
+    "boutique-rdv": {
+      "type": "boutique-rdv-cta",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "complementary",
+    "recommendations",
+    "services",
+    "savoir-faire",
+    "boutique-rdv"
+  ]
+}

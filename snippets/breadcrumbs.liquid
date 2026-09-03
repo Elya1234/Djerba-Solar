@@ -1,0 +1,25 @@
+{%- comment -%}
+  Visible breadcrumb trail — the same path already emitted as
+  BreadcrumbList structured data in snippets/structured-data.liquid, kept
+  in sync since both read from the same `collection`/`product` objects.
+  Usage: {% render 'breadcrumbs' %} (reads global `template`, `collection`,
+  `product` — no parameters needed).
+{%- endcomment -%}
+{%- if template contains 'product' or template contains 'collection' -%}
+  <nav class="gm-breadcrumbs" aria-label="Fil d'Ariane">
+    <ol>
+      <li><a href="{{ routes.root_url }}">Accueil</a></li>
+      {%- if template contains 'collection' and collection -%}
+        <li aria-current="page">{{ collection.title }}</li>
+      {%- endif -%}
+      {%- if template contains 'product' and product -%}
+        {%- if collection -%}
+          <li><a href="{{ collection.url }}">{{ collection.title }}</a></li>
+        {%- else -%}
+          <li><a href="{{ routes.all_products_collection_url }}">Toutes les créations</a></li>
+        {%- endif -%}
+        <li aria-current="page">{{ product.title }}</li>
+      {%- endif -%}
+    </ol>
+  </nav>
+{%- endif -%}

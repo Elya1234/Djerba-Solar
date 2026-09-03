@@ -1,0 +1,168 @@
+/* GOLD MINES — Collections, filters, product cards, search (Phase 3) */
+
+/* ---- Product card ---- */
+.gm-card__media-wrap { position: relative; }
+.gm-card__media { display: block; aspect-ratio: 3/4; background: var(--gm-stone-50); }
+.gm-card__media img { width: 100%; height: 100%; object-fit: cover; }
+.gm-card__media-hover { position: absolute; inset: 0; opacity: 0; transition: opacity var(--dur-base) var(--ease-luxe); }
+.gm-card:hover .gm-card__media-hover { opacity: 1; }
+.gm-card__badges { position: absolute; top: var(--space-2); left: var(--space-2); display: flex; flex-direction: column; gap: 0.5rem; }
+.gm-card__wishlist {
+  position: absolute; top: var(--space-2); right: var(--space-2);
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.85); color: var(--gm-onyx-900);
+  transition: transform var(--dur-fast) var(--ease-luxe), background-color var(--dur-fast) var(--ease-luxe);
+}
+.gm-card__wishlist:hover { transform: scale(1.08); }
+.gm-card__wishlist[aria-pressed="true"] { color: var(--gm-error); }
+.gm-card__wishlist[aria-pressed="true"] svg { fill: currentColor; }
+.gm-card__info { padding-top: var(--space-3); }
+.gm-card__collection { font-size: 1.1rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gm-text-muted); }
+.gm-card__title { display: block; font-family: var(--font-display); font-weight: 500; font-size: var(--type-product-name); color: var(--color-text-secondary); margin-top: 0.3rem; line-height: 1.25; }
+.gm-card__price { color: var(--color-text-muted); font-family: var(--font-body); font-size: var(--type-price); margin-top: 0.3rem; }
+.gm-card__swatches { display: flex; gap: 0.6rem; margin-top: var(--space-2); }
+.gm-card__swatches .gm-swatch { width: 1.8rem; height: 1.8rem; }
+
+.gm-card--soldout .gm-card__media { opacity: 0.55; }
+.gm-card--soldout .gm-card__title, .gm-card--soldout .gm-card__price { color: var(--gm-text-muted); }
+
+.gm-card__quickview {
+  position: absolute; left: var(--space-2); right: var(--space-2); bottom: var(--space-2);
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 1rem; background: rgba(255,255,255,0.92); color: var(--gm-onyx-900);
+  font-size: 1.05rem; letter-spacing: 0.05em; text-transform: uppercase;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity var(--dur-fast) var(--ease-luxe), transform var(--dur-fast) var(--ease-luxe);
+}
+.gm-card:hover .gm-card__quickview, .gm-card:focus-within .gm-card__quickview { opacity: 1; transform: translateY(0); }
+@media (max-width: 767px) {
+  /* A minimal card (photo / name / price / metal dots / heart) reads
+     cleaner on a narrow phone grid — the quick-view trigger is a
+     desktop-hover affordance and has no equivalent in the reference
+     layout, so it's dropped from the card entirely on mobile rather
+     than forced into an always-visible text row under the image. */
+  .gm-card__quickview { display: none; }
+  .gm-card__media { aspect-ratio: 1 / 1; }
+  .gm-card__swatches .gm-swatch { width: 1.5rem; height: 1.5rem; }
+}
+
+/* ---- Collection banner ---- */
+.gm-collection-banner { position: relative; min-height: 42vh; display: flex; align-items: flex-end; color: var(--gm-white); }
+.gm-collection-banner__media { position: absolute; inset: 0; }
+.gm-collection-banner__media img { width: 100%; height: 100%; object-fit: cover; }
+.gm-collection-banner__media::after { content: ""; position: absolute; inset: 0; background: rgba(10,10,11,0.36); }
+.gm-collection-banner__content { position: relative; z-index: 1; padding-block: var(--space-6); max-width: 60rem; }
+.gm-collection-banner--plain { min-height: 0; color: var(--gm-text); padding-top: var(--space-7); }
+.gm-collection-banner--plain .gm-collection-banner__content { color: var(--gm-text); position: static; }
+
+/* ---- Collection description: truncated with a "Voir plus" toggle ---- */
+.gm-collection-desc__text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+.gm-collection-desc.is-expanded .gm-collection-desc__text {
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+.gm-collection-desc__toggle {
+  display: none;
+  margin-top: var(--space-2);
+  font-size: 1.2rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--color-text-muted);
+}
+.gm-collection-desc__toggle.is-visible { display: inline-block; }
+
+/* ---- Toolbar: filter trigger + result count + sort ---- */
+.gm-toolbar {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-2) var(--space-3);
+  padding-block: var(--space-4); border-top: 1px solid var(--gm-border); border-bottom: 1px solid var(--gm-border);
+  margin-bottom: var(--space-6);
+}
+.gm-toolbar__filter-btn { display: inline-flex; align-items: center; gap: var(--space-2); font-size: 1.2rem; letter-spacing: 0.04em; text-transform: uppercase; flex-shrink: 0; }
+.gm-toolbar__count { color: var(--gm-text-muted); font-size: 1.3rem; white-space: nowrap; }
+.gm-toolbar__sort { min-width: 0; max-width: 100%; }
+.gm-toolbar__sort select {
+  border: 0; background: transparent; font-size: 1.2rem; letter-spacing: 0.04em; text-transform: uppercase; padding-right: var(--space-3);
+  max-width: 100%; text-overflow: ellipsis;
+}
+@media (max-width: 479px) {
+  .gm-toolbar__sort { order: 3; flex-basis: 100%; }
+  .gm-toolbar__sort select { font-size: 1.05rem; }
+}
+
+/* ---- Layout: sidebar (desktop) + grid ---- */
+.gm-collection-layout { display: grid; grid-template-columns: 260px 1fr; gap: var(--space-6); align-items: start; }
+@media (max-width: 989px) { .gm-collection-layout { grid-template-columns: 1fr; } }
+
+.gm-product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5) var(--space-4); }
+@media (max-width: 1199px) { .gm-product-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 767px) { .gm-product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4) var(--space-2); } }
+.gm-product-grid__editorial { grid-column: 1 / -1; padding-block: var(--space-6); text-align: center; border-top: 1px solid var(--gm-border); border-bottom: 1px solid var(--gm-border); margin-block: var(--space-2); }
+
+/* ---- Facets: desktop sidebar ---- */
+.gm-facets { display: none; }
+@media (min-width: 990px) { .gm-facets { display: block; } }
+.gm-facets__group { border-bottom: 1px solid var(--gm-border); padding-block: var(--space-3); }
+.gm-facets__group-title { font-size: 1.2rem; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: var(--space-2); }
+.gm-facets__option { display: flex; align-items: center; gap: 0.8rem; padding-block: 0.5rem; font-size: 1.35rem; cursor: pointer; }
+.gm-facets__option input { accent-color: var(--gm-onyx-900); }
+.gm-facets__option .count { color: var(--gm-text-muted); font-size: 1.15rem; margin-left: auto; }
+.gm-facets__swatch-row { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+.gm-facets__clear { font-size: 1.2rem; text-decoration: underline; color: var(--gm-text-muted); }
+.gm-facets__active { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-4); }
+.gm-facets__pill { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.6rem 1.1rem; border: 1px solid var(--gm-border); border-radius: var(--radius-full); font-size: 1.2rem; }
+.gm-facets__pill button { display: inline-flex; }
+
+/* ---- Facets: mobile drawer ---- */
+.gm-filter-drawer {
+  position: fixed; inset: 0; z-index: var(--z-drawer);
+  background: var(--gm-bg); transform: translateY(100%);
+  transition: transform var(--dur-slow) var(--ease-luxe);
+  display: flex; flex-direction: column;
+}
+.gm-filter-drawer.is-open { transform: translateY(0); }
+.gm-filter-drawer__head { display: flex; align-items: center; justify-content: space-between; padding: var(--space-4); border-bottom: 1px solid var(--gm-border); }
+.gm-filter-drawer__body { flex: 1; overflow-y: auto; padding: 0 var(--space-4); }
+.gm-filter-drawer__foot { padding: var(--space-4); border-top: 1px solid var(--gm-border); }
+@media (min-width: 990px) { .gm-filter-drawer { display: none; } }
+
+/* ---- Pagination ---- */
+.gm-pagination { display: flex; justify-content: center; gap: var(--space-3); padding-top: var(--space-7); }
+.gm-pagination a, .gm-pagination span { padding: var(--space-2) var(--space-3); font-size: 1.3rem; }
+.gm-pagination [aria-current="page"] { border-bottom: 1px solid currentColor; }
+
+/* ---- Empty state ---- */
+.gm-empty-state { text-align: center; padding-block: var(--space-8); }
+
+/* ---- Quick View ---- */
+.gm-quickview__panel { width: min(880px, calc(100% - 2 * var(--space-4))); }
+.gm-quickview__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+.gm-quickview__media { aspect-ratio: 4/5; border-radius: var(--radius-sm); overflow: hidden; background: var(--gm-stone-50); }
+@media (max-width: 699px) { .gm-quickview__grid { grid-template-columns: 1fr; } }
+
+/* ---- Sub-categories row ---- */
+.gm-subcats { display: flex; gap: var(--space-3); overflow-x: auto; padding-bottom: var(--space-2); margin-bottom: var(--space-6); scrollbar-width: none; }
+.gm-subcats::-webkit-scrollbar { display: none; }
+.gm-subcats__item {
+  flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: var(--space-2);
+  min-width: 88px; text-align: center;
+}
+.gm-subcats__media { width: 76px; height: 76px; border-radius: 50%; overflow: hidden; background: var(--gm-stone-50); }
+.gm-subcats__media img { width: 100%; height: 100%; object-fit: cover; }
+.gm-subcats__label { font-size: 1.15rem; letter-spacing: 0.02em; }
+
+/* ---- Explore other universes (bottom of collection) ---- */
+.gm-explore-more { margin-top: var(--space-8); padding-top: var(--space-7); border-top: 1px solid var(--gm-border); }
+.gm-explore-more__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
+@media (max-width: 767px) { .gm-explore-more__grid { grid-template-columns: 1fr; } }
+
+/* Touch target: see the matching note in header.css — placed after the
+   base .gm-card__wishlist rule above so it actually applies. */
+@media (max-width: 767px), (pointer: coarse) {
+  .gm-card__wishlist { width: 40px; height: 40px; }
+}

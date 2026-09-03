@@ -1,0 +1,64 @@
+{
+  "sections": {
+    "intro": {
+      "type": "immersive-banner",
+      "settings": {
+        "image": "shopify://shop_images/03_2f7827b6-d2f5-4897-b0fb-a6f3c6eda0e3.jpg",
+        "eyebrow": "Le guide du diamant",
+        "heading": "Comprendre un diamant",
+        "text": "Carat, taille, couleur, pureté et certification : les critères essentiels pour choisir votre diamant en toute confiance.",
+        "align": "left"
+      }
+    },
+    "education": {
+      "type": "diamond-education",
+      "settings": {
+        "eyebrow": "Les 4C",
+        "heading": "Les critères d'un diamant"
+      },
+      "blocks": {
+        "c1": { "type": "criterion", "settings": { "title": "Carat", "text": "Le carat mesure le poids du diamant (1 carat = 0,2 gramme). À qualité égale, le prix augmente fortement avec le carat." } },
+        "c2": { "type": "criterion", "settings": { "title": "Taille (Cut)", "text": "La taille détermine la façon dont le diamant capte et réfléchit la lumière. Une taille excellente maximise son éclat." } },
+        "c3": { "type": "criterion", "settings": { "title": "Couleur", "text": "La couleur d'un diamant blanc est notée de D (incolore) à Z (teinté). Plus la lettre est proche de D, plus le diamant est recherché." } },
+        "c4": { "type": "criterion", "settings": { "title": "Pureté", "text": "La pureté évalue les inclusions internes et externes du diamant, de Flawless (sans inclusion visible) à Included." } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4"]
+    },
+    "origin": {
+      "type": "gemstones-grid",
+      "settings": {
+        "eyebrow": "Naturel ou laboratoire",
+        "heading": "Deux origines, la même exigence",
+        "text": "Diamant naturel ou diamant de laboratoire : Gold Mines sélectionne chaque pierre pour sa qualité et son authenticité, quelle que soit son origine."
+      },
+      "blocks": {
+        "o1": { "type": "gem", "settings": { "title": "Diamant naturel", "link": "/collections/fiancailles" } },
+        "o2": { "type": "gem", "settings": { "title": "Diamant de laboratoire", "link": "/collections/fiancailles" } }
+      },
+      "block_order": ["o1", "o2"]
+    },
+    "certification": {
+      "type": "editorial-split",
+      "settings": {
+        "image": "shopify://shop_images/04_977dd1f3-566d-486c-9043-0c0ae9fc8269.jpg",
+        "eyebrow": "La certification",
+        "heading": "Un certificat gemmologique indépendant",
+        "text": "<p>Un certificat gemmologique indépendant atteste des caractéristiques réelles du diamant : carat, couleur, pureté et taille.</p>",
+        "image_position": "left"
+      }
+    },
+    "cta": {
+      "type": "cta-banner",
+      "settings": {
+        "heading": "Prêt à choisir votre bague de fiançailles ?",
+        "text": "Découvrez nos créations ou échangez avec notre équipe."
+      },
+      "blocks": {
+        "b1": { "type": "button", "settings": { "label": "Bagues de fiançailles", "link": "/pages/fiancailles" } },
+        "b2": { "type": "button", "settings": { "label": "Prendre rendez-vous", "link": "/pages/rendez-vous" } }
+      },
+      "block_order": ["b1", "b2"]
+    }
+  },
+  "order": ["intro", "education", "origin", "certification", "cta"]
+}

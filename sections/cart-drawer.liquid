@@ -1,0 +1,115 @@
+{{ 'cart.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign has_empty_links = false
+  for block in section.blocks
+    if block.type == 'empty_link' and block.settings.label != blank and block.settings.link != blank
+      assign has_empty_links = true
+    endif
+  endfor
+-%}
+
+<div class="gm-cart-drawer" data-gm-cart-drawer role="dialog" aria-modal="true" aria-label="{{ 'cart.title' | t }}" aria-busy="false">
+  <div class="gm-cart-drawer__head">
+    <span class="gm-h4">{{ 'cart.title' | t }} <span data-gm-cart-count-inline>({{ cart.item_count }})</span></span>
+    <button type="button" data-gm-cart-close aria-label="{{ 'general.accessibility.close' | t }}">{% render 'icon', name: 'close' %}</button>
+  </div>
+
+  <p class="gm-form__error" data-gm-cart-error hidden role="alert"></p>
+
+  <div class="gm-cart-drawer__empty" data-gm-cart-empty{% if cart.item_count > 0 %} hidden{% endif %}>
+    <p class="gm-lead">{{ 'cart.empty.heading' | t }}</p>
+    {%- if section.settings.empty_text != blank -%}<p style="color:var(--gm-text-muted);">{{ section.settings.empty_text }}</p>{%- endif -%}
+    {%- if has_empty_links -%}
+      <div class="gm-cart-drawer__empty-links">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'empty_link' and block.settings.label != blank and block.settings.link != blank -%}
+            <a href="{{ block.settings.link }}" class="gm-btn gm-btn--outline" {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <ul class="gm-cart-drawer__items" data-gm-cart-items{% if cart.item_count == 0 %} hidden{% endif %}>
+    {%- for item in cart.items -%}
+      <li class="gm-cart-item" data-gm-cart-line="{{ item.key }}">
+        <a href="{{ item.url }}" class="gm-cart-item__media">
+          {%- if item.image -%}{{ item.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: item.image.alt }}{%- endif -%}
+        </a>
+        <div class="gm-cart-item__body">
+          <a href="{{ item.url }}" class="gm-cart-item__title">{{ item.product.title }}</a>
+          <div class="gm-cart-item__opts">
+            {%- for opt in item.options_with_values -%}
+              {%- if opt.value != blank and opt.value != 'Default Title' -%}
+                <div class="gm-cart-item__opt"><span>{{ opt.name }}</span><span>{{ opt.value }}</span></div>
+              {%- endif -%}
+            {%- endfor -%}
+            {%- for prop in item.properties -%}
+              {%- liquid
+                assign prop_key_first_char = prop.first | slice: 0, 1
+              -%}
+              {%- if prop.last != blank and prop_key_first_char != '_' -%}
+                <div class="gm-cart-item__opt"><span>{{ prop.first }}</span><span>{{ prop.last }}</span></div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+          {%- unless item.variant.available -%}<p class="gm-cart-item__warning">Cette variante n'est plus disponible.</p>{%- endunless -%}
+          <div class="gm-cart-item__row">
+            <div class="gm-qty-stepper" data-gm-qty-stepper>
+              <button type="button" class="gm-qty-stepper__btn" data-gm-qty-decrease aria-label="Diminuer la quantité">–</button>
+              <span class="gm-qty-stepper__value">{{ item.quantity }}</span>
+              <button type="button" class="gm-qty-stepper__btn" data-gm-qty-increase aria-label="Augmenter la quantité">+</button>
+            </div>
+            <button type="button" class="gm-cart-item__remove" data-gm-cart-remove aria-label="Retirer {{ item.product.title }} du panier">{{ 'cart.remove' | t }}</button>
+          </div>
+        </div>
+        <div class="gm-cart-item__price">{{ item.final_line_price | money }}</div>
+      </li>
+    {%- endfor -%}
+  </ul>
+
+  <div class="gm-cart-drawer__footer" data-gm-cart-footer{% if cart.item_count == 0 %} hidden{% endif %}>
+    {%- if section.settings.reassurance_text != blank -%}
+      <p class="gm-cart-drawer__reassurance">{{ section.settings.reassurance_text }}</p>
+    {%- endif -%}
+    <div class="gm-cart-drawer__subtotal">
+      <span>{{ 'cart.subtotal' | t }}</span>
+      <span data-gm-cart-subtotal>{{ cart.items_subtotal_price | money }}</span>
+    </div>
+    <p class="gm-cart-drawer__note-hint">{{ 'cart.taxes_shipping_note' | t }}</p>
+    <div class="gm-cart-drawer__actions">
+      <a href="{{ routes.cart_url }}" class="gm-btn gm-btn--outline gm-btn--full">{{ 'cart.view_cart' | t }}</a>
+      <a href="{{ routes.cart_url }}/checkout" class="gm-btn gm-btn--primary gm-btn--full">{{ 'cart.checkout' | t }}</a>
+    </div>
+  </div>
+</div>
+
+<div class="gm-visually-hidden" role="status" aria-live="polite" data-gm-cart-live></div>
+
+{% schema %}
+{
+  "name": "Panier (drawer)",
+  "settings": [
+    { "type": "textarea", "id": "empty_text", "label": "Texte panier vide" },
+    { "type": "textarea", "id": "reassurance_text", "label": "Texte de réassurance", "info": "À renseigner uniquement avec une information réelle : ex. livraison, garantie." }
+  ],
+  "blocks": [
+    {
+      "type": "empty_link",
+      "name": "Lien suggéré",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Libellé", "default": "Découvrir les nouveautés" },
+        { "type": "url", "id": "link", "label": "Lien" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "empty_link", "settings": { "label": "Découvrir les nouveautés", "link": "/collections/all" } },
+      { "type": "empty_link", "settings": { "label": "Bagues de fiançailles", "link": "/pages/fiancailles" } },
+      { "type": "empty_link", "settings": { "label": "Nos collections", "link": "/collections" } }
+    ]
+  }
+}
+{% endschema %}

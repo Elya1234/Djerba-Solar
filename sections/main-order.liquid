@@ -1,0 +1,67 @@
+{{ 'pages.css' | asset_url | stylesheet_tag }}
+{{ 'account.css' | asset_url | stylesheet_tag }}
+
+<div class="gm-container gm-section">
+  <div class="gm-order-detail__head">
+    <div>
+      <span class="gm-eyebrow"><a href="{{ routes.account_url }}">{{ 'customer.account.eyebrow' | t }}</a></span>
+      <h1 class="gm-h2">{{ 'customer.order.heading' | t: name: order.name }}</h1>
+      <p class="gm-order-detail__meta">{{ order.created_at | date: '%d %B %Y' }} — {{ order.financial_status_label }}{% if order.fulfillment_status_label %} · {{ order.fulfillment_status_label }}{% endif %}</p>
+    </div>
+  </div>
+
+  <div class="gm-order-detail__layout">
+    <div class="gm-order-detail__items">
+      {%- for line_item in order.line_items -%}
+        <div class="gm-order-line">
+          <div class="gm-order-line__media">
+            {%- if line_item.image -%}{{ line_item.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: line_item.image.alt }}{%- endif -%}
+          </div>
+          <div class="gm-order-line__body">
+            <strong>{{ line_item.title }}</strong>
+            {%- for opt in line_item.variant.options_with_values -%}
+              {%- if opt.value != blank and opt.value != 'Default Title' -%}<span>{{ opt.name }} : {{ opt.value }}</span>{%- endif -%}
+            {%- endfor -%}
+            {%- for prop in line_item.properties -%}
+              {%- liquid
+                assign prop_key_first_char = prop.first | slice: 0, 1
+              -%}
+              {%- if prop.last != blank and prop_key_first_char != '_' -%}<span>{{ prop.first }} : {{ prop.last }}</span>{%- endif -%}
+            {%- endfor -%}
+            <span>{{ 'customer.order.quantity' | t }} : {{ line_item.quantity }}</span>
+          </div>
+          <div class="gm-order-line__price">{{ line_item.final_line_price | money }}</div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <aside class="gm-order-detail__totals">
+      <div class="gm-account__info-row"><span>{{ 'customer.order.subtotal' | t }}</span><span>{{ order.subtotal_price | money }}</span></div>
+      {%- if order.total_shipping_price_set -%}
+        <div class="gm-account__info-row"><span>{{ 'customer.order.shipping' | t }}</span><span>{{ order.shipping_price | money }}</span></div>
+      {%- endif -%}
+      {%- if order.tax_price and order.tax_price > 0 -%}
+        <div class="gm-account__info-row"><span>{{ 'customer.order.taxes' | t }}</span><span>{{ order.tax_price | money }}</span></div>
+      {%- endif -%}
+      <div class="gm-account__info-row"><span>{{ 'customer.order.total' | t }}</span><strong>{{ order.total_price | money }}</strong></div>
+
+      {%- if order.shipping_address -%}
+        <h2 style="margin-top:var(--space-5);">{{ 'customer.order.shipping_address' | t }}</h2>
+        <p style="font-size:1.3rem; color:var(--gm-text-muted);">
+          {{ order.shipping_address.name }}<br>
+          {{ order.shipping_address.address1 }}<br>
+          {%- if order.shipping_address.address2 != blank -%}{{ order.shipping_address.address2 }}<br>{%- endif -%}
+          {{ order.shipping_address.zip }} {{ order.shipping_address.city }}<br>
+          {{ order.shipping_address.country }}
+        </p>
+      {%- endif -%}
+    </aside>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Détail commande",
+  "settings": []
+}
+{% endschema %}

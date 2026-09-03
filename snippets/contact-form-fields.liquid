@@ -1,0 +1,57 @@
+{%- comment -%}
+  Shared Shopify-native contact form (works once a real store is connected —
+  submits to Shopify's built-in contact message, no custom backend needed).
+  Usage: {% render 'contact-form-fields', form_id: 'ContactForm', show_date: false, extra_subject_field: true %}
+{%- endcomment -%}
+{%- liquid
+  assign fid = form_id | default: 'ContactForm'
+-%}
+{%- form 'contact', id: fid, class: 'gm-form' -%}
+  {%- if form.posted_successfully? -%}
+    <div class="gm-form__notice gm-form__notice--success" role="status" data-gm-form-success>
+      {{ 'contact.form.success' | t }}
+    </div>
+  {%- elsif form.errors -%}
+    <div class="gm-form__notice gm-form__notice--error" role="alert">
+      {{ 'contact.form.error' | t }}
+    </div>
+  {%- endif -%}
+
+  {%- if show_reason -%}
+    <input type="hidden" name="contact[Motif]" data-gm-reason-input value="">
+  {%- endif -%}
+
+  <div class="gm-form__row">
+    <div class="gm-form__field" data-invalid="{% if form.errors contains 'name' %}true{% else %}false{% endif %}">
+      <label for="{{ fid }}-name">{{ 'contact.form.name' | t }}</label>
+      <input type="text" class="gm-input" id="{{ fid }}-name" name="contact[name]" value="{{ form.name }}" required>
+    </div>
+    <div class="gm-form__field" data-invalid="{% if form.errors contains 'email' %}true{% else %}false{% endif %}">
+      <label for="{{ fid }}-email">{{ 'contact.form.email' | t }}</label>
+      <input type="email" class="gm-input" id="{{ fid }}-email" name="contact[email]" value="{{ form.email }}" autocomplete="email" required>
+    </div>
+  </div>
+
+  <div class="gm-form__row">
+    <div class="gm-form__field">
+      <label for="{{ fid }}-phone">{{ 'contact.form.phone' | t }}</label>
+      <input type="tel" class="gm-input" id="{{ fid }}-phone" name="contact[phone]" value="{{ form.phone }}">
+    </div>
+    {%- if show_date -%}
+      <div class="gm-form__field">
+        <label for="{{ fid }}-date">{{ 'contact.form.preferred_date' | t }}</label>
+        <input type="date" class="gm-input" id="{{ fid }}-date" name="contact[Date souhaitée]">
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="gm-form__field">
+    <label for="{{ fid }}-message">{{ 'contact.form.message' | t }}</label>
+    <textarea class="gm-input" id="{{ fid }}-message" name="contact[body]" required>{{ form.body }}</textarea>
+  </div>
+
+  <div class="gm-form__submit-row">
+    <button type="submit" class="gm-btn gm-btn--primary" data-gm-form-submit>{% if submit_label %}{{ submit_label }}{% else %}{{ 'contact.form.submit' | t }}{% endif %}</button>
+    <span class="gm-form__error" data-gm-form-client-error hidden></span>
+  </div>
+{%- endform -%}

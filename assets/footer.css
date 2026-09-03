@@ -1,0 +1,116 @@
+/* GOLD MINES — Footer */
+
+.gm-footer {
+  background: var(--gm-navy-900);
+  color: rgba(255, 255, 255, 0.82);
+  padding-block: var(--space-8) var(--space-4);
+}
+.gm-footer a { transition: color var(--dur-fast) var(--ease-luxe); }
+.gm-footer a:hover { color: var(--gm-gold-300); }
+.gm-footer .gm-h1, .gm-footer .gm-h2, .gm-footer .gm-h3, .gm-footer .gm-h4 { color: inherit; }
+
+.gm-footer__newsletter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: var(--space-7);
+  margin-bottom: var(--space-7);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+.gm-footer__newsletter h3 { color: var(--gm-white); max-width: 42rem; }
+.gm-footer__newsletter-form { display: flex; gap: var(--space-2); min-width: 320px; flex: 1 1 360px; max-width: 480px; }
+.gm-footer__newsletter-form .gm-input {
+  background: transparent; color: var(--gm-white); border-color: rgba(255,255,255,0.28);
+}
+.gm-footer__newsletter-form .gm-input::placeholder { color: rgba(255,255,255,0.5); }
+.gm-footer__newsletter-form .gm-btn--primary { background: var(--gm-white); color: var(--gm-onyx-900); border-color: var(--gm-white); }
+.gm-footer__newsletter-form .gm-btn--primary:hover { background: var(--gm-gold-300); border-color: var(--gm-gold-300); }
+
+.gm-footer__grid {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(4, 1fr);
+  gap: var(--space-5);
+}
+.gm-footer__brand { max-width: 32rem; }
+.gm-footer__logo { font-family: var(--font-display); font-size: 2.2rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gm-white); }
+.gm-footer__tagline { margin-top: var(--space-3); color: rgba(255,255,255,0.6); font-size: 1.3rem; }
+.gm-footer__social { display: flex; gap: var(--space-3); margin-top: var(--space-4); }
+.gm-footer__social a { display: inline-flex; padding: var(--space-2); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; }
+.gm-footer__social svg { width: 16px; height: 16px; }
+
+.gm-footer__col-title {
+  display: flex; align-items: center; justify-content: space-between; width: 100%;
+  color: var(--gm-white); font-size: 1.1rem; letter-spacing: var(--tracking-wide); text-transform: uppercase;
+  margin-bottom: var(--space-3); text-align: left; cursor: default; pointer-events: none;
+}
+.gm-footer__col-icon { display: none; }
+.gm-footer__col-panel { overflow: hidden; }
+.gm-footer__col ul { display: flex; flex-direction: column; gap: var(--space-2); }
+.gm-footer__col a { font-size: 1.3rem; color: rgba(255,255,255,0.78); }
+
+.gm-footer__bottom {
+  margin-top: var(--space-7);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+.gm-footer__legal { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.gm-footer__payments { display: flex; gap: var(--space-2); align-items: center; }
+.gm-footer__payments svg { height: 20px; width: auto; opacity: 0.85; }
+
+@media (max-width: 989px) {
+  .gm-footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6) var(--space-4); }
+  .gm-footer__brand { grid-column: 1 / -1; max-width: none; }
+  .gm-footer__newsletter { flex-direction: column; align-items: stretch; }
+  .gm-footer__newsletter-form { max-width: none; min-width: 0; }
+}
+
+/* ---- Mobile: columns become accordions, everything compacted ---- */
+@media (max-width: 767px) {
+  .gm-footer { padding-block: var(--space-6) var(--space-3); }
+  .gm-footer__grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+
+  .gm-footer__newsletter { padding-bottom: var(--space-5); margin-bottom: var(--space-5); gap: var(--space-3); }
+  .gm-footer__newsletter h3 { font-size: var(--type-heading); }
+  .gm-footer__newsletter-form { gap: var(--space-2); }
+  .gm-footer__newsletter-form .gm-input {
+    height: 50px; padding-block: 0; font-size: 1.4rem;
+  }
+  .gm-footer__newsletter-form .gm-btn {
+    min-height: 50px; padding: 0 1.8rem; font-size: var(--type-button);
+  }
+
+  .gm-footer__logo { font-size: 1.4rem; letter-spacing: 0.14em; }
+  .gm-footer__tagline { font-size: var(--type-body-secondary); margin-top: var(--space-2); }
+  .gm-footer__social { margin-top: var(--space-3); }
+  .gm-footer__brand { margin-bottom: var(--space-4); padding-bottom: var(--space-4); border-bottom: 1px solid rgba(255,255,255,0.14); }
+
+  .gm-footer__col-title {
+    cursor: pointer; pointer-events: auto;
+    padding-block: var(--space-3);
+    margin-bottom: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    font-size: var(--type-body);
+  }
+  .gm-footer__col:last-child .gm-footer__col-panel { border-bottom: 1px solid rgba(255, 255, 255, 0.14); }
+  .gm-footer__col-icon { display: inline-flex; color: rgba(255, 255, 255, 0.55); }
+  .gm-footer__col-title[aria-expanded="true"] .gm-footer__col-icon { transform: rotate(45deg); }
+  .gm-footer__col-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--dur-slow) var(--ease-luxe);
+  }
+  .gm-footer__col-panel[data-open="true"] { grid-template-rows: 1fr; }
+  .gm-footer__col ul { padding-bottom: var(--space-3); gap: var(--space-2); }
+  .gm-footer__col a { font-size: var(--type-body-secondary); }
+
+  .gm-footer__bottom { margin-top: var(--space-5); font-size: 1.05rem; }
+}
