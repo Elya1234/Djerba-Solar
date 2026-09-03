@@ -77,8 +77,8 @@
 .gm-wishlist__skeleton-grid, .gm-wishlist-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
 .gm-wishlist__empty { text-align: center; padding: var(--space-8) 0; }
 .gm-wishlist__empty p { color: var(--gm-text-muted); margin-bottom: var(--space-4); }
-@media (max-width: 989px) { .gm-wishlist-grid, .gm-wishlist__skeleton-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 479px) { .gm-wishlist-grid, .gm-wishlist__skeleton-grid { grid-template-columns: 1fr 1fr; gap: var(--space-3); } }
+@media (max-width: 989px) { .gm-wishlist-grid, .gm-wishlist__skeleton-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 479px) { .gm-wishlist-grid, .gm-wishlist__skeleton-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-3); } }
 
 .gm-wishlist-card { display: flex; flex-direction: column; }
 .gm-wishlist-card__media { display: block; aspect-ratio: 4/5; border-radius: var(--radius-sm); overflow: hidden; background: var(--gm-stone-50); position: relative; }

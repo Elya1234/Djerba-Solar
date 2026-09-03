@@ -21,7 +21,7 @@
 .gm-search-modal__results { margin-top: var(--space-6); display: grid; gap: var(--space-6); }
 .gm-search-modal__group-title { font-size: 1.1rem; letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--gm-text-muted); margin-bottom: var(--space-3); }
 .gm-search-modal__products { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); }
-@media (max-width: 767px) { .gm-search-modal__products { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 767px) { .gm-search-modal__products { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .gm-search-modal__links a { display: block; padding-block: 0.8rem; font-size: 1.5rem; border-bottom: 1px solid var(--gm-border); }
 
 /* ---- Full search results page ---- */

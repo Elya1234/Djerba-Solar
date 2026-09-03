@@ -60,11 +60,11 @@
 .gm-footer__payments svg { height: 20px; width: auto; opacity: 0.85; }
 
 @media (max-width: 989px) {
-  .gm-footer__grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-6) var(--space-4); }
+  .gm-footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6) var(--space-4); }
   .gm-footer__brand { grid-column: 1 / -1; max-width: none; }
   .gm-footer__newsletter { flex-direction: column; align-items: stretch; }
-  .gm-footer__newsletter-form { max-width: none; }
+  .gm-footer__newsletter-form { max-width: none; min-width: 0; }
 }
 @media (max-width: 599px) {
-  .gm-footer__grid { grid-template-columns: 1fr 1fr; }
+  .gm-footer__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 }

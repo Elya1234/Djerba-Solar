@@ -156,6 +156,22 @@ ul { list-style: none; margin: 0; padding: 0; }
 .gm-lead { font-size: 1.8rem; line-height: 1.65; color: var(--gm-text-muted); font-weight: 300; }
 .gm-caption { font-size: 1.2rem; letter-spacing: 0.04em; color: var(--gm-text-muted); }
 
+/* ---- Mobile type scale ----
+   The clamp() floors above are tuned for desktop/tablet and barely react
+   to viewport width below ~990px (their vw term is tiny next to the
+   fixed minimum), so headings render near-desktop-size on a 375–430px
+   phone. This gives phones their own fluid scale — still clamp()-driven,
+   not a flat percentage cut — with a genuinely smaller floor and a vw
+   coefficient large enough to actually move across 375–599px. */
+@media (max-width: 599px) {
+  .gm-h1 { font-size: clamp(2.8rem, 9vw, 3.8rem); }
+  .gm-h2 { font-size: clamp(2.4rem, 7.5vw, 3.1rem); }
+  .gm-h3 { font-size: clamp(1.9rem, 6vw, 2.4rem); }
+  .gm-h4 { font-size: clamp(1.6rem, 5vw, 1.9rem); }
+  .gm-eyebrow { font-size: 1rem; letter-spacing: 0.16em; margin-bottom: var(--space-2); }
+  .gm-lead { font-size: 1.5rem; line-height: 1.55; }
+}
+
 /* =========================================================================
    Layout primitives
    ========================================================================= */
@@ -212,9 +228,19 @@ ul { list-style: none; margin: 0; padding: 0; }
 .gm-btn:active { transform: scale(0.98); }
 .gm-btn:disabled, .gm-btn[aria-disabled="true"] { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
 /* A long label (e.g. a full sentence CTA) must wrap rather than overflow
-   the viewport on narrow phones — nowrap is a desktop/tablet refinement. */
-@media (max-width: 479px) {
-  .gm-btn { white-space: normal; text-align: center; max-width: 100%; }
+   the viewport on narrow phones — nowrap is a desktop/tablet refinement.
+   Padding/font-size/letter-spacing are also tuned down here: at full
+   desktop scale a two-word uppercase CTA like "PRENDRE RENDEZ-VOUS" eats
+   most of a 375px button's width in padding alone, leaving too little
+   room for the label itself. */
+@media (max-width: 599px) {
+  .gm-btn {
+    white-space: normal; text-align: center; max-width: 100%;
+    padding: 1.3rem 2rem;
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
+  }
+  .gm-btn--sm { padding: 1rem 1.6rem; font-size: 1rem; }
 }
 
 .gm-btn--primary { background: var(--gm-onyx-900); color: var(--gm-white); border-color: var(--gm-onyx-900); }

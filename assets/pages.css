@@ -56,7 +56,7 @@
 .gm-reason-card:hover { border-color: var(--gm-text-muted); }
 .gm-reason-card input { position: absolute; opacity: 0; pointer-events: none; }
 .gm-reason-card:has(input:checked), .gm-reason-card.is-active { border-color: var(--gm-onyx-900); background: var(--gm-bg-soft); }
-@media (max-width: 767px) { .gm-reason-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 767px) { .gm-reason-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* ---- Contact / appointment form ---- */
 .gm-form { max-width: 62rem; }

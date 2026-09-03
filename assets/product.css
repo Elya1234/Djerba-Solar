@@ -44,7 +44,8 @@
 .gm-worn-toggle__label { font-size: 1.1rem; color: var(--gm-text-muted); margin-right: 0.4rem; }
 
 /* ---- Product head ---- */
-.gm-product__eyebrow { display: flex; align-items: center; justify-content: space-between; }
+.gm-product__eyebrow { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.gm-product__eyebrow .gm-eyebrow { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .gm-product__title { font-family: var(--font-display); font-size: clamp(2.6rem, 3vw, 3.4rem); margin-top: 0.6rem; }
 .gm-product__ref { color: var(--gm-text-muted); font-size: 1.2rem; margin-top: 0.4rem; }
 .gm-product__price-row { display: flex; align-items: baseline; gap: var(--space-3); margin-top: var(--space-3); }
@@ -58,9 +59,9 @@
 /* ---- Configurator ---- */
 .gm-config { margin-top: var(--space-6); border-top: 1px solid var(--gm-border); }
 .gm-config__step { border-bottom: 1px solid var(--gm-border); padding-block: var(--space-4); }
-.gm-config__step-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-3); }
-.gm-config__step-title { font-size: 1.2rem; letter-spacing: var(--tracking-wide); text-transform: uppercase; display: flex; align-items: center; gap: 0.6rem; }
-.gm-config__step-value { font-size: 1.3rem; color: var(--gm-text-muted); }
+.gm-config__step-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin-bottom: var(--space-3); }
+.gm-config__step-title { font-size: 1.2rem; letter-spacing: var(--tracking-wide); text-transform: uppercase; display: flex; align-items: center; gap: 0.6rem; min-width: 0; flex-shrink: 0; }
+.gm-config__step-value { font-size: 1.3rem; color: var(--gm-text-muted); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: right; }
 
 .gm-option-swatches { display: flex; flex-wrap: wrap; gap: var(--space-2); }
 .gm-option-swatch {
@@ -149,7 +150,8 @@
 .gm-product__secondary-ctas a:hover, .gm-product__secondary-ctas button:hover { color: var(--gm-text); }
 
 /* ---- Reassurance ---- */
-.gm-reassurance { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-4); margin-top: var(--space-6); padding-top: var(--space-5); border-top: 1px solid var(--gm-border); }
+.gm-reassurance { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); margin-top: var(--space-6); padding-top: var(--space-5); border-top: 1px solid var(--gm-border); }
+@media (max-width: 430px) { .gm-reassurance { grid-template-columns: minmax(0, 1fr); } }
 .gm-reassurance__item { display: flex; gap: var(--space-2); align-items: flex-start; font-size: 1.25rem; }
 .gm-reassurance__item svg { flex-shrink: 0; margin-top: 0.2rem; }
 .gm-reassurance__item strong { display: block; font-size: 1.3rem; }

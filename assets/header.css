@@ -29,7 +29,7 @@ body:not(.gm-template-index) .gm-header__bar { color: var(--gm-text); }
 .gm-header__bar {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   gap: var(--space-4);
 }
@@ -241,4 +241,13 @@ body:not(.gm-template-index) .gm-header__bar { color: var(--gm-text); }
    equal-specificity override placed in theme.css, which loads first. */
 @media (max-width: 767px), (pointer: coarse) {
   .gm-header__action { padding: 1.1rem; }
+}
+
+/* Mobile typography: the logo wordmark and mobile-menu labels are sized
+   for a wide desktop header — on a 375–430px bar they need real headroom
+   next to the burger icon and cart/search actions, not just a shrink. */
+@media (max-width: 599px) {
+  .gm-header__logo { font-size: clamp(1.5rem, 5vw, 1.8rem); letter-spacing: 0.08em; }
+  .gm-mobile-nav__link { font-size: 1.7rem; }
+  .gm-mega__col-title { font-size: 1rem; }
 }
