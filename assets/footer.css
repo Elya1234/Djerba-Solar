@@ -7,6 +7,7 @@
 }
 .gm-footer a { transition: color var(--dur-fast) var(--ease-luxe); }
 .gm-footer a:hover { color: var(--gm-gold-300); }
+.gm-footer .gm-h1, .gm-footer .gm-h2, .gm-footer .gm-h3, .gm-footer .gm-h4 { color: inherit; }
 
 .gm-footer__newsletter {
   display: flex;

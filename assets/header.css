@@ -247,7 +247,11 @@ body:not(.gm-template-index) .gm-header__bar { color: var(--gm-text); }
    for a wide desktop header — on a 375–430px bar they need real headroom
    next to the burger icon and cart/search actions, not just a shrink. */
 @media (max-width: 599px) {
-  .gm-header__logo { font-size: clamp(1.5rem, 5vw, 1.8rem); letter-spacing: 0.08em; }
-  .gm-mobile-nav__link { font-size: 1.7rem; }
+  /* A Maison signature, not a page title: smaller, lighter, more
+     letter-spacing so it reads as a discreet wordmark rather than a
+     competing headline next to the burger icon and cart action. */
+  .gm-header__logo { font-size: clamp(1.3rem, 4.2vw, 1.6rem); font-weight: 400; letter-spacing: 0.1em; }
+  .gm-header__logo strong { font-weight: 500; }
+  .gm-mobile-nav__link { font-size: var(--type-heading); }
   .gm-mega__col-title { font-size: 1rem; }
 }

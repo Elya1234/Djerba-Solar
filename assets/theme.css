@@ -37,6 +37,21 @@
   --gm-success: #2f5b3f;
   --gm-error: #7a2b22;
 
+  /* ---- Typography system ----
+     Four editorial levels (A eyebrow / B display / C heading / D body)
+     plus buttons, each driven by one variable. Redefine the variable at
+     a breakpoint and every section using it updates together — never
+     hardcode a font-size on a component when one of these fits. */
+  --type-eyebrow: 1.1rem;
+  --type-display: clamp(2.8rem, 4vw, 4.4rem);
+  --type-heading: clamp(2.2rem, 2.6vw, 3rem);
+  --type-body: 1.8rem;
+  --type-button: 1.2rem;
+
+  --color-text-primary: #181817;   /* grand titre — presque noir */
+  --color-text-secondary: #383836; /* titre secondaire — gris très foncé */
+  --color-text-muted: #555552;     /* texte descriptif — gris élégant */
+
   /* ---- Typography ---- */
   --font-display: var(--font-heading-family, Georgia, 'Times New Roman', serif);
   --font-body: var(--font-body-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif);
@@ -88,6 +103,9 @@
   --gm-text: var(--gm-white);
   --gm-text-muted: rgba(255, 255, 255, 0.66);
   --gm-border: rgba(255, 255, 255, 0.14);
+  --color-text-primary: var(--gm-white);
+  --color-text-secondary: var(--gm-white);
+  --color-text-muted: rgba(255, 255, 255, 0.72);
 }
 
 /* =========================================================================
@@ -130,46 +148,73 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 /* =========================================================================
    Typography
+   Editorial hierarchy: A eyebrow (gold sur-titre) → B display (grand
+   titre) → C heading (titre secondaire) → D body (texte descriptif).
+   Every level reads its size from the --type-* variables above — never
+   add a hardcoded font-size to a heading/body element; redefine the
+   variable instead so every section stays in sync.
    ========================================================================= */
-.gm-h1, .gm-h2, .gm-h3, .gm-h4 {
+.gm-h1, .gm-h2 {
   font-family: var(--font-display);
   font-weight: 400;
-  line-height: 1.12;
-  letter-spacing: 0.002em;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
   margin: 0;
+  font-size: var(--type-display);
 }
-.gm-h1 { font-size: clamp(3.6rem, 6vw, 6.8rem); }
-.gm-h2 { font-size: clamp(2.8rem, 4vw, 4.4rem); }
-.gm-h3 { font-size: clamp(2.2rem, 2.6vw, 3rem); }
+.gm-h3, .gm-h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: 0.002em;
+  color: var(--color-text-secondary);
+  margin: 0;
+  font-size: var(--type-heading);
+}
 .gm-h4 { font-size: clamp(1.8rem, 1.6vw, 2.2rem); }
 
 .gm-eyebrow {
   display: inline-block;
   font-family: var(--font-body);
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: var(--type-eyebrow);
+  font-weight: 500;
+  line-height: 1.4;
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
   color: var(--gm-accent);
   margin-bottom: var(--space-3);
 }
-.gm-lead { font-size: 1.8rem; line-height: 1.65; color: var(--gm-text-muted); font-weight: 300; }
-.gm-caption { font-size: 1.2rem; letter-spacing: 0.04em; color: var(--gm-text-muted); }
+.gm-lead {
+  font-size: var(--type-body);
+  line-height: 1.65;
+  color: var(--color-text-muted);
+  font-weight: 300;
+}
+.gm-caption { font-size: 1.2rem; letter-spacing: 0.04em; color: var(--color-text-muted); }
 
 /* ---- Mobile type scale ----
-   The clamp() floors above are tuned for desktop/tablet and barely react
+   The desktop clamp()s above are tuned for wide screens and barely react
    to viewport width below ~990px (their vw term is tiny next to the
-   fixed minimum), so headings render near-desktop-size on a 375–430px
-   phone. This gives phones their own fluid scale — still clamp()-driven,
-   not a flat percentage cut — with a genuinely smaller floor and a vw
-   coefficient large enough to actually move across 375–599px. */
+   fixed minimum), so headings rendered near-desktop-size on a 375–430px
+   phone. Redefining the variables here — rather than every selector
+   above — is what makes this a system: any section reading --type-* or
+   the text-color tokens follows automatically. */
 @media (max-width: 599px) {
-  .gm-h1 { font-size: clamp(2.8rem, 9vw, 3.8rem); }
-  .gm-h2 { font-size: clamp(2.4rem, 7.5vw, 3.1rem); }
-  .gm-h3 { font-size: clamp(1.9rem, 6vw, 2.4rem); }
-  .gm-h4 { font-size: clamp(1.6rem, 5vw, 1.9rem); }
-  .gm-eyebrow { font-size: 1rem; letter-spacing: 0.16em; margin-bottom: var(--space-2); }
-  .gm-lead { font-size: 1.5rem; line-height: 1.55; }
+  :root {
+    --type-eyebrow: clamp(0.6875rem, 2.8vw, 0.8125rem); /* 11–13px */
+    --type-display: clamp(2rem, 9vw, 2.625rem);          /* 32–42px */
+    --type-heading: clamp(1.5625rem, 6vw, 1.875rem);     /* 25–30px */
+    --type-body: clamp(1rem, 4vw, 1.1875rem);            /* 16–19px */
+    --type-button: clamp(0.75rem, 3vw, 0.875rem);        /* 12–14px */
+    --container-pad: 1.5rem;                             /* 24px */
+  }
+  .gm-h1 { font-size: clamp(2.25rem, 10vw, 2.75rem); }
+  .gm-eyebrow { margin-bottom: var(--space-2); }
+  .gm-lead { line-height: 1.6; max-width: 34ch; }
+}
+@media (max-width: 379px) {
+  :root { --container-pad: 1.25rem; } /* 20px on the smallest phones */
 }
 
 /* =========================================================================
@@ -213,7 +258,7 @@ ul { list-style: none; margin: 0; padding: 0; }
   justify-content: center;
   gap: var(--space-2);
   padding: 1.5rem 3.2rem;
-  font-size: 1.2rem;
+  font-size: var(--type-button);
   font-weight: 600;
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
@@ -236,11 +281,13 @@ ul { list-style: none; margin: 0; padding: 0; }
 @media (max-width: 599px) {
   .gm-btn {
     white-space: normal; text-align: center; max-width: 100%;
-    padding: 1.3rem 2rem;
-    font-size: 1.05rem;
-    letter-spacing: 0.08em;
+    padding: 0.9rem 2rem;
+    min-height: 54px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.14em;
   }
-  .gm-btn--sm { padding: 1rem 1.6rem; font-size: 1rem; }
+  .gm-btn--sm { padding: 0.7rem 1.6rem; min-height: 44px; }
 }
 
 .gm-btn--primary { background: var(--gm-onyx-900); color: var(--gm-white); border-color: var(--gm-onyx-900); }

@@ -8,11 +8,16 @@
 .gm-process__media { aspect-ratio: 4/5; border-radius: var(--radius-sm); overflow: hidden; background: var(--gm-stone-50); position: relative; }
 .gm-process__media img { width: 100%; height: 100%; object-fit: cover; }
 .gm-process__num { font-family: var(--font-display); font-size: 1.6rem; color: var(--gm-accent); margin-bottom: var(--space-2); }
-.gm-process__text h3 { font-family: var(--font-display); font-size: 2.4rem; margin-bottom: var(--space-3); }
-.gm-process__text p { color: var(--gm-text-muted); font-size: 1.5rem; }
+.gm-process__text h3 { font-family: var(--font-display); font-weight: 500; font-size: 2.4rem; color: var(--color-text-secondary); margin-bottom: var(--space-3); line-height: 1.2; }
+.gm-process__text p { color: var(--color-text-muted); font-family: var(--font-body); font-size: 1.5rem; line-height: 1.6; }
 @media (max-width: 989px) {
   .gm-process__step, .gm-process__step--reverse { grid-template-columns: 1fr; }
   .gm-process__step--reverse .gm-process__media { order: 0; }
+}
+@media (max-width: 599px) {
+  .gm-process__text h3 { font-size: clamp(1.375rem, 5.5vw, 1.625rem); }
+  .gm-process__text p { font-size: clamp(0.9375rem, 3.8vw, 1.0625rem); max-width: 34ch; }
+  .gm-process__num { font-size: 1.2rem; }
 }
 
 /* ---- Video feature (full-bleed) ---- */
@@ -32,10 +37,14 @@
 .gm-education-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
 .gm-education-card { border: 1px solid var(--gm-border); border-radius: var(--radius-sm); padding: var(--space-5); }
 .gm-education-card__num { font-family: var(--font-display); font-size: 1.4rem; color: var(--gm-accent); }
-.gm-education-card h3 { font-family: var(--font-display); font-size: 2rem; margin-block: var(--space-2) var(--space-2); }
-.gm-education-card p { color: var(--gm-text-muted); font-size: 1.35rem; }
+.gm-education-card h3 { font-family: var(--font-display); font-weight: 500; font-size: 2rem; color: var(--color-text-secondary); margin-block: var(--space-2) var(--space-2); line-height: 1.2; }
+.gm-education-card p { color: var(--color-text-muted); font-family: var(--font-body); font-size: 1.35rem; line-height: 1.6; }
 @media (max-width: 989px) { .gm-education-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 599px) { .gm-education-grid { grid-template-columns: 1fr; } }
+@media (max-width: 599px) {
+  .gm-education-grid { grid-template-columns: 1fr; }
+  .gm-education-card h3 { font-size: clamp(1.375rem, 5.5vw, 1.625rem); }
+  .gm-education-card p { font-size: clamp(0.9375rem, 3.8vw, 1.0625rem); }
+}
 
 /* ---- Store info ---- */
 .gm-store-info { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-7); }

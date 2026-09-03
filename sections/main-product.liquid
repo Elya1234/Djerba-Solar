@@ -50,7 +50,7 @@
       </div>
 
       {%- if product.description != blank -%}
-        <div class="gm-lead" style="margin-top: var(--space-4); font-size: 1.6rem;">{{ product.description | strip_html | truncate: 180 }}</div>
+        <div class="gm-lead" style="margin-top: var(--space-4);">{{ product.description | strip_html | truncate: 180 }}</div>
       {%- endif -%}
 
       <form method="post" action="/cart/add" data-gm-product-form>
