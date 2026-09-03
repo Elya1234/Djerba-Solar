@@ -30,6 +30,8 @@
   {{ content_for_header }}
 
   {%- style -%}
+    {%- unless settings.font_heading.system? -%}{{ settings.font_heading | font_face: font_display: 'swap' }}{%- endunless -%}
+    {%- unless settings.font_body.system? -%}{{ settings.font_body | font_face: font_display: 'swap' }}{%- endunless -%}
     :root {
       --font-heading-family: {{ settings.font_heading.family }}, serif;
       --font-heading-style: {{ settings.font_heading.style }};
@@ -42,8 +44,6 @@
       --container-max: {{ settings.page_width }}px;
     }
   {%- endstyle -%}
-  {{ settings.font_heading | font_face: font_display: 'swap' }}
-  {{ settings.font_body | font_face: font_display: 'swap' }}
 
   {{ 'theme.css' | asset_url | stylesheet_tag }}
 
