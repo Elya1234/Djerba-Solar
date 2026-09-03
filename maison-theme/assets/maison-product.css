@@ -155,11 +155,45 @@
 }
 .pstock[data-state="out"] .pstock__dot { background: var(--c-ink-soft); }
 
-/* ---------- OPTIONS ------------------------------------------------------ */
-.popt { display: grid; gap: var(--s-3); border: 0; padding: 0; margin: 0; }
-.popt__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-4); }
-.popt__value { color: var(--c-ink-soft); font-size: var(--t-body-s); }
-.popt__list { display: flex; flex-wrap: wrap; gap: var(--s-3); }
+/* ---------- OPTIONS ------------------------------------------------------
+   Une ligne compacte par option (libellé à gauche, valeur choisie à droite,
+   petite flèche) qui se déplie sur les valeurs — même mécanique que les
+   accordéons de la fiche (.pacc), juste une autre présentation visuelle. */
+.popts { display: grid; }
+.popt { border: 0; padding: 0; margin: 0; border-top: var(--hairline); }
+.popt:last-child { border-bottom: var(--hairline); }
+.popt__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  width: 100%;
+  min-height: 52px;
+  padding: var(--s-4) 0;
+  text-align: left;
+}
+.popt__row-label { flex: 0 0 auto; }
+.popt__row-right { display: inline-flex; align-items: center; gap: var(--s-3); min-width: 0; }
+.popt__row-value {
+  color: var(--c-ink-soft);
+  font-size: var(--t-body-s);
+  max-width: 40vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.popt__row-chev {
+  width: 7px; height: 7px;
+  border-top: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+  transform: rotate(45deg);
+  flex: 0 0 auto;
+  transition: transform var(--d-m) var(--e-luxe);
+}
+.popt__row[aria-expanded="true"] .popt__row-chev { transform: rotate(135deg); }
+
+.popt__row-panel { overflow: hidden; height: 0; transition: height var(--d-m) var(--e-luxe); }
+.popt__list { display: flex; flex-wrap: wrap; gap: var(--s-3); padding-bottom: var(--s-5); }
 
 .popt__item { position: relative; }
 .popt__item input {
@@ -215,6 +249,38 @@
 .popt__label--or-rose  { background: #D8A38C; }
 .popt__label--platine  { background: #C4C6C7; }
 .popt__label--argent   { background: #C9CBCC; }
+
+/* Formes — icône fine + libellé, pas de pastille de couleur */
+.popt--shape .popt__label { gap: var(--s-2); padding-inline: var(--s-3); }
+.popt__label--shape .icon--shape { width: 18px; height: 18px; }
+
+/* ---------- OPTIONS AVANCÉES --------------------------------------------- */
+.padv { border-top: var(--hairline); border-bottom: var(--hairline); }
+.padv__head { min-height: 48px; }
+.padv__plus { position: relative; width: 10px; height: 10px; flex: 0 0 auto; }
+.padv__plus::before, .padv__plus::after {
+  content: "";
+  position: absolute; inset: 0; margin: auto;
+  background: currentColor;
+}
+.padv__plus::before { width: 10px; height: 1px; }
+.padv__plus::after { width: 1px; height: 10px; transition: transform var(--d-m) var(--e-luxe); }
+.padv__head[aria-expanded="true"] .padv__plus::after { transform: scaleY(0); }
+.padv__body { display: grid; gap: var(--s-4); padding-bottom: var(--s-5); }
+.padv__row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-4); }
+.padv__row--stack { display: grid; gap: 0; }
+.padv__value { color: var(--c-ink-soft); font-size: var(--t-body-s); text-align: right; }
+
+.popt__engrave-input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--c-line);
+  background: var(--c-surface);
+  font-family: var(--f-ui);
+  font-size: var(--t-body-s);
+}
+.popt__engrave-input:focus-visible { outline: 1px solid var(--c-signature); outline-offset: 2px; }
 
 /* ---------- ACTIONS ------------------------------------------------------ */
 .pactions { display: grid; gap: var(--s-4); }

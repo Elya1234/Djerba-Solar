@@ -217,7 +217,7 @@
     }
     message(opts.errorTarget, '');
 
-    return adapter.add(id, quantity || 1)
+    return adapter.add(id, quantity || 1, opts.properties)
       .then(function (cart) {
         render(cart);
         open();

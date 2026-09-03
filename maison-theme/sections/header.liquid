@@ -97,11 +97,26 @@
       <ul class="nav__list">
         {%- for link in menu.links -%}
           {%- liquid
+            comment
+              Un lien n'est traité comme "catégorie avec sous-menu" que si un bloc
+              Mega-menu lui correspond ET qu'au moins une de ses 4 colonnes est
+              réellement renseignée (linklist non vide). Un lien du menu Shopify
+              qui a des enfants "sauvages" (menu par défaut, catégories non
+              voulues) mais aucun bloc configuré reste un lien simple : jamais de
+              flèche ni de panneau tant que le sous-menu n'est pas volontairement
+              construit dans le Theme Editor.
+            endcomment
             assign has_panel = false
             for block in section.blocks
               assign handle = block.settings.parent_handle | strip | downcase
               if handle == link.handle
-                assign has_panel = true
+                assign l1 = linklists[block.settings.menu_1]
+                assign l2 = linklists[block.settings.menu_2]
+                assign l3 = linklists[block.settings.menu_3]
+                assign l4 = linklists[block.settings.menu_4]
+                if l1.links.size > 0 or l2.links.size > 0 or l3.links.size > 0 or l4.links.size > 0
+                  assign has_panel = true
+                endif
               endif
             endfor
           -%}
@@ -237,8 +252,23 @@
     <div class="mmenu__panel mmenu__panel--root is-active" data-mmenu-panel="mmenu-root" data-depth="0" id="mmenu-root">
       <ul class="mmenu__list">
         {%- for link in menu.links -%}
+          {%- liquid
+            assign root_has_panel = false
+            for block in section.blocks
+              assign handle = block.settings.parent_handle | strip | downcase
+              if handle == link.handle
+                assign rl1 = linklists[block.settings.menu_1]
+                assign rl2 = linklists[block.settings.menu_2]
+                assign rl3 = linklists[block.settings.menu_3]
+                assign rl4 = linklists[block.settings.menu_4]
+                if rl1.links.size > 0 or rl2.links.size > 0 or rl3.links.size > 0 or rl4.links.size > 0
+                  assign root_has_panel = true
+                endif
+              endif
+            endfor
+          -%}
           <li>
-            {%- if link.links.size > 0 -%}
+            {%- if root_has_panel -%}
               <button class="mmenu__row" type="button" data-mmenu-open="mmenu-{{ link.handle }}" style="--i: {{ forloop.index0 }}">
                 <span class="mmenu__row-label">{{ link.title }}</span>
                 <span class="mmenu__chev" aria-hidden="true"></span>
@@ -281,134 +311,165 @@
       </div>
     </div>
 
-    {%- comment -%} ---- Niveaux 2 et 3 : générés depuis les liens ayant des enfants ---- {%- endcomment -%}
+    {%- comment -%}
+      ---- Niveaux 2 et 3 ----
+      Source unique de vérité : les 4 colonnes curées du bloc Mega-menu
+      (menu_1..menu_4, les mêmes linklists que le mega-menu desktop). On ne
+      lit plus jamais les enfants bruts du lien de navigation : c'est ce qui
+      empêchait des catégories non voulues (héritées d'un menu par défaut)
+      d'apparaître sur mobile. Une colonne vide n'est simplement pas rendue.
+    {%- endcomment -%}
     {%- for link in menu.links -%}
-      {%- if link.links.size > 0 -%}
-        {%- liquid
-          assign panel_block = nil
-          for b in section.blocks
-            assign h = b.settings.parent_handle | strip | downcase
-            if h == link.handle
-              assign panel_block = b
-            endif
-          endfor
-          assign inline_handles = ''
-          if panel_block
-            assign inline_handles = panel_block.settings.inline_group_handles | strip | downcase
+      {%- liquid
+        assign panel_block = nil
+        for b in section.blocks
+          assign h = b.settings.parent_handle | strip | downcase
+          if h == link.handle
+            assign panel_block = b
           endif
-          assign inline_list = inline_handles | split: ','
+        endfor
+      -%}
+      {%- if panel_block -%}
+        {%- liquid
+          assign l1 = linklists[panel_block.settings.menu_1]
+          assign l2 = linklists[panel_block.settings.menu_2]
+          assign l3 = linklists[panel_block.settings.menu_3]
+          assign l4 = linklists[panel_block.settings.menu_4]
         -%}
-        <div class="mmenu__panel" data-mmenu-panel="mmenu-{{ link.handle }}" data-depth="1" id="mmenu-{{ link.handle }}" aria-hidden="true">
-          <div class="mmenu__panel-head">
-            <button class="mmenu__back t-label" type="button" data-mmenu-back>
-              <span class="mmenu__chev mmenu__chev--back" aria-hidden="true"></span>
-              {{ 'general.back' | t: default: 'Retour' }}
-            </button>
-            <button class="mmenu__x" type="button" data-mmenu-close>
-              {% render 'maison-icon', icon: 'close' %}
-              <span class="visually-hidden">{{ 'header.close_menu' | t: default: 'Fermer le menu' }}</span>
-            </button>
+        {%- if l1.links.size > 0 or l2.links.size > 0 or l3.links.size > 0 or l4.links.size > 0 -%}
+          <div class="mmenu__panel" data-mmenu-panel="mmenu-{{ link.handle }}" data-depth="1" id="mmenu-{{ link.handle }}" aria-hidden="true">
+            <div class="mmenu__panel-head">
+              <button class="mmenu__back t-label" type="button" data-mmenu-back>
+                <span class="mmenu__chev mmenu__chev--back" aria-hidden="true"></span>
+                {{ 'general.back' | t: default: 'Retour' }}
+              </button>
+              <button class="mmenu__x" type="button" data-mmenu-close>
+                {% render 'maison-icon', icon: 'close' %}
+                <span class="visually-hidden">{{ 'header.close_menu' | t: default: 'Fermer le menu' }}</span>
+              </button>
+            </div>
+
+            {%- if panel_block.settings.image != blank -%}
+              <div class="mmenu__hero">
+                <div class="mega__frame">
+                  {{ panel_block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '100vw', widths: '480,700,900', alt: link.title }}
+                </div>
+                <span class="mmenu__hero-title t-h2">{{ link.title }}</span>
+              </div>
+            {%- else -%}
+              <p class="mmenu__panel-title t-h2">{{ link.title }}</p>
+            {%- endif -%}
+
+            <a class="mmenu__viewall link-rule t-label" href="{{ link.url }}">
+              {%- if panel_block.settings.view_all_label != blank -%}
+                {{ panel_block.settings.view_all_label }}
+              {%- else -%}
+                {{ 'header.view_all' | t: default: 'Voir tout' }} — {{ link.title }}
+              {%- endif -%}
+            </a>
+
+            <ul class="mmenu__list">
+              {%- for col in (1..4) -%}
+                {%- liquid
+                  case col
+                    when 1
+                      assign col_list = l1
+                      assign col_title = panel_block.settings.title_1
+                    when 2
+                      assign col_list = l2
+                      assign col_title = panel_block.settings.title_2
+                    when 3
+                      assign col_list = l3
+                      assign col_title = panel_block.settings.title_3
+                    when 4
+                      assign col_list = l4
+                      assign col_title = panel_block.settings.title_4
+                  endcase
+                -%}
+                {%- if col_list != blank and col_list.links.size > 0 -%}
+                  {%- liquid
+                    assign col_key = col_list.handle | downcase
+                    assign col_label = col_title | default: col_list.title | downcase
+                    assign mode = 'plain'
+                    if col_key contains 'metal' or col_key contains 'metau' or col_label contains 'métal' or col_label contains 'metal'
+                      assign mode = 'metal'
+                    endif
+                    if col_key contains 'forme' or col_key contains 'shape' or col_label contains 'forme' or col_label contains 'shape'
+                      assign mode = 'shape'
+                    endif
+                  -%}
+                  <li>
+                    <button class="mmenu__row" type="button" data-mmenu-open="mmenu-{{ link.handle }}-c{{ col }}">
+                      <span class="mmenu__row-label">{{ col_title | default: col_list.title }}</span>
+                      <span class="mmenu__chev" aria-hidden="true"></span>
+                    </button>
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+
+            {%- if panel_block.settings.guide_1_image != blank or panel_block.settings.guide_2_image != blank -%}
+              {%- liquid
+                assign guides_title = panel_block.settings.guides_title
+                if guides_title == blank
+                  assign guides_title = 'header.guides' | t: default: 'Guides'
+                endif
+              -%}
+              <div class="mmenu__guides">
+                <p class="mmenu__group-title t-label">{{ guides_title }}</p>
+                <div class="mmenu__guides-grid">
+                  {%- if panel_block.settings.guide_1_image != blank -%}
+                    <a class="mmenu__guide-card" href="{{ panel_block.settings.guide_1_link | default: '#' }}">
+                      <span class="mmenu__guide-frame">
+                        {{ panel_block.settings.guide_1_image | image_url: width: 500 | image_tag: loading: 'lazy', sizes: '50vw', widths: '260,400,500' }}
+                      </span>
+                      <span class="mmenu__guide-title t-label">{{ panel_block.settings.guide_1_title }}</span>
+                    </a>
+                  {%- endif -%}
+                  {%- if panel_block.settings.guide_2_image != blank -%}
+                    <a class="mmenu__guide-card" href="{{ panel_block.settings.guide_2_link | default: '#' }}">
+                      <span class="mmenu__guide-frame">
+                        {{ panel_block.settings.guide_2_image | image_url: width: 500 | image_tag: loading: 'lazy', sizes: '50vw', widths: '260,400,500' }}
+                      </span>
+                      <span class="mmenu__guide-title t-label">{{ panel_block.settings.guide_2_title }}</span>
+                    </a>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
           </div>
 
-          {%- if panel_block and panel_block.settings.image != blank -%}
-            <div class="mmenu__hero">
-              <div class="mega__frame">
-                {{ panel_block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '100vw', widths: '480,700,900', alt: link.title }}
-              </div>
-              <span class="mmenu__hero-title t-h2">{{ link.title }}</span>
-            </div>
-          {%- else -%}
-            <p class="mmenu__panel-title t-h2">{{ link.title }}</p>
-          {%- endif -%}
-
-          <a class="mmenu__viewall link-rule t-label" href="{{ link.url }}">
-            {%- if panel_block and panel_block.settings.view_all_label != blank -%}
-              {{ panel_block.settings.view_all_label }}
-            {%- else -%}
-              {{ 'header.view_all' | t: default: 'Voir tout' }} — {{ link.title }}
-            {%- endif -%}
-          </a>
-
-          <ul class="mmenu__list">
-            {%- for sub in link.links -%}
-              {%- assign sub_handle = sub.handle | downcase -%}
-              {%- if inline_list contains sub_handle -%}
-                <li class="mmenu__group">
-                  <p class="mmenu__group-title t-label">{{ sub.title }}</p>
-                  <ul class="mmenu__list mmenu__list--nested">
-                    {%- for leaf in sub.links -%}
-                      <li>
-                        <a class="mmenu__row mmenu__row--nested" href="{{ leaf.url }}">
-                          <span class="mmenu__row-label">{{ leaf.title }}</span>
-                          <span class="mmenu__chev" aria-hidden="true"></span>
-                        </a>
-                      </li>
-                    {%- endfor -%}
-                  </ul>
-                </li>
-              {%- elsif sub.links.size > 0 -%}
-                <li>
-                  <button class="mmenu__row" type="button" data-mmenu-open="mmenu-{{ link.handle }}-{{ sub_handle }}">
-                    <span class="mmenu__row-label">{{ sub.title }}</span>
-                    <span class="mmenu__chev" aria-hidden="true"></span>
-                  </button>
-                </li>
-              {%- else -%}
-                <li>
-                  <a class="mmenu__row" href="{{ sub.url }}">
-                    <span class="mmenu__row-label">{{ sub.title }}</span>
-                  </a>
-                </li>
-              {%- endif -%}
-            {%- endfor -%}
-          </ul>
-
-          {%- if panel_block and panel_block.settings.guide_1_image != blank or panel_block.settings.guide_2_image != blank -%}
+          {%- comment -%} ---- Niveau 3 : contenu réel de chaque colonne (métaux, formes, styles...) ---- {%- endcomment -%}
+          {%- for col in (1..4) -%}
             {%- liquid
-              assign guides_title = panel_block.settings.guides_title
-              if guides_title == blank
-                assign guides_title = 'header.guides' | t: default: 'Guides'
-              endif
+              case col
+                when 1
+                  assign col_list = l1
+                  assign col_title = panel_block.settings.title_1
+                when 2
+                  assign col_list = l2
+                  assign col_title = panel_block.settings.title_2
+                when 3
+                  assign col_list = l3
+                  assign col_title = panel_block.settings.title_3
+                when 4
+                  assign col_list = l4
+                  assign col_title = panel_block.settings.title_4
+              endcase
             -%}
-            <div class="mmenu__guides">
-              <p class="mmenu__group-title t-label">{{ guides_title }}</p>
-              <div class="mmenu__guides-grid">
-                {%- if panel_block.settings.guide_1_image != blank -%}
-                  <a class="mmenu__guide-card" href="{{ panel_block.settings.guide_1_link | default: '#' }}">
-                    <span class="mmenu__guide-frame">
-                      {{ panel_block.settings.guide_1_image | image_url: width: 500 | image_tag: loading: 'lazy', sizes: '50vw', widths: '260,400,500' }}
-                    </span>
-                    <span class="mmenu__guide-title t-label">{{ panel_block.settings.guide_1_title }}</span>
-                  </a>
-                {%- endif -%}
-                {%- if panel_block.settings.guide_2_image != blank -%}
-                  <a class="mmenu__guide-card" href="{{ panel_block.settings.guide_2_link | default: '#' }}">
-                    <span class="mmenu__guide-frame">
-                      {{ panel_block.settings.guide_2_image | image_url: width: 500 | image_tag: loading: 'lazy', sizes: '50vw', widths: '260,400,500' }}
-                    </span>
-                    <span class="mmenu__guide-title t-label">{{ panel_block.settings.guide_2_title }}</span>
-                  </a>
-                {%- endif -%}
-              </div>
-            </div>
-          {%- endif -%}
-        </div>
-
-        {%- comment -%} ---- Niveau 3 : sous-catégories avec enfants (métaux, formes...) ---- {%- endcomment -%}
-        {%- for sub in link.links -%}
-          {%- assign sub_handle = sub.handle | downcase -%}
-          {%- unless inline_list contains sub_handle -%}
-            {%- if sub.links.size > 0 -%}
+            {%- if col_list != blank and col_list.links.size > 0 -%}
               {%- liquid
+                assign col_key = col_list.handle | downcase
+                assign col_label = col_title | default: col_list.title | downcase
                 assign mode = 'plain'
-                if sub_handle contains 'metal' or sub_handle contains 'metau'
+                if col_key contains 'metal' or col_key contains 'metau' or col_label contains 'métal' or col_label contains 'metal'
                   assign mode = 'metal'
                 endif
-                if sub_handle contains 'forme' or sub_handle contains 'shape'
+                if col_key contains 'forme' or col_key contains 'shape' or col_label contains 'forme' or col_label contains 'shape'
                   assign mode = 'shape'
                 endif
               -%}
-              <div class="mmenu__panel" data-mmenu-panel="mmenu-{{ link.handle }}-{{ sub_handle }}" data-depth="2" id="mmenu-{{ link.handle }}-{{ sub_handle }}" aria-hidden="true">
+              <div class="mmenu__panel" data-mmenu-panel="mmenu-{{ link.handle }}-c{{ col }}" data-depth="2" id="mmenu-{{ link.handle }}-c{{ col }}" aria-hidden="true">
                 <div class="mmenu__panel-head">
                   <button class="mmenu__back t-label" type="button" data-mmenu-back>
                     <span class="mmenu__chev mmenu__chev--back" aria-hidden="true"></span>
@@ -419,9 +480,9 @@
                     <span class="visually-hidden">{{ 'header.close_menu' | t: default: 'Fermer le menu' }}</span>
                   </button>
                 </div>
-                <p class="mmenu__panel-title t-h2">{{ sub.title }}</p>
+                <p class="mmenu__panel-title t-h2">{{ col_title | default: col_list.title }}</p>
                 <ul class="mmenu__list{% if mode != 'plain' %} mmenu__list--{{ mode }}{% endif %}">
-                  {%- for leaf in sub.links -%}
+                  {%- for leaf in col_list.links -%}
                     <li>
                       <a class="mmenu__row{% if mode == 'metal' %} mmenu__row--metal{% elsif mode == 'shape' %} mmenu__row--shape{% endif %}" href="{{ leaf.url }}">
                         {%- if mode == 'metal' -%}
@@ -437,8 +498,8 @@
                 </ul>
               </div>
             {%- endif -%}
-          {%- endunless -%}
-        {%- endfor -%}
+          {%- endfor -%}
+        {%- endif -%}
       {%- endif -%}
     {%- endfor -%}
   </div>
@@ -497,7 +558,6 @@
         { "type": "header", "content": "Panneau mobile" },
         { "type": "paragraph", "content": "L'image principale ci-dessus sert aussi d'image éditoriale au panneau mobile de cette catégorie." },
         { "type": "text", "id": "view_all_label", "label": "Libellé « voir tout »", "default": "Voir tout" },
-        { "type": "text", "id": "inline_group_handles", "label": "Sous-catégories affichées en groupe (sans panneau)", "info": "Handles séparés par des virgules, ex. : alliances-femme,alliances-homme — utilisé pour afficher un sous-menu à deux temps (ex. ALLIANCES FEMME / ALLIANCES HOMME) sans ouvrir un panneau supplémentaire." },
         { "type": "text", "id": "guides_title", "label": "Titre du bloc guides", "default": "Guides" },
         { "type": "image_picker", "id": "guide_1_image", "label": "Guide 1 — image" },
         { "type": "text", "id": "guide_1_title", "label": "Guide 1 — titre" },

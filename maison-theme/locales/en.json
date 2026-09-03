@@ -55,7 +55,16 @@
     "adding": "Adding…",
     "unavailable": "Unavailable",
     "error_sold_out": "This creation is sold out.",
-    "error_combination": "This combination is not available."
+    "error_combination": "This combination is not available.",
+    "advanced_options": "Advanced options",
+    "product_code": "Product code",
+    "engraving": "Add an engraving",
+    "engraving_placeholder": "Your text (capitals, numbers, simple symbols)",
+    "engraving_limit": "Maximum",
+    "shipping_estimate": "Estimated shipping",
+    "whatsapp": "WhatsApp",
+    "whatsapp_message": "Hello, I'm reaching out about: ",
+    "call_boutique": "Call the boutique"
   },
   "cart": {
     "title": "Your cart",

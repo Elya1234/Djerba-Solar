@@ -55,7 +55,16 @@
     "adding": "Ajout…",
     "unavailable": "Indisponible",
     "error_sold_out": "Cette création est épuisée.",
-    "error_combination": "Cette combinaison n'est pas disponible."
+    "error_combination": "Cette combinaison n'est pas disponible.",
+    "advanced_options": "Options avancées",
+    "product_code": "Code produit",
+    "engraving": "Ajouter une gravure",
+    "engraving_placeholder": "Votre texte (majuscules, chiffres, symboles simples)",
+    "engraving_limit": "Maximum",
+    "shipping_estimate": "Livraison estimée",
+    "whatsapp": "WhatsApp",
+    "whatsapp_message": "Bonjour, je vous contacte au sujet de : ",
+    "call_boutique": "Appeler la boutique"
   },
   "cart": {
     "title": "Votre panier",

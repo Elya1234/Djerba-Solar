@@ -297,7 +297,32 @@
 
     /* ---------- 6. Ajout au panier ------------------------------------------
        Un seul système : maison-cart.js ajoute au vrai panier Shopify,
-       met à jour le compteur et ouvre le mini-panier. */
+       met à jour le compteur et ouvre le mini-panier. Les propriétés de
+       ligne (ex. gravure) présentes dans le formulaire sont transmises
+       telles quelles : exactement ce que le client a rempli, rien de plus. */
+    var engraveInput = root.querySelector('[data-engrave-input]');
+    var engraveCount = root.querySelector('[data-engrave-count]');
+    if (engraveInput && engraveCount && bindOnce(engraveInput, 'engrave')) {
+      var syncCount = function () { engraveCount.textContent = String(engraveInput.value.length); };
+      engraveInput.addEventListener('input', syncCount);
+      syncCount();
+    }
+
+    function lineProperties() {
+      var properties = {};
+      var has = false;
+      if (form) {
+        Array.prototype.forEach.call(form.querySelectorAll('[name^="properties["]'), function (field) {
+          if (!field.value) return;
+          var match = /^properties\[(.+)\]$/.exec(field.name);
+          if (!match) return;
+          properties[match[1]] = field.value;
+          has = true;
+        });
+      }
+      return has ? properties : undefined;
+    }
+
     if (form && bindOnce(form, 'add')) {
       form.addEventListener('submit', function (event) {
         if (!window.MaisonCart || !window.fetch) return; /* repli : envoi classique */
@@ -313,7 +338,7 @@
           }
           return;
         }
-        window.MaisonCart.add(variant.id, 1, { button: addBtn, errorTarget: errorTarget });
+        window.MaisonCart.add(variant.id, 1, { button: addBtn, errorTarget: errorTarget, properties: lineProperties() });
       });
     }
 
