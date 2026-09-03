@@ -58,11 +58,17 @@
   },
   "cart": {
     "title": "Votre panier",
-    "empty": "Votre panier est vide.",
+    "empty": {
+      "heading": "Votre panier est vide pour le moment."
+    },
     "subtotal": "Sous-total",
-    "checkout": "Passer commande",
+    "taxes_shipping_note": "Taxes et frais de livraison calculés à l'étape suivante.",
+    "checkout": "Commander",
+    "view_cart": "Voir le panier",
     "continue_shopping": "Continuer mes achats",
     "remove": "Retirer",
-    "quantity": "Quantité"
+    "quantity": "Quantité",
+    "note_label": "Une précision pour notre atelier ?",
+    "note_placeholder": "Gravure, délai souhaité, question particulière…"
   }
 }

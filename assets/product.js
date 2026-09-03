@@ -174,32 +174,21 @@
       });
     }
 
-    /* ---- Add to cart (AJAX) ---- */
+    /* ---- Add to cart (AJAX via the shared GMCart engine — see cart.js) ---- */
     if (form) {
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        if (submitBtn.disabled) return;
+        if (submitBtn.disabled || !window.GMCart) return;
         var originalLabel = submitBtn.textContent;
         submitBtn.disabled = true;
         submitBtn.textContent = 'Ajout en cours…';
-        fetch('/cart/add.js', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify(Object.fromEntries(new FormData(form)))
-        })
-          .then(function (r) { if (!r.ok) throw new Error('cart-add-failed'); return r.json(); })
-          .then(function () { return fetch('/cart.js').then(function (r) { return r.json(); }); })
-          .then(function (cart) {
-            document.querySelectorAll('[data-gm-cart-count]').forEach(function (el) {
-              el.textContent = cart.item_count;
-              el.hidden = cart.item_count === 0;
-            });
+        window.GMCart.addItem(window.GMCart.serializeForm(form))
+          .then(function () {
             submitBtn.textContent = 'Ajouté ✓';
-            document.dispatchEvent(new CustomEvent('gm:cart:added', { detail: cart }));
             setTimeout(function () { submitBtn.textContent = originalLabel; submitBtn.disabled = false; }, 1800);
           })
           .catch(function () {
-            submitBtn.textContent = "Erreur — réessayer";
+            submitBtn.textContent = 'Erreur — réessayer';
             setTimeout(function () { submitBtn.textContent = originalLabel; submitBtn.disabled = false; }, 2200);
           });
       });

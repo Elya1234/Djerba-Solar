@@ -45,7 +45,11 @@ Palette : blanc/ivoire, tons pierre, onyx, et un bleu profond signature
       filtrés par type, "explorer d'autres univers", carte produit avec
       aperçu rapide (Quick View) et prévisualisation métal, favoris
       cohérents partout, priorité de chargement des images
-- [ ] Phase 7 — Compte, wishlist, panier (le contact/RDV est fait — Phase 5)
+- [x] Phase 7 — Panier : cart drawer premium, page panier, moteur AJAX
+      unique (GMCart) partagé par fiche produit/Quick View, gravure via
+      line item properties, gestion des refus Shopify, favoris/wishlist
+      restent à construire (compte client) — voir notes ci-dessous
+- [ ] Phase 8 — Animations + responsive mobile/tablette/desktop
 - [ ] Phase 8 — Animations + responsive mobile/tablette/desktop
 - [ ] Phase 9 — SEO, performance, accessibilité
 - [ ] Phase 10 — Audit final
@@ -124,6 +128,29 @@ que l'équipe recontactera le client.
 - **Favoris** : même mécanisme partout (carte produit, fiche produit, Quick
   View) via `data-gm-wishlist-add`. Stockage `localStorage` uniquement — non
   synchronisé entre appareils, ce qui n'est jamais présenté comme le cas.
+
+## Panier (Phase 7)
+
+- **Un seul moteur panier** (`assets/cart.js`, `window.GMCart`) : fiche
+  produit, Quick View, cart drawer et page panier appellent tous
+  `GMCart.addItem` / `changeLine` / `updateNote` — un seul point d'appel
+  réseau, un seul rendu, jamais de logique dupliquée.
+- **Cart drawer** (`sections/cart-drawer.liquid`, section statique rendue
+  globalement) : ouverture automatique à l'ajout, image/variantes/gravure
+  (line item properties)/quantité/suppression/sous-total, focus trap,
+  Escape, retour du focus, `aria-live` pour les lecteurs d'écran.
+  Réassurance et liens de l'état vide sont des réglages/blocs — jamais
+  affichés sans configuration réelle.
+- **Page panier** (`sections/main-cart.liquid` + `templates/cart.json`) :
+  même moteur, mêmes composants, plus une note de commande optionnelle
+  réellement envoyée à Shopify (`/cart/update.js`).
+- **Sur-devis** : jamais de formulaire panier ; CTA « Demander un devis »
+  sur la fiche produit et dans le Quick View.
+- **Bouton Commander** : lien direct vers `{{ routes.cart_url }}/checkout`,
+  le checkout Shopify officiel — aucune page de paiement recréée.
+- Un ajout refusé par Shopify (rupture, quantité invalide, erreur réseau)
+  affiche le vrai message renvoyé par l'API et ne modifie jamais le
+  compteur ni l'état visuel comme si l'ajout avait réussi.
 
 ## Notes
 

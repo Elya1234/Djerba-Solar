@@ -1,0 +1,64 @@
+/* GOLD MINES — Cart drawer + cart page (Phase 7) */
+
+.gm-cart-drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: var(--z-drawer);
+  width: min(440px, 100vw);
+  background: var(--gm-bg);
+  display: flex; flex-direction: column;
+  transform: translateX(100%);
+  transition: transform var(--dur-slow) var(--ease-luxe);
+  box-shadow: var(--shadow-lg);
+}
+.gm-cart-drawer.is-open { transform: translateX(0); }
+.gm-cart-drawer__head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--space-4) var(--space-4);
+  border-bottom: 1px solid var(--gm-border);
+}
+.gm-cart-drawer__empty { padding: var(--space-6) var(--space-4); text-align: center; }
+.gm-cart-drawer__empty-links { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-5); }
+.gm-cart-drawer__items { flex: 1; overflow-y: auto; padding: 0 var(--space-4); }
+.gm-cart-drawer__footer {
+  border-top: 1px solid var(--gm-border);
+  padding: var(--space-4);
+  padding-bottom: calc(var(--space-4) + env(safe-area-inset-bottom));
+}
+.gm-cart-drawer__reassurance { font-size: 1.2rem; color: var(--gm-text-muted); margin-bottom: var(--space-3); }
+.gm-cart-drawer__subtotal { display: flex; justify-content: space-between; font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 0.6rem; }
+.gm-cart-drawer__note-hint { font-size: 1.1rem; color: var(--gm-text-muted); margin-bottom: var(--space-4); }
+.gm-cart-drawer__actions { display: flex; flex-direction: column; gap: var(--space-2); }
+
+/* ---- Cart item (shared by drawer + full cart page) ---- */
+.gm-cart-item { display: grid; grid-template-columns: 84px 1fr auto; gap: var(--space-3); padding-block: var(--space-4); border-bottom: 1px solid var(--gm-border); align-items: start; }
+.gm-cart-item__media { display: block; aspect-ratio: 3/4; border-radius: var(--radius-sm); overflow: hidden; background: var(--gm-stone-50); }
+.gm-cart-item__media img { width: 100%; height: 100%; object-fit: cover; }
+.gm-cart-item__title { display: block; font-family: var(--font-display); font-size: 1.5rem; }
+.gm-cart-item__opts { margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.3rem; }
+.gm-cart-item__opt { display: flex; gap: 0.6rem; font-size: 1.15rem; color: var(--gm-text-muted); }
+.gm-cart-item__opt span:first-child { min-width: 6.5rem; }
+.gm-cart-item__warning { color: var(--gm-error); font-size: 1.15rem; margin-top: 0.5rem; }
+.gm-cart-item__row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin-top: var(--space-3); }
+.gm-cart-item__remove { font-size: 1.15rem; text-decoration: underline; text-underline-offset: 3px; color: var(--gm-text-muted); }
+.gm-cart-item__price { font-family: var(--font-display); font-size: 1.5rem; text-align: right; white-space: nowrap; }
+
+.gm-qty-stepper { display: inline-flex; align-items: center; border: 1px solid var(--gm-border); border-radius: var(--radius-full); }
+.gm-qty-stepper__btn { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; line-height: 1; }
+.gm-qty-stepper__value { min-width: 28px; text-align: center; font-size: 1.3rem; }
+
+/* ---- Full cart page ---- */
+.gm-cart-page { display: grid; grid-template-columns: 1.6fr 1fr; gap: var(--space-7); align-items: start; }
+.gm-cart-page__items { list-style: none; margin: 0; padding: 0; }
+.gm-cart-page__summary { position: sticky; top: calc(var(--header-h-scrolled) + var(--space-4)); border: 1px solid var(--gm-border); border-radius: var(--radius-sm); padding: var(--space-5); }
+.gm-cart-page__note { margin-top: var(--space-5); }
+.gm-cart-page__note label { display: block; font-size: 1.2rem; margin-bottom: 0.6rem; }
+.gm-cart-page__note textarea { min-height: 100px; }
+.gm-cart-page__empty { text-align: center; padding-block: var(--space-9); }
+.gm-cart-page__empty-links { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center; margin-top: var(--space-5); }
+@media (max-width: 989px) {
+  .gm-cart-page { grid-template-columns: 1fr; }
+  .gm-cart-page__summary { position: static; }
+}
+@media (max-width: 599px) {
+  .gm-cart-item { grid-template-columns: 68px 1fr; }
+  .gm-cart-item__price { grid-column: 2; text-align: left; margin-top: 0.4rem; }
+}

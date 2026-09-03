@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-cart",
+      "settings": {
+        "show_note": true
+      },
+      "blocks": {
+        "l1": { "type": "empty_link", "settings": { "label": "Découvrir les nouveautés", "link": "/collections/all" } },
+        "l2": { "type": "empty_link", "settings": { "label": "Bagues de fiançailles", "link": "/pages/fiancailles" } },
+        "l3": { "type": "empty_link", "settings": { "label": "Nos collections", "link": "/collections" } }
+      },
+      "block_order": ["l1", "l2", "l3"]
+    }
+  },
+  "order": ["main"]
+}

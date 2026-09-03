@@ -42,6 +42,8 @@
 </head>
 <body class="gm-template-{{ request.page_type }}{% if settings.enable_animations == false %} gm-motion-off{% endif %}">
   {% section 'header' %}
+  {% section 'cart-drawer' %}
+  <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
   {% render 'search-modal' %}
   {% render 'size-guide-modal' %}
   {% render 'quick-view-modal' %}
