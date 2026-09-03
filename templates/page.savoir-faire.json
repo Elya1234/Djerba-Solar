@@ -3,6 +3,7 @@
     "intro": {
       "type": "immersive-banner",
       "settings": {
+        "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises32.jpg",
         "eyebrow": "Notre savoir-faire",
         "heading": "De l'inspiration au bijou terminé",
         "text": "Chaque création traverse un parcours artisanal précis, entre dessin, fabrication et finitions.",
@@ -31,6 +32,7 @@
     "video": {
       "type": "video-feature",
       "settings": {
+        "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises34.jpg",
         "eyebrow": "En mouvement",
         "heading": "Le geste artisanal",
         "text": "Un aperçu du travail de nos artisans en atelier."
@@ -44,10 +46,10 @@
         "text": "Croquis, modélisation, fabrication, sertissage : chaque étape en images."
       },
       "blocks": {
-        "a1": { "type": "media", "settings": { "size": "wide" } },
-        "a2": { "type": "media", "settings": { "size": "tall" } },
-        "a3": { "type": "media", "settings": { "size": "small" } },
-        "a4": { "type": "media", "settings": { "size": "small" } }
+        "a1": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises17.jpg", "size": "wide" } },
+        "a2": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises39.jpg", "size": "tall" } },
+        "a3": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises49.jpg", "size": "small" } },
+        "a4": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises51.jpg", "size": "small" } }
       },
       "block_order": ["a1", "a2", "a3", "a4"]
     },

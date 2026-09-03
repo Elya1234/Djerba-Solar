@@ -3,6 +3,7 @@
     "hero": {
       "type": "immersive-banner",
       "settings": {
+        "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises36.jpg",
         "eyebrow": "Notre Maison",
         "heading": "La boutique Gold Mines",
         "text": "Venez découvrir nos créations et échanger avec notre équipe dans un cadre pensé pour vous.",
@@ -12,6 +13,7 @@
     "info": {
       "type": "store-info",
       "settings": {
+        "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises38.jpg",
         "eyebrow": "Nous rendre visite",
         "heading": "Informations pratiques"
       }
@@ -23,10 +25,10 @@
         "heading": "La boutique en images"
       },
       "blocks": {
-        "a1": { "type": "media", "settings": { "size": "wide" } },
-        "a2": { "type": "media", "settings": { "size": "tall" } },
-        "a3": { "type": "media", "settings": { "size": "small" } },
-        "a4": { "type": "media", "settings": { "size": "small" } }
+        "a1": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises41.jpg", "size": "wide" } },
+        "a2": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises46.jpg", "size": "tall" } },
+        "a3": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises47.jpg", "size": "small" } },
+        "a4": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises48.jpg", "size": "small" } }
       },
       "block_order": ["a1", "a2", "a3", "a4"]
     },

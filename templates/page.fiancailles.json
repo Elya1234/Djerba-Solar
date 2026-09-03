@@ -3,6 +3,7 @@
     "hero": {
       "type": "hero",
       "settings": {
+        "image": "shopify://shop_images/bijoux_bague_sur_une_manneq_uin_je_veut_limage_un_peu_loin.jpg",
         "eyebrow": "Fiançailles",
         "heading": "La bague de votre histoire",
         "subheading": "Solitaires, halos, trilogies : composez la bague de fiançailles qui vous ressemble.",
@@ -22,7 +23,7 @@
       "blocks": {
         "g1": { "type": "gem", "settings": { "title": "Rond", "link": "/collections/fiancailles" } },
         "g2": { "type": "gem", "settings": { "title": "Ovale", "link": "/collections/fiancailles" } },
-        "g3": { "type": "gem", "settings": { "title": "Poire", "link": "/collections/fiancailles" } },
+        "g3": { "type": "gem", "settings": { "image": "shopify://shop_images/01_b4a9d3e5-37f5-415b-8d7c-d8382fca0b81.jpg", "title": "Poire", "link": "/collections/fiancailles" } },
         "g4": { "type": "gem", "settings": { "title": "Coussin", "link": "/collections/fiancailles" } }
       },
       "block_order": ["g1", "g2", "g3", "g4"]
@@ -34,9 +35,9 @@
         "heading": "Or jaune, or blanc, or rose ou platine"
       },
       "blocks": {
-        "m1": { "type": "gem", "settings": { "title": "Or jaune 18K", "link": "/collections/fiancailles" } },
-        "m2": { "type": "gem", "settings": { "title": "Or blanc 18K", "link": "/collections/fiancailles" } },
-        "m3": { "type": "gem", "settings": { "title": "Or rose 18K", "link": "/collections/fiancailles" } },
+        "m1": { "type": "gem", "settings": { "image": "shopify://shop_images/solitaire-victoria-or-jaune.png", "title": "Or jaune 18K", "link": "/collections/fiancailles" } },
+        "m2": { "type": "gem", "settings": { "image": "shopify://shop_images/solitaire-victoria-or-blanc.png", "title": "Or blanc 18K", "link": "/collections/fiancailles" } },
+        "m3": { "type": "gem", "settings": { "image": "shopify://shop_images/solitaire-victoria-or-rose.png", "title": "Or rose 18K", "link": "/collections/fiancailles" } },
         "m4": { "type": "gem", "settings": { "title": "Platine", "link": "/collections/fiancailles" } }
       },
       "block_order": ["m1", "m2", "m3", "m4"]
@@ -46,12 +47,14 @@
       "settings": {
         "eyebrow": "Nos bagues",
         "heading": "Bagues de fiançailles",
+        "collection": "bagues-de-fiancailles-1",
         "limit": 8
       }
     },
     "configurator": {
       "type": "immersive-banner",
       "settings": {
+        "image": "shopify://shop_images/bijoux_bague_sur_une_cxmannequin_je_veut_limage_un_peu_loin.jpg",
         "eyebrow": "Composez votre bague",
         "heading": "Choisissez le métal, la forme et le diamant",
         "text": "Chaque bague de fiançailles peut être configurée directement sur sa fiche produit : métal, carat, forme et taille de doigt.",
@@ -75,7 +78,10 @@
     },
     "boutique-rdv": {
       "type": "boutique-rdv-cta",
-      "settings": {}
+      "settings": {
+        "boutique_image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises18.jpg",
+        "rdv_image": "shopify://shop_images/bijoux_bague_sdur_une_fille_mannequin.jpg"
+      }
     }
   },
   "order": ["hero", "shapes", "metals", "creations", "configurator", "cta", "boutique-rdv"]

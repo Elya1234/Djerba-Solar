@@ -3,6 +3,7 @@
     "intro": {
       "type": "immersive-banner",
       "settings": {
+        "image": "shopify://shop_images/373faed8-127e-4ddc-a837-00323ae77492.jpg",
         "eyebrow": "Depuis les origines",
         "heading": "La Maison",
         "text": "Gold Mines — By Orpaz est une maison de joaillerie contemporaine, portée par l'exigence de l'artisanat et l'amour des belles matières.",
@@ -12,6 +13,7 @@
     "philosophie": {
       "type": "editorial-split",
       "settings": {
+        "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises14.jpg",
         "eyebrow": "Notre philosophie",
         "heading": "Une joaillerie pensée pour durer",
         "text": "<p>Chaque création Gold Mines est pensée comme une pièce intemporelle, loin des tendances éphémères.</p>",
@@ -25,6 +27,7 @@
     "expertise": {
       "type": "editorial-split",
       "settings": {
+        "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises15.jpg",
         "eyebrow": "Notre expertise",
         "heading": "Une exigence joaillière",
         "text": "<p>De la sélection des pierres à la finition du bijou, chaque étape est suivie avec la plus grande attention.</p>",
@@ -36,6 +39,7 @@
     "atelier-video": {
       "type": "video-feature",
       "settings": {
+        "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises26.jpg",
         "eyebrow": "L'atelier",
         "heading": "Nos artisans",
         "text": "Un savoir-faire transmis avec exigence, au service de chaque création."
@@ -44,6 +48,7 @@
     "matieres": {
       "type": "editorial-split",
       "settings": {
+        "image": "shopify://shop_images/02_7c0b6d37-a472-42de-bf6f-64ef3b630178.jpg",
         "eyebrow": "Nos matières",
         "heading": "Diamants & pierres précieuses",
         "text": "<p>Chaque pierre est sélectionnée avec exigence, pour sa qualité et son éclat.</p>",
@@ -60,10 +65,10 @@
         "text": "Un aperçu du travail artisanal derrière chaque création."
       },
       "blocks": {
-        "a1": { "type": "media", "settings": { "size": "wide" } },
-        "a2": { "type": "media", "settings": { "size": "tall" } },
-        "a3": { "type": "media", "settings": { "size": "small" } },
-        "a4": { "type": "media", "settings": { "size": "small" } }
+        "a1": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises24.jpg", "size": "wide" } },
+        "a2": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises28.jpg", "size": "tall" } },
+        "a3": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises33.jpg", "size": "small" } },
+        "a4": { "type": "media", "settings": { "image": "shopify://shop_images/Atelier_de_bijouterie_francaise_specialise_dans_la_creation_de_bijoux_personnalises30.jpg", "size": "small" } }
       },
       "block_order": ["a1", "a2", "a3", "a4"]
     },

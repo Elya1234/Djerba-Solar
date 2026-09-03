@@ -21,6 +21,7 @@
     "info": {
       "type": "store-info",
       "settings": {
+        "image": "shopify://shop_images/petit_cadeaux_a_petit_prixs_bijoux_dans_moi_un.jpg",
         "eyebrow": "Nous préférez appeler ?",
         "heading": "Contactez-nous directement"
       }

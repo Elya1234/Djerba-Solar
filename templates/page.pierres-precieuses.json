@@ -3,6 +3,7 @@
     "intro": {
       "type": "immersive-banner",
       "settings": {
+        "image": "shopify://shop_images/01.jpg",
         "eyebrow": "L'exception",
         "heading": "Pierres précieuses",
         "text": "Émeraude, saphir, rubis : chaque pierre est choisie avec exigence pour sa qualité, sa couleur et son éclat.",
@@ -16,16 +17,17 @@
         "heading": "Découvrir nos pierres précieuses"
       },
       "blocks": {
-        "g1": { "type": "gem", "settings": { "title": "Émeraude", "link": "/collections/all" } },
+        "g1": { "type": "gem", "settings": { "image": "shopify://shop_images/01_ca48077f-d9e7-4af1-b61f-7fd7a5f2c8bb.jpg", "title": "Émeraude", "link": "/collections/all" } },
         "g2": { "type": "gem", "settings": { "title": "Saphir", "link": "/collections/all" } },
         "g3": { "type": "gem", "settings": { "title": "Rubis", "link": "/collections/all" } },
-        "g4": { "type": "gem", "settings": { "title": "Diamant", "link": "/pages/diamants" } }
+        "g4": { "type": "gem", "settings": { "image": "shopify://shop_images/05_cd8e0cdc-59ab-4a08-a934-a5f7aa1f01d9.jpg", "title": "Diamant", "link": "/pages/diamants" } }
       },
       "block_order": ["g1", "g2", "g3", "g4"]
     },
     "certification": {
       "type": "editorial-split",
       "settings": {
+        "image": "shopify://shop_images/07.jpg",
         "eyebrow": "Notre exigence",
         "heading": "Une sélection rigoureuse",
         "text": "<p>Chaque pierre précieuse est sélectionnée pour sa qualité et, lorsque cela est pertinent, accompagnée d'un certificat gemmologique.</p>",
