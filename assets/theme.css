@@ -46,7 +46,10 @@
   --type-display: clamp(2.8rem, 4vw, 4.4rem);
   --type-heading: clamp(2.2rem, 2.6vw, 3rem);
   --type-body: 1.8rem;
+  --type-body-secondary: 1.5rem;
   --type-button: 1.2rem;
+  --type-nav: 1.15rem;
+  --type-product-title: clamp(2.4rem, 2.6vw, 3rem);
   --type-product-name: 1.7rem;
   --type-price: 1.35rem;
 
@@ -57,8 +60,8 @@
   /* ---- Typography ---- */
   --font-display: var(--font-heading-family, Georgia, 'Times New Roman', serif);
   --font-body: var(--font-body-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif);
-  --tracking-wide: 0.14em;
-  --tracking-wider: 0.22em;
+  --tracking-wide: 0.1em;
+  --tracking-wider: 0.16em;
 
   /* ---- Spacing scale (8px rhythm) ---- */
   --space-1: 0.4rem;
@@ -189,7 +192,13 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 .gm-lead {
   font-size: var(--type-body);
-  line-height: 1.65;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  font-weight: 300;
+}
+.gm-text-sm {
+  font-size: var(--type-body-secondary);
+  line-height: 1.5;
   color: var(--color-text-muted);
   font-weight: 300;
 }
@@ -204,18 +213,24 @@ ul { list-style: none; margin: 0; padding: 0; }
    the text-color tokens follows automatically. */
 @media (max-width: 599px) {
   :root {
-    --type-eyebrow: clamp(0.8125rem, 3vw, 0.875rem);      /* 13–14px */
-    --type-display: clamp(1.6875rem, 6vw, 2rem);           /* 27–32px, drives .gm-h2 */
-    --type-heading: clamp(1.3125rem, 4.5vw, 1.5rem);       /* 21–24px, .gm-h3/.gm-h4 */
-    --type-body: clamp(0.9375rem, 3.2vw, 1.0625rem);       /* 15–17px */
-    --type-button: clamp(0.75rem, 3vw, 0.875rem);          /* 12–14px */
-    --type-product-name: clamp(1.125rem, 4vw, 1.3125rem);  /* 18–21px */
-    --type-price: clamp(1rem, 3.2vw, 1.125rem);            /* 16–18px */
-    --container-pad: 1.5rem;                               /* 24px */
+    --type-eyebrow: clamp(0.6875rem, 2.4vw, 0.8125rem);      /* 11–13px — labels/catégories */
+    --type-display: clamp(1.5625rem, 5vw, 1.875rem);         /* 25–30px, drives .gm-h2 */
+    --type-heading: clamp(1.25rem, 3.8vw, 1.5rem);            /* 20–24px, .gm-h3/.gm-h4 */
+    --type-body: clamp(0.9375rem, 2.8vw, 1rem);               /* 15–16px */
+    --type-body-secondary: clamp(0.8125rem, 2.4vw, 0.9375rem); /* 13–15px */
+    --type-button: clamp(0.6875rem, 2.4vw, 0.8125rem);        /* 11–13px */
+    --type-nav: clamp(0.875rem, 2.6vw, 1rem);                 /* 14–16px */
+    --type-product-title: clamp(1.5rem, 5vw, 1.875rem);       /* 24–30px, fiche produit */
+    --type-product-name: clamp(1.0625rem, 3.2vw, 1.25rem);    /* 17–20px, grille */
+    --type-price: clamp(0.9375rem, 2.6vw, 1.0625rem);         /* 15–17px */
+    --container-pad: 1.5rem;                                  /* 24px */
   }
-  .gm-h1 { font-size: clamp(2.125rem, 7.5vw, 2.5rem); }    /* 34–40px */
+  .gm-h1 { font-size: clamp(1.875rem, 6vw, 2.25rem); }        /* 30–36px */
   .gm-eyebrow { margin-bottom: var(--space-2); }
-  .gm-lead { line-height: 1.5; max-width: 34ch; }
+  .gm-lead { line-height: 1.55; max-width: 34ch; }
+  .gm-text-sm { line-height: 1.5; }
+  .gm-section { padding-block: var(--space-6); }
+  .gm-section--tight { padding-block: var(--space-4); }
 }
 @media (max-width: 379px) {
   :root { --container-pad: 1.25rem; } /* 20px on the smallest phones */
@@ -263,7 +278,7 @@ ul { list-style: none; margin: 0; padding: 0; }
   gap: var(--space-2);
   padding: 1.5rem 3.2rem;
   font-size: var(--type-button);
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   border: 1px solid transparent;
@@ -285,13 +300,13 @@ ul { list-style: none; margin: 0; padding: 0; }
 @media (max-width: 599px) {
   .gm-btn {
     white-space: normal; text-align: center; max-width: 100%;
-    padding: 0.9rem 2rem;
-    min-height: 54px;
+    padding: 0.8rem 1.8rem;
+    min-height: 50px;
     font-weight: 500;
     line-height: 1.2;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.08em;
   }
-  .gm-btn--sm { padding: 0.7rem 1.6rem; min-height: 44px; }
+  .gm-btn--sm { padding: 0.6rem 1.4rem; min-height: 42px; }
 }
 
 .gm-btn--primary { background: var(--gm-onyx-900); color: var(--gm-white); border-color: var(--gm-onyx-900); }
@@ -358,12 +373,15 @@ ul { list-style: none; margin: 0; padding: 0; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-4) 0;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
   text-align: left;
-  font-size: 1.4rem;
-  letter-spacing: 0.02em;
+  font-size: clamp(1rem, 1.2vw, 1.125rem);   /* 16–18px */
+  font-weight: 400;
+  letter-spacing: 0.01em;
 }
-.gm-accordion__icon { transition: transform var(--dur-base) var(--ease-luxe); flex-shrink: 0; }
+.gm-accordion__icon { transition: transform var(--dur-base) var(--ease-luxe); flex-shrink: 0; width: 14px; height: 14px; }
+.gm-accordion__icon svg { width: 100%; height: 100%; }
 .gm-accordion__trigger[aria-expanded="true"] .gm-accordion__icon { transform: rotate(45deg); }
 .gm-accordion__panel {
   display: grid;
@@ -372,7 +390,10 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 .gm-accordion__panel[data-open="true"] { grid-template-rows: 1fr; }
 .gm-accordion__panel-inner { overflow: hidden; }
-.gm-accordion__panel-content { padding-bottom: var(--space-4); color: var(--gm-text-muted); }
+.gm-accordion__panel-content { padding-bottom: var(--space-4); color: var(--gm-text-muted); font-size: clamp(0.875rem, 1vw, 1rem); line-height: 1.5; }
+@media (max-width: 599px) {
+  .gm-accordion__trigger { padding-block: var(--space-2); }
+}
 
 /* =========================================================================
    Generic modal (size guide, education glossary, etc.)

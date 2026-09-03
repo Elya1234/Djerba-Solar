@@ -22,6 +22,7 @@
     assign img_loading = 'eager'
     assign img_fetchpriority = 'high'
   endif
+  assign display_name = product.metafields.custom.display_name.value | default: product.title
 -%}
 <article class="gm-card{% unless product.available %} gm-card--soldout{% endunless %}" data-gm-product-card data-product-id="{{ product.id }}">
   <div class="gm-card__media-wrap">
@@ -64,7 +65,7 @@
     {%- if product.vendor and product.vendor != shop.name -%}
       <div class="gm-card__collection">{{ product.vendor }}</div>
     {%- endif -%}
-    <a href="{{ product.url }}" class="gm-card__title">{{ product.title }}</a>
+    <a href="{{ product.url }}" class="gm-card__title">{{ display_name }}</a>
     <div class="gm-card__price">
       {%- if is_devis -%}
         Sur devis

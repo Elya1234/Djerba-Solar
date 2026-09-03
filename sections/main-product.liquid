@@ -8,6 +8,12 @@
   if product.tags contains 'sur-devis'
     assign devis_only = true
   endif
+  assign display_name = product.metafields.custom.display_name.value | default: product.title
+  assign show_subtitle = false
+  if display_name != product.title
+    assign show_subtitle = true
+  endif
+  assign item_label = product.type | default: product.collections.first.title | default: 'Gold Mines'
 -%}
 
 <div class="gm-container gm-section--tight" data-gm-product-root data-initial-variant-id="{{ product.selected_or_first_available_variant.id }}">
@@ -30,11 +36,14 @@
 
     <div class="gm-product__info">
       <div class="gm-product__eyebrow">
-        <span class="gm-eyebrow">{{ product.collections.first.title | default: 'Gold Mines' }}</span>
+        <span class="gm-eyebrow">{{ item_label }}</span>
         <button type="button" class="gm-product__share" aria-label="Partager" data-gm-share data-url="{{ shop.url }}{{ product.url }}" data-title="{{ product.title | escape }}">{% render 'icon', name: 'share', size: 16 %}</button>
       </div>
 
-      <h1 class="gm-product__title">{{ product.title }}</h1>
+      <h1 class="gm-product__title">{{ display_name }}</h1>
+      {%- if show_subtitle -%}
+        <p class="gm-product__subtitle">{{ product.title }}</p>
+      {%- endif -%}
       {%- if product.selected_or_first_available_variant.sku != blank -%}
         <div class="gm-product__ref">Réf. {{ product.selected_or_first_available_variant.sku }}</div>
       {%- endif -%}

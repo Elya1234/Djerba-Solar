@@ -27,12 +27,19 @@
       {%- for block in section.blocks -%}
         {%- if block.type == 'link_list' -%}
           <div class="gm-footer__col" {{ block.shopify_attributes }}>
-            <div class="gm-footer__col-title">{{ block.settings.title }}</div>
-            <ul>
-              {%- for link in linklists[block.settings.menu].links -%}
-                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-              {%- endfor -%}
-            </ul>
+            <button type="button" class="gm-footer__col-title" data-gm-accordion-trigger aria-expanded="false" aria-controls="FooterCol{{ forloop.index }}">
+              {{ block.settings.title }}
+              <span class="gm-accordion__icon gm-footer__col-icon">{% render 'icon', name: 'plus', size: 12 %}</span>
+            </button>
+            <div class="gm-footer__col-panel" id="FooterCol{{ forloop.index }}" data-open="false">
+              <div class="gm-accordion__panel-inner">
+                <ul>
+                  {%- for link in linklists[block.settings.menu].links -%}
+                    <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            </div>
           </div>
         {%- endif -%}
       {%- endfor -%}
