@@ -219,6 +219,14 @@
 }
 .popt__item input:checked + .popt__label { border-color: var(--c-ink); }
 .popt__item input:focus-visible + .popt__label { outline: 1px solid var(--c-signature); outline-offset: 3px; }
+
+/* Sélection pleine (pas les pastilles de métal, qui gardent leur couleur
+   propre et se signalent par un anneau autour, comme les vraies bagues). */
+.popt:not(.popt--swatch) .popt__item input:checked + .popt__label {
+  background: var(--c-ink);
+  border-color: var(--c-ink);
+  color: var(--c-surface);
+}
 .popt__item input:disabled + .popt__label { color: var(--c-ink-soft); opacity: .45; }
 .popt__item input:disabled + .popt__label::after {
   content: "";
@@ -253,6 +261,10 @@
 /* Formes — icône fine + libellé, pas de pastille de couleur */
 .popt--shape .popt__label { gap: var(--s-2); padding-inline: var(--s-3); }
 .popt__label--shape .icon--shape { width: 18px; height: 18px; }
+
+/* Largeur de l'anneau — coupe transversale du jonc (fine / classique) */
+.popt--width .popt__label { gap: var(--s-2); padding-inline: var(--s-3); }
+.popt__label--width .icon--shape { width: 18px; height: 18px; }
 
 /* ---------- OPTIONS AVANCÉES --------------------------------------------- */
 .padv { border-top: var(--hairline); border-bottom: var(--hairline); }

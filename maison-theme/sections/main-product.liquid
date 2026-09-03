@@ -16,12 +16,22 @@
     donc aussi les VALEURS : une option dont les valeurs contiennent « or
     blanc », « platine » ou « argent » est un métal ; une option dont les
     valeurs sont des nombres de 40 à 70 est une taille de bague.
+
+    Piège volontairement évité : « Taille » est ambigu en joaillerie — taille
+    de doigt (pointure) OU qualité de taille du diamant (Excellent, Très
+    bon…). On ne déclenche donc jamais le mode "taille de bague" sur le seul
+    mot « taille » : il faut soit une expression précise (taille de doigt,
+    tour de doigt, pointure, taille de l'anneau), soit des valeurs
+    numériques 40–70. Une option « Taille » aux valeurs « Excellent »/« Très
+    bon » reste un simple choix qualité, sans lien vers le guide des tailles.
   endcomment
-  assign size_words = 'taille,size,tour de doigt,doigt,pointure' | split: ','
+  assign size_words = 'taille de doigt,taille de bague,tour de doigt,doigt,pointure,ring size' | split: ','
   assign swatch_words = 'métal,metal,couleur,color,finition,teinte' | split: ','
   assign metal_values = 'or blanc,or jaune,or rose,or gris,platine,argent,vermeil' | split: ','
   assign shape_words = 'forme,shape,taille de pierre,coupe' | split: ','
   assign shape_values = 'rond,round,ovale,oval,emeraude,émeraude,emerald,poire,pear,coussin,cushion,marquise,radiant,princesse,princess,coeur,cœur,heart' | split: ','
+  assign width_words = 'largeur,width,épaisseur,epaisseur' | split: ','
+  assign width_fine_values = 'fine,fin,slim,thin' | split: ','
 
   comment
     Gravure : activable/désactivable globalement (réglage ci-dessous) et
@@ -198,9 +208,15 @@
                       assign is_shape = true
                     endif
                   endfor
+                  assign is_width = false
+                  for word in width_words
+                    if name contains word
+                      assign is_width = true
+                    endif
+                  endfor
 
                   comment Repli sur les valeurs quand le nom de l'option ne dit rien endcomment
-                  unless is_swatch or is_shape
+                  unless is_swatch or is_shape or is_width
                     for value in option.values
                       assign lowered = value | downcase
                       for metal in metal_values
@@ -218,7 +234,7 @@
                     endfor
                   endunless
 
-                  unless is_size or is_swatch or is_shape
+                  unless is_size or is_swatch or is_shape or is_width
                     assign numeric_values = 0
                     for value in option.values
                       assign as_number = value | plus: 0
@@ -231,7 +247,7 @@
                     endif
                   endunless
                 -%}
-                <div class="popt {% if is_swatch %}popt--swatch{% elsif is_shape %}popt--shape{% endif %}" data-option-index="{{ forloop.index0 }}" data-accordion>
+                <div class="popt {% if is_swatch %}popt--swatch{% elsif is_shape %}popt--shape{% elsif is_width %}popt--width{% endif %}" data-option-index="{{ forloop.index0 }}" data-accordion>
                   <button class="popt__row" type="button" data-accordion-head aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="OptPanel-{{ option.position }}">
                     <span class="popt__row-label t-label">{{ option.name }}</span>
                     <span class="popt__row-right">
@@ -242,6 +258,18 @@
                   <div class="popt__row-panel" id="OptPanel-{{ option.position }}" data-accordion-panel aria-hidden="{% unless forloop.first %}true{% endunless %}">
                     <div class="popt__list" data-accordion-inner>
                       {%- for value in option.values -%}
+                        {%- liquid
+                          assign width_icon = ''
+                          if is_width
+                            assign lowered_value = value | downcase
+                            assign width_icon = 'ring-wide'
+                            for word in width_fine_values
+                              if lowered_value contains word
+                                assign width_icon = 'ring-fine'
+                              endif
+                            endfor
+                          endif
+                        -%}
                         <div class="popt__item">
                           <input
                             type="radio"
@@ -250,11 +278,14 @@
                             value="{{ value | escape }}"
                             {% if option.selected_value == value %}checked{% endif %}
                           >
-                          <label class="popt__label {% if is_swatch %}popt__label--{{ value | handleize }}{% elsif is_shape %}popt__label--shape{% endif %}" for="Opt-{{ option.position }}-{{ forloop.index }}">
+                          <label class="popt__label {% if is_swatch %}popt__label--{{ value | handleize }}{% elsif is_shape %}popt__label--shape{% elsif is_width %}popt__label--width{% endif %}" for="Opt-{{ option.position }}-{{ forloop.index }}">
                             {%- if is_swatch -%}
                               <span class="visually-hidden">{{ value }}</span>
                             {%- elsif is_shape -%}
                               {% render 'maison-icon', icon: 'shape-' | append: value | handleize %}
+                              <span>{{ value }}</span>
+                            {%- elsif is_width -%}
+                              {% render 'maison-icon', icon: width_icon %}
                               <span>{{ value }}</span>
                             {%- else -%}
                               {{ value }}
