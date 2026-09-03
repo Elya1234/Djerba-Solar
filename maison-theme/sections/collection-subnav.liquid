@@ -13,13 +13,35 @@
 -%}
 
 {%- if menu.links.size > 0 -%}
-  <nav class="subnav" aria-label="{{ section.settings.title | default: 'Sous-catégories' | escape }}">
+  <nav class="subnav{% if section.settings.layout == 'pills' %} subnav--compact{% endif %}" aria-label="{{ section.settings.title | default: 'Sous-catégories' | escape }}">
     <div class="page">
       {%- if section.settings.title != blank -%}
         <p class="t-label eyebrow subnav__head" data-reveal>{{ section.settings.title }}</p>
       {%- endif -%}
 
-      {%- if section.settings.layout == 'images' -%}
+      {%- if section.settings.layout == 'pills' -%}
+        <div class="subnav__pillrail">
+          {%- for link in menu.links -%}
+            {%- liquid
+              assign thumb = blank
+              if link.type == 'collection_link' and link.object.image
+                assign thumb = link.object.image
+              endif
+            -%}
+            <a class="subnav__pill" href="{{ link.url }}" data-reveal style="--i: {{ forloop.index0 }}"
+               {% if link.current %}aria-current="page"{% endif %}>
+              <span class="subnav__pill-frame">
+                {%- if thumb != blank -%}
+                  {{ thumb | image_url: width: 160 | image_tag: loading: 'lazy', sizes: '64px', widths: '64,96,160', alt: '' }}
+                {%- else -%}
+                  {% render 'maison-placeholder', label: '' %}
+                {%- endif -%}
+              </span>
+              <span class="t-nav subnav__pill-name">{{ link.title }}</span>
+            </a>
+          {%- endfor -%}
+        </div>
+      {%- elsif section.settings.layout == 'images' -%}
         <div class="subnav__rail">
           {%- for link in menu.links -%}
             {%- liquid
@@ -67,6 +89,7 @@
     { "type": "select", "id": "layout", "label": "Présentation", "default": "images",
       "options": [
         { "value": "images", "label": "Vignettes" },
+        { "value": "pills", "label": "Pastilles rondes (filtre rapide)" },
         { "value": "links", "label": "Liens en filets" }
       ]
     }

@@ -261,7 +261,11 @@
                 assign rl2 = linklists[block.settings.menu_2]
                 assign rl3 = linklists[block.settings.menu_3]
                 assign rl4 = linklists[block.settings.menu_4]
-                if rl1.links.size > 0 or rl2.links.size > 0 or rl3.links.size > 0 or rl4.links.size > 0
+                assign rl5 = linklists[block.settings.menu_5]
+                assign rl6 = linklists[block.settings.menu_6]
+                assign rl7 = linklists[block.settings.menu_7]
+                assign rl8 = linklists[block.settings.menu_8]
+                if rl1.links.size > 0 or rl2.links.size > 0 or rl3.links.size > 0 or rl4.links.size > 0 or rl5.links.size > 0 or rl6.links.size > 0 or rl7.links.size > 0 or rl8.links.size > 0
                   assign root_has_panel = true
                 endif
               endif
@@ -335,8 +339,36 @@
           assign l2 = linklists[panel_block.settings.menu_2]
           assign l3 = linklists[panel_block.settings.menu_3]
           assign l4 = linklists[panel_block.settings.menu_4]
+          assign l5 = linklists[panel_block.settings.menu_5]
+          assign l6 = linklists[panel_block.settings.menu_6]
+          assign l7 = linklists[panel_block.settings.menu_7]
+          assign l8 = linklists[panel_block.settings.menu_8]
+          assign any_col = false
+          for col_check in (1..8)
+            case col_check
+              when 1
+                assign check_list = l1
+              when 2
+                assign check_list = l2
+              when 3
+                assign check_list = l3
+              when 4
+                assign check_list = l4
+              when 5
+                assign check_list = l5
+              when 6
+                assign check_list = l6
+              when 7
+                assign check_list = l7
+              when 8
+                assign check_list = l8
+            endcase
+            if check_list.links.size > 0
+              assign any_col = true
+            endif
+          endfor
         -%}
-        {%- if l1.links.size > 0 or l2.links.size > 0 or l3.links.size > 0 or l4.links.size > 0 -%}
+        {%- if any_col -%}
           <div class="mmenu__panel" data-mmenu-panel="mmenu-{{ link.handle }}" data-depth="1" id="mmenu-{{ link.handle }}" aria-hidden="true">
             <div class="mmenu__panel-head">
               <button class="mmenu__back t-label" type="button" data-mmenu-back>
@@ -369,7 +401,7 @@
             </a>
 
             <ul class="mmenu__list">
-              {%- for col in (1..4) -%}
+              {%- for col in (1..8) -%}
                 {%- liquid
                   case col
                     when 1
@@ -384,20 +416,28 @@
                     when 4
                       assign col_list = l4
                       assign col_title = panel_block.settings.title_4
+                    when 5
+                      assign col_list = l5
+                      assign col_title = panel_block.settings.title_5
+                    when 6
+                      assign col_list = l6
+                      assign col_title = panel_block.settings.title_6
+                    when 7
+                      assign col_list = l7
+                      assign col_title = panel_block.settings.title_7
+                    when 8
+                      assign col_list = l8
+                      assign col_title = panel_block.settings.title_8
                   endcase
                 -%}
-                {%- if col_list != blank and col_list.links.size > 0 -%}
-                  {%- liquid
-                    assign col_key = col_list.handle | downcase
-                    assign col_label = col_title | default: col_list.title | downcase
-                    assign mode = 'plain'
-                    if col_key contains 'metal' or col_key contains 'metau' or col_label contains 'métal' or col_label contains 'metal'
-                      assign mode = 'metal'
-                    endif
-                    if col_key contains 'forme' or col_key contains 'shape' or col_label contains 'forme' or col_label contains 'shape'
-                      assign mode = 'shape'
-                    endif
-                  -%}
+                {%- if col_list != blank and col_list.links.size == 1 -%}
+                  {%- comment -%} Une colonne à un seul lien = ligne directe, pas de sous-panneau superflu. {%- endcomment -%}
+                  <li>
+                    <a class="mmenu__row" href="{{ col_list.links.first.url }}">
+                      <span class="mmenu__row-label">{{ col_title | default: col_list.title }}</span>
+                    </a>
+                  </li>
+                {%- elsif col_list != blank and col_list.links.size > 1 -%}
                   <li>
                     <button class="mmenu__row" type="button" data-mmenu-open="mmenu-{{ link.handle }}-c{{ col }}">
                       <span class="mmenu__row-label">{{ col_title | default: col_list.title }}</span>
@@ -440,7 +480,7 @@
           </div>
 
           {%- comment -%} ---- Niveau 3 : contenu réel de chaque colonne (métaux, formes, styles...) ---- {%- endcomment -%}
-          {%- for col in (1..4) -%}
+          {%- for col in (1..8) -%}
             {%- liquid
               case col
                 when 1
@@ -455,9 +495,22 @@
                 when 4
                   assign col_list = l4
                   assign col_title = panel_block.settings.title_4
+                when 5
+                  assign col_list = l5
+                  assign col_title = panel_block.settings.title_5
+                when 6
+                  assign col_list = l6
+                  assign col_title = panel_block.settings.title_6
+                when 7
+                  assign col_list = l7
+                  assign col_title = panel_block.settings.title_7
+                when 8
+                  assign col_list = l8
+                  assign col_title = panel_block.settings.title_8
               endcase
             -%}
-            {%- if col_list != blank and col_list.links.size > 0 -%}
+            {%- comment -%} Une colonne à un seul lien est déjà rendue en ligne directe ci-dessus : pas de panneau niveau 3 redondant. {%- endcomment -%}
+            {%- if col_list != blank and col_list.links.size > 1 -%}
               {%- liquid
                 assign col_key = col_list.handle | downcase
                 assign col_label = col_title | default: col_list.title | downcase
@@ -558,7 +611,16 @@
         { "type": "header", "content": "Panneau mobile" },
         { "type": "paragraph", "content": "L'image principale ci-dessus sert aussi d'image éditoriale au panneau mobile de cette catégorie." },
         { "type": "text", "id": "view_all_label", "label": "Libellé « voir tout »", "default": "Voir tout" },
-        { "type": "text", "id": "guides_title", "label": "Titre du bloc guides", "default": "Guides" },
+        { "type": "paragraph", "content": "Colonnes 5 à 8 : uniquement pour le panneau mobile (le mega-menu desktop reste à 4 colonnes, par largeur d'écran). Utile pour une catégorie comme JOAILLERIE ou OFFRIR qui a plus de 4 rubriques." },
+        { "type": "text", "id": "title_5", "label": "Titre colonne 5 (mobile)" },
+        { "type": "link_list", "id": "menu_5", "label": "Menu colonne 5 (mobile)" },
+        { "type": "text", "id": "title_6", "label": "Titre colonne 6 (mobile)" },
+        { "type": "link_list", "id": "menu_6", "label": "Menu colonne 6 (mobile)" },
+        { "type": "text", "id": "title_7", "label": "Titre colonne 7 (mobile)" },
+        { "type": "link_list", "id": "menu_7", "label": "Menu colonne 7 (mobile)" },
+        { "type": "text", "id": "title_8", "label": "Titre colonne 8 (mobile)" },
+        { "type": "link_list", "id": "menu_8", "label": "Menu colonne 8 (mobile)" },
+        { "type": "text", "id": "guides_title", "label": "Titre du bloc guides / inspiration", "default": "Guides" },
         { "type": "image_picker", "id": "guide_1_image", "label": "Guide 1 — image" },
         { "type": "text", "id": "guide_1_title", "label": "Guide 1 — titre" },
         { "type": "url", "id": "guide_1_link", "label": "Guide 1 — lien" },

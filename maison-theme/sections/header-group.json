@@ -49,22 +49,30 @@
           "type": "mega",
           "settings": {
             "parent_handle": "joaillerie",
-            "title_1": "Découvrir",
-            "title_2": "Par création",
-            "title_3": "Par métal",
-            "title_4": "Par pierre",
+            "title_1": "Bagues",
+            "title_2": "Colliers & pendentifs",
+            "title_3": "Boucles d'oreilles",
+            "title_4": "Bracelets",
+            "title_5": "Collections",
+            "title_6": "Nos sélections par prix",
+            "title_7": "Découvrir",
             "media_title": "La Collection",
             "media_cta": "Découvrir",
-            "view_all_label": "Voir toute la joaillerie"
+            "view_all_label": "Voir toute la joaillerie",
+            "guides_title": "Inspiration",
+            "guide_1_title": "Collection Astra",
+            "guide_2_title": "Collection Toi et Moi"
           }
         },
         "mega-offrir": {
           "type": "mega",
           "settings": {
             "parent_handle": "offrir",
-            "title_1": "Découvrir",
-            "title_2": "Par destinataire",
-            "title_3": "Par occasion",
+            "title_1": "Les destinataires",
+            "title_2": "Les occasions",
+            "title_3": "Nos sélections par prix",
+            "title_4": "Découvrir",
+            "title_5": "Carte cadeau",
             "media_title": "Idées cadeaux",
             "media_cta": "Découvrir",
             "view_all_label": "Voir toutes les idées cadeaux"

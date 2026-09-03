@@ -200,6 +200,37 @@
         {%- endif -%}
       </div>
     </section>
+
+    {%- comment -%}
+      ---------- BARRE FILTRER / TRIER — mobile uniquement ----------
+      Remplace la barre en ligne (.ctools) sur petit écran par deux boutons
+      fixés en bas, comme le reste du système (menu, fiche produit). Réutilise
+      les mêmes déclencheurs (data-filters-toggle) et le même <select> réel
+      (#SortBy, via un <label for>) : aucune logique dupliquée.
+    {%- endcomment -%}
+    {%- liquid
+      assign show_mobile_bar = false
+      if section.settings.show_tools and collection.products.size > 0
+        if collection.filters.size > 0 or collection.sort_options.size > 1
+          assign show_mobile_bar = true
+        endif
+      endif
+    -%}
+    {%- if show_mobile_bar -%}
+      <div class="cbar" data-collection-bar>
+        {%- if collection.filters.size > 0 -%}
+          <button class="cbar__btn" type="button" data-filters-toggle aria-expanded="false" aria-controls="CollectionFilters">
+            {% render 'maison-icon', icon: 'filters' %}
+            {{ 'collection.filter' | t: default: 'Filtrer' }}
+          </button>
+          <span class="cbar__sep" aria-hidden="true"></span>
+        {%- endif -%}
+        <label class="cbar__btn" for="SortBy">
+          {% render 'maison-icon', icon: 'sort' %}
+          {{ 'collection.sort' | t: default: 'Trier' }}
+        </label>
+      </div>
+    {%- endif -%}
   </div>
 {%- endpaginate -%}
 

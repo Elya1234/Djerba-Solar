@@ -95,6 +95,38 @@
 .subnav__item:hover .subnav__name { transform: translateX(4px); }
 .subnav__item[aria-current="page"] .subnav__name { color: var(--c-signature); }
 
+/* Variante pastilles : filtre rapide compact, sous le fil d'Ariane */
+.subnav--compact { padding-block: var(--s-5); }
+.subnav__pillrail {
+  display: flex;
+  gap: clamp(20px, 3vw, 32px);
+  overflow-x: auto;
+  scroll-padding-inline: var(--page-x);
+  margin-inline: calc(var(--page-x) * -1);
+  padding-inline: var(--page-x);
+  scrollbar-width: none;
+}
+.subnav__pillrail::-webkit-scrollbar { display: none; }
+.subnav__pill {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  flex: 0 0 auto;
+  padding-block: var(--s-2);
+  border-bottom: 2px solid transparent;
+}
+.subnav__pill[aria-current="page"] { border-color: var(--c-signature); color: var(--c-signature); }
+.subnav__pill-frame {
+  display: block;
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--c-line);
+  flex: 0 0 auto;
+}
+.subnav__pill-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.subnav__pill-name { white-space: nowrap; font-size: var(--t-body-s); }
+
 /* Variante filets : navigation textuelle très discrète */
 .subnav__links { display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-6); }
 .subnav__link { position: relative; padding-block: var(--s-2); }
@@ -262,6 +294,44 @@
   }
 }
 @media (min-width: 750px) { .cfilters__bar { display: none; } }
+
+/* ---------- BARRE FILTRER / TRIER (mobile) ------------------------------- */
+/* Sur petit écran, la barre en ligne (.ctools__right) laisse place à deux
+   boutons fixés en bas — le compteur de résultats reste visible en haut. */
+@media (max-width: 749px) {
+  .ctools__right { display: none; }
+}
+.cbar {
+  display: none;
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 45;
+  align-items: stretch;
+  background: var(--c-signature);
+  color: var(--c-invert);
+  border-top: var(--hairline);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (max-width: 749px) {
+  .cbar { display: flex; }
+  .cgrid { padding-bottom: calc(clamp(40px, 5vw, 88px) + 52px + env(safe-area-inset-bottom, 0px)); }
+}
+.cbar__btn {
+  flex: 1 1 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-3);
+  min-height: 52px;
+  color: inherit;
+  font-family: var(--f-ui);
+  font-size: var(--t-ui-s);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.cbar__btn .icon { stroke: currentColor; }
+.cbar__sep { width: 1px; background: rgba(255,255,255,.22); flex: 0 0 auto; }
 
 /* ---------- GRILLE PRODUITS ---------------------------------------------- */
 .cgrid { background: var(--c-surface); padding-block: clamp(40px, 5vw, 88px); }

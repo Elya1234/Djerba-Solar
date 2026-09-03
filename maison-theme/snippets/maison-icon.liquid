@@ -43,4 +43,10 @@
     <svg class="icon icon--shape" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4" style="stroke-width:1"/></svg>
   {%- when 'ring-wide' -%}
     <svg class="icon icon--shape" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8" style="stroke-width:3.4"/></svg>
+
+  {%- comment -%} ---- Barre filtrer / trier ---- {%- endcomment -%}
+  {%- when 'filters' -%}
+    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h10M4 17h6"/><circle cx="14.5" cy="7" r="1.6"/><circle cx="16.5" cy="12" r="1.6"/><circle cx="10.5" cy="17" r="1.6"/></svg>
+  {%- when 'sort' -%}
+    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 4v15M7 19l-3-3.2M7 19l3-3.2"/><path d="M17 20V5M17 5l-3 3.2M17 5l3 3.2"/></svg>
 {%- endcase -%}
