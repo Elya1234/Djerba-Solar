@@ -59,7 +59,12 @@ Palette : blanc/ivoire, tons pierre, onyx, et un bleu profond signature
       avec navigation utile, micro-interactions (badges panier/favoris),
       cibles tactiles élargies sur mobile, QA horizontale sans débordement
       de 390px à 1920px
-- [ ] Phase 10 — Audit final
+- [x] Phase 10 — Audit final intégral : inventaire complet, validation
+      statique de toutes les références Liquid (render/section/asset,
+      blocks/settings des templates JSON) et de toutes les clés de
+      traduction utilisées, recherche de contenu résiduel de l'ancien
+      projet (aucun trouvé), 3 bugs réels trouvés et corrigés (voir
+      section dédiée ci-dessous)
 
 ## Données Shopify attendues par la fiche produit (Phase 4)
 
@@ -239,6 +244,43 @@ que l'équipe recontactera le client.
   complets (recherche, Quick View, configurateur, panier, favoris, menu
   mobile, mega-menu) revérifiés aux trois largeurs de référence
   (390×844, 834×1194, 1440×900).
+
+## Audit final (Phase 10)
+
+Validation statique automatisée sur l'ensemble du dépôt : toutes les
+références `{% render %}`/`{% section %}`/`| asset_url` pointent vers un
+fichier existant, tous les `type` de section/bloc utilisés dans les
+templates JSON existent dans le schema de la section correspondante,
+toutes les clés `| t` utilisées en Liquid existent dans
+`fr.default.json` — zéro anomalie restante. Aucune trace de l'ancien
+projet (recherche de « Djerba », « Solar », « Tunisie ») ni de contenu
+de développement oublié (TODO, FIXME, `console.log`, Lorem ipsum).
+
+Trois bugs réels trouvés et corrigés pendant cet audit :
+1. **`locales/fr.default.json`** : la clé `general.page` (titre des
+   pages paginées, ex. « Page 2 ») était utilisée dans `layout/theme.liquid`
+   mais absente du fichier — la balise `<title>` aurait affiché
+   littéralement « general.page ». Ajoutée.
+2. **Cascade CSS** (`assets/theme.css` → `header.css`/`collection.css`/
+   `cart.css`) : l'agrandissement des cibles tactiles ajouté en Phase 9
+   ne s'appliquait jamais — `theme.css` se charge avant ces fichiers, et
+   à spécificité égale la règle chargée en dernier gagne toujours,
+   quelle que soit sa media query. Déplacé dans chaque fichier concerné,
+   après la règle de base qu'il doit surcharger.
+3. **`assets/account.css`** : `.gm-account__layout` (grille) et
+   `.gm-account__info-row`/`.gm-order-card` (flex) n'avaient pas de
+   `min-width: 0` sur leurs pistes/enfants — une adresse e-mail ou un
+   numéro de commande un peu long forçait un débordement horizontal
+   réel sur mobile (`min-width: auto` est la valeur par défaut d'une
+   piste de grille ou d'un enfant flex, qui ignore sinon la largeur
+   disponible). Corrigé : pistes en `minmax(0, …)`, valeurs longues
+   avec retour à la ligne.
+
+Les réglages de réseaux sociaux (`social_instagram`, `social_facebook`)
+avaient une valeur par défaut générique (`https://instagram.com`,
+`https://facebook.com`) qui aurait affiché des icônes de réseaux
+sociaux d'apparence fonctionnelle avant toute configuration réelle —
+remis à vide, cohérent avec les autres réglages de contact.
 
 ## Notes
 

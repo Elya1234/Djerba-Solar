@@ -107,8 +107,8 @@
   {
     "name": "t:settings.social.name",
     "settings": [
-      { "type": "text", "id": "social_instagram", "label": "Instagram", "default": "https://instagram.com" },
-      { "type": "text", "id": "social_facebook", "label": "Facebook", "default": "https://facebook.com" },
+      { "type": "text", "id": "social_instagram", "label": "Instagram", "default": "" },
+      { "type": "text", "id": "social_facebook", "label": "Facebook", "default": "" },
       { "type": "text", "id": "social_pinterest", "label": "Pinterest", "default": "" },
       { "type": "text", "id": "social_whatsapp", "label": "t:settings.social.whatsapp_number", "default": "" }
     ]

@@ -133,3 +133,9 @@
 .gm-explore-more { margin-top: var(--space-8); padding-top: var(--space-7); border-top: 1px solid var(--gm-border); }
 .gm-explore-more__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
 @media (max-width: 767px) { .gm-explore-more__grid { grid-template-columns: 1fr; } }
+
+/* Touch target: see the matching note in header.css — placed after the
+   base .gm-card__wishlist rule above so it actually applies. */
+@media (max-width: 767px), (pointer: coarse) {
+  .gm-card__wishlist { width: 40px; height: 40px; }
+}

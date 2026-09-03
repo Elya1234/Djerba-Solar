@@ -234,3 +234,11 @@ body:not(.gm-template-index) .gm-header__bar { color: var(--gm-text); }
   transition: opacity var(--dur-base) var(--ease-luxe), visibility 0s linear var(--dur-base);
 }
 .gm-scrim.is-open { opacity: 1; visibility: visible; transition: opacity var(--dur-base) var(--ease-luxe); }
+
+/* Touch target: WCAG 2.5.5 recommends ~44px on touch; the desktop-tuned
+   0.8rem padding above is too tight there. Placed after the base rule
+   (both are the same specificity) so this actually wins, unlike an
+   equal-specificity override placed in theme.css, which loads first. */
+@media (max-width: 767px), (pointer: coarse) {
+  .gm-header__action { padding: 1.1rem; }
+}

@@ -62,3 +62,9 @@
   .gm-cart-item { grid-template-columns: 68px 1fr; }
   .gm-cart-item__price { grid-column: 2; text-align: left; margin-top: 0.4rem; }
 }
+
+/* Touch target: see the matching note in header.css — placed after the
+   base .gm-qty-stepper__btn rule above so it actually applies. */
+@media (max-width: 767px), (pointer: coarse) {
+  .gm-qty-stepper__btn { width: 40px; height: 40px; }
+}

@@ -27,22 +27,27 @@
 /* ---- Mon compte (editorial dashboard) ---- */
 .gm-account__head { margin-bottom: var(--space-7); }
 .gm-account__head .gm-h2 { margin-top: var(--space-2); }
-.gm-account__layout { display: grid; grid-template-columns: 1fr 1.6fr; gap: var(--space-7); align-items: start; }
+.gm-account__layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: var(--space-7); align-items: start; }
 
 .gm-account__card { border: 1px solid var(--gm-border); border-radius: var(--radius-sm); padding: var(--space-5); }
 .gm-account__card + .gm-account__card { margin-top: var(--space-4); }
 .gm-account__card h2 { font-family: var(--font-display); font-size: 1.8rem; margin-bottom: var(--space-3); }
 .gm-account__info-row { display: flex; justify-content: space-between; gap: var(--space-3); padding-block: 0.6rem; border-bottom: 1px solid var(--gm-border); font-size: 1.3rem; }
 .gm-account__info-row:last-child { border-bottom: 0; }
-.gm-account__info-row span:first-child { color: var(--gm-text-muted); }
+.gm-account__info-row span:first-child { color: var(--gm-text-muted); flex-shrink: 0; }
+/* A long e-mail address or order name must wrap inside its own card
+   rather than force the row (and, through the grid track's default
+   min-width:auto, the whole layout) wider than the viewport. */
+.gm-account__info-row span:last-child { min-width: 0; overflow-wrap: anywhere; text-align: right; }
 .gm-account__logout { margin-top: var(--space-4); }
 
 .gm-orders-list { display: flex; flex-direction: column; gap: var(--space-3); }
 .gm-order-card {
-  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap;
   border: 1px solid var(--gm-border); border-radius: var(--radius-sm); padding: var(--space-4);
   transition: border-color var(--dur-fast) var(--ease-luxe);
 }
+.gm-order-card__main { min-width: 0; }
 .gm-order-card:hover { border-color: var(--gm-text-muted); }
 .gm-order-card__main strong { display: block; font-family: var(--font-display); font-size: 1.6rem; }
 .gm-order-card__main span { color: var(--gm-text-muted); font-size: 1.25rem; }
@@ -50,7 +55,7 @@
 .gm-order-card__price { font-family: var(--font-display); font-size: 1.6rem; }
 .gm-account__empty { color: var(--gm-text-muted); font-size: 1.4rem; padding: var(--space-4) 0; }
 
-@media (max-width: 989px) { .gm-account__layout { grid-template-columns: 1fr; } }
+@media (max-width: 989px) { .gm-account__layout { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---- Order detail ---- */
 .gm-order-detail__head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-6); align-items: flex-end; }

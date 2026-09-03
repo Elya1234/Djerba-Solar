@@ -1,5 +1,6 @@
 {
   "general": {
+    "page": "Page {{ page }}",
     "meta": {
       "tagline": "Haute joaillerie contemporaine"
     },
