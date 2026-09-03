@@ -76,11 +76,17 @@
     e.preventDefault();
     var id = btn.getAttribute('data-product-id');
     var url = btn.getAttribute('data-product-url');
-    var nowSaved = toggle(id, url);
-    document.querySelectorAll('[data-gm-wishlist-add][data-product-id="' + id + '"]').forEach(function (b) {
-      b.setAttribute('aria-pressed', String(nowSaved));
-    });
+    toggle(id, url);
+  });
+
+  // Every write (add/remove/toggle, from any control — including the
+  // Favoris page's own "remove" button, which calls GMWishlist.remove()
+  // directly rather than through the click handler above) goes through
+  // write(), so listening here is the single place that keeps the header
+  // count and every button's pressed state in sync, everywhere.
+  document.addEventListener('gm:wishlist:changed', function () {
     updateCountBadges();
+    syncButtons();
   });
 
   document.addEventListener('DOMContentLoaded', function () {

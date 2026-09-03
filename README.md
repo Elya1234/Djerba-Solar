@@ -47,12 +47,14 @@ Palette : blanc/ivoire, tons pierre, onyx, et un bleu profond signature
       cohérents partout, priorité de chargement des images
 - [x] Phase 7 — Panier : cart drawer premium, page panier, moteur AJAX
       unique (GMCart) partagé par fiche produit/Quick View, gravure via
-      line item properties, gestion des refus Shopify, favoris/wishlist
-      restent à construire (compte client) — voir notes ci-dessous
-- [ ] Phase 8 — Animations + responsive mobile/tablette/desktop
-- [ ] Phase 8 — Animations + responsive mobile/tablette/desktop
-- [ ] Phase 9 — SEO, performance, accessibilité
-- [ ] Phase 10 — Audit final
+      line item properties, gestion des refus Shopify
+- [x] Phase 8 — Compte client, authentification, Favoris : connexion/
+      inscription/mot de passe oublié natifs Shopify, page Mon compte
+      (informations, commandes réelles), détail de commande, page Favoris
+      dédiée branchée sur le moteur panier partagé, état du compte dans le
+      header (desktop et mobile)
+- [ ] Phase 9 — Animations approfondies + responsive final
+- [ ] Phase 10 — SEO, performance, accessibilité, audit final
 
 ## Données Shopify attendues par la fiche produit (Phase 4)
 
@@ -152,6 +154,54 @@ que l'équipe recontactera le client.
   affiche le vrai message renvoyé par l'API et ne modifie jamais le
   compteur ni l'état visuel comme si l'ajout avait réussi.
 
+## Compte client, authentification & Favoris (Phase 8)
+
+- **Authentification 100% native Shopify** : `sections/main-login.liquid`
+  (`{% form 'customer_login' %}` + `{% form 'recover_customer_password' %}`
+  dans la même section, basculées côté client sans recharger la page —
+  Shopify redirige de lui-même vers `#recover` en cas d'erreur/succès du
+  formulaire de récupération), `sections/main-register.liquid`
+  (`{% form 'create_customer' %}`, uniquement prénom/nom/e-mail/mot de
+  passe), `sections/main-reset-password.liquid`
+  (`{% form 'reset_customer_password' %}`, lien reçu par e-mail). Aucun mot
+  de passe stocké localement, aucun jeton inventé, aucune connexion simulée
+  en production — tout passe par les endpoints `{% form %}` de Shopify.
+  Templates : `templates/customers/{login,register,reset_password}.json`.
+- **Mon compte** (`sections/main-account.liquid`,
+  `templates/customers/account.json`) : identité, informations
+  personnelles, `customer.orders` paginé (état vide honnête si aucune
+  commande), lien vers Favoris, déconnexion (`routes.account_logout_url`).
+- **Détail de commande** (`sections/main-order.liquid`,
+  `templates/customers/order.json`) : uniquement les champs réels de
+  l'objet `order` (numéro, statut, lignes, adresse de livraison) — aucune
+  donnée de commande fabriquée.
+- **Favoris** (`sections/main-wishlist.liquid` +
+  `assets/wishlist-page.js`, page Shopify `templates/page.wishlist.json`) :
+  lit `window.GMWishlist`, récupère chaque création via son propre
+  endpoint `.json` (jamais de cache figé), puis applique la même logique
+  que la carte produit / la fiche produit / le Quick View : un seul
+  variant disponible → ajout direct via `GMCart.addItem` ; plusieurs
+  variants → renvoi vers la fiche pour configurer (une entrée de favoris
+  ne mémorise pas de variant précis, deviner serait malhonnête) ; tag
+  `sur-devis` → « Demander un devis » ; indisponible → bouton désactivé,
+  jamais un faux bouton actif.
+- **Persistance des favoris** (`assets/wishlist.js`) : `localStorage`
+  uniquement, par appareil et par navigateur — jamais présenté comme
+  synchronisé avec le compte. Stocke des paires `{id, url}` (et non de
+  simples identifiants) pour que la page Favoris puisse aller chercher les
+  données réelles du produit sans jamais en inventer. Toute la surface du
+  thème (carte produit, fiche produit, Quick View, page Favoris) passe par
+  l'API `window.GMWishlist` plutôt que de toucher `localStorage`
+  directement ; migrer vers une persistance liée au compte plus tard ne
+  demandera de changer que `read`/`write` dans ce seul fichier.
+- **État du compte dans le header** : `{% if customer %}` bascule entre un
+  lien de connexion simple et un menu déroulant discret (Mon compte / Mes
+  commandes / Mes favoris / Déconnexion), avec le même état reflété dans
+  le pied de la navigation mobile plein écran.
+- **Hors périmètre, assumé** : `templates/customers/addresses.json`
+  (gestion des adresses) et `templates/customers/activate_account.json`
+  (activation de compte invité) ne sont pas construits dans cette phase.
+
 ## Notes
 
 - Aucune donnée gemmologique, avis client ou certificat n'est inventé :
@@ -168,5 +218,3 @@ que l'équipe recontactera le client.
   a son architecture JS prête (`data-gm-worn-toggle` / `data-gm-worn-slide`)
   mais n'est pas encore rendue : elle nécessite un metaobject listant les
   médias par teint, à définir une fois les vraies photos disponibles.
-- Le panier reste une requête AJAX simple vers `/cart/add.js` pour l'instant ;
-  le drawer panier visuel complet arrive en Phase 7.

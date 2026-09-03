@@ -78,6 +78,15 @@
 
     /* Mobile fullscreen nav */
     if (navToggle && mobileNav) {
+      function closeMobileNav() {
+        if (!mobileNav.classList.contains('is-open')) return;
+        mobileNav.classList.remove('is-open');
+        header.classList.remove('is-menu-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        document.documentElement.style.overflow = '';
+        navToggle.focus();
+      }
+
       navToggle.addEventListener('click', function () {
         var isOpen = mobileNav.classList.toggle('is-open');
         header.classList.toggle('is-menu-open', isOpen);
@@ -98,11 +107,11 @@
       });
 
       mobileNav.querySelectorAll('[data-gm-mobile-close]').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          mobileNav.classList.remove('is-open');
-          header.classList.remove('is-menu-open');
-          document.documentElement.style.overflow = '';
-        });
+        btn.addEventListener('click', closeMobileNav);
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) closeMobileNav();
       });
     }
   }

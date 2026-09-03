@@ -86,6 +86,12 @@
 .gm-wishlist-card__price { color: var(--gm-text-muted); font-size: 1.3rem; margin-top: 0.2rem; }
 .gm-wishlist-card__cta { margin-top: var(--space-3); }
 .gm-wishlist-card__note { font-size: 1.15rem; color: var(--gm-error); margin-top: 0.4rem; }
+/* A Favoris card is much narrower than a full-width button was designed
+   for (2 columns from 767px down to 479px) — the label ("Configurer
+   cette création", "Demander un devis") must wrap there too, not just
+   below the global 479px breakpoint, or the button's nowrap min-content
+   forces the whole grid column (and the card) wider than its track. */
+.gm-wishlist-card__cta { white-space: normal; text-align: center; }
 .gm-wishlist-card--unavailable .gm-wishlist-card__media { opacity: 0.55; }
 
 /* ---- Header account state (dropdown) ---- */
