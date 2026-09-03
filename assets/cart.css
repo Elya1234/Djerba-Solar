@@ -2,7 +2,7 @@
 
 .gm-cart-drawer {
   position: fixed; top: 0; right: 0; bottom: 0; z-index: var(--z-drawer);
-  width: min(440px, 100vw);
+  width: min(440px, 100%);
   background: var(--gm-bg);
   display: flex; flex-direction: column;
   transform: translateX(100%);

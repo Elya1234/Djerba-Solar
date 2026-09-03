@@ -128,16 +128,17 @@
 /* ---- Info tooltip ---- */
 .gm-info-btn { display: inline-flex; width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--gm-text-muted); align-items: center; justify-content: center; font-size: 1.05rem; color: var(--gm-text-muted); flex-shrink: 0; }
 .gm-info-popover {
-  position: absolute; top: calc(100% + 8px); left: 0; z-index: var(--z-toast);
+  position: absolute; top: calc(100% + 8px); left: 50%; z-index: var(--z-toast);
+  width: max-content;
   max-width: min(280px, calc(100vw - 2 * var(--container-pad)));
   background: var(--gm-onyx-900); color: var(--gm-white); padding: var(--space-3);
   border-radius: var(--radius-sm); font-size: 1.3rem; line-height: 1.5;
   font-family: var(--font-body); font-weight: 400; text-transform: none; letter-spacing: normal;
   box-shadow: var(--shadow-lg);
-  opacity: 0; visibility: hidden; transform: translateY(4px);
+  opacity: 0; visibility: hidden; transform: translate(-50%, 4px);
   transition: opacity var(--dur-fast) var(--ease-luxe), transform var(--dur-fast) var(--ease-luxe), visibility 0s linear var(--dur-fast);
 }
-.gm-info-popover.is-open { opacity: 1; visibility: visible; transform: translateY(0); transition: opacity var(--dur-fast) var(--ease-luxe), transform var(--dur-fast) var(--ease-luxe); }
+.gm-info-popover.is-open { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition: opacity var(--dur-fast) var(--ease-luxe), transform var(--dur-fast) var(--ease-luxe); }
 
 /* ---- CTAs ---- */
 .gm-product__ctas { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-6); }

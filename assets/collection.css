@@ -113,7 +113,7 @@
 .gm-empty-state { text-align: center; padding-block: var(--space-8); }
 
 /* ---- Quick View ---- */
-.gm-quickview__panel { width: min(880px, calc(100vw - 2 * var(--space-4))); }
+.gm-quickview__panel { width: min(880px, calc(100% - 2 * var(--space-4))); }
 .gm-quickview__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); }
 .gm-quickview__media { aspect-ratio: 4/5; border-radius: var(--radius-sm); overflow: hidden; background: var(--gm-stone-50); }
 @media (max-width: 699px) { .gm-quickview__grid { grid-template-columns: 1fr; } }

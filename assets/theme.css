@@ -309,7 +309,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 .gm-modal.is-open { opacity: 1; visibility: visible; transition: opacity var(--dur-base) var(--ease-luxe); }
 .gm-modal__scrim { position: absolute; inset: 0; background: rgba(10,10,11,0.5); }
 .gm-modal__panel {
-  position: relative; background: var(--gm-bg); width: min(560px, calc(100vw - 2 * var(--space-4)));
+  position: relative; background: var(--gm-bg); width: min(560px, calc(100% - 2 * var(--space-4)));
   max-height: 84vh; overflow-y: auto; border-radius: var(--radius-sm); box-shadow: var(--shadow-lg);
   transform: translateY(12px); transition: transform var(--dur-base) var(--ease-luxe);
 }
