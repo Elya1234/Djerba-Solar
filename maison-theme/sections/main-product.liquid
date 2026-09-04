@@ -55,7 +55,7 @@
   data-url="{{ product.url }}"
   data-money-format="{{ shop.money_format | strip_html | escape }}"
   data-error-sold-out="{{ 'products.error_sold_out' | t: default: 'Cette création est épuisée.' | escape }}"
-  data-error-combination="{{ 'products.error_combination' | t: default: 'Cette combinaison n\'est pas disponible.' | escape }}"
+  data-error-combination="{{ 'products.error_combination' | t: default: 'Cette combinaison n’est pas disponible.' | escape }}"
 >
   <div class="page">
     {% render 'maison-breadcrumb',
@@ -215,7 +215,9 @@
                     endif
                   endfor
 
-                  comment Repli sur les valeurs quand le nom de l'option ne dit rien endcomment
+                  comment
+                    Repli sur les valeurs quand le nom de l'option ne dit rien
+                  endcomment
                   unless is_swatch or is_shape or is_width
                     for value in option.values
                       assign lowered = value | downcase
