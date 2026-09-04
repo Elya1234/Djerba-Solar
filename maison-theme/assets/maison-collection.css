@@ -216,33 +216,49 @@
   .cfilters__grid { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
 }
 .cfilter__title { color: var(--c-signature); margin-bottom: var(--s-4); }
-.cfilter__list { display: grid; gap: var(--s-3); max-height: 260px; overflow-y: auto; }
+.cfilter__list { display: flex; flex-wrap: wrap; gap: var(--s-3); max-height: 260px; overflow-y: auto; }
 
-.copt { display: flex; align-items: center; gap: var(--s-3); cursor: pointer; }
+/* Pastilles filtrables — même langage visuel que le reste (options produit,
+   menu mobile) : un choix se prend en touchant une pilule, pas une case. */
+.copt { cursor: pointer; }
 .copt input { position: absolute; opacity: 0; width: 0; height: 0; }
-.copt__box {
-  flex: 0 0 auto;
-  width: 13px; height: 13px;
-  border: 1px solid var(--c-line);
-  position: relative;
-  transition: border-color var(--d-s) var(--e-out), background-color var(--d-s) var(--e-out);
+.copt__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  padding: 0 var(--s-4);
+  border-radius: 999px;
+  background: var(--c-line);
+  color: var(--c-ink);
+  font-size: var(--t-body-s);
+  transition: background-color var(--d-s) var(--e-out), color var(--d-s) var(--e-out);
 }
-.copt__box::after {
-  content: "";
-  position: absolute; left: 3px; top: 0;
-  width: 5px; height: 9px;
-  border-right: 1px solid var(--c-surface);
-  border-bottom: 1px solid var(--c-surface);
-  transform: rotate(45deg) scale(0);
-  transition: transform var(--d-s) var(--e-luxe);
-}
-.copt input:checked + .copt__box { background: var(--c-signature); border-color: var(--c-signature); }
-.copt input:checked + .copt__box::after { transform: rotate(45deg) scale(1); }
-.copt input:focus-visible + .copt__box { outline: 1px solid var(--c-signature); outline-offset: 3px; }
-.copt__label { font-size: var(--t-body-s); }
-.copt__count { color: var(--c-ink-soft); font-size: var(--t-ui-s); }
-.copt input:disabled + .copt__box { opacity: .4; }
-.copt input:disabled ~ .copt__label { opacity: .4; }
+.copt input:checked + .copt__pill { background: var(--c-ink); color: var(--c-surface); }
+.copt input:focus-visible + .copt__pill { outline: 1px solid var(--c-signature); outline-offset: 2px; }
+.copt input:disabled + .copt__pill { opacity: .4; }
+.copt__label { white-space: nowrap; }
+.copt__count { opacity: .65; font-size: var(--t-ui-s); }
+
+/* Pastille de couleur — filtres métal / couleur de pierre uniquement,
+   discrète et légèrement détachée du texte plutôt que collée dessus. */
+.copt--dot .copt__pill { padding-left: var(--s-3); }
+.copt__dot { width: 11px; height: 11px; border-radius: 50%; flex: 0 0 auto; border: 1px solid rgba(17,16,19,.16); background: var(--c-line); }
+.copt__dot--or-blanc,   .copt__dot--white-gold  { background: linear-gradient(155deg,#F2F1ED,#D3D2CC); }
+.copt__dot--or-jaune,   .copt__dot--yellow-gold { background: linear-gradient(155deg,#F1D998,#C69A3F); }
+.copt__dot--or-rose,    .copt__dot--rose-gold   { background: linear-gradient(155deg,#F3D3C4,#E0A98F); }
+.copt__dot--argent,     .copt__dot--silver      { background: linear-gradient(155deg,#EDEDED,#C9CBCC); }
+.copt__dot--rubis,      .copt__dot--ruby        { background: radial-gradient(circle at 32% 28%, #E8536B, #8E0F26); }
+.copt__dot--emeraude,   .copt__dot--emerald     { background: radial-gradient(circle at 32% 28%, #4FA98A, #0E5A3E); }
+.copt__dot--saphir,     .copt__dot--sapphire    { background: radial-gradient(circle at 32% 28%, #5B8FE0, #16326E); }
+.copt__dot--diamant,    .copt__dot--diamond     { background: radial-gradient(circle at 32% 28%, #FFFFFF, #D9D6CC); }
+.copt__dot--amethyste,  .copt__dot--amethyst    { background: radial-gradient(circle at 32% 28%, #B48CD8, #5C3480); }
+.copt__dot--topaze,     .copt__dot--topaz       { background: radial-gradient(circle at 32% 28%, #9FD4E8, #3C8CAE); }
+.copt__dot--grenat,     .copt__dot--garnet      { background: radial-gradient(circle at 32% 28%, #B23A4C, #5C0F1C); }
+.copt__dot--peridot                             { background: radial-gradient(circle at 32% 28%, #C7DE6E, #7E9A2A); }
+.copt__dot--citrine                             { background: radial-gradient(circle at 32% 28%, #F6D97A, #C9962C); }
+.copt__dot--perle,      .copt__dot--pearl       { background: linear-gradient(155deg,#FBF8F1,#E7E0D2); }
+.copt__pill .icon--shape { width: 15px; height: 15px; }
 
 .cprice { display: flex; align-items: center; gap: var(--s-3); }
 .cprice input {
@@ -297,9 +313,22 @@
 
 /* ---------- BARRE FILTRER / TRIER (mobile) ------------------------------- */
 /* Sur petit écran, la barre en ligne (.ctools__right) laisse place à deux
-   boutons fixés en bas — le compteur de résultats reste visible en haut. */
+   boutons fixés en bas — le compteur de résultats reste visible en haut.
+   Important : le vrai <select> de tri (#SortBy) reste dans le DOM et
+   « visually-hidden » plutôt qu'en display:none — c'est lui que le bouton
+   TRIER de la barre du bas ouvre via son <label for="SortBy">. Un select en
+   display:none ne peut plus être ciblé par son label : le tri ne
+   fonctionnerait plus du tout sur mobile. */
 @media (max-width: 749px) {
-  .ctools__right { display: none; }
+  .ctools__right {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }
 .cbar {
   display: none;

@@ -64,6 +64,26 @@
             <div class="cfilters__inner" data-filters-inner>
               <div class="cfilters__grid">
                 {%- for filter in collection.filters -%}
+                  {%- liquid
+                    comment
+                      Une petite pastille de couleur devant le libellé pour les filtres
+                      « couleur » (métal, couleur de pierre...) — jamais pour un filtre
+                      sans lien avec une couleur (prix, disponibilité...).
+                    endcomment
+                    assign filter_label_lower = filter.label | downcase
+                    assign show_dot = false
+                    assign dot_words = 'métal,metal,couleur,color,pierre,gemme,stone' | split: ','
+                    for word in dot_words
+                      if filter_label_lower contains word
+                        assign show_dot = true
+                      endif
+                    endfor
+                    assign show_shape_icon = false
+                    if filter_label_lower contains 'forme' or filter_label_lower contains 'shape'
+                      assign show_shape_icon = true
+                      assign show_dot = false
+                    endif
+                  -%}
                   <fieldset class="cfilter">
                     <legend class="t-label cfilter__title">{{ filter.label }}</legend>
 
@@ -71,7 +91,7 @@
                       {%- when 'list', 'boolean' -%}
                         <div class="cfilter__list">
                           {%- for value in filter.values -%}
-                            <label class="copt">
+                            <label class="copt{% if show_dot %} copt--dot{% endif %}">
                               <input
                                 type="checkbox"
                                 name="{{ value.param_name }}"
@@ -79,9 +99,15 @@
                                 {% if value.active %}checked{% endif %}
                                 {% if value.count == 0 and value.active == false %}disabled{% endif %}
                               >
-                              <span class="copt__box" aria-hidden="true"></span>
-                              <span class="copt__label">{{ value.label }}</span>
-                              <span class="copt__count">{{ value.count }}</span>
+                              <span class="copt__pill">
+                                {%- if show_dot -%}
+                                  <span class="copt__dot copt__dot--{{ value.label | handleize }}" aria-hidden="true"></span>
+                                {%- elsif show_shape_icon -%}
+                                  {% render 'maison-icon', icon: 'shape-' | append: value.label | handleize %}
+                                {%- endif -%}
+                                <span class="copt__label">{{ value.label }}</span>
+                                {%- if value.count > 0 -%}<span class="copt__count">{{ value.count }}</span>{%- endif -%}
+                              </span>
                             </label>
                           {%- endfor -%}
                         </div>
