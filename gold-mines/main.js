@@ -1,81 +1,99 @@
-/* GOLD MINES — BY ORPAZ · « Noir Royal » */
+/* GOLD MINES — BY ORPAZ · « Palais » */
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const finePointer = matchMedia('(pointer: fine)').matches;
+  const fine = matchMedia('(pointer: fine)').matches;
 
   /* Ouverture */
-  const start = () => setTimeout(() => document.body.classList.add('loaded'), reduce ? 0 : 900);
-  document.readyState === 'complete' ? start() : addEventListener('load', start);
+  const open = () => setTimeout(() => document.body.classList.add('loaded'), reduce ? 0 : 1500);
+  document.readyState === 'complete' ? open() : addEventListener('load', open);
 
   /* En-tête */
   const nav = document.getElementById('nav');
-  const lightSections = [...document.querySelectorAll('.collections, .maison')];
-  const onScroll = () => {
-    nav.classList.toggle('is-scrolled', scrollY > 30);
-    const y = nav.offsetHeight / 2;
-    nav.classList.toggle('on-light', lightSections.some(s => { const r = s.getBoundingClientRect(); return r.top <= y && r.bottom >= y; }));
-  };
+  const onScroll = () => nav.classList.toggle('is-scrolled', scrollY > 30);
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
-
-  /* Menu plein écran */
   document.querySelector('.nav__menu').addEventListener('click', () => document.body.classList.toggle('menu-open'));
   document.querySelectorAll('.drawer a').forEach(a => a.addEventListener('click', () => document.body.classList.remove('menu-open')));
 
-  /* Manifeste : les mots s'allument au défilement */
-  const man = document.getElementById('manifesto');
-  const gold = ['lumière', 'pierre', 'main,', 'Paris.'];
-  man.innerHTML = man.textContent.trim().split(/\s+/).map(w => `<span class="w${gold.includes(w) ? ' gold' : ''}">${w}</span>`).join(' ');
-  const words = [...man.querySelectorAll('.w')];
-  const lightWords = () => {
-    const r = man.getBoundingClientRect();
-    const p = Math.min(1, Math.max(0, (innerHeight * 0.85 - r.top) / (r.height + innerHeight * 0.35)));
-    const n = Math.round(p * words.length);
-    words.forEach((w, i) => w.classList.toggle('on', reduce || i < n));
-  };
-  addEventListener('scroll', lightWords, { passive: true }); lightWords();
+  /* Poussière d'or (canvas léger, désactivé si réduction des animations) */
+  const cv = document.getElementById('dust');
+  if (!reduce && cv.getContext) {
+    const ctx = cv.getContext('2d');
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    const N = innerWidth < 700 ? 28 : 60;
+    let W, H, parts;
+    const size = () => { W = cv.width = innerWidth * dpr; H = cv.height = innerHeight * dpr; };
+    const make = () => ({ x: Math.random() * W, y: Math.random() * H, r: (Math.random() * 1.4 + .4) * dpr, vy: -(Math.random() * .25 + .05) * dpr, vx: (Math.random() - .5) * .15 * dpr, t: Math.random() * 6.28, s: Math.random() * .02 + .01 });
+    size(); parts = Array.from({ length: N }, make);
+    addEventListener('resize', size);
+    let visible = true;
+    document.addEventListener('visibilitychange', () => (visible = !document.hidden));
+    (function tick() {
+      if (visible) {
+        ctx.clearRect(0, 0, W, H);
+        for (const p of parts) {
+          p.x += p.vx; p.y += p.vy; p.t += p.s;
+          if (p.y < -10) { Object.assign(p, make(), { y: H + 10 }); }
+          const a = (Math.sin(p.t) + 1) / 2 * .7 + .1;
+          const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
+          g.addColorStop(0, `rgba(255,236,180,${a})`); g.addColorStop(1, 'rgba(212,180,110,0)');
+          ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 4, 0, 6.283); ctx.fill();
+        }
+      }
+      requestAnimationFrame(tick);
+    })();
+  }
 
   /* Apparitions */
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  /* Parallaxe douce */
-  const quoteImg = document.querySelector('.quote__media img');
-  const heroImg = document.querySelector('.hero__media img');
+  /* Parallaxe */
+  const qImg = document.querySelector('.quote__media img');
+  const hMedia = document.querySelector('.hero__media');
   if (!reduce) addEventListener('scroll', () => {
-    const r = quoteImg.parentElement.parentElement.getBoundingClientRect();
-    quoteImg.style.transform = `translate3d(0, ${(r.top + r.height / 2 - innerHeight / 2) * -0.12}px, 0)`;
-    if (scrollY < innerHeight) heroImg.parentElement.style.transform = `translate3d(0, ${scrollY * 0.25}px, 0)`;
+    const r = qImg.closest('.quote').getBoundingClientRect();
+    qImg.style.transform = `translate3d(0, ${(r.top + r.height / 2 - innerHeight / 2) * -0.12}px, 0)`;
+    if (scrollY < innerHeight) hMedia.style.transform = `translate3d(0, ${scrollY * 0.3}px, 0)`;
   }, { passive: true });
 
-  /* Liste des catégories : aperçu photo qui suit le curseur */
-  const prev = document.querySelector('.catlist__preview');
-  const prevImg = prev.querySelector('img');
-  if (finePointer) document.querySelectorAll('#catlist li').forEach(li => {
-    li.addEventListener('mouseenter', () => { prevImg.src = li.dataset.img; prev.classList.add('show'); });
-    li.addEventListener('mouseleave', () => prev.classList.remove('show'));
-    li.addEventListener('mousemove', e => { prev.style.left = e.clientX + 'px'; prev.style.top = e.clientY + 'px'; });
-  });
+  /* Carrousel des collections : flèches, glisser, progression */
+  const rail = document.getElementById('rail');
+  const bar = document.getElementById('railBar');
+  const step = () => rail.querySelector('.jewel').getBoundingClientRect().width + 30;
+  const progress = () => {
+    const max = rail.scrollWidth - rail.clientWidth;
+    bar.style.width = `${Math.max(12, (rail.clientWidth / rail.scrollWidth) * 100 + (max ? rail.scrollLeft / max : 0) * (100 - (rail.clientWidth / rail.scrollWidth) * 100))}%`;
+  };
+  rail.addEventListener('scroll', progress, { passive: true }); progress();
+  document.querySelectorAll('.arrow').forEach(b => b.addEventListener('click', () => rail.scrollBy({ left: step() * +b.dataset.dir, behavior: reduce ? 'auto' : 'smooth' })));
+  if (fine) {
+    let down = false, x0 = 0, s0 = 0, moved = false;
+    rail.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') return; down = true; moved = false; x0 = e.clientX; s0 = rail.scrollLeft; });
+    addEventListener('pointermove', e => { if (!down) return; const dx = e.clientX - x0; if (Math.abs(dx) > 4) { moved = true; rail.classList.add('dragging'); } rail.scrollLeft = s0 - dx; });
+    addEventListener('pointerup', () => { down = false; rail.classList.remove('dragging'); });
+    rail.addEventListener('click', e => { if (moved) e.preventDefault(); }, true);
+  }
 
-  /* Signature : zoom loupe */
-  const media = document.getElementById('sigMedia');
+  /* Signature : zoom */
+  const arch = document.getElementById('sigMedia');
   const img = document.getElementById('sigImg');
-  media.addEventListener('pointermove', e => {
+  arch.addEventListener('pointermove', e => {
     if (e.pointerType !== 'mouse') return;
-    const r = media.getBoundingClientRect();
+    const r = arch.getBoundingClientRect();
     img.style.transformOrigin = `${((e.clientX - r.left) / r.width) * 100}% ${((e.clientY - r.top) / r.height) * 100}%`;
-    media.classList.add('zooming');
+    arch.classList.add('zooming');
   });
-  media.addEventListener('pointerleave', () => media.classList.remove('zooming'));
-  media.addEventListener('click', () => media.classList.toggle('zooming'));
+  arch.addEventListener('pointerleave', () => arch.classList.remove('zooming'));
+  arch.addEventListener('click', () => arch.classList.toggle('zooming'));
 
   /* Signature : options & prix */
-  const METALS = { jaune: 'Or jaune 18 ct', blanc: 'Or blanc 18 ct', rose: 'Or rose 18 ct', platine: 'Platine 950' };
+  const METALS = { jaune: 'Or jaune 18 carats', blanc: 'Or blanc 18 carats', rose: 'Or rose 18 carats', platine: 'Platine 950' };
   const state = { metal: 'jaune', carat: 1 };
-  const fmt = n => new Intl.NumberFormat('fr-FR').format(Math.round(n / 10) * 10) + ' €';
   const priceEl = document.getElementById('price');
+  const fmt = n => new Intl.NumberFormat('fr-FR').format(Math.round(n / 10) * 10) + ' €';
   const update = () => {
     document.getElementById('metalName').textContent = METALS[state.metal];
-    document.getElementById('caratName').textContent = state.carat.toFixed(2).replace('.', ',') + ' ct';
+    document.getElementById('caratName').textContent = state.carat.toFixed(2).replace('.', ',') + (state.carat > 1 ? ' carats' : ' carat');
     priceEl.textContent = fmt(1300 + (state.metal === 'platine' ? 600 : 0) + 7600 * Math.pow(state.carat, 1.3));
     priceEl.classList.remove('tick'); void priceEl.offsetWidth; priceEl.classList.add('tick');
   };
@@ -87,13 +105,13 @@
   }));
 
   /* Panier */
-  let count = 0;
+  let n = 0;
   const cart = document.querySelector('.cart');
   document.getElementById('addCart').addEventListener('click', e => {
-    const btn = e.currentTarget;
-    cart.querySelector('.cart__count').textContent = ++count;
+    const label = e.currentTarget.querySelector('span');
+    cart.querySelector('.cart__count').textContent = ++n;
     cart.classList.remove('bump'); void cart.offsetWidth; cart.classList.add('bump');
-    btn.textContent = 'Ajouté à votre panier';
-    setTimeout(() => (btn.textContent = 'Ajouter au panier'), 1800);
+    label.textContent = 'Ajouté à votre panier';
+    setTimeout(() => (label.textContent = 'Ajouter au panier'), 1800);
   });
 })();
