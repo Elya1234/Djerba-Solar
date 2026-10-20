@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GOLD MINES — Accueil · La Lumière</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="propositions.css">
+</head>
+<body class="loaded">
+<header class="nav" id="nav">
+  <div class="nav__left">
+    <button class="nav__menu" aria-label="Menu"><span></span><span></span></button>
+    <a href="#">Collections</a>
+    <a href="#">Créer mon bijou</a>
+  </div>
+  <a href="#" class="logo" aria-label="GOLD MINES by Orpaz">
+    <span class="logo__mark gold-text">GOLD MINES</span>
+    <span class="logo__sub">— by Orpaz —</span>
+  </a>
+  <div class="nav__right">
+    <a href="#">Rendez-vous</a>
+    <button aria-label="Favoris"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button>
+    <button aria-label="Panier" class="cart"><svg viewBox="0 0 24 24"><path d="M5.5 8.5h13l-1 11.5h-11z"/><path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"/></svg><span class="cart__count">0</span></button>
+  </div>
+</header>
+
+<section class="pB" id="pB">
+  <div class="pB__dark"><img src="../img/hero.jpg" alt=""></div>
+  <div class="pB__lit"><img src="../img/hero.jpg" alt="Solitaire diamant révélé par la lumière"></div>
+  <span class="pB__halo"></span>
+  <div class="pB__copy">
+    <p class="kick"><i></i>Haute Joaillerie · Paris</p>
+    <h1 class="big">L'art de la joaillerie<em>réinventé</em></h1>
+    <p class="lead">Des créations d'exception, imaginées par vous et réalisées par nos artisans.</p>
+    <div class="ctas"><a href="#" class="btn btn--gold"><span>Découvrir nos collections</span></a><a href="#" class="btn btn--frame"><span>Créer mon bijou</span></a></div>
+  </div>
+  <p class="pB__hint"><b>Expérience</b>Déplacez la lumière<br>pour révéler la pierre</p>
+</section>
+<div class="tag">Proposition B · La Lumière</div>
+<script>
+const s=document.getElementById('pB'); let auto=true, t=0;
+s.addEventListener('pointermove',e=>{ if(e.pointerType==='touch'&&!e.isPrimary)return; auto=false; const r=s.getBoundingClientRect(); s.style.setProperty('--x',(e.clientX-r.left)+'px'); s.style.setProperty('--y',(e.clientY-r.top)+'px'); });
+(function loop(){ if(auto&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!location.hash){ t+=.006; s.style.setProperty('--x',(64+Math.cos(t)*14)+'%'); s.style.setProperty('--y',(44+Math.sin(t*1.3)*16)+'%'); } requestAnimationFrame(loop); })();
+</script>
+</body>
+</html>
